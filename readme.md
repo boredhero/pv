@@ -61,6 +61,6 @@ The API should:
 
 ### Full Registry of Blocks, Items, Machines, ETC
 
-* Items: Agave Seeds, Agave, Unfermented Agave Wort, Fermented Agave Wort, Glass Fifth Bottle [Empty], Silver Tequila Fifth, Gold Tequila Fifth, Shot Glass [Empty], Shot Glass [Silver Tequila], Shot Glass[Gold Tequila], ??Canteen & Variations??
+* Items: Agave Seeds, Agave, Cooked Agave, Unfermented Agave Wort, Fermented Agave Wort, Glass Fifth Bottle [Empty], Silver Tequila Fifth, Gold Tequila Fifth, Shot Glass [Empty], Shot Glass [Silver Tequila], Shot Glass[Gold Tequila], ??Canteen & Variations??
 
 * Machines: Barrel, Still
