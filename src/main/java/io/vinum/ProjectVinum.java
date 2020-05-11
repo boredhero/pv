@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.vinum.block.ModBlocks;
+import io.vinum.item.ModItems;
 import io.vinum.common.Defines;
 
 @Mod(Defines.MODID)
@@ -25,6 +26,7 @@ public class ProjectVinum {
 	public ProjectVinum() {
 		
 		ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		
 		PVLogger.init(LogManager.getLogger());
 		

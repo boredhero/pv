@@ -20,7 +20,7 @@ import net.minecraft.item.Items;
 public class ModItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
-	public final ItemGroup MAIN =
+	public static final ItemGroup MAIN =
 			//TODO: replace depreciated Item.getItemFromBlock with Block.asItem()
 			new ModItemGroup(Defines.MODID, () -> new ItemStack(Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())));
 
