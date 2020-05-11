@@ -1,5 +1,7 @@
 {
 	"block.vinum.steel_brazier": "Steel Brazier",
 	"block.vinum.steel_pot": "Steel Pot",
-	"block.vinum.steel_coil": "Steel Coil"
+	"block.vinum.steel_coil": "Steel Coil",
+
+	"itemGroup.vinum": "Project Vinum"
 }
