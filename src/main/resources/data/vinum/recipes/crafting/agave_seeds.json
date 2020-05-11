@@ -1,0 +1,11 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "vinum:agave"
+		}
+	],
+	"result": {
+		"item": "vinum:agave_seeds", "count":1
+	}
+}
