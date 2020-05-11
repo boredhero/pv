@@ -1,4 +1,4 @@
-package io.yooksi.templatemod;
+package io.vinum;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
@@ -8,19 +8,19 @@ import org.jetbrains.annotations.Contract;
  * Simple Log4J wrapper to help us log messages.
  */
 @SuppressWarnings("unused")
-public final class TMLogger {
+public final class PVLogger {
 
 	private static Logger logger;
 
 	/* Make the constructor private to disable instantiation */
-	private TMLogger() {
+	private PVLogger() {
 		throw new UnsupportedOperationException();
 	}
 
 	static void init(Logger logger) {
 
-		if (TMLogger.logger == null) {
-			TMLogger.logger = logger;
+		if (PVLogger.logger == null) {
+			PVLogger.logger = logger;
 		} else {
 			logger.warn("Trying to initialize mod logger more then once");
 		}

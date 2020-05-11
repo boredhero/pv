@@ -1,6 +1,6 @@
-package io.yooksi.templatemod.util;
+package io.vinum.util;
 
-import io.yooksi.templatemod.common.Defines;
+import io.vinum.common.Defines;
 import net.minecraft.util.ResourceLocation;
 
 /**

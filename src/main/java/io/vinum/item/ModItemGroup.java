@@ -1,8 +1,9 @@
-package io.yooksi.templatemod.item;
+package io.vinum.item;
 
 import java.util.function.Supplier;
 
-import io.yooksi.templatemod.common.Defines;
+import io.vinum.block.ModBlocks;
+import io.vinum.common.Defines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class ModItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
 	public static final ItemGroup MAIN =
-			new ModItemGroup(Defines.MODID, () -> new ItemStack(Items.EGG));
+			new ModItemGroup(Defines.MODID, () -> new ItemStack(Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())));
 
 	public static final Item.Properties PROPERTIES =
 			new Item.Properties().group(ModItemGroup.MAIN);

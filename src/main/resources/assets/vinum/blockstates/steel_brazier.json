@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,lit=false": { "model": "vinum:block/steel_brazier" },
+        "facing=south,lit=false": { "model": "vinum:block/steel_brazier", "y": 180 },
+        "facing=west,lit=false":  { "model": "vinum:block/steel_brazier", "y": 270 },
+        "facing=east,lit=false":  { "model": "vinum:block/steel_brazier", "y": 90 },
+        "facing=north,lit=true": { "model": "vinum:block/steel_brazier_lit" },
+        "facing=south,lit=true": { "model": "vinum:block/steel_brazier_lit", "y": 180 },
+        "facing=west,lit=true":  { "model": "vinum:block/steel_brazier_lit", "y": 270 },
+        "facing=east,lit=true":  { "model": "vinum:block/steel_brazier_lit", "y": 90 }
+    }
+}

@@ -1,7 +1,8 @@
-package io.yooksi.templatemod.block;
+package io.vinum.block;
 
-import io.yooksi.templatemod.common.Defines;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -9,13 +10,18 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import io.vinum.common.Defines;
+
 public final class ModBlocks {
 
-	public static final DeferredRegister<Block> BLOCKS =
-			new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
+	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
 
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
-
+	
+	public static final RegistryObject<Block> STEEL_BRAZIER = register("steel_brazier", () -> new SteelBrazierBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).lightValue(15).notSolid()));
+	public static final RegistryObject<Block> STEEL_POT = register("steel_pot", () -> new SteelPotBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
+	public static final RegistryObject<Block> STEEL_COIL = register("steel_coil", () -> new SteelCoilBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
+	
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
 	 * 			Most blocks will want to have {@code BlockItems} as they want to be in inventory.
@@ -28,7 +34,7 @@ public final class ModBlocks {
 			}
 		} return true;
 	}
-
+	
 	/**
 	 * Adds the given supplier associated with the given name to the list of entries to be registered.
 	 *

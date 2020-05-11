@@ -1,11 +1,5 @@
-package io.yooksi.templatemod.core;
+package io.vinum.core;
 
-import io.yooksi.templatemod.block.ModBlocks;
-import io.yooksi.templatemod.common.Defines;
-import io.yooksi.templatemod.TMLogger;
-import io.yooksi.templatemod.item.ModItemGroup;
-import io.yooksi.templatemod.item.ModItems;
-import io.yooksi.templatemod.util.RLHelper;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -19,6 +13,13 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import io.vinum.PVLogger;
+import io.vinum.block.ModBlocks;
+import io.vinum.common.Defines;
+import io.vinum.item.ModItemGroup;
+import io.vinum.item.ModItems;
+import io.vinum.util.RLHelper;
 
 @ObjectHolder(Defines.MODID)
 @Mod.EventBusSubscriber(modid = Defines.MODID, bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -41,7 +42,7 @@ public class RegistryHandler {
 					blockItemCount.getAndIncrement();
 				});
 
-		TMLogger.debug("Registered %d BlockItems", blockItemCount.get());
+		PVLogger.debug("Registered %d BlockItems", blockItemCount.get());
 	}
 
 	public static void registerDeferred(IEventBus iEventBus) {
