@@ -12,7 +12,7 @@ public final class ModItems {
 
 	//Add base items!
 	public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> STEEL_NUGGER = ITEMS.register("steel_nugger", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> STEEL_NUGGET = ITEMS.register("steel_nugget", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> UNFERMENTED_AGAVE_WORT = ITEMS.register("unfermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> FERMENTED_AGAVE_WORT = ITEMS.register("fermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> AGAVE_SEEDS = ITEMS.register("agave_seeds", () -> new Item(ModItemGroup.PROPERTIES));
