@@ -25,5 +25,14 @@ public final class ModItems {
 	public static final RegistryObject<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new Item(ModItemGroup.PROPERTIES));
+	//Stuff for cocktails....Experimental....don't add textures just yet.
+	public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> ROCKS_GLASS_MOLD = ITEMS.register("tumbler_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> COCKTAIL_GLASS_MOLD = ITEMS.register("cocktail_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> HIGHBALL_GLASS_MOLD = ITEMS.register("highball_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	//public static final RegistryObject<Item> = ITEMS.register("", () -> new Item(ModItemGroup.PROPERTIES));
+
 
 }

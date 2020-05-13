@@ -1,11 +1,13 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://jitpack.io/#yooksi/CocoLib'}
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        implentation 'com.github.yooksi:CocoLib:Tag'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
