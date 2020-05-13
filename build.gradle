@@ -3,7 +3,8 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        //TODO: THIS DOESNT WORK
+        //maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
@@ -73,7 +74,9 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
-    implementation 'com.github.yooksi:CocoLib:Tag'
+    //TODO: THIS DOESNT WORK BUT SHOULD
+    //implementation 'com.github.yooksi:CocoLib:Tag'
+    //implementation fg.deobf("io.yooksi:cocolib:1.15.2-0.1.0")
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
@@ -106,7 +109,8 @@ publishing {
     }
     repositories {
         maven { url "file:///${project.projectDir}/mcmodsrepo" }
-        maven { url 'https://jitpack.io' }
+        //TODO: THIS DOESNT WORK
+        //maven { url 'https://jitpack.io' }
         
     }
 }
