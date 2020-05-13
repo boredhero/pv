@@ -3,9 +3,6 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
-        mavenLocal()
-        //TODO: THIS DOESNT WORK
-        //maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
@@ -23,6 +20,11 @@ archivesBaseName = project.modId
 // Need this here so eclipse task generates correctly.
 compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility
+
+repositories{
+    maven { url 'https://jitpack.io/#yooksi/CocoLib' }
+    //mavenLocal()
+}
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -79,7 +81,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
-    implementation fg.deobf("io.yooksi:cocolib:1.15.2-0.1.0")
+    //implementation fg.deobf("io.yooksi:cocolib:1.15.2-0.1.0")
+    //implementation 'com.github.yooksi:CocoLib:Tag'
+    implementation 'com.github.yooksi:CocoLib:b915c0a15d'
 }
 
 // Get properties into the manifest for reading by the runtime..
@@ -109,7 +113,6 @@ publishing {
     }
     repositories {
         maven { url "file:///${project.projectDir}/mcmodsrepo" }
-        mavenLocal()
         //TODO: THIS DOESNT WORK
         //maven { url 'https://jitpack.io' }
         
