@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-            "layer0": "vinum:item/shot_glass_empty"
+            "layer0": "vinum:item/pack_of_shot_glasses"
     }
 }
