@@ -16,6 +16,8 @@
 	"item.vinum.pack_of_shot_glasses": "Pack of Empty Shot Glasses [25]",
 	"item.vinum.shot_silver_tequila": "Shot [Silver Tequila]",
 	"item.vinum.shot_golden_tequila": "Shot [Golden Tequila]",
+	"item.vinum.ice_cubes": "Ice Cubes",
+	"item.vinum.ice_pick": "Ice Pick",
 
 	"itemGroup.vinum": "Project Vinum"
 }

@@ -1,8 +1,10 @@
 package io.vinum.item;
 
 import io.vinum.common.Defines;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fml.RegistryObject;
@@ -27,12 +29,17 @@ public final class ModItems {
 	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	//Stuff for cocktails....Experimental....don't add textures just yet.
 	public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> JUICER = ITEMS.register("juicer", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> SIMPLE_SYRUP = ITEMS.register("simple_syrup", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> ROCKS_GLASS_MOLD = ITEMS.register("tumbler_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> COCKTAIL_GLASS_MOLD = ITEMS.register("cocktail_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> HIGHBALL_GLASS_MOLD = ITEMS.register("highball_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
-	//public static final RegistryObject<Item> = ITEMS.register("", () -> new Item(ModItemGroup.PROPERTIES));
+	//public static final RegistryObject<Item> ROCKS_GLASS_MOLD = ITEMS.register("tumbler_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	//public static final RegistryObject<Item> COCKTAIL_GLASS_MOLD = ITEMS.register("cocktail_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	//public static final RegistryObject<Item> HIGHBALL_GLASS_MOLD = ITEMS.register("highball_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	//COCKTAIL: APPLE MARGARITA
+	public static final RegistryObject<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(ModItemGroup.PROPERTIES));
 
 
 }

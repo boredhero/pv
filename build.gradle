@@ -81,7 +81,8 @@ dependencies {
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
     //Yooksi CocoLib, uses a specific commit, do more research
     //Should be able to switch to pulling these from CurseForge in the future....
-    implementation 'com.github.yooksi:CocoLib:b915c0a15d'
+    //implementation 'com.github.yooksi:CocoLib:b915c0a15d'
+    implementation fg.deobf("com.github.yooksi:CocoLib:1.15.2-0.1.1")
 }
 
 // Get properties into the manifest for reading by the runtime..
