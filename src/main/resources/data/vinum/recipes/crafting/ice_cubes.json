@@ -3,9 +3,6 @@
 	"ingredients": [
 		{
 			"tag": "vinum:ice"
-        },
-        {
-            "item": "vinum:ice_pick"
         }
 	],
 	"result": {

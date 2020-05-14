@@ -31,7 +31,6 @@ public final class ModItems {
 	public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> JUICER = ITEMS.register("juicer", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> SIMPLE_SYRUP = ITEMS.register("simple_syrup", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> ROCKS_GLASS_MOLD = ITEMS.register("tumbler_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
