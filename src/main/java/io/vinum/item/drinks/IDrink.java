@@ -91,7 +91,7 @@ public interface IDrink {
 			
 			if (level >= 1) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.HEALTH_BOOST, 100));
+				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 100));
 				
 			}
 			
