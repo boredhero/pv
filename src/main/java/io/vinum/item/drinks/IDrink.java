@@ -8,7 +8,6 @@ import io.vinum.common.Defines;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.UseAction;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -91,53 +90,55 @@ public interface IDrink {
 			
 			if (level >= 1) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 100));
+				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 605));
 				
 			}
 			
 			if (level >= 2) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.STRENGTH, 100));
+				player.addPotionEffect(new EffectInstance(Effects.STRENGTH, 605));
 				
 			}
 			
 			if (level >= 3) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 100));
+				player.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 605));
 				
 			}
 			
 			if (level >= 4) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 100));
+				player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 605));
 				
 			}
 			
 			if (level >= 6) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 610));
+				player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 1005));
 				
 			}
 			
 			if (level >= 7) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 610));
+				player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 1805));
 				
 			}
 			
 			if (level >= 8) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 610));
+				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 1405));
 				
 			}
-			if (level >= 9){
-				player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 610));
+			
+			if (level >= 9) {
+				
+				player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 605));
 			}
 			
 			if (level >= 10) {
 				
 				player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);
-				player.curePotionEffects(new ItemStack(Items.MILK_BUCKET));
+				player.clearActivePotions();
 				
 			}
 			
