@@ -42,7 +42,8 @@ public class ProjectVinum {
 		
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+		//This next line is here to talk to the shim.
         FMLJavaModLoadingContext.get().getModEventBus().addListener(YeOldeItemRegistry::registerAll);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
