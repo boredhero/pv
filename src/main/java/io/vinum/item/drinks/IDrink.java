@@ -86,6 +86,11 @@ public interface IDrink {
 	}
 	//Make some effect instances for use below!
 	public EffectInstance blindness_3m = new EffectInstance(Effects.BLINDNESS, 3600);
+	public EffectInstance jump_boost_1m = new EffectInstance(Effects.JUMP_BOOST, 1200);
+	public EffectInstance strength_2m = new EffectInstance(Effects.STRENGTH, 2400);
+	public EffectInstance health_boost_2m = new EffectInstance(Effects.HEALTH_BOOST, 2400);
+	public EffectInstance nausea_5m = new EffectInstance(Effects.NAUSEA, 6000);
+	public EffectInstance absorption_3m = new EffectInstance(Effects.ABSORPTION, 3600);
 	
 	public static void applyAffectsToPlayerFromBAC(PlayerEntity player, int level) {
 		
@@ -93,9 +98,24 @@ public interface IDrink {
 		System.out.println(level);
 
 		if(level >= 1 && !player.isCreative()){
-
+			player.addPotionEffect(health_boost_2m);
 		}
-		
+		if(level >= 2 && !player.isCreative()){
+			player.addPotionEffect(strength_2m);
+		}
+		if(level >= 3 && !player.isCreative()){
+			player.addPotionEffect(jump_boost_1m);
+		}
+		if(level >= 4 && !player.isCreative()){
+			player.addPotionEffect(absorption_3m);
+		}
+		//5 is a neutral point, do nothing.
+		if(level >= 6 && !player.isCreative()){
+			player.addPotionEffect(nausea_5m)
+		}
+		if(level >= 7 && !player.isCreative()){
+			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
+		}
 		if(level >= 8 && !player.isCreative()){
 			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
 			player.addPotionEffect(Potions.LONG_SLOWNESS.getEffects().get(0));
