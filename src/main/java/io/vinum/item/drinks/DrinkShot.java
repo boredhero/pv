@@ -10,9 +10,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class TestDrink extends Item implements IDrink {
+public class DrinkShot extends Item implements IDrink {
 	
-	public TestDrink(Properties properties) {
+	public DrinkShot(Properties properties) {
 		super(properties);
 		
 	}
