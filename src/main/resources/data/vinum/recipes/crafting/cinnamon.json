@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:shears"
+		},
+		{
+			"item": "minecraft:jungle_log"
+		}
+	],
+	"result": {
+		"item": "vinum:cinnamon", "count":4
+	}
+}

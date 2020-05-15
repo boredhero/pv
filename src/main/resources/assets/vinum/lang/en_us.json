@@ -6,5 +6,25 @@
 	"block.vinum.steel_coil": "Steel Coil",
 
 	"item.vinum.ice_pick": "Ice Pick",
-	"item.vinum.ice_cubes": "Ice Cubes"
+	"item.vinum.ice_cubes": "Ice Cubes",
+	"item.vinum.steel_ingot": "Steel Ingot",
+	"item.vinum.steel_nugget": "Steel Nugget",
+	"item.vinum.unfermented_agave_wort": "Unfermented Agave Wort",
+	"item.vinum.fermented_agave_wort": "Fermented Agave Wort",
+	"item.vinum.agave_seeds": "Agave Seeds",
+	"item.vinum.agave": "Agave",
+	"item.vinum.cooked_agave_pulp": "Cooked Agave Pulp",
+	"item.vinum.fifth_bottle_empty": "Fifth Bottle [Empty]",
+	"item.vinum.fifth_silver_tequila": "Fifth [Silver Tequila]",
+	"item.vinum.fifth_golden_tequila": "Fifth [Golden Tequila]",
+	"item.vinum.pack_of_shot_glasses": "Pack of Shot Glasses [25]",
+	"item.vinum.shot_silver_tequila": "Shot [Silver Tequila]",
+	"item.vinum.shot_golden_tequila": "Shot [Golden Tequila]",
+	"item.vinum.apple_juice": "Apple Juice",
+	"item.vinum.molten_glass": "Molten Glass",
+	"item.vinum.margarita_glass_mold": "Glass Mold [Margarita Glass]",
+	"item.vinum.juicer": "Juicer",
+	"item.vinum.margarita_glass": "Margarita Glass",
+	"item.vinum.cinnamon": "Cinnamon",
+	"item.vinum.spiced_apple_margarita": "Spiced Apple Margarita"
 }
