@@ -111,7 +111,7 @@ public interface IDrink {
 		}
 		//5 is a neutral point, do nothing.
 		if(level >= 6 && !player.isCreative()){
-			player.addPotionEffect(nausea_5m)
+			player.addPotionEffect(nausea_5m);
 		}
 		if(level >= 7 && !player.isCreative()){
 			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
