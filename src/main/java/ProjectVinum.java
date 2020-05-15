@@ -26,6 +26,7 @@ import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.common.Defines;
 import io.vinum.item.ModItems;
+import io.vinum.shims.YeOldeItemRegistry;
 
 @Mod(Defines.MODID)
 public class ProjectVinum {
@@ -41,7 +42,8 @@ public class ProjectVinum {
 		
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(YeOldeItemRegistry::registerAll);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
 		MinecraftForge.EVENT_BUS.register(this);
