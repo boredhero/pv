@@ -4,12 +4,13 @@ import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fml.RegistryObject;
 
 import io.vinum.item.drinks.DrinkItem;
-import io.vinum.item.drinks.DrinkSpicedAppleMarg;
 import io.vinum.common.Defines;
 
 public final class ModItems {
@@ -45,6 +46,6 @@ public final class ModItems {
 	//ALL DRINKABLE THINGS ARE BELOW
 	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 1, new ItemStack(Items.GLASS_BOTTLE)));
 	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 1, new ItemStack(Items.GLASS_BOTTLE)));
-	public static final RegistryObject<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkSpicedAppleMarg(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new EffectInstance(Effects.LEVITATION, 2400), new EffectInstance(Effects.JUMP_BOOST, 12000), new EffectInstance(Effects.SLOW_FALLING, 2700)));
 
 }
