@@ -32,6 +32,7 @@ public final class ModItems {
 	public static final RegistryObject<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> SIMPLE_SYRUP = ITEMS.register("simple_syrup", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> MARGARITA_GLASS = ITEMS.register("margarita_glass", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> ROCKS_GLASS_MOLD = ITEMS.register("tumbler_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> COCKTAIL_GLASS_MOLD = ITEMS.register("cocktail_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> HIGHBALL_GLASS_MOLD = ITEMS.register("highball_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));

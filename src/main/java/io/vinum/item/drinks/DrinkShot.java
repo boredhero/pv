@@ -15,7 +15,7 @@ public class DrinkShot extends Item implements IDrink {
 	public DrinkShot(Properties properties) {
 		super(properties);
 		
-	}
+    }
 	
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
@@ -23,8 +23,7 @@ public class DrinkShot extends Item implements IDrink {
 		if (entityLiving instanceof PlayerEntity) {
 			
 			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 1);
-			stack.shrink(1);
-			
+            stack.shrink(1);			
 		}
 		
 		return stack.isEmpty() ? new ItemStack(Items.GLASS_BOTTLE) : stack;
