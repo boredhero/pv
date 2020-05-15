@@ -9,6 +9,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.potion.Potions;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -88,9 +92,15 @@ public interface IDrink {
 		System.out.println(level);
 		
 		if (level >= 10 && !player.isCreative()) {
-			
-			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);
-			
+			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);	
+		}
+		if(level >= 8 && !player.isCreative()){
+			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
+			player.addPotionEffect(Potions.LONG_SLOWNESS.getEffects().get(0));
+		}
+		else if(level >= 9 && !player.isCreative()){
+			player.addPotionEffect(Potions.LONG_POISON.getEffects().get(0));
+			player.addPotionEffect(Potions.STRONG_HARMING.getEffects().get(0));
 		}
 		
 	}
