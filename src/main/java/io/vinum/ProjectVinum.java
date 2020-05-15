@@ -50,7 +50,7 @@ public class ProjectVinum {
 	
 	private void setup(final FMLCommonSetupEvent event) {
 		
-		CapabilityManager.INSTANCE.register(IBAC.class, BACStorage.INSTACE, BAC::new);
+		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
 		
 	}
 	
@@ -78,7 +78,7 @@ public class ProjectVinum {
 		
 		if (event.getObject() instanceof PlayerEntity) {
 			
-			event.addCapability(new ResourceLocation(Defines.MODID, "BAC_capability"), new BACCapability());
+			event.addCapability(new ResourceLocation(Defines.MODID, "bac_capability"), new BACCapability());
 			
 		}
 		
