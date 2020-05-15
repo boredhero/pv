@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.NonNullConsumer;
 
@@ -23,14 +24,14 @@ public interface IDrink {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
-                @Override
-                public void accept(@Nonnull IBAC iBAC) {
-                	
-                    iBAC.setBACLevel(level);
-                    
-                }
-                
-            });
+				@Override
+				public void accept(@Nonnull IBAC iBAC) {
+					
+					iBAC.setBACLevel(level);
+					
+				}
+				
+			});
 			
 		}
 		
@@ -42,14 +43,14 @@ public interface IDrink {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
-                @Override
-                public void accept(@Nonnull IBAC iBAC) {
-                	
-                    iBAC.addBACLevel(level);
-                    
-                }
-                
-            });
+				@Override
+				public void accept(@Nonnull IBAC iBAC) {
+					
+					iBAC.addBACLevel(level);
+					
+				}
+				
+			});
 			
 		}
 		
@@ -61,14 +62,24 @@ public interface IDrink {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
-                @Override
-                public void accept(@Nonnull IBAC iBAC) {
-                	
-                    iBAC.removeBACLevel(level);
-                    
-                }
-                
-            });
+				@Override
+				public void accept(@Nonnull IBAC iBAC) {
+					
+					iBAC.removeBACLevel(level);
+					
+				}
+				
+			});
+			
+		}
+		
+	}
+	
+	public static void killPlayerFromBAC(PlayerEntity player, int level) {
+		
+		if (level >= 10) {
+			
+			player.onDeath(new DamageSource("too_drunk"));
 			
 		}
 		
