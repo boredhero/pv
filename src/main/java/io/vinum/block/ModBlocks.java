@@ -1,11 +1,13 @@
 package io.vinum.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.block.CropsBlock;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -13,7 +15,7 @@ import java.util.function.Supplier;
 import io.vinum.common.Defines;
 
 public final class ModBlocks {
-
+	
 	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
 
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
@@ -27,6 +29,8 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	
+	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new CropsBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance.sound(SoundType.CROP)));
+	//public static final Block WHEAT = register("wheat", new CropsBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
 	 * 			Most blocks will want to have {@code BlockItems} as they want to be in inventory.
