@@ -41,7 +41,8 @@ public class GuiHandler {
 	
 	@SubscribeEvent
 	public void onPreRenderOverlay(RenderGameOverlayEvent.Pre event) {
-		
+
+		//@SuppressWarnings
 		@Nullable PlayerController controller = Minecraft.getInstance().playerController;
 		
 		@Nullable ClientPlayerEntity player = Minecraft.getInstance().player;
