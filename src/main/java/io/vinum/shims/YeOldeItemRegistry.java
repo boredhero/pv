@@ -18,6 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class YeOldeItemRegistry {
     public static Item JUICER;
     public static Item ICE_PICK;
+    public static Item MARGARITA_GLASS_MOLD;
 
     public static void registerAll(RegistryEvent.Register<Item> event){
         if(!event.getName().equals(ForgeRegistries.ITEMS.getRegistryName())){
@@ -26,6 +27,7 @@ public class YeOldeItemRegistry {
 
         JUICER = register("juicer", new ItemDontBreakOnCraft(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
         ICE_PICK = register("ice_pick", new ItemDontBreakOnCraft(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
+        MARGARITA_GLASS_MOLD = register("margarita_glass_mold", new ItemDontBreakOnCraft(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
     }
 
     private static <T extends Item> T register(String name, T item){
