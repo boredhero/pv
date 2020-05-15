@@ -36,9 +36,6 @@ public class DrinkItem extends Item implements IDrink {
 				
 			}
 			
-			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 1);
-            stack.shrink(1);
-            
 		}
 		
 		return stack.isEmpty() ? returnedItem : stack;
