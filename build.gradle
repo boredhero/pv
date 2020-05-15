@@ -21,11 +21,6 @@ archivesBaseName = project.modId
 compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility
 
-repositories{
-    maven { url 'https://jitpack.io/#yooksi/CocoLib' }
-    //mavenLocal()
-}
-
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   Snapshot are built nightly.
@@ -77,12 +72,9 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
+
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
-    //Yooksi CocoLib, uses a specific commit, do more research
-    //Should be able to switch to pulling these from CurseForge in the future....
-    //implementation 'com.github.yooksi:CocoLib:b915c0a15d'
-    implementation fg.deobf("com.github.yooksi:CocoLib:1.15.2-0.1.1")
 }
 
 // Get properties into the manifest for reading by the runtime..
@@ -111,10 +103,9 @@ publishing {
         }
     }
     repositories {
-        maven { url "file:///${project.projectDir}/mcmodsrepo" }
-        //TODO: THIS DOESNT WORK
-        //maven { url 'https://jitpack.io' }
-        
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
     }
 }
 

@@ -1,22 +1,5 @@
 {
 	"block.vinum.steel_brazier": "Steel Brazier",
 	"block.vinum.steel_pot": "Steel Pot",
-	"block.vinum.steel_coil": "Steel Coil",
-
-	"item.vinum.steel_ingot": "Steel Ingot",
-	"item.vinum.steel_nugget": "Steel Nugget",
-	"item.vinum.unfermented_agave_wort": "Unfermented Agave Wort",
-	"item.vinum.fermented_agave_wort": "Fermented Agave Wort",
-	"item.vinum.agave_seeds": "Agave Seeds",
-	"item.vinum.agave": "Agave",
-	"item.vinum.cooked_agave_pulp": "Cooked Agave Pulp",
-	"item.vinum.fifth_bottle_empty": "Fifth Bottle [Empty]",
-	"item.vinum.fifth_silver_tequila": "Fifth [Silver Tequila]",
-	"item.vinum.fifth_golden_tequila": "Fifth [Golden Tequila",
-	"item.vinum.pack_of_shot_glasses": "Pack of Empty Shot Glasses [25]",
-	"item.vinum.shot_silver_tequila": "Shot [Silver Tequila]",
-	"item.vinum.shot_golden_tequila": "Shot [Golden Tequila]",
-	"item.vinum.ice_cubes": "Ice Cubes",
-
-	"itemGroup.vinum": "Project Vinum"
+	"block.vinum.steel_coil": "Steel Coil"
 }
