@@ -1,5 +1,6 @@
 package io.vinum.item.drinks;
 
+import io.vinum.item.ModItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,8 +20,9 @@ public class DrinkSpicedAppleMarg extends Item implements IDrink {
 		
     }
     
-    public EffectInstance levitation_5m = new EffectInstance(Effects.LEVITATION, 6000);
+    public EffectInstance levitation_2m = new EffectInstance(Effects.LEVITATION, 2400);
     public EffectInstance jump_boost_10m = new EffectInstance(Effects.JUMP_BOOST, 12000);
+    public EffectInstance slow_falling_2500t = new EffectInstance(Effects.SLOW_FALLING, 2500);
 	
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
@@ -29,12 +31,13 @@ public class DrinkSpicedAppleMarg extends Item implements IDrink {
 			
 			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 2);
             stack.shrink(1);
-            entityLiving.addPotionEffect(levitation_5m);
+            entityLiving.addPotionEffect(levitation_2m);
+            entityLiving.addPotionEffect(slow_falling_2500t);
             entityLiving.addPotionEffect(jump_boost_10m);
 			
 		}
 		
-		return stack.isEmpty() ? new ItemStack(Items.GLASS_BOTTLE) : stack;
+		return stack.isEmpty() ? new ItemStack(ModItems.MARGARITA_GLASS.get()) : stack;
 		
 	}
 	
