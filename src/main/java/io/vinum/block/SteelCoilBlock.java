@@ -23,7 +23,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -82,6 +81,7 @@ public class SteelCoilBlock extends Block implements IWaterLoggable {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public IFluidState getFluidState(BlockState state) {
 		
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);

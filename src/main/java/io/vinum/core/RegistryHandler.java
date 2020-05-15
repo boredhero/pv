@@ -60,6 +60,7 @@ public class RegistryHandler {
 	 *
 	 * @return given registry entry
 	 */
+	@SuppressWarnings("unused")
 	private static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
 
 		entry.setRegistryName(RLHelper.getModResourceLocation(name));

@@ -1,6 +1,5 @@
 package io.vinum.block;
 
-import java.util.Optional;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -22,17 +21,12 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.FireChargeItem;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CampfireCookingRecipe;
-import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.CampfireTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
@@ -130,6 +124,7 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
 		
 		if (!entityIn.isImmuneToFire() && state.get(LIT) && entityIn instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entityIn)) {
@@ -293,6 +288,7 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public IFluidState getFluidState(BlockState state) {
 		
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);

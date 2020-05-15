@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import io.vinum.common.Defines;
 import io.yooksi.cocolib.gui.Alignment;
-import io.yooksi.cocolib.gui.GuiElement;
 import io.yooksi.cocolib.gui.SpriteObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerController;
@@ -39,17 +38,17 @@ public class GuiHandler {
         
         if (controller != null && controller.gameIsSurvivalOrAdventure()) {
         	
-        	for (int i = 0; i < BAC_HUD_EMPTY_ICONS.size(); i++) {
+        	//for (int i = 0; i < BAC_HUD_EMPTY_ICONS.size(); i++) {
         		
         		//GuiElement.bindAndDrawTexture(BAC_HUD_EMPTY_ICONS.get(i));
         		
-        	}
+        	//}
         	
-        	for (SpriteObject full_bac_icon : BAC_HUD_FULL_ICONS) {
+        	//for (SpriteObject full_bac_icon : BAC_HUD_FULL_ICONS) {
         		
         		//GuiElement.bindAndDrawTexture(full_bac_icon);
         		
-        	}
+        	//}
         	
         }
 		

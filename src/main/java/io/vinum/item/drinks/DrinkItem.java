@@ -4,37 +4,48 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class TestDrink extends Item implements IDrink {
+public class DrinkItem extends Item implements IDrink {
 	
-	public TestDrink(Properties properties) {
+	private int useDuration;
+	private int BACLevel;
+	private ItemStack returnedItem;
+	
+	public DrinkItem(Properties properties, int useDuration, int BACLevel, ItemStack returnedItem) {
 		super(properties);
+		
+		this.useDuration = useDuration;
+		this.BACLevel = BACLevel;
+		this.returnedItem = returnedItem;
 		
 	}
 	
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
 		
-		if (entityLiving instanceof PlayerEntity) {
+		if (!worldIn.isRemote()) {
 			
-			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 1);
-			stack.shrink(1);
+			if (entityLiving instanceof PlayerEntity) {
+				
+				IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, BACLevel);
+				stack.shrink(1);
+				
+			}
 			
 		}
 		
-		return stack.isEmpty() ? new ItemStack(Items.GLASS_BOTTLE) : stack;
+		return stack.isEmpty() ? returnedItem : stack;
 		
 	}
 	
 	@Override
 	public int getUseDuration(ItemStack stack) {
 		
-		return 14;
+		return useDuration;
 		
 	}
 	
