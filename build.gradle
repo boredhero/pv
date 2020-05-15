@@ -68,7 +68,7 @@ minecraft {
 }
 
 repositories{
-    maven { url 'https://jitpack.io/#yooksi/CocoLib' }
+    maven { url 'https://jitpack.io' }
     //mavenLocal()
 }
 
