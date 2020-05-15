@@ -67,6 +67,11 @@ minecraft {
     }
 }
 
+repositories{
+    maven { url 'https://jitpack.io/#yooksi/CocoLib' }
+    //mavenLocal()
+}
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
@@ -75,6 +80,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
+    implementation fg.deobf("com.github.yooksi:CocoLib:1.15.2-0.1.1")
 }
 
 // Get properties into the manifest for reading by the runtime..
