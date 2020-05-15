@@ -6,7 +6,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fml.RegistryObject;
 
-import io.vinum.item.drinks.TestDrink;
+import io.vinum.item.drinks.DrinkShot;
 import io.vinum.common.Defines;
 
 public final class ModItems {
@@ -38,8 +38,8 @@ public final class ModItems {
 	public static final RegistryObject<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(ModItemGroup.PROPERTIES));
 
 	//ALL DRINKABLE THINGS ARE BELOW
-	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new TestDrink(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new TestDrink(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new DrinkShot(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkShot(ModItemGroup.PROPERTIES));
 
 
 }
