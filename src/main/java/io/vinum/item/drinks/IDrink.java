@@ -130,6 +130,9 @@ public interface IDrink {
 				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 610));
 				
 			}
+			if (level >= 9){
+				player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 610));
+			}
 			
 			if (level >= 10) {
 				
