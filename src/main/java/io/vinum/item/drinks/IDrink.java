@@ -25,6 +25,8 @@ public interface IDrink {
 	public int getUseDuration(ItemStack stack);
 	public UseAction getUseAction(ItemStack stack);
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn);
+
+	public EffectInstance blindness_3m = new EffectInstance(Effects.BLINDNESS, 3600);
 	
 	public static void setBACLevel(World world, PlayerEntity player, int level) {
 		
@@ -100,7 +102,7 @@ public interface IDrink {
 		}
 		else if(level >= 9 && !player.isCreative()){
 			player.addPotionEffect(Potions.LONG_POISON.getEffects().get(0));
-			player.addPotionEffect(Potions.STRONG_HARMING.getEffects().get(0));
+			player.addPotionEffect(blindness_3m);
 		}
 		
 	}
