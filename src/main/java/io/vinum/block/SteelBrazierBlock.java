@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import io.vinum.multiblock.StillMultiblock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -61,6 +62,13 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 		super(propertiesIn);
 		
 		this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE).with(FACING, Direction.NORTH).with(LIT, Boolean.FALSE));
+		
+	}
+	
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+		
+		StillMultiblock.build(worldIn, pos, state, placer, stack);
 		
 	}
 	
