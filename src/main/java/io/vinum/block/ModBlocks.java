@@ -7,11 +7,11 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraft.block.CropsBlock;
 
 import java.util.Set;
 import java.util.function.Supplier;
 
+import io.vinum.block.crops.AgaveCrop;
 import io.vinum.common.Defines;
 
 public final class ModBlocks {
@@ -29,7 +29,7 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	
-	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new CropsBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance.sound(SoundType.CROP)));
+	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCrop(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
 	//public static final Block WHEAT = register("wheat", new CropsBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
