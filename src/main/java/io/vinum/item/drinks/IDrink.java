@@ -24,8 +24,6 @@ public interface IDrink {
 	public int getUseDuration(ItemStack stack);
 	public UseAction getUseAction(ItemStack stack);
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn);
-
-	public EffectInstance blindness_3m = new EffectInstance(Effects.BLINDNESS, 3600);
 	
 	public static void setBACLevel(World world, PlayerEntity player, int level) {
 		
@@ -86,16 +84,18 @@ public interface IDrink {
 		}
 		
 	}
+	//Make some effect instances for use below!
+	public EffectInstance blindness_3m = new EffectInstance(Effects.BLINDNESS, 3600);
 	
 	public static void applyAffectsToPlayerFromBAC(PlayerEntity player, int level) {
 		
 		System.out.println(player);
 		System.out.println(level);
-		
-		
-		if (level >= 10 && !player.isCreative()) {
-			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);	
+
+		if(level >= 1 && !player.isCreative()){
+
 		}
+		
 		if(level >= 8 && !player.isCreative()){
 			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
 			player.addPotionEffect(Potions.LONG_SLOWNESS.getEffects().get(0));
@@ -104,7 +104,14 @@ public interface IDrink {
 			player.addPotionEffect(Potions.LONG_POISON.getEffects().get(0));
 			player.addPotionEffect(blindness_3m);
 		}
+		if (level >= 10 && !player.isCreative()) {
+			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);	
+		}
 		
+	}
+	//Not sure if we'll ever need this but it seems like a helpful method to have here.
+	public static void forceApplyEffectToPlayer(PlayerEntity player, EffectInstance effectIn){
+		player.addPotionEffect(effectIn);
 	}
 	
 }
