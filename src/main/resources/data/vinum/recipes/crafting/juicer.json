@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"   ",
+		" I ",
+		"NNN"
+	],
+	"key": {
+		"N": {
+			"tag": "forge:nuggets/steel"
+        },
+        "I": {
+            "tag": "forge:ingots/steel"
+        }
+	},
+	"result": {
+		"item": "vinum:juicer"
+	}
+}

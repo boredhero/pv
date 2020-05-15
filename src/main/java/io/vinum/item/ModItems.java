@@ -38,6 +38,7 @@ public final class ModItems {
 	//Items used in crafting that must not break when used.
 	public static final RegistryObject<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
 	public static final RegistryObject<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
+	public static final RegistryObject<Item> COCKTAIL_SHAKER = ITEMS.register("cocktail_shaker", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
 	public static final RegistryObject<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
 	//Misc Cocktail Ingredients
 	public static final RegistryObject<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(ModItemGroup.PROPERTIES));
