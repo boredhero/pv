@@ -3,7 +3,10 @@
 	"ingredients": [
 		{
 			"tag": "vinum:ice"
-        }
+		},
+		{
+			"item": "vinum:ice_pick"
+		}
 	],
 	"result": {
 		"item": "vinum:ice_cubes", "count":4
