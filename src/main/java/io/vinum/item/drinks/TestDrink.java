@@ -1,4 +1,4 @@
-package io.vinum.item;
+package io.vinum.item.drinks;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

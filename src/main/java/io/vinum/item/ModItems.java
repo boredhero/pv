@@ -1,13 +1,13 @@
 package io.vinum.item;
 
-import io.vinum.common.Defines;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fml.RegistryObject;
+
+import io.vinum.item.drinks.TestDrink;
+import io.vinum.common.Defines;
 
 public final class ModItems {
 
@@ -39,6 +39,9 @@ public final class ModItems {
 	//COCKTAIL: APPLE MARGARITA
 	public static final RegistryObject<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(ModItemGroup.PROPERTIES));
+
+	//ALL DRINKABLE THINGS ARE BELOW
+	
 
 
 }

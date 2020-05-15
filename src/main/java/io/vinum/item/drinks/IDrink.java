@@ -1,4 +1,4 @@
-package io.vinum.item;
+package io.vinum.item.drinks;
 
 import javax.annotation.Nonnull;
 
