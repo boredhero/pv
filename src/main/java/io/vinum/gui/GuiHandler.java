@@ -62,7 +62,7 @@ public class GuiHandler {
 					
 					for (int i = 0; i < BAC_HUD_FULL_ICONS.size(); i++) {
 						
-						System.out.println(i + " | " + iBAC.getBACLevel() + " | " + player.getDisplayName().getString() + " | " + player.getHeldItemMainhand().getItem() + " | " + iBAC);
+						//System.out.println(i + " | " + iBAC.getBACLevel() + " | " + player.getDisplayName().getString() + " | " + player.getHeldItemMainhand().getItem() + " | " + iBAC);
 						
 						if (i <= iBAC.getBACLevel()) {
 							
