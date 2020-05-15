@@ -1,11 +1,16 @@
 package io.vinum;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -18,6 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 
@@ -30,8 +36,11 @@ import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.common.Defines;
+import io.vinum.gui.GuiHandler;
 import io.vinum.item.ModItems;
 import io.vinum.item.drinks.IDrink;
+import io.vinum.network.BACSyncMessage;
+import io.vinum.network.NetworkLoader;
 
 @Mod(Defines.MODID)
 public class ProjectVinum {
@@ -52,12 +61,15 @@ public class ProjectVinum {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new GuiHandler());
 		
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
 		
+		NetworkLoader.register();
 		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
+		GuiHandler.initIcons();
 		
 	}
 	
@@ -97,6 +109,18 @@ public class ProjectVinum {
 		if (!event.getEntity().getEntityWorld().isRemote()) {
 			
 			if (event.getEntity() instanceof PlayerEntity) {
+				
+				ServerPlayerEntity target = (ServerPlayerEntity) event.getEntity();
+				
+				event.getEntity().getCapability(BACCapability.BAC_CAPABILITY, null).ifPresent(state -> {
+					
+					CompoundNBT nbt = new CompoundNBT();
+                    Capability<IBAC> cap = BACCapability.BAC_CAPABILITY;
+                    Capability.IStorage<IBAC> storage = cap.getStorage();
+                    nbt.put(cap.getName(), storage.writeNBT(cap, state, null));
+                    NetworkLoader.INSTANCE.send(PacketDistributor.PLAYER.with(() -> target), new BACSyncMessage(nbt));
+                    
+				});
 				
 				event.getEntity().getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 					
