@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potions;
@@ -38,7 +37,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.setBACLevel(level);
-					killPlayerFromBAC(player, iBAC.getBACLevel());
+					applyAffectsToPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -58,7 +57,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.addBACLevel(level);
-					killPlayerFromBAC(player, iBAC.getBACLevel());
+					applyAffectsToPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -78,7 +77,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.removeBACLevel(level);
-					killPlayerFromBAC(player, iBAC.getBACLevel());
+					applyAffectsToPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -88,10 +87,11 @@ public interface IDrink {
 		
 	}
 	
-	public static void killPlayerFromBAC(PlayerEntity player, int level) {
+	public static void applyAffectsToPlayerFromBAC(PlayerEntity player, int level) {
 		
 		System.out.println(player);
 		System.out.println(level);
+		
 		
 		if (level >= 10 && !player.isCreative()) {
 			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);	
@@ -100,7 +100,7 @@ public interface IDrink {
 			player.addPotionEffect(Potions.LONG_WEAKNESS.getEffects().get(0));
 			player.addPotionEffect(Potions.LONG_SLOWNESS.getEffects().get(0));
 		}
-		else if(level >= 9 && !player.isCreative()){
+		if(level >= 9 && !player.isCreative()){
 			player.addPotionEffect(Potions.LONG_POISON.getEffects().get(0));
 			player.addPotionEffect(blindness_3m);
 		}

@@ -14,7 +14,7 @@ public final class ModItems {
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Defines.MODID);
 
 	//Add base items!
-	public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", () -> new TestDrink(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> STEEL_INGOT = ITEMS.register("steel_ingot", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> STEEL_NUGGET = ITEMS.register("steel_nugget", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> UNFERMENTED_AGAVE_WORT = ITEMS.register("unfermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> FERMENTED_AGAVE_WORT = ITEMS.register("fermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
@@ -25,8 +25,6 @@ public final class ModItems {
 	public static final RegistryObject<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	//Stuff for cocktails....Experimental....don't add textures just yet.
 	public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> JUICER = ITEMS.register("juicer", () -> new Item(ModItemGroup.PROPERTIES));
@@ -41,7 +39,8 @@ public final class ModItems {
 	public static final RegistryObject<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(ModItemGroup.PROPERTIES));
 
 	//ALL DRINKABLE THINGS ARE BELOW
-	
+	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new TestDrink(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new TestDrink(ModItemGroup.PROPERTIES));
 
 
 }

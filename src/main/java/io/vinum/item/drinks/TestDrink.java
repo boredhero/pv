@@ -22,7 +22,7 @@ public class TestDrink extends Item implements IDrink {
 		
 		if (entityLiving instanceof PlayerEntity) {
 			
-			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 2);
+			IDrink.addBACLevel(worldIn, (PlayerEntity) entityLiving, 1);
 			stack.shrink(1);
 			
 		}
