@@ -36,6 +36,7 @@ public final class ModItems {
 	//public static final RegistryObject<Item> HIGHBALL_GLASS_MOLD = ITEMS.register("highball_glass_mold", () -> new Item(ModItemGroup.PROPERTIES));
 	//COCKTAIL: APPLE MARGARITA
 	public static final RegistryObject<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> CINNAMON = ITEMS.register("cinnamon", () -> new Item(ModItemGroup.PROPERTIES));
 
 	//ALL DRINKABLE THINGS ARE BELOW
 	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new DrinkShot(ModItemGroup.PROPERTIES));
