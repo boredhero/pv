@@ -3,14 +3,14 @@ package io.vinum.capability;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class BACCapability implements ICapabilitySerializable<IntNBT> {
+public class BACCapability implements ICapabilitySerializable<INBT> {
 	
 	@CapabilityInject(IBAC.class)
 	public static final Capability<IBAC> BAC_CAPABILITY = null;
@@ -25,14 +25,14 @@ public class BACCapability implements ICapabilitySerializable<IntNBT> {
 	}
 	
 	@Override
-	public IntNBT serializeNBT() {
+	public INBT serializeNBT() {
 		
-		return (IntNBT) BAC_CAPABILITY.getStorage().writeNBT(BAC_CAPABILITY, instance.orElseThrow(() -> new IllegalArgumentException("LazyOptional cannot be empty!")), null);
+		return BAC_CAPABILITY.getStorage().writeNBT(BAC_CAPABILITY, instance.orElseThrow(() -> new IllegalArgumentException("LazyOptional cannot be empty!")), null);
 		
 	}
 	
 	@Override
-	public void deserializeNBT(IntNBT nbt) {
+	public void deserializeNBT(INBT nbt) {
 		
 		BAC_CAPABILITY.getStorage().readNBT(BAC_CAPABILITY, instance.orElseThrow(() -> new IllegalArgumentException("LazyOptional cannot be empty!")), null, nbt);
 		

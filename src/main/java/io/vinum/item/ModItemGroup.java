@@ -7,7 +7,6 @@ import io.vinum.common.Defines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 
 /**
  * ModItemGroup is an ItemGroup (previously called {@code CreativeTab} child for our mod
@@ -20,11 +19,10 @@ import net.minecraft.item.Items;
 public class ModItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
-	public static final ItemGroup MAIN =
-			new ModItemGroup(Defines.MODID, () -> new ItemStack(Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())));
+	@SuppressWarnings("deprecation")
+	public static final ItemGroup MAIN = new ModItemGroup(Defines.MODID, () -> new ItemStack(Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())));
 
-	public static final Item.Properties PROPERTIES =
-			new Item.Properties().group(ModItemGroup.MAIN);
+	public static final Item.Properties PROPERTIES = new Item.Properties().group(ModItemGroup.MAIN);
 
 	/**
 	 * Here we use a {@link java.util.function.Supplier Supplier} because need to delay

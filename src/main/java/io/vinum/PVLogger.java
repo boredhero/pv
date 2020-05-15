@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Contract;
 /**
  * Simple Log4J wrapper to help us log messages.
  */
-@SuppressWarnings("unused")
 public final class PVLogger {
 
 	private static Logger logger;

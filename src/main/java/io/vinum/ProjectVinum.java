@@ -7,7 +7,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -16,6 +18,9 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
+import javax.annotation.Nonnull;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,11 +31,12 @@ import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.common.Defines;
 import io.vinum.item.ModItems;
-import io.vinum.shims.YeOldeItemRegistry;
+import io.vinum.item.drinks.IDrink;
 
 @Mod(Defines.MODID)
 public class ProjectVinum {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public ProjectVinum() {
@@ -43,8 +49,6 @@ public class ProjectVinum {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-		//This next line is here to talk to the shim.
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(YeOldeItemRegistry::registerAll);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
 		MinecraftForge.EVENT_BUS.register(this);
@@ -82,6 +86,47 @@ public class ProjectVinum {
 		if (event.getObject() instanceof PlayerEntity) {
 			
 			event.addCapability(new ResourceLocation(Defines.MODID, "bac_capability"), new BACCapability());
+			
+		}
+		
+	}
+	
+	@SubscribeEvent
+	public void updatePlayerBAC(LivingUpdateEvent event) {
+		
+		if (!event.getEntity().getEntityWorld().isRemote()) {
+			
+			if (event.getEntity() instanceof PlayerEntity) {
+				
+				event.getEntity().getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
+					
+					@Override
+					public void accept(@Nonnull IBAC iBAC) {
+						
+						if (iBAC.getBACLevel() > 0) {
+							
+							iBAC.addBACTicks(1);
+							
+						} else {
+							
+							iBAC.setBACTicks(0);
+							
+						}
+						
+						if (iBAC.getBACTicks() >= 4000 && iBAC.getBACLevel() > 0) {
+							
+							iBAC.removeBACLevel(1);
+							iBAC.setBACTicks(0);
+							
+						}
+						
+						IDrink.updatePlayerBAC((PlayerEntity) event.getEntity(), iBAC.getBACLevel());
+						
+					}
+					
+				});
+				
+			}
 			
 		}
 		
