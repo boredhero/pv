@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.IBAC;
+import io.vinum.common.Defines;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.setBACLevel(level);
-					killPlayerFromBAC(player, level);
+					killPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -51,7 +52,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.addBACLevel(level);
-					killPlayerFromBAC(player, level);
+					killPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -71,7 +72,7 @@ public interface IDrink {
 				public void accept(@Nonnull IBAC iBAC) {
 					
 					iBAC.removeBACLevel(level);
-					killPlayerFromBAC(player, level);
+					killPlayerFromBAC(player, iBAC.getBACLevel());
 					
 				}
 				
@@ -83,9 +84,12 @@ public interface IDrink {
 	
 	public static void killPlayerFromBAC(PlayerEntity player, int level) {
 		
+		System.out.println(player);
+		System.out.println(level);
+		
 		if (level >= 10 && !player.isCreative()) {
 			
-			player.onDeath(new DamageSource("too_drunk"));
+			player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);
 			
 		}
 		
