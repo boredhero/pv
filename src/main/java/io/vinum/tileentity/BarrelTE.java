@@ -15,7 +15,7 @@ public class BarrelTE extends TileEntity {
     }
 
     @SubscribeEvent
-    public static void registerTE(RegistryEvent.Register<TileEntityType<?>> evt) {
+    public static void registerTE(RegistryEvent.Register<TileEntityType<?>> event) {
         //Do stuff ala https://mcforge.readthedocs.io/en/latest/tileentities/tileentity/#creating-a-tileentity
     }
     
