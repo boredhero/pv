@@ -58,7 +58,7 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
 		RenderSystem.disableBlend();
-		this.font.drawString(this.title.getFormattedText(), 60.0F, 6.0F, 4210752);
+		this.font.drawString(this.title.getFormattedText(), 70.0F, 6.0F, 4210752);
 
 	}
 	
