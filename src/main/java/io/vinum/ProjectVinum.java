@@ -41,6 +41,7 @@ import io.vinum.item.ModItems;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
 import io.vinum.network.NetworkLoader;
+import io.vinum.worldgen.VinumWorldGen;
 
 @Mod(Defines.MODID)
 public class ProjectVinum {
@@ -59,6 +60,7 @@ public class ProjectVinum {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(VinumWorldGen::registerAll);
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new GuiHandler());
