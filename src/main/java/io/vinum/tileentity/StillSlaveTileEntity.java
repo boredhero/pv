@@ -133,7 +133,7 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, null);
+		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, masterTileEntity.getStillData());
 		
 	}
 	

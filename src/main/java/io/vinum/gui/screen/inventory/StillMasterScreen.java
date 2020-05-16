@@ -72,7 +72,7 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		this.blit(i, j, 0, 0, this.xSize, this.ySize);
 		
 		int k = ((StillMasterContainer)this.container).getBurnLeftScaled();
-        this.blit(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+        this.blit(i + 43, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
 		
         int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
         this.blit(i + 79, j + 34, 176, 14, l + 1, 16);

@@ -67,6 +67,12 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		
 	}
 	
+	public IIntArray getStillData() {
+		
+		return stillData;
+		
+	}
+	
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		
@@ -98,13 +104,13 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
 			
-			System.out.println(progressTime + " | ");
+			System.out.println(progressTime + " | " + fuelTime + " | " + canStill());
 			
 			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
 				
 				if (AbstractFurnaceTileEntity.isFuel(fuel)) {
 					
-					fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel);
+					fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
 					fuel.shrink(1);
 					
 				}
@@ -114,6 +120,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			if (fuelTime >= 0 && canStill()) {
 				
 				progressTime++;
+				fuelTime--;
 				
 			} else {
 				
@@ -126,7 +133,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				input.shrink(1);
 				bottle.shrink(1);
 				
-				if (output == null) {
+				if (output.getItem() != ModItems.FIFTH_SILVER_TEQUILA.get()) {
 					
 					output = new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
 					
@@ -136,6 +143,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 					
 				}
 				
+				progressTime = 0;
+				
 			}
 			
 		}
@@ -144,7 +153,11 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	
 	public boolean canStill() {
 		
-		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get() && (this.items.get(3).getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) || this.items.get(3) == null);
+		System.out.println(this.items.get(3).getCount() <= 63);
+		System.out.println(this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get());
+		System.out.println(this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
+		
+		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
 		
 	}
 	
