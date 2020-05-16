@@ -57,7 +57,7 @@ public class AgaveCropBlock extends BushBlock implements IGrowable {
 	
 	public int getMaxAge() {
 		
-		return 3;
+		return 2;
 		
 	}
 	
