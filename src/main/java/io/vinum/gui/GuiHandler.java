@@ -32,8 +32,8 @@ public class GuiHandler {
 		
 		for (int i = 0; i < 9; i++) {
 			
-			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 221 - (i * 9), 40).withUV(0, 0).withSize(9, 9).build());
-			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 221 - (i * 9), 40).withUV(9, 0).withSize(9, 9).build());
+			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(0, 0).withSize(9, 9).build());
+			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(9, 0).withSize(9, 9).build());
 			
 		}
 		
@@ -41,8 +41,9 @@ public class GuiHandler {
 	
 	@SubscribeEvent
 	public void onPreRenderOverlay(RenderGameOverlayEvent.Pre event) {
-
-		//@SuppressWarnings
+		
+		initIcons();
+		
 		@Nullable PlayerController controller = Minecraft.getInstance().playerController;
 		
 		@Nullable ClientPlayerEntity player = Minecraft.getInstance().player;
@@ -62,9 +63,7 @@ public class GuiHandler {
 					
 					for (int i = 0; i < BAC_HUD_FULL_ICONS.size(); i++) {
 						
-						//System.out.println(i + " | " + iBAC.getBACLevel() + " | " + player.getDisplayName().getString() + " | " + player.getHeldItemMainhand().getItem() + " | " + iBAC);
-						
-						if (i <= iBAC.getBACLevel()) {
+						if (i + 1 <= iBAC.getBACLevel()) {
 							
 							GuiElement.bindAndDrawTexture(BAC_HUD_FULL_ICONS.get(i));
 							
