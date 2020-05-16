@@ -7,26 +7,22 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.extensions.IForgeBlock;
 
-public class BarrelBlock extends Block {
+public class BarrelBlock extends Block implements IForgeBlock {
 	
 	public BarrelBlock(Block.Properties propertiesIn) {
 		super(propertiesIn);
         
 	}
 
-	//This is depreciated. The docs must not be trusted I guess.
 	@Override
 	public boolean hasTileEntity(BlockState staet) {
 		return true;
 	}
 
-	//Can't override this even though the Docs mention it because it doesn't exist
-	/**
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		//Return a new instance of the barrel tile entity.
-		return new TileEntity(TileEntityType.FURNACE);
+		return new TileEntity(TileEntityType.FURNACE){};
 	}
-	*/
 	
 }
