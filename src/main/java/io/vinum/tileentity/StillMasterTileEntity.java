@@ -91,14 +91,14 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	public void tick() {
 		
-		BlockState state = world.getBlockState(pos);
-		
 		if (!world.isRemote()) {
 			
 			ItemStack input = this.items.get(0);
 			ItemStack bottle = this.items.get(1);
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
+			
+			System.out.println(progressTime + " | ");
 			
 			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
 				
@@ -140,17 +140,11 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			
 		}
 		
-		if (state != world.getBlockState(pos)) {
-			
-			this.markDirty();
-			
-		}
-		
 	}
 	
 	public boolean canStill() {
 		
-		return (this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get() && (this.items.get(3).getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) || this.items.get(3) == null);
+		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get() && (this.items.get(3).getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) || this.items.get(3) == null);
 		
 	}
 	
@@ -238,7 +232,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player);
+		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, stillData);
 		
 	}
 	
