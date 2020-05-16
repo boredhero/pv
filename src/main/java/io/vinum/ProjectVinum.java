@@ -23,7 +23,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.PacketDistributor;
-
 import javax.annotation.Nonnull;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +34,7 @@ import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.common.Defines;
+import io.vinum.core.RegistryHandler;
 import io.vinum.gui.GuiHandler;
 import io.vinum.gui.screen.inventory.StillMasterScreen;
 import io.vinum.inventory.container.ModContainers;
@@ -52,8 +52,7 @@ public class ProjectVinum {
 
 	public ProjectVinum() {
 		
-		ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+		RegistryHandler.registerDeferred(FMLJavaModLoadingContext.get().getModEventBus());
 		
 		PVLogger.init(LogManager.getLogger());
 		

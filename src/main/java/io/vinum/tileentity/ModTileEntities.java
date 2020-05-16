@@ -3,6 +3,7 @@ package io.vinum.tileentity;
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

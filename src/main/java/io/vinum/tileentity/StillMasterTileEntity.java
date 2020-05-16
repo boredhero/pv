@@ -22,7 +22,9 @@ import net.minecraft.util.IntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.registries.ObjectHolder;
 
+@ObjectHolder("vinum:still_master")
 public class StillMasterTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);

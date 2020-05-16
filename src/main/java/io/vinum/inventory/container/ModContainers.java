@@ -1,7 +1,6 @@
 package io.vinum.inventory.container;
 
 import io.vinum.common.Defines;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;

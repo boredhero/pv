@@ -22,10 +22,13 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -42,6 +45,22 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 		super(propertiesIn);
 		
 		this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
+		
+	}
+	
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		
+		if (worldIn.isRemote) {
+			
+			return ActionResultType.SUCCESS;
+			
+		} else {
+			
+			this.interactWith(worldIn, pos, player);
+			
+			return ActionResultType.SUCCESS;
+			
+		}
 		
 	}
 	
@@ -90,6 +109,8 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 	protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
 		
 		TileEntity tileentity = worldIn.getTileEntity(pos);
+		
+		System.out.println("test");
 		
 		if (tileentity instanceof StillMasterTileEntity) {
 			

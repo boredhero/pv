@@ -8,11 +8,12 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.registries.ObjectHolder;
 
+@ObjectHolder("vinum:still_master")
 public class StillMasterContainer extends Container {
 	
 	public StillMasterContainer(int id, PlayerInventory playerInv, PacketBuffer extraData) {
-		
         this(ModContainers.STILL_MASTER.get(), id, playerInv);
         
     }
