@@ -110,8 +110,6 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 		
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		
-		System.out.println("test");
-		
 		if (tileentity instanceof StillMasterTileEntity) {
 			
 			player.openContainer((INamedContainerProvider)tileentity);
