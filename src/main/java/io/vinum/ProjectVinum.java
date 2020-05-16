@@ -39,6 +39,7 @@ import io.vinum.item.ModItems;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
 import io.vinum.network.NetworkLoader;
+import io.vinum.worldgen.ModWorldGen;
 
 @Mod(Defines.MODID)
 public class ProjectVinum {
@@ -68,6 +69,7 @@ public class ProjectVinum {
 		NetworkLoader.register();
 		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
 		GuiHandler.initIcons();
+		ModWorldGen.addFeatures();
 		
 	}
 	

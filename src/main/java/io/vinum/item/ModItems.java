@@ -1,6 +1,5 @@
 package io.vinum.item;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
