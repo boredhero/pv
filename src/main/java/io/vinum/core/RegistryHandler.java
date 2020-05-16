@@ -20,6 +20,7 @@ import io.vinum.common.Defines;
 import io.vinum.item.ModItemGroup;
 import io.vinum.item.ModItems;
 import io.vinum.util.RLHelper;
+import io.vinum.worldgen.VinumWorldGen;
 
 @ObjectHolder(Defines.MODID)
 @Mod.EventBusSubscriber(modid = Defines.MODID, bus=Mod.EventBusSubscriber.Bus.MOD)
@@ -49,6 +50,8 @@ public class RegistryHandler {
 
 		ModBlocks.BLOCKS.register(iEventBus);
 		ModItems.ITEMS.register(iEventBus);
+		VinumWorldGen.FEATURES.register(iEventBus);
+		
 	}
 
 	/**
