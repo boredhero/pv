@@ -13,5 +13,6 @@ public class ModTileEntities {
 	public static final DeferredRegister<TileEntityType<?>> TILEENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, Defines.MODID);
 	
 	public static final RegistryObject<TileEntityType<?>> STILL_MASTER = TILEENTITIES.register("still_master", () -> TileEntityType.Builder.create(StillMasterTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
+	public static final RegistryObject<TileEntityType<?>> STILL_SLAVE = TILEENTITIES.register("still_slave", () -> TileEntityType.Builder.create(StillSlaveTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_2.get(), ModBlocks.STILL_MULTIBLOCK_PART_3.get(), ModBlocks.STILL_MULTIBLOCK_PART_4.get()).build(null));
 	
 }

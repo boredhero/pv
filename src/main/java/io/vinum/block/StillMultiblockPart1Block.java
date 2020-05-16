@@ -48,22 +48,6 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 		
 	}
 	
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		
-		if (worldIn.isRemote) {
-			
-			return ActionResultType.SUCCESS;
-			
-		} else {
-			
-			this.interactWith(worldIn, pos, player);
-			
-			return ActionResultType.SUCCESS;
-			
-		}
-		
-	}
-	
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		
@@ -96,6 +80,22 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 	public BlockRenderType getRenderType(BlockState state) {
 		
 		return BlockRenderType.MODEL;
+		
+	}
+	
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		
+		if (worldIn.isRemote) {
+			
+			return ActionResultType.SUCCESS;
+			
+		} else {
+			
+			this.interactWith(worldIn, pos, player);
+			
+			return ActionResultType.SUCCESS;
+			
+		}
 		
 	}
 	
