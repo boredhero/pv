@@ -3,6 +3,8 @@ package io.vinum.multiblock;
 import javax.annotation.Nullable;
 
 import io.vinum.block.ModBlocks;
+import io.vinum.tileentity.StillMasterTileEntity;
+import io.vinum.tileentity.StillSlaveTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
@@ -38,6 +40,24 @@ public class StillMultiblock {
 					worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					
+					if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(pos));
+						
+					}
+					
+					if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(pos));
+						
+					}
+					
+					if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(pos));
+						
+					}
+					
 				}
 				
 			} else if (stack.getItem() == Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())) {
@@ -56,6 +76,24 @@ public class StillMultiblock {
 					worldIn.setBlockState(topPot, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
+					
+					if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
+					
+					if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
+					
+					if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
 					
 				}
 				
@@ -76,6 +114,24 @@ public class StillMultiblock {
 					worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 					
+					if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
+					
+					if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
+					
+					if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
+						
+						((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+						
+					}
+					
 				} else {
 					
 					BlockPos topPot = pos.offset(oppositePlayerFacing.rotateY()).up();
@@ -92,6 +148,24 @@ public class StillMultiblock {
 						worldIn.setBlockState(topPot, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 						worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
 						worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, placer.getHorizontalFacing().getOpposite()));
+						
+						if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
+							
+							((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+							
+						}
+						
+						if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
+							
+							((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+							
+						}
+						
+						if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
+							
+							((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
+							
+						}
 						
 					}
 					

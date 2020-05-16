@@ -3,33 +3,27 @@ package io.vinum.tileentity;
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.FurnaceContainer;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ObjectHolder;
 
-public class StillMasterTileEntity extends LockableTileEntity implements ITickableTileEntity {
+public class StillSlaveTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
-	public StillMasterTileEntity() {
-		super(ModTileEntities.STILL_MASTER.get());
+	private StillMasterTileEntity masterTileEntity;
+	
+	public StillSlaveTileEntity() {
+		super(ModTileEntities.STILL_SLAVE.get());
 		
 	}
 	
@@ -52,18 +46,6 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	
 	@Override
 	public void tick() {
-		
-		BlockState state = world.getBlockState(pos);
-		
-		if (!world.isRemote()) {
-			
-		}
-		
-		if (state != world.getBlockState(pos)) {
-			
-			this.markDirty();
-			
-		}
 		
 	}
 	
@@ -152,6 +134,22 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	protected Container createMenu(int id, PlayerInventory player) {
 		
 		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player);
+		
+	}
+	
+	public void setMasterTileEntity(TileEntity tileEntity) {
+		
+		if (tileEntity instanceof StillMasterTileEntity) {
+			
+			this.masterTileEntity = (StillMasterTileEntity) tileEntity;
+			
+		}
+		
+	}
+	
+	public StillMasterTileEntity getMasterTileEntity() {
+		
+		return masterTileEntity;
 		
 	}
 	

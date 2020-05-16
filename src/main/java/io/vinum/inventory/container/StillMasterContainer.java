@@ -6,11 +6,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.FurnaceFuelSlot;
+import net.minecraft.inventory.container.FurnaceResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.registries.ObjectHolder;
 
-@ObjectHolder("vinum:still_master")
 public class StillMasterContainer extends Container {
 	
 	public StillMasterContainer(int id, PlayerInventory playerInv, PacketBuffer extraData) {
@@ -26,10 +27,10 @@ public class StillMasterContainer extends Container {
 	public StillMasterContainer(ContainerType<?> type, int id, IInventory inventory, PlayerInventory playerInv) {
 		super(type, id);
 		
-		this.addSlot(new Slot(inventory, 0, 12, 40));
-		this.addSlot(new Slot(inventory, 1, 140, 42));
-		this.addSlot(new Slot(inventory, 2, 40, 40));
-		this.addSlot(new Slot(inventory, 3, 100, 42));
+		this.addSlot(new Slot(inventory, 0, 43, 17));
+		this.addSlot(new Slot(inventory, 1, 117, 17));
+		this.addSlot(new Slot(inventory, 2, 43, 53));
+		this.addSlot(new FurnaceResultSlot(playerInv.player, inventory, 3, 117, 53));
 		
 		for (int i = 0; i < 3; i++) {
 			
