@@ -1,5 +1,6 @@
 package io.vinum;
 
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.Entity;
@@ -35,6 +36,8 @@ import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.common.Defines;
 import io.vinum.gui.GuiHandler;
+import io.vinum.gui.screen.inventory.StillMasterScreen;
+import io.vinum.inventory.container.ModContainers;
 import io.vinum.item.ModItems;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
@@ -77,6 +80,8 @@ public class ProjectVinum {
 		
 		RenderTypeLookup.setRenderLayer(ModBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ModBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
+		
+		ScreenManager.registerFactory(ModContainers.STILL_MASTER.get(), StillMasterScreen::new);
 		
 	}
 	
