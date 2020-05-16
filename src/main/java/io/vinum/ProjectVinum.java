@@ -62,7 +62,7 @@ public class ProjectVinum {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
 		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(new GuiHandler());
+		//MinecraftForge.EVENT_BUS.register(new GuiHandler());
 		
 	}
 	
