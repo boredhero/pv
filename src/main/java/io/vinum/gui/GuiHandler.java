@@ -22,6 +22,9 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class GuiHandler {
 	
+	public static boolean hasInit;
+	public static boolean hasSwimmingInit;
+	
 	public static final ArrayList<SpriteObject> BAC_HUD_EMPTY_ICONS = new ArrayList<SpriteObject>();
 	public static final ArrayList<SpriteObject> BAC_HUD_FULL_ICONS = new ArrayList<SpriteObject>();
 	
@@ -37,12 +40,30 @@ public class GuiHandler {
 			
 		}
 		
+		hasInit = true;
+		hasSwimmingInit = false;
+		
+	}
+	
+	public static final void initIconsForSwimming() {
+		
+		BAC_HUD_EMPTY_ICONS.clear();
+		BAC_HUD_FULL_ICONS.clear();
+		
+		for (int i = 0; i < 9; i++) {
+			
+			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(0, 0).withSize(9, 9).build());
+			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(9, 0).withSize(9, 9).build());
+			
+		}
+		
+		hasSwimmingInit = true;
+		hasInit = false;
+		
 	}
 	
 	@SubscribeEvent
 	public void onPreRenderOverlay(RenderGameOverlayEvent.Pre event) {
-		
-		initIcons();
 		
 		@Nullable PlayerController controller = Minecraft.getInstance().playerController;
 		
@@ -50,22 +71,36 @@ public class GuiHandler {
 		
 		if (controller != null && player != null && controller.gameIsSurvivalOrAdventure()) {
 			
-			for (SpriteObject empty_bac_icon : BAC_HUD_EMPTY_ICONS) {
-				
-				GuiElement.bindAndDrawTexture(empty_bac_icon);
-				
-			}
-			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
 				@Override
 				public void accept(@Nonnull IBAC iBAC) {
 					
-					for (int i = 0; i < BAC_HUD_FULL_ICONS.size(); i++) {
+					if (iBAC.getBACLevel() > 0) {
 						
-						if (i + 1 <= iBAC.getBACLevel()) {
+						if (player.getAir() > 0 && player.getAir() != 300 && !hasSwimmingInit) {
 							
-							GuiElement.bindAndDrawTexture(BAC_HUD_FULL_ICONS.get(i));
+							initIconsForSwimming();
+							
+						} else if (!hasInit) {
+							
+							initIcons();
+							
+						}
+						
+						for (SpriteObject empty_bac_icon : BAC_HUD_EMPTY_ICONS) {
+							
+							GuiElement.bindAndDrawTexture(empty_bac_icon);
+							
+						}
+						
+						for (int i = 0; i < BAC_HUD_FULL_ICONS.size(); i++) {
+							
+							if (i + 1 <= iBAC.getBACLevel()) {
+								
+								GuiElement.bindAndDrawTexture(BAC_HUD_FULL_ICONS.get(i));
+								
+							}
 							
 						}
 						
