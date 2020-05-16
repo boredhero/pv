@@ -80,7 +80,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
 
-    implementation "com.github.yooksi:CocoLib:${cocoLibVersion}:dev"
+    // Improve my modding experience!
+    implementation "com.github.yooksi:cocolib:${cocoLibVersion}:dev"
 }
 
 // Get properties into the manifest for reading by the runtime..
