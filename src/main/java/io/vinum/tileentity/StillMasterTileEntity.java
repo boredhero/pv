@@ -104,7 +104,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
 			
-			System.out.println(progressTime + " | " + fuelTime + " | " + canStill());
+			//System.out.println(progressTime + " | " + fuelTime + " | " + canStill());
 			
 			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
 				

@@ -55,11 +55,6 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		
 	}
 	
-	public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
-	      this.renderBackground();
-	      this.renderHoveredToolTip(p_render_1_, p_render_2_);
-	   }
-	
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
 		RenderSystem.disableBlend();
@@ -81,6 +76,8 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		
         int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
         this.blit(i + 79, j + 34, 176, 14, l + 1, 16);
+        
+        this.renderHoveredToolTip(mouseX, mouseY);
         
 	}
 
