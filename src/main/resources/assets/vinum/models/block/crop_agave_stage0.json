@@ -1,6 +1,6 @@
 {
     "parent": "block/cross",
     "textures": {
-        "cross": "vinum:block/crop_agave_stage0"
+        "cross": "vinum:block/agave_crop_stage0"
     }
 }
