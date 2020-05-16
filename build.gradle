@@ -69,7 +69,6 @@ minecraft {
 
 repositories{
     maven { url 'https://jitpack.io' }
-    //mavenLocal()
 }
 
 dependencies {
