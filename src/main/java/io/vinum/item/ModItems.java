@@ -1,5 +1,7 @@
 package io.vinum.item;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fml.RegistryObject;
 
 import io.vinum.item.drinks.DrinkItem;
+import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
 
 public final class ModItems {
@@ -23,7 +26,7 @@ public final class ModItems {
 	//Agave Products
 	public static final RegistryObject<Item> UNFERMENTED_AGAVE_WORT = ITEMS.register("unfermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> FERMENTED_AGAVE_WORT = ITEMS.register("fermented_agave_wort", () -> new Item(ModItemGroup.PROPERTIES));
-	public static final RegistryObject<Item> AGAVE_SEEDS = ITEMS.register("agave_seeds", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> AGAVE_SEEDS = ITEMS.register("agave_seeds", () -> new BlockNamedItem(ModBlocks.CROP_AGAVE.get(), (ModItemGroup.PROPERTIES)));
 	public static final RegistryObject<Item> AGAVE = ITEMS.register("agave", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> COOKED_AGAVE_PULP = ITEMS.register("cooked_agave_pulp", () -> new Item(ModItemGroup.PROPERTIES.food(Foods.DRIED_KELP)));
 	//Glassware and glass crafting
