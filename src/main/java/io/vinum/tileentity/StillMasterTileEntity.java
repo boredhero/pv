@@ -3,6 +3,7 @@ package io.vinum.tileentity;
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
+import io.vinum.item.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +15,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -28,6 +30,38 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
+	private int fuelTime;
+	private int progressTime;
+	
+	protected final IIntArray stillData = new IIntArray() {
+	      public int get(int index) {
+	         switch(index) {
+	         case 0:
+	            return progressTime;
+	         case 1:
+	            return fuelTime;
+	         default:
+	            return 0;
+	         }
+	      }
+
+	      public void set(int index, int value) {
+	         switch(index) {
+	         case 0:
+	            progressTime = value;
+	            break;
+	         case 1:
+	            fuelTime = value;
+	            break;
+	         }
+
+	      }
+
+	      public int size() {
+	         return 2;
+	      }
+	   };
+	
 	public StillMasterTileEntity() {
 		super(ModTileEntities.STILL_MASTER.get());
 		
@@ -38,6 +72,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		
 		this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.items);
+		this.fuelTime = compound.getInt("FuelTime");
+		this.progressTime = compound.getInt("ProgressTime");
 		
 	}
 	
@@ -45,6 +81,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		super.write(compound);
 		
 		ItemStackHelper.saveAllItems(compound, this.items);
+		compound.putInt("FuelTime", this.fuelTime);
+		compound.putInt("ProgressTime", this.progressTime);
 		
 		return compound;
 		
@@ -53,17 +91,60 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	public void tick() {
 		
-		BlockState state = world.getBlockState(pos);
-		
 		if (!world.isRemote()) {
 			
+			ItemStack input = this.items.get(0);
+			ItemStack bottle = this.items.get(1);
+			ItemStack fuel = this.items.get(2);
+			ItemStack output = this.items.get(3);
+			
+			System.out.println(progressTime + " | ");
+			
+			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
+				
+				if (AbstractFurnaceTileEntity.isFuel(fuel)) {
+					
+					fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel);
+					fuel.shrink(1);
+					
+				}
+				
+			}
+			
+			if (fuelTime >= 0 && canStill()) {
+				
+				progressTime++;
+				
+			} else {
+				
+				progressTime = 0;
+				
+			}
+			
+			if (progressTime >= 240) {
+				
+				input.shrink(1);
+				bottle.shrink(1);
+				
+				if (output == null) {
+					
+					output = new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+					
+				} else if (output.getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) {
+					
+					output.grow(1);
+					
+				}
+				
+			}
+			
 		}
 		
-		if (state != world.getBlockState(pos)) {
-			
-			this.markDirty();
-			
-		}
+	}
+	
+	public boolean canStill() {
+		
+		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get() && (this.items.get(3).getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) || this.items.get(3) == null);
 		
 	}
 	
@@ -151,7 +232,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player);
+		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, stillData);
 		
 	}
 	
