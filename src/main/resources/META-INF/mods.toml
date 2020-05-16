@@ -3,10 +3,14 @@ loaderVersion="[31,)"
 [[mods]]
 issueTrackerURL="https://github.com/boredhero/pv/issues"
 modId="vinum"
-version="${version}"
-displayName="Project Vinum"
+version="0.1.0"
+displayName='''§5§lProject Vinum'''
 displayURL="https://github.com/boredhero/pv"
 logoFile="vinum_logo.png"
-credits="Boredhero, yooks, and Rellit"
-authors="Boredhero, yooks, and Rellit"
-description='''Adds alcoholic beverages and more!'''
+authors="§5boredhero, Rellit, and yooks"
+description='''§5§oAdds alcoholic beverages and more. It's aboutta get lit in here!'''
+[[dependencies.cocolib]]
+    modId="cocolib"
+    mandtaory=true
+    versionRange="[31,)"
+    side="BOTH"
