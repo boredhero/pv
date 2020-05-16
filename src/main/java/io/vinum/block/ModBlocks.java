@@ -11,7 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import io.vinum.block.crops.AgaveCrop;
 import io.vinum.common.Defines;
 
 public final class ModBlocks {
@@ -21,6 +20,7 @@ public final class ModBlocks {
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
 
 	public static final RegistryObject<Block> BARREL = register("barrel", () -> new Barrel(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.5F, 2.5F)));
+	
 	public static final RegistryObject<Block> STEEL_BRAZIER = register("steel_brazier", () -> new SteelBrazierBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).lightValue(15).notSolid()));
 	public static final RegistryObject<Block> STEEL_POT = register("steel_pot", () -> new SteelPotBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
 	public static final RegistryObject<Block> STEEL_COIL = register("steel_coil", () -> new SteelCoilBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
@@ -29,8 +29,8 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	
-	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", AgaveCrop::new);
-	//public static final Block WHEAT = register("wheat", new CropsBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
+	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCrop(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
+	
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
 	 * 			Most blocks will want to have {@code BlockItems} as they want to be in inventory.
