@@ -43,7 +43,7 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                templatemod {
+                vinum {
                     source sourceSets.main
                 }
             }
@@ -59,7 +59,7 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                templatemod {
+                vinum {
                     source sourceSets.main
                 }
             }
@@ -68,8 +68,7 @@ minecraft {
 }
 
 repositories{
-    maven { url 'https://jitpack.io/#yooksi/CocoLib' }
-    //mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -80,7 +79,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
-    implementation fg.deobf("com.github.yooksi:CocoLib:1.15.2-0.1.1")
+
+    // Improve my modding experience!
+    implementation "com.github.yooksi:cocolib:${cocoLibVersion}:dev"
 }
 
 // Get properties into the manifest for reading by the runtime..
