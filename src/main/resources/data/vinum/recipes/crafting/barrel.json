@@ -1,19 +1,19 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		"NIN",
-		"INI",
-		"INI"
+		"NPN",
+		"P P",
+		"NPN"
 	],
 	"key": {
 		"N": {
 			"tag": "forge:nuggets/steel"
         },
-        "I": {
-            "tag": "forge:ingots/steel"
+        "P": {
+            "tag": "minecraft:planks"
         }
 	},
 	"result": {
-		"item": "vinum:margarita_glass_mold"
+		"item": "vinum:barrel"
 	}
 }

@@ -5,7 +5,6 @@
 	"block.vinum.steel_brazier": "Steel Brazier",
 	"block.vinum.steel_pot": "Steel Pot",
 	"block.vinum.steel_coil": "Steel Coil",
-	"block.vinum.barrel": "Barrel",
 
 	"item.vinum.ice_pick": "Ice Pick",
 	"item.vinum.ice_cubes": "Ice Cubes",
@@ -30,5 +29,6 @@
 	"item.vinum.cocktail_shaker": "Cocktail Shaker",
 	"item.vinum.cinnamon": "Cinnamon",
 	"item.vinum.sea_salt": "Sea Salt",
-	"item.vinum.spiced_apple_margarita": "Spiced Apple Margarita"
+	"item.vinum.spiced_apple_margarita": "Spiced Apple Margarita",
+	"item.vinum.barrel": "Barrel"
 }
