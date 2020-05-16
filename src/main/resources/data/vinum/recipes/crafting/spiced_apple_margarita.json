@@ -28,10 +28,10 @@
             "item": "vinum:ice_cubes"
         },
         "Z": {
-            "item": "vinum:spiced_apple_margarita"
+            "item": "vinum:cocktail_shaker"
         }
 	},
 	"result": {
-		"item": "vinum:steel_brazier"
+		"item": "vinum:spiced_apple_margarita"
 	}
 }

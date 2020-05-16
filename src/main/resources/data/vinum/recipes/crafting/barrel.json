@@ -1,19 +1,19 @@
 {
 	"type": "minecraft:crafting_shaped",
 	"pattern": [
-		" N ",
-		"I I",
-		"III"
+		"NPN",
+		"P P",
+		"NPN"
 	],
 	"key": {
 		"N": {
 			"tag": "forge:nuggets/steel"
         },
-        "I": {
-            "tag": "forge:ingots/steel"
+        "P": {
+            "tag": "minecraft:planks"
         }
 	},
 	"result": {
-		"item": "vinum:cocktail_shaker"
+		"item": "vinum:barrel"
 	}
 }
