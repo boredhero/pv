@@ -11,21 +11,30 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class VinumWorldGen {
-    public static Feature<NoFeatureConfig> agave_wg;
-
-    public static void registerAll(RegistryEvent.Register<Feature<?>> event){
-        if (!event.getName().equals(ForgeRegistries.FEATURES.getRegistryName())){
-            return;
-        }
-        IForgeRegistry<Feature<?>> reg = event.getRegistry();
-        agave_wg = register(reg, new FeatureAgave(NoFeatureConfig::deserialize), "agave_wg");
-    }
-
-    private static <V extends R, R extends IForgeRegistryEntry<R>> V register(IForgeRegistry<R> registry, V value,
-			String name) {
-		ResourceLocation id = new ResourceLocation(Defines.MODID, name);;
+	
+	public static Feature<NoFeatureConfig> agave_feature;
+	
+	public static void registerAll(RegistryEvent.Register<Feature<?>> event) {
+		
+		if (!event.getName().equals(ForgeRegistries.FEATURES.getRegistryName())){
+			
+			return;
+			
+		}
+		IForgeRegistry<Feature<?>> reg = event.getRegistry();
+		
+		agave_feature = register(reg, new FeatureAgave(NoFeatureConfig::deserialize), "agave_feature");
+        
+	}
+	
+	private static <V extends R, R extends IForgeRegistryEntry<R>> V register(IForgeRegistry<R> registry, V value, String name) {
+		
+		ResourceLocation id = new ResourceLocation(Defines.MODID, name);
 		value.setRegistryName(id);
 		registry.register(value);
+		
 		return value;
+		
 	}
+	
 }
