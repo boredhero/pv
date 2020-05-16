@@ -17,8 +17,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import io.vinum.PVLogger;
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
+import io.vinum.inventory.container.ModContainers;
 import io.vinum.item.ModItemGroup;
 import io.vinum.item.ModItems;
+import io.vinum.tileentity.ModTileEntities;
 import io.vinum.util.RLHelper;
 
 @ObjectHolder(Defines.MODID)
@@ -49,6 +51,8 @@ public class RegistryHandler {
 
 		ModBlocks.BLOCKS.register(iEventBus);
 		ModItems.ITEMS.register(iEventBus);
+		ModTileEntities.TILEENTITIES.register(iEventBus);
+		ModContainers.CONTAINERS.register(iEventBus);
 		
 	}
 
