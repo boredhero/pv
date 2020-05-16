@@ -37,9 +37,9 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	      public int get(int index) {
 	         switch(index) {
 	         case 0:
-	            return progressTime;
+	            return StillMasterTileEntity.this.progressTime;
 	         case 1:
-	            return fuelTime;
+	            return StillMasterTileEntity.this.fuelTime;
 	         default:
 	            return 0;
 	         }
@@ -48,10 +48,10 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	      public void set(int index, int value) {
 	         switch(index) {
 	         case 0:
-	            progressTime = value;
+	        	StillMasterTileEntity.this.progressTime = value;
 	            break;
 	         case 1:
-	            fuelTime = value;
+	        	StillMasterTileEntity.this.fuelTime = value;
 	            break;
 	         }
 
@@ -135,11 +135,15 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				
 				if (output.getItem() != ModItems.FIFTH_SILVER_TEQUILA.get()) {
 					
-					output = new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
 					
 				} else if (output.getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) {
 					
 					output.grow(1);
+					
+				} else {
+					
+					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
 					
 				}
 				
@@ -152,10 +156,6 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	}
 	
 	public boolean canStill() {
-		
-		System.out.println(this.items.get(3).getCount() <= 63);
-		System.out.println(this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get());
-		System.out.println(this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
 		
 		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
 		
