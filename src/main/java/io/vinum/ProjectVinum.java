@@ -74,6 +74,7 @@ public class ProjectVinum {
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		
 		RenderTypeLookup.setRenderLayer(ModBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ModBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
 		
 	}
 	
