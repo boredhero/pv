@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "vinum:block/still_multiblock_part_1" },
-        "facing=south": { "model": "vinum:block/still_multiblock_part_1", "y": 180 },
-        "facing=west":  { "model": "vinum:block/still_multiblock_part_1", "y": 270 },
-        "facing=east":  { "model": "vinum:block/still_multiblock_part_1", "y": 90 }
-    }
-}
