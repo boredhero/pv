@@ -30,16 +30,16 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
-	private int fuelTime;
-	private int progressTime;
+	public int fuelTime;
+	public int progressTime;
 	
 	protected final IIntArray stillData = new IIntArray() {
 	      public int get(int index) {
 	         switch(index) {
 	         case 0:
-	            return StillMasterTileEntity.this.progressTime;
+	            return progressTime;
 	         case 1:
-	            return StillMasterTileEntity.this.fuelTime;
+	            return fuelTime;
 	         default:
 	            return 0;
 	         }
@@ -48,10 +48,10 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	      public void set(int index, int value) {
 	         switch(index) {
 	         case 0:
-	        	StillMasterTileEntity.this.progressTime = value;
+	        	progressTime = value;
 	            break;
 	         case 1:
-	        	StillMasterTileEntity.this.fuelTime = value;
+	        	fuelTime = value;
 	            break;
 	         }
 

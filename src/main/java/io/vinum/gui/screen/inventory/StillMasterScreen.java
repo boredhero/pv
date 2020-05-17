@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.StillMasterContainer;
+import io.vinum.tileentity.StillMasterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -38,6 +39,11 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		
 		this.init(minecraft, width, height);
 	
+	}
+	
+	public void tick() {
+		super.tick();
+		
 	}
 	
 	@Override
@@ -80,13 +86,11 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		int j = (this.height - this.ySize) / 2;
 		this.blit(i, j, 0, 0, this.xSize, this.ySize);
 		
-		int k = ((StillMasterContainer)this.container).getBurnLeftScaled();
+		//int k = tileEntity.getStillData().get(1) * 13 / 200;
         //this.blit(i + 43, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
 		
-        int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
+        //int l = tileEntity.getStillData().get(0) * 24 / 240;
         //this.blit(i + 79, j + 34, 176, 14, l + 1, 16);
-        
-        //this.renderHoveredToolTip(mouseX, mouseY);
         
 	}
 

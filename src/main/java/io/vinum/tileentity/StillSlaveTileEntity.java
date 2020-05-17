@@ -13,6 +13,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -21,6 +22,8 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
 	private StillMasterTileEntity masterTileEntity;
+	
+	private BlockPos masterTileEntityPos;
 	
 	public StillSlaveTileEntity() {
 		super(ModTileEntities.STILL_SLAVE.get());
@@ -33,6 +36,8 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 		this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.items);
 		
+		masterTileEntityPos = new BlockPos(compound.getInt("MasterTileEntityX"), compound.getInt("MasterTileEntityY"), compound.getInt("MasterTileEntityZ"));
+		
 	}
 	
 	public CompoundNBT write(CompoundNBT compound) {
@@ -40,12 +45,34 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 		
 		ItemStackHelper.saveAllItems(compound, this.items);
 		
+		if (this.masterTileEntity != null) {
+			
+			compound.putInt("MasterTileEntityX", this.masterTileEntity.getPos().getX());
+			compound.putInt("MasterTileEntityY", this.masterTileEntity.getPos().getY());
+			compound.putInt("MasterTileEntityZ", this.masterTileEntity.getPos().getZ());
+			
+		}
+		
 		return compound;
 		
 	}
 	
 	@Override
 	public void tick() {
+		
+		if (this.masterTileEntity == null) {
+			
+			if (this.hasWorld() && !this.getWorld().isRemote()) {
+				
+				if (this.getWorld().getTileEntity(masterTileEntityPos) instanceof StillMasterTileEntity) {
+					
+					this.masterTileEntity = (StillMasterTileEntity) this.getWorld().getTileEntity(masterTileEntityPos);
+					
+				}
+				
+			}
+			
+		}
 		
 	}
 	
