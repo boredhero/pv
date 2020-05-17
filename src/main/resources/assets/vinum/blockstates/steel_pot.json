@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "vinum:block/steel_pot" },
-        "facing=south": { "model": "vinum:block/steel_pot", "y": 180 },
-        "facing=west":  { "model": "vinum:block/steel_pot", "y": 270 },
-        "facing=east":  { "model": "vinum:block/steel_pot", "y": 90 }
-    }
-}
