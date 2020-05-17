@@ -2,8 +2,8 @@ package io.vinum.block;
 
 import javax.annotation.Nullable;
 
-import io.vinum.tileentity.StillMasterTileEntity;
 import io.vinum.tileentity.StillSlaveTileEntity;
+import io.vinum.util.VoxelShapeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -61,7 +61,7 @@ public class StillMultiblockPart2Block extends ContainerBlock implements IWaterL
 	
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		
-		return VoxelShapes.or(Block.makeCuboidShape(2.0D, 0.0D, 3.0D, 14.0D, 14.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 2.0D, 13.0D, 14.0D, 14.0D));
+		return VoxelShapeHelper.addShapes(VoxelShapeHelper.createRotatableShape(state, 0.0D, 10.0D, 7.0D, 2.0D, 12.0D, 9.0D), Block.makeCuboidShape(2.0D, 0.0D, 3.0D, 14.0D, 14.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 2.0D, 13.0D, 14.0D, 14.0D));
 		
 	}
 	
