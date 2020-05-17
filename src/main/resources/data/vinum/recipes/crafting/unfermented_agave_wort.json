@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:water_bucket"
+        },
+        {
+            "item": "vinum:cooked_agave_pulp"
+        }
+	],
+	"result": {
+		"item": "vinum:unfermented_agave_wort"
+	}
+}

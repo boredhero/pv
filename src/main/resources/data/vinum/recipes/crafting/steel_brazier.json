@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"NCN",
+		"III",
+		"I I"
+	],
+	"key": {
+		"N": {
+			"tag": "forge:nuggets/steel"
+        },
+        "I": {
+            "tag": "forge:ingots/steel"
+        },
+        "C": {
+            "item": "minecraft:campfire"
+        }
+	},
+	"result": {
+		"item": "vinum:steel_brazier"
+	}
+}
