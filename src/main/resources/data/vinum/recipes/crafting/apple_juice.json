@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:apple"
+        },
+        {
+            "item": "vinum:juicer"
+		},
+		{
+			"item": "minecraft:glass_bottle"
+		}
+	],
+	"result": {
+		"item": "vinum:apple_juice"
+	}
+}

@@ -1,0 +1,16 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+[[mods]]
+issueTrackerURL="https://github.com/boredhero/pv/issues"
+modId="vinum"
+version="0.1.0"
+displayName='''§5§lProject Vinum§r'''
+displayURL="https://github.com/boredhero/pv"
+logoFile="vinum_logo.png"
+authors="§5boredhero, Rellit, and yooks§r"
+description='''§5§oAdds alcoholic beverages and more. It's aboutta get lit in here!§r'''
+[[dependencies.cocolib]]
+    modId="cocolib"
+    mandtaory=true
+    versionRange="[31,)"
+    side="BOTH"
