@@ -4,11 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.StillMasterContainer;
-import io.vinum.tileentity.StillMasterTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.AbstractFurnaceContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.item.ItemStack;
