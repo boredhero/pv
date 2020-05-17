@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.FurnaceFuelSlot;
 import net.minecraft.inventory.container.FurnaceResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -14,15 +15,16 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ObjectHolder;
 
 public class StillMasterContainer extends Container {
 	
 	private IIntArray stillData;
 	
 	public StillMasterContainer(int id, PlayerInventory playerInv, PacketBuffer extraData) {
-		this(ModContainers.STILL_MASTER.get(), id, playerInv, new IntArray(2));
+	  this(ModContainers.STILL_MASTER.get(), id, playerInv, new IntArray(2));
 	  
-	}
+ }
 	
 	public StillMasterContainer(ContainerType<?> type, int id, PlayerInventory playerInv, IIntArray stillData) {
 		this(type, id, new Inventory(4), playerInv, stillData);
