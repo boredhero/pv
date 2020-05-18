@@ -2,15 +2,15 @@
 ## Version alpha-0.1.0 (MMD-Jam 2020)
 [Back to Main](https://github.com/boredhero/pv/blob/wiki/src-wiki/Main.md)
 
-Welcome! In future version, this will have more pages, but for now, we will just show you guys how to get started, and explain a bit about what this very early alpha build of our mod does.
+Welcome! In future versions, this will have more pages, but for now, we will just show you how to get started, and explain a bit about what this very early alpha build of our mod does.
 
 ## Getting started
 
-In this version of the mod, the amount of features added are very limited. For this reason, we will be going over how to get from 0 to everything this mod offers, and providing general information.
+In this version of the mod, the amount of features added are very limited. For this reason, we will be going over how to get from zero to having everything this mod offers, and providing general information along the way.
 
 ### Finding Agave
 
-To find agave, you need to find your nearest large sandy area. This can be a beach or a desert. There you will find Agave plants.
+To get agave, you need to find the nearest large sandy area. This can be a beach or a desert. There you will find Agave plants.
 ![agave-in-desert](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/agave_plant_in_world.png)
 You can harvest these to get **Agave (Item)** and **Agave Seeds**. Agave Seeds will allow you to right click on any sand or farmland block to plant a new agave plant to grow. You can also craft the agave item into agave seeds should you ever need any.
 
@@ -57,3 +57,11 @@ Thirdly, you will need to make a **Margarita Glass** for the one cocktail curren
     ![margarita_glass_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_crafting.png)
 
 ### Making a Barrel
+
+Barrels have all kinds of uses. We will be using them for fermentation and aging in this mod. Currently, this is handled by the **Barrel** item and crafting recipes, but in the future, it will be replaced by a block and GUI system. Here's what you'll need to craft a barrel (Note the variety of wood just shows that you can use any planks you have available):
+
+![barrel_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/barrel_crafting.png)
+
+### Making a Pot Still
+
+The pot still has a venerable history serving humanity in all its alcohol-reducing needs. These can be made out of copper or steel. Ours is made from steel. However, to make the **Pot Still Multiblock** you will first need to craft several items. Here is what you'll need and how to make it:
