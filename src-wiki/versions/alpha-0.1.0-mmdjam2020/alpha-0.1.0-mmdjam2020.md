@@ -86,4 +86,18 @@ The **Steel Pot** block is used twice in our **Pot Still Multiblock**, so keep i
 
 ##### Steel Coil
 
-##### Assembling the Multiblock 
+The **Steel Coil** block is used to collect the steam from one pot and condense the alcohol and drain it into the other pot.
+
+![steel_coil_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_coil_crafting.png)
+
+##### Assembling the Multiblock
+
+To assemble the **Pot Still Multiblock**, place the **Steel Brazier**, **Steel Pots**, and **Steel Coil** in this fashion
+
+![pot_still_assembly_guide](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/pot_still_assembly_guide.png)
+
+It will then turn into this multiblock and you can access its GUI by right clicking any part of it:
+
+![pot_still_assembled](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/pot_still_assembled.png)
+
+***KNOWN BUG NOTE***: It is important that you are facing the same direction of the pot still and orienting the blocks all in the same direction when placing them to make the **Pot Still Multiblock**. If you do not do it this way, but instead place blocks against the ground or in different directions, the Multiblock will fail to assemble and the Pot Still GUI will not be accessible. This is not ideal and it is a small bug we are working to resolve. If you encounter this issue, simply break the blocks with a pickaxe and re-place them again. We apologize for any inconvenience this causes.
