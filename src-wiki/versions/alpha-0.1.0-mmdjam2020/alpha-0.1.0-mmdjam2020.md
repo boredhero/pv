@@ -124,5 +124,18 @@ Fermentation is the process by which all alcohol comes into the world. Yeasts an
 
 ![fermented_agave_wort_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fermented_agave_wort_crafting.png)
 
-##### Using the Pot Still GUI
+##### Using the Pot Still GUI to make a Fifth [Silver Tequila]
 
+**Fermented Agave Wort** will have a very low alcohol concentration (~ a few %) and is full of nasty brown lumpy things that you really don't want to drink. This is where our lovely pot still comes in. A fire beneath the first pot which is filled with **Fermented Agave Wort** heats it up. Because ethanol and some aromatic/flavor compounds (these are called terpines) evaporate at a lower temperature than water and solids, they evaporate. This evaporate is then carried upwards and enters the coil. This coil is exposed to the cool air, cooling down the vapors and causing them to condense and slowly drip into the second pot where they can be bottled for consumption. This process is quite time consuming.
+
+![fifth_silver_tequila_pot_still](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fifth_silver_tequila_pot_still.png)
+
+***KNOWN BUG NOTE***: As of this alpha build, the Pot Still has an issue where the GUI doesn't update to show the lit flame indicator or the progression indicator in the coil. We are aware of this bug and are actively working to fix it. It may seem like nothing is happening when you put all the ingredients in. This is not the case, but this action has a very high tick time to simulate reality a bit. Just let it sit and you'll find your alcohol there in less than a minute!
+
+###### Fifth [Golden Tequila]
+
+Just like many other forms of alcohol, aging post-distillation is used to add flavor to the alcohol. This happens with tequila too. The word "silver" is used to designate a clear non-aged tequila, and "golden" designates an aged one. Over time, the ethanol dissolves a little bit of the terpine's from the wood of the barrel, imparting varied flavors that can range from smoky (burned barrels), or woody (plain wood barrels). This also results in a color change, hence the color based designations. 
+
+For now, there is no difference in drinking either in this mod, but the latter is necessary for our cocktail, and is an extra step you must perform if you want to make the cocktail. If you just want the base effects (more on these later) of drinking a shot, you may simply consume the silver.
+
+![fifth_golden_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fifth_golden_tequila_crafting.png)
