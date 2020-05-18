@@ -132,7 +132,7 @@ Fermentation is the process by which all alcohol comes into the world. Yeasts an
 
 ***KNOWN BUG NOTE***: As of this alpha build, the Pot Still has an issue where the GUI doesn't update to show the lit flame indicator or the progression indicator in the coil. We are aware of this bug and are actively working to fix it. It may seem like nothing is happening when you put all the ingredients in. This is not the case, but this action has a very high tick time to simulate reality a bit. Just let it sit and you'll find your alcohol there in less than a minute!
 
-###### Fifth [Golden Tequila]
+##### Fifth [Golden Tequila]
 
 Just like many other forms of alcohol, aging post-distillation is used to add flavor to the alcohol. This happens with tequila too. The word "silver" is used to designate a clear non-aged tequila, and "golden" designates an aged one. Over time, the ethanol dissolves a little bit of the terpine's from the wood of the barrel, imparting varied flavors that can range from smoky (burned barrels), or woody (plain wood barrels). This also results in a color change, hence the color based designations. 
 
