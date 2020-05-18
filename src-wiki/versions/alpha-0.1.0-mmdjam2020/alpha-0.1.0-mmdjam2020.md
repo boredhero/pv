@@ -222,7 +222,7 @@ Cocktails entail more than just booze...that's why they're cocktails!
 
 #### Ice Cubes
 
-To make **Ice Cubes**, use the **Ice Pick** on any vanilla Ice Block
+To make **Ice Cubes**, use the **Ice Pick** on any vanilla Ice block.
 
 ![ice_cubes_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/ice_cubes_crafting.png)
 
@@ -230,7 +230,13 @@ To make **Ice Cubes**, use the **Ice Pick** on any vanilla Ice Block
 
 This **Apple Juice** comes in glass, not a juice box!
 
-![apple_juice_crafting]
+![apple_juice_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/apple_juice_crafting.png)
+
+#### Sea Salt
+
+Be Careful around Slugs with this stuff! Still not as salty as you! **Sea Salt** is made by boiling or sun-evaporating sea water, and crumbling the resultant crystals or flakes.
+
+![sea_salt_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/sea_salt_smelting.png)
 
 ### Spiced Apple Margarita
 
