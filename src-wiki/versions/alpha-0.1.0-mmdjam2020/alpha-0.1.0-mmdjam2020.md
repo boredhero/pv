@@ -178,3 +178,25 @@ Cocktails are special, and will cause additional long lasting effects ON TOP of 
 To start drinking, take your **Fifth [Silver Tequila]** or **Fifth [Golden Tequila]** and craft it with a **Pack of Shot Glasses [25]** like so:
 
 ![shot_silver_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/shot_silver_tequila_crafting.png) ![shot_golden_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/shot_golden_tequila_crafting.png)
+
+## Cocktails
+
+Cocktails are a fun feature of this mod that will add extra potion effects and maybe even custom effects in the future. There will also eventually be custom crafting tables for these and lots of plants and liqours added to use as ingredients. For this alpha build, we have made a single cocktail recipe. Still, you'll need to go looking for things and crafting to make a **Spiced Apple Margarita**
+
+### Bartending Tools
+
+##### Cocktail Shaker
+
+*Vodka Martini, Shaken, not Stirred. -* ***James Bond***
+
+The venerable cocktail shaker and strainer is a quintesential tool used in the creation of a vast variety of cocktails since it was formally invented in the mid 19th century. However, humans have been shaking drinks since at least [**7000 BCE**](https://en.wikipedia.org/wiki/Cocktail_shaker#History)! Ancient inhabitants of modern day Mexico and South America used gourd jars to shake drinks!
+
+![cocktail_shaker_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cocktail_shaker_crafting.png)
+
+##### Ice Pick
+
+
+
+### Spiced Apple Margarita
+
+The Spiced Apple Margarita was inspired by [this lovely recipe](https://cookieandkate.com/spiced-apple-margaritas/). Our recipe uses two **Shot [Golden Tequila]**, a **Cocktail Shaker** 
