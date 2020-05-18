@@ -210,6 +210,12 @@ The ice pick **Ice pick** is a common bar tool used to shape large blocks of ult
 
 ![ice_pick_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/ice_pick_crafting.png)
 
+#### Juicer
+
+Just a trusty **Juicer**. Although; we aren't on a health smoothie diet, we're getting trashed!
+
+![juicer_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/juicer_crafting.png)
+
 ### Cocktail Ingredients
 
 Cocktails entail more than just booze...that's why they're cocktails!
