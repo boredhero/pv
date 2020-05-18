@@ -14,7 +14,7 @@ To find agave, you need to find your nearest large sandy area. This can be a bea
 ![agave-in-desert](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/agave_plant_in_world.png)
 You can harvest these to get **Agave (Item)** and **Agave Seeds**. Agave Seeds will allow you to right click on any sand or farmland block to plant a new agave plant to grow. You can also craft the agave item into agave seeds should you ever need any.
 
-![agave-seeds-crafting]()
+![agave-seeds-crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/agave_seeds_crafting.png)
 
 ### Making Steel
 
