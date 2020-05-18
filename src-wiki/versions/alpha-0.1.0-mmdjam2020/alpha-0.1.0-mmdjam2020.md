@@ -189,13 +189,15 @@ Cocktails are a fun feature of this mod that will add extra potion effects and m
 
 *Vodka Martini, Shaken, not Stirred. -* ***James Bond***
 
-The venerable cocktail shaker and strainer is a quintesential tool used in the creation of a vast variety of cocktails since it was formally invented in the mid 19th century. However, humans have been shaking drinks since at least [**7000 BCE**](https://en.wikipedia.org/wiki/Cocktail_shaker#History)! Ancient inhabitants of modern day Mexico and South America used gourd jars to shake drinks!
+The venerable **Cocktail Shaker** and strainer is a quintesential tool used in the creation of a vast variety of cocktails since it was formally invented in the mid 19th century. However, humans have been shaking drinks since at least [**7000 BCE**](https://en.wikipedia.org/wiki/Cocktail_shaker#History)! Ancient inhabitants of modern day Mexico and South America used gourd jars to shake drinks!
 
 ![cocktail_shaker_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cocktail_shaker_crafting.png)
 
 ##### Ice Pick
 
+The ice pick **Ice pick** is a common bar tool used to shape large blocks of ultra-clear ice that is delivered to bar establishments regularly. The ice is shaped to fit the glass by a skilled bartender and their pick.
 
+![ice_pick_crafting](ttps://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/ice_pick_crafting.png)
 
 ### Spiced Apple Margarita
 
