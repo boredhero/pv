@@ -80,6 +80,10 @@ The **Steel Brazier** block serves as the heat source to the **Pot Still Multibl
 
 ##### Steel Pot
 
+The **Steel Pot** block is used twice in our **Pot Still Multiblock**, so keep in mind you will need to craft two of these.
+
+![steel_pot_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_pot_crafting.png)
+
 ##### Steel Coil
 
 ##### Assembling the Multiblock 
