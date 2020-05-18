@@ -167,15 +167,15 @@ Here is a table of the effects you will get added to you at each level of drunke
 
 | BAC Level | Potion Effect          |
 | --------- | ---------------------- |
-| 1         | Regeneration ![][reg]  |
-| 2         | Strength     ![][str]  |
-| 3         | Jump Boost   ![][jbt]  |
-| 4         | Absorption   ![][abs]  |
+| 1         | ![][reg] Regeneration  |
+| 2         | ![][str] Strength      |
+| 3         | ![][jbt] Jump Boost    |
+| 4         | ![][abs] Absorption    |
 | 5         | No New Effect          |
-| 6         | Nausea       ![][nau]  |
-| 7         | Weakness     ![][wks]  |
-| 8         | Slowness     ![][slo]  |
-| 9         | Blindness    ![][bli]  |
+| 6         | ![][nau] Nausea        |
+| 7         | ![][wks] Weakness      |
+| 8         | ![][slo] Slowness      |
+| 9         | ![][bli] Blindness     |
 | 10        | Instant Death          |
 
 For this reason, you cannot directly drink a fifth of tequila (They are equivalent to 25 shots)
