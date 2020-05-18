@@ -101,3 +101,22 @@ It will then turn into this multiblock and you can access its GUI by right click
 ![pot_still_assembled](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/pot_still_assembled.png)
 
 ***KNOWN BUG NOTE***: It is important that you are facing the same direction of the pot still and orienting the blocks all in the same direction when placing them to make the **Pot Still Multiblock**. If you do not do it this way, but instead place blocks against the ground or in different directions, the Multiblock will fail to assemble and the Pot Still GUI will not be accessible. This is not ideal and it is a small bug we are working to resolve. If you encounter this issue, simply break the blocks with a pickaxe and re-place them again. We apologize for any inconvenience this causes.
+
+### It's Tequila Time!
+
+We now have all the things gathered that we will need to make our first **Fifth [Silver Tequila]**. Here are the sub-steps:
+
+##### Cooked Agave Pulp
+
+Before we ferment it, we must take our **Agave** and cook it to make **Cooked Agave Pulp** This is edible as a food on its own and has the same nutritional value as a vanilla Dried Kelp item.
+
+![cooked_agave_pulp_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cooked_agave_pulp_smelting.png)
+
+##### Unfermented Agave Mash 
+
+One of the steps of making most alchols is the creation of what is called a wort. This is usually a combination of some base fruit, vegetable, or grain and water with occasionally some other niche ingredients. In the case of tequila, the agave plant is harvested and cleaned, then cooked and blended, then mixed with water. This produces what is called **Unfermented Agave Wort**.
+
+![unfermented_agave_wort_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/unfermented_agave_wort_crafting.png)
+
+##### Fermented Agave Wort
+
