@@ -174,3 +174,7 @@ For this reason, you cannot directly drink a fifth of tequila (They are equivale
 Cocktails are special, and will cause additional long lasting effects ON TOP of these effects that come default with drinking straight shots!
 
 ### Shots
+
+To start drinking, take your **Fifth [Silver Tequila]** or **Fifth [Golden Tequila]** and craft it with a **Pack of Shot Glasses [25]** like so:
+
+![shot_silver_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/shot_silver_tequila_crafting.png) ![shot_golden_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/shot_golden_tequila_crafting.png)
