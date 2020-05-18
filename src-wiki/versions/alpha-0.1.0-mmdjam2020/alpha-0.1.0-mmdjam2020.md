@@ -139,3 +139,38 @@ Just like many other forms of alcohol, aging post-distillation is used to add fl
 For now, there is no difference in drinking either in this mod, but the latter is necessary for our cocktail, and is an extra step you must perform if you want to make the cocktail. If you just want the base effects (more on these later) of drinking a shot, you may simply consume the silver.
 
 ![fifth_golden_tequila_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fifth_golden_tequila_crafting.png)
+
+## Consuming Alcoholic Beverages
+
+In real life, all alcohol has an Alcohol By Volume (ABV) value. Depending on %, a different volumes of different drinks with different ABVs constitute what is called a "Standard Alcohol Unit". This Handy Chart that I'm sure you've seen if you've ever been a college freshman entering an American University way more times during the first week than you wish you had helps explain:
+
+![standard-alcohol-units](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/NIH_standard_drink_comparison.jpg/400px-NIH_standard_drink_comparison.jpg)
+
+For the purposes of this mod, we are trying to be *mostly* realistic. For simplification sake, at this version, 1 shot = 1.0 FL OZ = 1 Standard Alcohol Unit. This is functional and *close enough* to reality. Keep this in mind when you are crafting and consuming cocktails that use multiple shots of alcohol, as you are then consuming more than one SAU per drink at that point. You'll see why this matters in a second.
+
+Alcohol is a depressant that has "stimulant" effects at first, then drops off into pure depressant territory. In the pursuit of realism, this mod aims to simulate that. In the future, there will be a Blood Alcohol Content (BAC) bar above your hunger bar, but for now, this is missing. We apologize for the inconvenience. Here is another chart I'm sure you never wanted to see again:
+
+![bac-chart](https://i1.wp.com/www.alcoholproblemsandsolutions.org/wp-content/uploads/2016/07/03-chart.png)
+
+How many SAUs = what % BAC varies in real life based on many factors including gender, muscle mass weight, personal tolerance built up, and liver health. We simulate this graph by adding positive effects (you get more the drunker you are, and they last until the drink wears off). However, after 5 drinks, you start experiencing negative effects, up to and including death! Fortunately, just like in real life where the liver processes 1 SAU out of your body / hour after drinking, the mod will keep track of and reduce your SAU count by 1 every 5 real life minutes. Try to keep this in mind as you drink.
+
+Here is a table of the effects you will get added to you at each level of drunkenness. Please keep in mind that these are stacked, so at 3 SAU, you get the effects of the first three rows, having the third row effect for 5 minutes, the second row effect for 10m, and the first row effect for 15, assuming you don't drink more to maintain them before it dips down.
+
+| BAC Level | Potion Effect |
+| --------- | ------------- |
+| 1         | Regeneration  |
+| 2         | Strength      |
+| 3         | Jump Boost    |
+| 4         | Absorption    |
+| 5         | No New Effect |
+| 6         | Nausea        |
+| 7         | Weakness      |
+| 8         | Slowness      |
+| 9         | Blindness     |
+| 10        | Instant Death |
+
+For this reason, you cannot directly drink a fifth of tequila (They are equivalent to 25 shots)
+
+Cocktails are special, and will cause additional long lasting effects ON TOP of these effects that come default with drinking straight shots!
+
+### Shots
