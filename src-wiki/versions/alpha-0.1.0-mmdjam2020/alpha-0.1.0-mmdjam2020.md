@@ -18,8 +18,34 @@ You can harvest these to get **Agave (Item)** and **Agave Seeds**. Agave Seeds w
 
 ### Making Steel
 
-For many of this mods crafting recipes, you will need a **Steel Ingot** and/or **Steel Nugget**. To make these, you will need to first craft a vanilla Minecraft Blast Furnace. Then, blast iron ingots and iron nuggets to get their respective steel items. Of course, you can always drop an ingot in a crafting table to get nine nuggets, and vice versa to turn nuggets into ingots.
+For many of this mods crafting recipes, you will need a **Steel Ingot** and/or **Steel Nugget**. To make these, you will need to first craft a vanilla Minecraft Blast Furnace. Then, blast iron ingots and iron nuggets to get their respective steel items. Of course, you can always drop an ingot in a crafting table to get nine nuggets, and vice versa to turn nuggets into ingots. 
+
+Additionally, both our ingots and nuggets are registered with Forge Tagging (the successor to Forge OreDictionary) so that you can use our nuggets and ingots with any recipes that support tagged items, and all of our recipes support tagged steel so all our recipes work with other mods tagged steel as well.
 
 ![steel-ingot-blasting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_ingot_blasting.png) ![steel-nugget-blasting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_nugget_blasting.png) ![steel-ingot-crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_ingot_crafting.png) ![steel-nugget-crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_nugget_crafting.png)
 
 ### Making Glassware
+
+Obviously, booze needs to be stored. There are several glassware items that you will need to craft to use in crafting recipes and machine interfaces to make alcohol.
+
+##### Fifth Bottle [Empty]
+
+The first and most basic of these is the **Fifth Bottle [Empty]** which will be used to hold alcohol coming out of the distiller. Crafting is like this (Note that glass colors are unimportant and just there to show that any glass blcok can be used):
+
+![fifth_bottle_empty_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fifth_bottle_empty_crafting.png)
+
+##### Pack Of Shot Glasses [25]
+
+Secondly, you will need a **Pack of Shot Glasses [25]** to craft with so that you can drink your Tequila to get effects (more on those later...). The crafting recipe is simple, and supports all types of glass.
+
+![pack_of_shot_glasses_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/pack_of_shot_glasses_crafting.png)
+
+##### Margarita Glass & Required Ingredients
+
+Thirdly, you will need to make a **Margarita Glass** for the one cocktail currently added by this mod. Unlike the other glass items, this is a little more involved. It will be replaced by a more elegant machine-based system in the future, but for now, there's 3 steps.
+
+1. Craft a **Margarita Glass Mold** like so:![margarita_glass_mold_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_mold_crafting.png)
+2. Make some **Molten Glass** by smelting any glass in a regular vanilla furnace like so:![molten_glass_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/molten_glass_smelting.png)
+3. Make the **Margarita Glass** by crafting the **Molten Glass** with the **Margarita Glass Mold** like so:![margarita_glass_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_crafting.png)
+
+### Making a Barrel
