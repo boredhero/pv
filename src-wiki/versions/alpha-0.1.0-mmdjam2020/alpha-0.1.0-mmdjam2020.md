@@ -185,7 +185,7 @@ Cocktails are a fun feature of this mod that will add extra potion effects and m
 
 ### Bartending Tools
 
-##### Cocktail Shaker
+#### Cocktail Shaker
 
 *Vodka Martini, Shaken, not Stirred. -* ***James Bond***
 
@@ -193,7 +193,7 @@ The venerable **Cocktail Shaker** and strainer is a quintesential tool used in t
 
 ![cocktail_shaker_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cocktail_shaker_crafting.png)
 
-##### Ice Pick
+#### Ice Pick
 
 The ice pick **Ice pick** is a common bar tool used to shape large blocks of ultra-clear ice that is delivered to bar establishments regularly. The ice is shaped to fit the glass by a skilled bartender and their pick.
 
