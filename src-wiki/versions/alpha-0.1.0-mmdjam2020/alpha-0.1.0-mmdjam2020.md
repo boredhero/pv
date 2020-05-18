@@ -70,6 +70,14 @@ The pot still has a venerable history serving humanity in all its alcohol-reduci
 
 ##### Steel Brazier
 
+The **Steel Brazier** block serves as the heat source to the **Pot Still Multiblock**. It can also be right clicked with Flint and Steel and it will light on fire for a very pleasing decorative block to spice up your builds and bases.
+
+![steel_brazier_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_brazier_crafting.png)
+
+![steel_brazier_unlit](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_brazier_unlit.png)
+
+![steel_brazier_lit](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_brazier_lit.png)
+
 ##### Steel Pot
 
 ##### Steel Coil
