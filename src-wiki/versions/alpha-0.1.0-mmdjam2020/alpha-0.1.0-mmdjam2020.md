@@ -30,19 +30,19 @@ Additionally, both our ingots and nuggets are registered with Forge Tagging (the
 
 Obviously, booze needs to be stored. There are several glassware items that you will need to craft to use in crafting recipes and machine interfaces to make alcohol.
 
-##### Fifth Bottle [Empty]
+#### Fifth Bottle [Empty]
 
 The first and most basic of these is the **Fifth Bottle [Empty]** which will be used to hold alcohol coming out of the distiller. Crafting is like this (Note that glass colors are unimportant and just there to show that any glass blcok can be used):
 
 ![fifth_bottle_empty_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fifth_bottle_empty_crafting.png)
 
-##### Pack Of Shot Glasses [25]
+#### Pack Of Shot Glasses [25]
 
 Secondly, you will need a **Pack of Shot Glasses [25]** to craft with so that you can drink your Tequila to get effects (more on those later...). The crafting recipe is simple, and supports all types of glass.
 
 ![pack_of_shot_glasses_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/pack_of_shot_glasses_crafting.png)
 
-##### Margarita Glass & Required Ingredients
+#### Margarita Glass & Required Ingredients
 
 Thirdly, you will need to make a **Margarita Glass** for the one cocktail currently added by this mod. Unlike the other glass items, this is a little more involved. It will be replaced by a more elegant machine-based system in the future, but for now, there's 3 steps.
 
@@ -68,7 +68,7 @@ Barrels have all kinds of uses. We will be using them for fermentation and aging
 
 The pot still has a venerable history serving humanity in all its alcohol-reducing needs. These can be made out of copper or steel. Ours is made from steel. However, to make the **Pot Still Multiblock** you will first need to craft several items. Here is what you'll need and how to make it:
 
-##### Steel Brazier
+#### Steel Brazier
 
 The **Steel Brazier** block serves as the heat source to the **Pot Still Multiblock**. It can also be right clicked with Flint and Steel and it will light on fire for a very pleasing decorative block to spice up your builds and bases.
 
@@ -78,19 +78,19 @@ The **Steel Brazier** block serves as the heat source to the **Pot Still Multibl
 
 ![steel_brazier_lit](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_brazier_lit.png)
 
-##### Steel Pot
+#### Steel Pot
 
 The **Steel Pot** block is used twice in our **Pot Still Multiblock**, so keep in mind you will need to craft two of these.
 
 ![steel_pot_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_pot_crafting.png)
 
-##### Steel Coil
+#### Steel Coil
 
 The **Steel Coil** block is used to collect the steam from one pot and condense the alcohol and drain it into the other pot.
 
 ![steel_coil_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_coil_crafting.png)
 
-##### Assembling the Multiblock
+#### Assembling the Multiblock
 
 To assemble the **Pot Still Multiblock**, place the **Steel Brazier**, **Steel Pots**, and **Steel Coil** in this fashion
 
@@ -106,25 +106,25 @@ It will then turn into this multiblock and you can access its GUI by right click
 
 We now have all the things gathered that we will need to make our first **Fifth [Silver Tequila]**. Here are the sub-steps:
 
-##### Cooked Agave Pulp
+#### Cooked Agave Pulp
 
 Before we ferment it, we must take our **Agave** and cook it to make **Cooked Agave Pulp** This is edible as a food on its own and has the same nutritional value as a vanilla Dried Kelp item.
 
 ![cooked_agave_pulp_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cooked_agave_pulp_smelting.png)
 
-##### Unfermented Agave Mash 
+#### Unfermented Agave Mash 
 
 One of the steps of making most alchols is the creation of what is called a wort. This is usually a combination of some base fruit, vegetable, or grain and water with occasionally some other niche ingredients. In the case of tequila, the agave plant is harvested and cleaned, then cooked and blended, then mixed with water. This produces what is called **Unfermented Agave Wort**.
 
 ![unfermented_agave_wort_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/unfermented_agave_wort_crafting.png)
 
-##### Fermented Agave Wort
+#### Fermented Agave Wort
 
 Fermentation is the process by which all alcohol comes into the world. Yeasts and bacteria, often naturally occuring but sometimes added intentionally, break down sugar molecules and produce ethanol (read:alcohol) molecules. This process takes place inside wooden or stainless steel barrels. It is believed that the first alcohol was discovered by accident, as fermentation can occur in nature under certain conditions. In addition to producing ethanol, serveral other flavor and aromatic compounds can be produced depending on the exact compounds present in the wort and the specific species of microbe breaking them down. This is what makes all alcohol taste different. Here is the recipe for **Fermented Agave Wort**:
 
 ![fermented_agave_wort_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fermented_agave_wort_crafting.png)
 
-##### Using the Pot Still GUI to make a Fifth [Silver Tequila]
+#### Using the Pot Still GUI to make a Fifth [Silver Tequila]
 
 **Fermented Agave Wort** will have a very low alcohol concentration (~ a few %) and is full of nasty brown lumpy things that you really don't want to drink. This is where our lovely pot still comes in. A fire beneath the first pot which is filled with **Fermented Agave Wort** heats it up. Because ethanol and some aromatic/flavor compounds (these are called terpines) evaporate at a lower temperature than water and solids, they evaporate. This evaporate is then carried upwards and enters the coil. This coil is exposed to the cool air, cooling down the vapors and causing them to condense and slowly drip into the second pot where they can be bottled for consumption. This process is quite time consuming.
 
@@ -132,7 +132,7 @@ Fermentation is the process by which all alcohol comes into the world. Yeasts an
 
 ***KNOWN BUG NOTE***: As of this alpha build, the Pot Still has an issue where the GUI doesn't update to show the lit flame indicator or the progression indicator in the coil. We are aware of this bug and are actively working to fix it. It may seem like nothing is happening when you put all the ingredients in. This is not the case, but this action has a very high tick time to simulate reality a bit. Just let it sit and you'll find your alcohol there in less than a minute!
 
-##### Fifth [Golden Tequila]
+#### Fifth [Golden Tequila]
 
 Just like many other forms of alcohol, aging post-distillation is used to add flavor to the alcohol. This happens with tequila too. The word "silver" is used to designate a clear non-aged tequila, and "golden" designates an aged one. Over time, the ethanol dissolves a little bit of the terpine's from the wood of the barrel, imparting varied flavors that can range from smoky (burned barrels), or woody (plain wood barrels). This also results in a color change, hence the color based designations. 
 
