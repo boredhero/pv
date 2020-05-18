@@ -120,3 +120,9 @@ One of the steps of making most alchols is the creation of what is called a wort
 
 ##### Fermented Agave Wort
 
+Fermentation is the process by which all alcohol comes into the world. Yeasts and bacteria, often naturally occuring but sometimes added intentionally, break down sugar molecules and produce ethanol (read:alcohol) molecules. This process takes place inside wooden or stainless steel barrels. It is believed that the first alcohol was discovered by accident, as fermentation can occur in nature under certain conditions. In addition to producing ethanol, serveral other flavor and aromatic compounds can be produced depending on the exact compounds present in the wort and the specific species of microbe breaking them down. This is what makes all alcohol taste different. Here is the recipe for **Fermented Agave Wort**:
+
+![fermented_agave_wort_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/fermented_agave_wort_crafting.png)
+
+##### Using the Pot Still GUI
+
