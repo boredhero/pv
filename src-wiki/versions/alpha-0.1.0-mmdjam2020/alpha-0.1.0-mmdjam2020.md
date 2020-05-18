@@ -18,4 +18,6 @@ You can harvest these to get **Agave (Item)** and **Agave Seeds**. Agave Seeds w
 
 For many of this mods crafting recipes, you will need a **Steel Ingot** and/or **Steel Nugget**. To make these, you will need to first craft a vanilla Minecraft Blast Furnace. Then, blast iron ingots and iron nuggets to get their respective steel items. Of course, you can always drop an ingot in a crafting table to get nine nuggets, and vice versa to turn nuggets into ingots.
 
-![steel-ingot-blasting]() ![steel-nugget-blasting]() ![steel-nuggest-crafting]() ![steel-nugget-blasting]()
+![steel-ingot-blasting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_ingot_blasting.png) ![steel-nugget-blasting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_nugget_blasting.png) ![steel-ingot-crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_ingot_crafting.png) ![steel-nugget-crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/steel_nugget_crafting.png)
+
+### Making Glassware
