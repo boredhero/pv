@@ -156,18 +156,27 @@ How many SAUs = what % BAC varies in real life based on many factors including g
 
 Here is a table of the effects you will get added to you at each level of drunkenness. Please keep in mind that these are stacked, so at 3 SAU, you get the effects of the first three rows, having the third row effect for 5 minutes, the second row effect for 10m, and the first row effect for 15, assuming you don't drink more to maintain them before it dips down.
 
-| BAC Level | Potion Effect |
-| --------- | ------------- |
-| 1         | Regeneration  |
-| 2         | Strength      |
-| 3         | Jump Boost    |
-| 4         | Absorption    |
-| 5         | No New Effect |
-| 6         | Nausea        |
-| 7         | Weakness      |
-| 8         | Slowness      |
-| 9         | Blindness     |
-| 10        | Instant Death |
+[reg]: https://www.digminecraft.com/effects/images/regeneration_sm.png "Regeneration"
+[str]: https://www.digminecraft.com/effects/images/strength_sm.png "Strength"
+[jbt]: https://www.digminecraft.com/effects/images/jump_boost_sm.png "Jump Boost"
+[abs]: https://www.digminecraft.com/effects/images/absorption_sm.png "Absorption"
+[nau]: https://www.digminecraft.com/effects/images/nausea_sm.png "Nausea"
+[wks]: https://www.digminecraft.com/effects/images/weakness_sm.png "Weakness"
+[slo]: https://www.digminecraft.com/effects/images/slowness_sm.png "Slowness"
+[bli]: https://www.digminecraft.com/effects/images/blindness_sm.png "Blindness"
+
+| BAC Level | Potion Effect          |
+| --------- | ---------------------- |
+| 1         | Regeneration ![][reg]  |
+| 2         | Strength     ![][str]  |
+| 3         | Jump Boost   ![][jbt]  |
+| 4         | Absorption   ![][abs]  |
+| 5         | No New Effect          |
+| 6         | Nausea       ![][nau]  |
+| 7         | Weakness     ![][wks]  |
+| 8         | Slowness     ![][slo]  |
+| 9         | Blindness    ![][bli]  |
+| 10        | Instant Death          |
 
 For this reason, you cannot directly drink a fifth of tequila (They are equivalent to 25 shots)
 
