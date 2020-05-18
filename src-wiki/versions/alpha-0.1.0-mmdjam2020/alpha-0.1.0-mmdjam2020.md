@@ -260,6 +260,7 @@ Here's a quick table of the effects and durations applied to you **on top of** t
 [lck]: https://www.digminecraft.com/effects/images/luck_sm.png "Luck"
 
 | Potion Effect       | Duration |
+| ------------------- | -------- |
 | ![][jbt] Jump Boost | 10:00    |
 | ![][spd] Speed      | 10:00    |
 | ![][lck] Luck       | 15:00    |
