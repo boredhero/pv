@@ -234,9 +234,19 @@ This **Apple Juice** comes in glass, not a juice box!
 
 #### Sea Salt
 
-Be Careful around Slugs with this stuff! Still not as salty as you! **Sea Salt** is made by boiling or sun-evaporating sea water, and crumbling the resultant crystals or flakes.
+Be careful around slugs with this stuff! Still not as salty as you! **Sea Salt** is made by boiling or sun-evaporating sea water, and crumbling the resultant crystals or flakes.
 
 ![sea_salt_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/sea_salt_smelting.png)
+
+#### Cinnamon
+
+Most people don't know that cinnamon sticks are actually the cut off and dried curled up bark of one of two species of conifer! The best **Cinnamon** is *Ceylon Cinnamon* which comes from Sri Lanka and its sticks are papery and easy to break, unlike the thick, hard sticks of *Chinese Cinnamon* you often find on your grocery store shelf.
+
+Yknow...I could really go for one of those Cinnabon rolls right now....y'know...the ones that they always have at the airport or your local mall. Huge, served warm with lots of cinnamon and that thick melty glaze...oh yeah....
+
+![cinnamon_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cinnamon_crafting.png)
+
+***KNOWN BUG NOTE***: This recipe currently only works with Spruce Logs. You should not try to make cinnamon from pine tree bark! That isn't how this works! Yuck! We'll be adding a cinnamon tree eventually. Maybe even two types...gotta go for that realism eh?
 
 ### Spiced Apple Margarita
 
