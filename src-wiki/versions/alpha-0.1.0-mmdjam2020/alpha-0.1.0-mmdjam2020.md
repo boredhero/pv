@@ -44,10 +44,14 @@ Secondly, you will need a **Pack of Shot Glasses [25]** to craft with so that yo
 
 Thirdly, you will need to make a **Margarita Glass** for the one cocktail currently added by this mod. Unlike the other glass items, this is a little more involved. It will be replaced by a more elegant machine-based system in the future, but for now, there's 3 steps.
 
-1. Craft a **Margarita Glass Mold** like so:![margarita_glass_mold_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_mold_crafting.png)
+1. Craft a **Margarita Glass Mold** like so:
+
+![margarita_glass_mold_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_mold_crafting.png)
+
 2. Make some **Molten Glass** by smelting any glass in a regular vanilla furnace like so:
 
 ![molten_glass_smelting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/molten_glass_smelting.png)
+
 3. Make the **Margarita Glass** by crafting the **Molten Glass** with the **Margarita Glass Mold** like so:
 
 ![margarita_glass_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/margarita_glass_crafting.png)
