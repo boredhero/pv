@@ -242,7 +242,7 @@ Be careful around slugs with this stuff! Still not as salty as you! **Sea Salt**
 
 Most people don't know that cinnamon sticks are actually the cut off and dried curled up bark of one of two species of conifer! The best **Cinnamon** is *Ceylon Cinnamon* which comes from Sri Lanka and its sticks are papery and easy to break, unlike the thick, hard sticks of *Chinese Cinnamon* you often find on your grocery store shelf.
 
-Yknow...I could really go for one of those Cinnabon rolls right now....y'know...the ones that they always have at the airport or your local mall. Huge, served warm with lots of cinnamon and that thick melty glaze...oh yeah....
+Yknow...I could really go for one of those Cinnabon rolls right now...y'know...the ones that they always have at the airport or your local mall. Huge, served warm with lots of cinnamon and that thick melty glaze...oh yeah....
 
 ![cinnamon_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/cinnamon_crafting.png)
 
@@ -250,4 +250,20 @@ Yknow...I could really go for one of those Cinnabon rolls right now....y'know...
 
 ### Spiced Apple Margarita
 
-The Spiced Apple Margarita was inspired by [this lovely recipe](https://cookieandkate.com/spiced-apple-margaritas/). Our recipe uses two **Shot [Golden Tequila]**, a **Cocktail Shaker** 
+The Spiced Apple Margarita was inspired by [this lovely recipe](https://cookieandkate.com/spiced-apple-margaritas/). Our recipe uses two **Shot [Golden Tequila]**, a **Cocktail Shaker** This sounds delicious! Keep in mind its two SAU not one.
+
+![spiced_apple_margarita_crafting](https://raw.githubusercontent.com/boredhero/pv/wiki/src-wiki/assets/spiced_apple_margarita_crafting.png)
+
+Here's a quick table of the effects and durations applied to you **on top of** the effects you get from +2 BAC/SAU
+
+[spd]: https://www.digminecraft.com/effects/images/speed_sm.png "Speed"
+[lck]: https://www.digminecraft.com/effects/images/luck_sm.png "Luck"
+
+| Potion Effect       | Duration |
+| ![][jbt] Jump Boost | 10:00    |
+| ![][spd] Speed      | 10:00    |
+| ![][lck] Luck       | 15:00    |
+
+## The End ...for Now!
+
+Bruh this took me forever to type. I hope someone actually reads it all and gets down here to appreciate it :'(
