@@ -65,3 +65,11 @@ Barrels have all kinds of uses. We will be using them for fermentation and aging
 ### Making a Pot Still
 
 The pot still has a venerable history serving humanity in all its alcohol-reducing needs. These can be made out of copper or steel. Ours is made from steel. However, to make the **Pot Still Multiblock** you will first need to craft several items. Here is what you'll need and how to make it:
+
+##### Steel Brazier
+
+##### Steel Pot
+
+##### Steel Coil
+
+##### Assembling the Multiblock 
