@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"NNN",
+		" N ",
+		"NNN"
+	],
+	"key": {
+		"N": {
+			"tag": "forge:nuggets/steel"
+        }
+	},
+	"result": {
+		"item": "vinum:steel_coil"
+	}
+}

@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:blasting",
+    "ingredient": {
+      "item": "minecraft:iron_ingot"
+    },
+    "result": "vinum:steel_ingot",
+    "experience": 0.25,
+    "cookingtime": 180
+  }

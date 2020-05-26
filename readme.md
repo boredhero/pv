@@ -2,8 +2,8 @@
 
 ## Contributors:
 * Noah Martino (A.K.A. Captain Bored) - personal.boredhero@gmail.com
-* Yooks
 * Rellit
+* Yooks
 
 ### Alcohol Type: Tequila
 Tequila is an agave based alcoholic beverage generally bottled at 40% alcohol by volume/proof. It is indigenous to the American Southwest deserted areas where the Agave plant is native. The agave plant is high in sugar, and thus an ideal fermentation ingredient for alcohol production. For centuries, the native peoples of the region have produced some form or another of agave-based alcohol. Tequila can be consumed right after distillation (Silver Tequila) OR it may be placed back into barrels for aging, which causes it to turn golden, and then it is referred to as Gold Tequila.

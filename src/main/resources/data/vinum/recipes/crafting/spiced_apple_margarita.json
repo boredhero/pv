@@ -1,0 +1,37 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"TTA",
+		"SCH",
+		"IGZ"
+	],
+	"key": {
+		"T": {
+			"item": "vinum:shot_golden_tequila"
+        },
+        "G": {
+            "item": "vinum:margarita_glass"
+        },
+        "H": {
+            "item": "minecraft:honey_bottle"
+        },
+        "C": {
+            "item": "vinum:cinnamon"
+        },
+        "S": {
+            "item": "vinum:sea_salt"
+        },
+        "A": {
+            "item": "vinum:apple_juice"
+        },
+        "I": {
+            "item": "vinum:ice_cubes"
+        },
+        "Z": {
+            "item": "vinum:cocktail_shaker"
+        }
+	},
+	"result": {
+		"item": "vinum:spiced_apple_margarita"
+	}
+}
