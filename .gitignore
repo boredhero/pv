@@ -26,7 +26,7 @@ run
 # windows
 Thumbs.db
 
-# texture project
+# project
 *.xcf
 *.psd
 
