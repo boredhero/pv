@@ -1,3 +1,5 @@
+![pv-logo](https://raw.githubusercontent.com/boredhero/pv/master/src/main/resources/vinum_logo.png)
+
 # Project Vinum Tutorials
 
 Welcome to the Written Tutorials for Project Vinum. In lieu of creating an actual wiki for this mod, I will instead provide user-end documentation through a series of Written Tutorials on the github for each version. They will function just like a website, despite being nothing more than a collection of internal links and assets put into markdown files.
