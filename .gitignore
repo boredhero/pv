@@ -20,10 +20,13 @@ build
 eclipse
 run
 
+# vs
+.vscode
+
 # windows
 Thumbs.db
 
-# texture project
+# project
 *.xcf
 *.psd
 
