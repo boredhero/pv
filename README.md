@@ -11,4 +11,4 @@
 * Yooks
 
 ## Mod Features / Written Tutorial
-* For current features, check out the [Written Tutorial](https://github.com/boredhero/pv/blob/wiki/src-wiki/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
+* For current features, check out the [Written Tutorial](https://github.com/boredhero/pv/blob/tutorials/src-tutorial/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
