@@ -3,7 +3,7 @@ loaderVersion="[31,)"
 [[mods]]
 issueTrackerURL="https://github.com/boredhero/pv/issues"
 modId="vinum"
-version="0.1.0"
+version="0.1.0-HOTFIX"
 displayName='''§5§lProject Vinum§r'''
 displayURL="https://github.com/boredhero/pv"
 logoFile="vinum_logo.png"
