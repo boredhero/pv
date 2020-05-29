@@ -6,4 +6,4 @@ I will do my best to keep this up to date at all times. For this reason, there w
 
 ## Versions
 
-* [Alpha 0.1.0-HOTFIX (MMD-Jam 2020)](https://github.com/boredhero/pv/blob/wiki/src-wiki/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
+* [Alpha 0.1.0-HOTFIX (MMD-Jam 2020)](https://github.com/boredhero/pv/blob/tutorials/src-tutorial/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
