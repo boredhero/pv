@@ -1,6 +1,6 @@
 # Written Tutorial for Project Vinum
 ## Version alpha-0.1.0-HOTFIX (MMD-Jam 2020)
-[Back to Main](https://github.com/boredhero/pv/blob/tutorials/src-tutorial/Main.md)
+[Back to Main](https://github.com/boredhero/pv/blob/tutorials/README.md)
 
 Welcome! In future versions, this will have more pages, but for now, we will just show you how to get started, and explain a bit about what this very early alpha build of our mod does.
 
