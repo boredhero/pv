@@ -1,4 +1,4 @@
-# Wiki for Project Vinum
+# Written Tutorial for Project Vinum
 ## Version alpha-0.1.0 (MMD-Jam 2020)
 [Back to Main](https://github.com/boredhero/pv/blob/wiki/src-wiki/Main.md)
 
