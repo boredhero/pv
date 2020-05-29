@@ -7,7 +7,6 @@ import io.vinum.inventory.container.StillMasterContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.AbstractFurnaceContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.item.ItemStack;
@@ -40,6 +39,11 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 	
 	}
 	
+	public void tick() {
+		super.tick();
+		
+	}
+	
 	@Override
 	public void sendAllContents(Container containerToSend, NonNullList<ItemStack> itemsList) {
 		
@@ -55,10 +59,19 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		
 	}
 	
+	public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
+		
+		this.renderBackground();
+		super.render(p_render_1_, p_render_2_, p_render_3_);
+		RenderSystem.disableBlend();
+		this.renderHoveredToolTip(p_render_1_, p_render_2_);
+		
+	}
+	
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
 		RenderSystem.disableBlend();
-		this.font.drawString(this.title.getFormattedText(), 60.0F, 6.0F, 4210752);
+		this.font.drawString(this.title.getFormattedText(), 70.0F, 6.0F, 4210752);
 
 	}
 	
@@ -71,13 +84,11 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		int j = (this.height - this.ySize) / 2;
 		this.blit(i, j, 0, 0, this.xSize, this.ySize);
 		
-		int k = ((StillMasterContainer)this.container).getBurnLeftScaled();
+		//int k = tileEntity.getStillData().get(1) * 13 / 200;
         //this.blit(i + 43, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
 		
-        int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
+        //int l = tileEntity.getStillData().get(0) * 24 / 240;
         //this.blit(i + 79, j + 34, 176, 14, l + 1, 16);
-        
-        this.renderHoveredToolTip(mouseX, mouseY);
         
 	}
 

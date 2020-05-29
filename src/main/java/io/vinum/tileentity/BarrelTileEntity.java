@@ -9,22 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class StillSlaveTileEntity extends LockableTileEntity implements ITickableTileEntity {
+public class BarrelTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	
-	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
+	protected NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
 	
-	private StillMasterTileEntity masterTileEntity;
-	
-	private BlockPos masterTileEntityPos;
-	
-	public StillSlaveTileEntity() {
-		super(ModTileEntities.STILL_SLAVE.get());
+	public BarrelTileEntity() {
+		super(ModTileEntities.BARREL.get());
 		
 	}
 	
@@ -34,8 +28,6 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 		this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.items);
 		
-		masterTileEntityPos = new BlockPos(compound.getInt("MasterTileEntityX"), compound.getInt("MasterTileEntityY"), compound.getInt("MasterTileEntityZ"));
-		
 	}
 	
 	public CompoundNBT write(CompoundNBT compound) {
@@ -43,34 +35,12 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 		
 		ItemStackHelper.saveAllItems(compound, this.items);
 		
-		if (this.masterTileEntity != null) {
-			
-			compound.putInt("MasterTileEntityX", this.masterTileEntity.getPos().getX());
-			compound.putInt("MasterTileEntityY", this.masterTileEntity.getPos().getY());
-			compound.putInt("MasterTileEntityZ", this.masterTileEntity.getPos().getZ());
-			
-		}
-		
 		return compound;
 		
 	}
 	
 	@Override
 	public void tick() {
-		
-		if (this.masterTileEntity == null) {
-			
-			if (this.hasWorld() && !this.getWorld().isRemote()) {
-				
-				if (this.getWorld().getTileEntity(masterTileEntityPos) instanceof StillMasterTileEntity) {
-					
-					this.masterTileEntity = (StillMasterTileEntity) this.getWorld().getTileEntity(masterTileEntityPos);
-					
-				}
-				
-			}
-			
-		}
 		
 	}
 	
@@ -151,30 +121,16 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 	@Override
 	protected ITextComponent getDefaultName() {
 		
-		return new TranslationTextComponent(Defines.MODID + ":container.still");
+		return new TranslationTextComponent(Defines.MODID + ":container.barrel");
 		
 	}
 	
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return masterTileEntity.createMenu(id, player);
+		//return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, null);
 		
-	}
-	
-	public void setMasterTileEntity(TileEntity tileEntity) {
-		
-		if (tileEntity instanceof StillMasterTileEntity) {
-			
-			this.masterTileEntity = (StillMasterTileEntity) tileEntity;
-			
-		}
-		
-	}
-	
-	public StillMasterTileEntity getMasterTileEntity() {
-		
-		return masterTileEntity;
+		return null;
 		
 	}
 	

@@ -4,42 +4,34 @@ import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
 import io.vinum.item.ModItems;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.FurnaceContainer;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.registries.ObjectHolder;
 
 public class StillMasterTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
-	private int fuelTime;
-	private int progressTime;
+	public int fuelTime;
+	public int progressTime;
 	
 	protected final IIntArray stillData = new IIntArray() {
 	      public int get(int index) {
 	         switch(index) {
 	         case 0:
-	            return StillMasterTileEntity.this.progressTime;
+	            return progressTime;
 	         case 1:
-	            return StillMasterTileEntity.this.fuelTime;
+	            return fuelTime;
 	         default:
 	            return 0;
 	         }
@@ -48,10 +40,10 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	      public void set(int index, int value) {
 	         switch(index) {
 	         case 0:
-	        	StillMasterTileEntity.this.progressTime = value;
+	        	progressTime = value;
 	            break;
 	         case 1:
-	        	StillMasterTileEntity.this.fuelTime = value;
+	        	fuelTime = value;
 	            break;
 	         }
 
@@ -94,6 +86,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void tick() {
 		

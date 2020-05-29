@@ -3,7 +3,6 @@ package io.vinum.tileentity;
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,5 +13,7 @@ public class ModTileEntities {
 	
 	public static final RegistryObject<TileEntityType<?>> STILL_MASTER = TILEENTITIES.register("still_master", () -> TileEntityType.Builder.create(StillMasterTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
 	public static final RegistryObject<TileEntityType<?>> STILL_SLAVE = TILEENTITIES.register("still_slave", () -> TileEntityType.Builder.create(StillSlaveTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_2.get(), ModBlocks.STILL_MULTIBLOCK_PART_3.get(), ModBlocks.STILL_MULTIBLOCK_PART_4.get()).build(null));
+	
+	public static final RegistryObject<TileEntityType<?>> BARREL = TILEENTITIES.register("barrel", () -> TileEntityType.Builder.create(BarrelTileEntity::new, ModBlocks.STEEL_POT.get()).build(null));
 	
 }

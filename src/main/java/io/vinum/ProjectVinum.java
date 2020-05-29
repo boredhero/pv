@@ -38,7 +38,6 @@ import io.vinum.core.RegistryHandler;
 import io.vinum.gui.GuiHandler;
 import io.vinum.gui.screen.inventory.StillMasterScreen;
 import io.vinum.inventory.container.ModContainers;
-import io.vinum.item.ModItems;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
 import io.vinum.network.NetworkLoader;
