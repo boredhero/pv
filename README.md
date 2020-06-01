@@ -15,4 +15,4 @@
 
 ## Roadmap
 
-* This is a little out of date, and I'll be expanding it further soon, but here's the [OG roadmap]() of ideas for this mod.
+* This is a little out of date, and I'll be expanding it further soon, but here's the [OG roadmap](https://github.com/boredhero/pv/blob/dev/ROADMAP.md) of ideas for this mod.
