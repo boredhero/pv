@@ -12,3 +12,7 @@
 
 ## Mod Features / Written Tutorial
 * For current features, check out the [Written Tutorial](https://github.com/boredhero/pv/blob/tutorials/src-tutorial/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
+
+## Roadmap
+
+* This is a little out of date, and I'll be expanding it further soon, but here's the [OG roadmap](https://github.com/boredhero/pv/blob/dev/ROADMAP.md) of ideas for this mod.
