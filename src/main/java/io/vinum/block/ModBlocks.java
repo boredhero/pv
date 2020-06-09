@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import io.vinum.block.trees.CinnamonTree;
 import io.vinum.common.Defines;
 
 public final class ModBlocks {
@@ -31,7 +32,7 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> CINNAMON_LOG = register("cinnamon_log", () -> new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 2.0F).sound(SoundType.WOOD)));
 
 	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
-	public static final RegistryObject<Block> SAPLING_CINNAMON = register("sapling_cinnamon", () -> new CinnamonTreeSapling(treeIn, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
+	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new CinnamonTreeSapling(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
 
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
