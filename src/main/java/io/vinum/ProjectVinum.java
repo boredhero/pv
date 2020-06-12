@@ -1,19 +1,35 @@
 package io.vinum;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameterSets;
+import net.minecraft.world.storage.loot.LootParameters;
+import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.LootTables;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -23,6 +39,9 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.PacketDistributor;
+
+import java.util.Collections;
+
 import javax.annotation.Nonnull;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +52,7 @@ import io.vinum.capability.BAC;
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
+import io.vinum.client.renderer.color.ModColors;
 import io.vinum.common.Defines;
 import io.vinum.core.RegistryHandler;
 import io.vinum.gui.GuiHandler;
@@ -48,7 +68,7 @@ public class ProjectVinum {
 	
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger();
-
+	
 	public ProjectVinum() {
 		
 		RegistryHandler.registerDeferred(FMLJavaModLoadingContext.get().getModEventBus());
@@ -78,8 +98,12 @@ public class ProjectVinum {
 		
 		RenderTypeLookup.setRenderLayer(ModBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(ModBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ModBlocks.CINNAMON_LEAVES.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(ModBlocks.CINNAMON_SAPLING.get(), RenderType.getCutoutMipped());
 		
 		ScreenManager.registerFactory(ModContainers.STILL_MASTER.get(), StillMasterScreen::new);
+		
+		ModColors.init();
 		
 	}
 	
@@ -93,6 +117,59 @@ public class ProjectVinum {
 	
 	@SubscribeEvent
 	public void onServerStarting(FMLServerStartingEvent event) {
+		
+	}
+	
+	@SubscribeEvent
+	public void addStrippingWoodMechanic(PlayerInteractEvent.RightClickBlock event) {
+		
+		World world = event.getWorld();
+		BlockPos blockpos = event.getPos();
+		BlockState blockstate = world.getBlockState(blockpos);
+		Block block = ModBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
+		
+		if (block != null) {
+			
+			PlayerEntity playerentity = event.getPlayer();
+			world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			
+			if (!world.isRemote) {
+				
+				world.setBlockState(blockpos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
+				
+				if (playerentity != null) {
+					
+					event.getItemStack().damageItem(1, playerentity, (p_220040_1_) -> {
+						
+						p_220040_1_.sendBreakAnimation(event.getHand());
+						
+					});
+					
+					if (block == ModBlocks.CINNAMON_LOG.get()) {
+						
+						ResourceLocation resourcelocation = new ResourceLocation(Defines.MODID, "block_stripping/cinnamon_log");
+						
+						if (resourcelocation != LootTables.EMPTY) {
+							
+							LootContext lootContext = new LootContext.Builder((ServerWorld) world).withParameter(LootParameters.BLOCK_STATE, blockstate).build(LootParameterSets.BLOCK);
+							ServerWorld serverworld = lootContext.getWorld();
+							LootTable loottable = serverworld.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
+							
+							for (ItemStack droppedItem : loottable.generate(lootContext)) {
+								
+								Block.spawnAsEntity(world, blockpos, droppedItem);
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+					
+			}
+			
+		}
 		
 	}
 	

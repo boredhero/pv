@@ -1,12 +1,17 @@
 package io.vinum.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -14,6 +19,14 @@ import io.vinum.block.trees.CinnamonTree;
 import io.vinum.common.Defines;
 
 public final class ModBlocks {
+	
+	public static final Map<Block, Block> BLOCK_STRIPPING_MAP = new HashMap<>();
+
+    static {
+    	
+    	BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_LOG.get(), ModBlocks.CINNAMON_PLANKS.get());
+    	
+    }
 	
 	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
 	
@@ -29,10 +42,12 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
 	
-	public static final RegistryObject<Block> CINNAMON_LOG = register("cinnamon_log", () -> new Block(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 2.0F).sound(SoundType.WOOD)));
-
+	public static final RegistryObject<Block> CINNAMON_LOG = register("cinnamon_log", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> CINNAMON_LEAVES = register("cinnamon_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()));
+	public static final RegistryObject<Block> CINNAMON_PLANKS = register("cinnamon_planks", () -> new Block(Block.Properties.create(Material.WOOD, MaterialColor.ADOBE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
+	
 	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
-	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new CinnamonTreeSapling(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
+	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new ModSaplingBlock(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
 
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.

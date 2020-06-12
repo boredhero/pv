@@ -87,7 +87,7 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 		
 		if (worldIn.isRemote) {
 			
-			return ActionResultType.SUCCESS;
+			return ActionResultType.PASS;
 			
 		} else {
 			
