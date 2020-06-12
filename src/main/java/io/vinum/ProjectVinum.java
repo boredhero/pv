@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -40,14 +39,13 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.util.Collections;
-
 import javax.annotation.Nonnull;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.vinum.block.ModBlocks;
+import io.vinum.block.stripping.StrippableBlocks;
 import io.vinum.capability.BAC;
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
@@ -91,6 +89,7 @@ public class ProjectVinum {
 		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
 		GuiHandler.initIcons();
 		ModWorldGen.addFeatures();
+		StrippableBlocks.registerStrippableBlocks();
 		
 	}
 	
@@ -126,7 +125,7 @@ public class ProjectVinum {
 		World world = event.getWorld();
 		BlockPos blockpos = event.getPos();
 		BlockState blockstate = world.getBlockState(blockpos);
-		Block block = ModBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
+		Block block = StrippableBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
 		
 		if (block != null) {
 			

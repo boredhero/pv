@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import io.vinum.PVLogger;
 import io.vinum.block.ModBlocks;
+import io.vinum.block.stripping.StrippableBlocks;
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.item.ModItemGroup;

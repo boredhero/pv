@@ -20,14 +20,6 @@ import io.vinum.common.Defines;
 
 public final class ModBlocks {
 	
-	public static final Map<Block, Block> BLOCK_STRIPPING_MAP = new HashMap<>();
-
-    static {
-    	
-    	BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_LOG.get(), ModBlocks.CINNAMON_PLANKS.get());
-    	
-    }
-	
 	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
 	
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
