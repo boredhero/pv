@@ -66,6 +66,7 @@ import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
 import io.vinum.network.NetworkLoader;
 import io.vinum.tileentity.ModTileEntities;
+import io.vinum.tileentity.recipes.StillRecipes;
 import io.vinum.worldgen.ModWorldGen;
 
 @Mod(Defines.MODID)
@@ -73,6 +74,8 @@ public class ProjectVinum {
 	
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger();
+	
+	public static final StillRecipes STILL_RECIPES = new StillRecipes();
 	
 	public ProjectVinum() {
 		
@@ -97,6 +100,7 @@ public class ProjectVinum {
 		GuiHandler.initIcons();
 		ModWorldGen.addFeatures();
 		StrippableBlocks.registerStrippableBlocks();
+		STILL_RECIPES.initRecipes();
 		
 	}
 	

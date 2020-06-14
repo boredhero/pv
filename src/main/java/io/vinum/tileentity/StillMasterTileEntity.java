@@ -2,14 +2,18 @@ package io.vinum.tileentity;
 
 import javax.annotation.Nullable;
 
+import io.vinum.ProjectVinum;
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
 import io.vinum.item.ModItems;
+import io.vinum.tileentity.recipes.StillRecipes;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -25,20 +29,28 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
+	public StillRecipes.StillRecipe currentRecipe;
+	
 	public int fuelTime;
 	public int progressTime;
+	public int totalProgressTime;
 	
 	protected final IIntArray stillData = new IIntArray() {
-	      public int get(int index) {
-	         switch(index) {
-	         case 0:
-	            return progressTime;
-	         case 1:
-	            return fuelTime;
-	         default:
-	            return 0;
-	         }
-	      }
+		
+		public int get(int index) {
+			
+			switch(index) {
+			
+			case 0:
+				return fuelTime;
+			case 2:
+				return progressTime;
+			case 3:
+				return totalProgressTime;
+			default:
+				return 0;
+			}
+		}
 
 	      public void set(int index, int value) {
 	         switch(index) {
@@ -53,7 +65,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	      }
 
 	      public int size() {
-	         return 2;
+	         return 3;
 	      }
 	   };
 	
@@ -75,6 +87,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		ItemStackHelper.loadAllItems(compound, this.items);
 		this.fuelTime = compound.getInt("FuelTime");
 		this.progressTime = compound.getInt("ProgressTime");
+		this.totalProgressTime = compound.getInt("TotalProgressTime");
 		
 	}
 	
@@ -84,6 +97,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		ItemStackHelper.saveAllItems(compound, this.items);
 		compound.putInt("FuelTime", this.fuelTime);
 		compound.putInt("ProgressTime", this.progressTime);
+		compound.putInt("TotalProgressTime", this.totalProgressTime);
 		
 		return compound;
 		
@@ -108,50 +122,70 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
 			
-			//System.out.println(progressTime + " | " + fuelTime + " | " + canStill());
-			
-			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
+			for (StillRecipes.StillRecipe recipe : ProjectVinum.STILL_RECIPES.getRecipes()) {
 				
-				if (AbstractFurnaceTileEntity.isFuel(fuel)) {
+				if (recipe.matchesRecipe(input, bottle)) {
 					
-					fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
-					fuel.shrink(1);
+					this.currentRecipe = recipe;
 					
 				}
 				
 			}
 			
-			if (fuelTime >= 0 && canStill()) {
-				
-				progressTime++;
-				fuelTime--;
-				
-			} else {
-				
-				progressTime = 0;
-				
-			}
+			//System.out.println(progressTime + " | " + totalProgressTime + " | " + fuelTime + " | " + canStill());
 			
-			if (progressTime >= 240) {
+			if (this.currentRecipe != null) {
 				
-				input.shrink(1);
-				bottle.shrink(1);
+				this.totalProgressTime = this.currentRecipe.getTicksToDistill();
 				
-				if (output.getItem() != ModItems.FIFTH_SILVER_TEQUILA.get()) {
+				if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
 					
-					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
+					if (AbstractFurnaceTileEntity.isFuel(fuel)) {
+						
+						fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
+						fuel.shrink(1);
+						
+					}
 					
-				} else if (output.getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) {
+				}
+				
+				if (fuelTime >= 0 && canStill()) {
 					
-					output.grow(1);
+					progressTime++;
+					fuelTime--;
 					
 				} else {
 					
-					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
+					progressTime = 0;
 					
 				}
 				
-				progressTime = 0;
+				if (progressTime >= this.totalProgressTime) {
+					
+					input.shrink(1);
+					bottle.shrink(1);
+					
+					if (output.getItem() != this.currentRecipe.getDistillingResultItemstack().getItem()) {
+						
+						this.items.set(3, new ItemStack(this.currentRecipe.getDistillingResultItemstack().getItem(), 1));
+						
+					} else if (output.getItem() == this.currentRecipe.getDistillingResultItemstack().getItem()) {
+						
+						output.grow(1);
+						
+					} else {
+						
+						this.items.set(3, new ItemStack(this.currentRecipe.getDistillingResultItemstack().getItem(), 1));
+						
+					}
+					
+					progressTime = 0;
+					
+				}
+				
+			} else {
+				
+				this.totalProgressTime = 0;
 				
 			}
 			
@@ -159,9 +193,20 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean canStill() {
 		
-		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
+		if (this.currentRecipe != null) {
+			
+			if (this.items.get(3).getItem() == Item.getItemFromBlock(Blocks.AIR) || this.items.get(3).getItem() == this.currentRecipe.getDistillingResultItemstack().getItem()) {
+				
+				return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == this.currentRecipe.getDistilledItemstack().getItem() && this.items.get(1).getItem() == this.currentRecipe.getRequiredBottleItemstack().getItem());
+				
+			}
+			
+		}
+		
+		return false;
 		
 	}
 	
