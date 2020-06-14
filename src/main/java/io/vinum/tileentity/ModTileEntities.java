@@ -16,4 +16,6 @@ public class ModTileEntities {
 	
 	public static final RegistryObject<TileEntityType<?>> BARREL = TILEENTITIES.register("barrel", () -> TileEntityType.Builder.create(BarrelTileEntity::new, ModBlocks.STEEL_POT.get()).build(null));
 	
+	public static final RegistryObject<TileEntityType<ModSignTileEntity>> VINUM_SIGN = TILEENTITIES.register("vinum_sign", () -> TileEntityType.Builder.create(ModSignTileEntity::new, ModBlocks.CINNAMON_SIGN.get(), ModBlocks.CINNAMON_WALL_SIGN.get()).build(null));
+	
 }

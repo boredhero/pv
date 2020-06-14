@@ -12,7 +12,8 @@ public class StrippableBlocks {
 	
 	public static void registerStrippableBlocks() {
 		
-		BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_LOG.get(), ModBlocks.CINNAMON_PLANKS.get());
+		BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_LOG.get(), ModBlocks.STRIPPED_CINNAMON_LOG.get());
+		BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_WOOD.get(), ModBlocks.STRIPPED_CINNAMON_WOOD.get());
 		
 	}
 	

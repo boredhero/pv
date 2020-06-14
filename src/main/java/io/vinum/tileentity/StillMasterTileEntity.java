@@ -1,5 +1,7 @@
 package io.vinum.tileentity;
 
+import javax.annotation.Nullable;
+
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
@@ -10,6 +12,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
@@ -83,6 +86,14 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		compound.putInt("ProgressTime", this.progressTime);
 		
 		return compound;
+		
+	}
+	
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		
+		return new SUpdateTileEntityPacket(this.pos, 42, this.getUpdateTag());
 		
 	}
 	

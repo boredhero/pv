@@ -1,10 +1,13 @@
 package io.vinum.item;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.SignItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.registries.DeferredRegister;
@@ -52,6 +55,8 @@ public final class ModItems {
 	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkItem(ModItemGroup.PROPERTIES, 16, 1, new ItemStack(Items.GLASS_BOTTLE)));
 	public static final RegistryObject<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new EffectInstance(Effects.LUCK, 18000), new EffectInstance(Effects.JUMP_BOOST, 12000), new EffectInstance(Effects.SPEED, 12000)));
 	//BIG SHIM ENERGY
-	public static final RegistryObject<Item> BARREL = ITEMS.register("barrel", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
-
+	public static final RegistryObject<Item> BARREL = ITEMS.register("barrel", () -> new DontBreakOnCraftItem(ModItemGroup.PROPERTIES.maxStackSize(1)));
+	
+	public static final RegistryObject<Item> CINNAMON_SIGN = ITEMS.register("cinnamon_sign", () -> new ModSignItem(ModItemGroup.PROPERTIES.maxStackSize(16), ModBlocks.CINNAMON_SIGN.get(), ModBlocks.CINNAMON_WALL_SIGN.get()));
+	
 }

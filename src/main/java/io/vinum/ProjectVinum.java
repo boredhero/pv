@@ -4,11 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +25,7 @@ import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.LootTables;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -30,6 +34,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -51,6 +56,7 @@ import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
 import io.vinum.client.renderer.color.ModColors;
+import io.vinum.client.renderer.tileentity.ModSignTileEntityRenderer;
 import io.vinum.common.Defines;
 import io.vinum.core.RegistryHandler;
 import io.vinum.gui.GuiHandler;
@@ -59,6 +65,7 @@ import io.vinum.inventory.container.ModContainers;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
 import io.vinum.network.NetworkLoader;
+import io.vinum.tileentity.ModTileEntities;
 import io.vinum.worldgen.ModWorldGen;
 
 @Mod(Defines.MODID)
@@ -104,6 +111,8 @@ public class ProjectVinum {
 		
 		ModColors.init();
 		
+		ClientRegistry.bindTileEntityRenderer(ModTileEntities.VINUM_SIGN.get(), ModSignTileEntityRenderer::new);
+		
 	}
 	
 	private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -119,53 +128,69 @@ public class ProjectVinum {
 		
 	}
 	
+	@Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+	public static class RegistryEvents {
+		
+		@SubscribeEvent
+		public static void registerSignSprites(TextureStitchEvent.Pre event) {
+			
+			if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
+				
+				event.addSprite(new ResourceLocation(Defines.MODID, "entity/signs/cinnamon"));
+				
+			}
+			
+		}
+		
+	}
+	
 	@SubscribeEvent
 	public void addStrippingWoodMechanic(PlayerInteractEvent.RightClickBlock event) {
 		
 		World world = event.getWorld();
-		BlockPos blockpos = event.getPos();
-		BlockState blockstate = world.getBlockState(blockpos);
+		BlockPos blockPos = event.getPos();
+		BlockState blockstate = world.getBlockState(blockPos);
 		Block block = StrippableBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
 		
-		if (block != null) {
+		if (block != null && event.getItemStack().getItem() instanceof AxeItem) {
 			
-			PlayerEntity playerentity = event.getPlayer();
-			world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			PlayerEntity playerEntity = event.getPlayer();
+			world.playSound(playerEntity, blockPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			
 			if (!world.isRemote) {
 				
-				world.setBlockState(blockpos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
+				world.setBlockState(blockPos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
 				
-				if (playerentity != null) {
+				if (playerEntity != null) {
 					
-					event.getItemStack().damageItem(1, playerentity, (p_220040_1_) -> {
+					event.getItemStack().damageItem(1, playerEntity, (player) -> {
 						
-						p_220040_1_.sendBreakAnimation(event.getHand());
+						player.sendBreakAnimation(event.getHand());
 						
 					});
 					
-					if (block == ModBlocks.CINNAMON_LOG.get()) {
+				}
+				
+				if (block == ModBlocks.STRIPPED_CINNAMON_LOG.get() || block == ModBlocks.STRIPPED_CINNAMON_WOOD.get()) {
+					
+					ResourceLocation resourcelocation = new ResourceLocation(Defines.MODID, "block_stripping/cinnamon_log");
+					
+					if (resourcelocation != LootTables.EMPTY) {
 						
-						ResourceLocation resourcelocation = new ResourceLocation(Defines.MODID, "block_stripping/cinnamon_log");
+						LootContext lootContext = new LootContext.Builder((ServerWorld) world).withParameter(LootParameters.POSITION, blockPos).withParameter(LootParameters.TOOL, event.getItemStack()).withParameter(LootParameters.BLOCK_STATE, blockstate).build(LootParameterSets.BLOCK);
+						ServerWorld serverworld = lootContext.getWorld();
+						LootTable loottable = serverworld.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
 						
-						if (resourcelocation != LootTables.EMPTY) {
+						for (ItemStack droppedItem : loottable.generate(lootContext)) {
 							
-							LootContext lootContext = new LootContext.Builder((ServerWorld) world).withParameter(LootParameters.BLOCK_STATE, blockstate).build(LootParameterSets.BLOCK);
-							ServerWorld serverworld = lootContext.getWorld();
-							LootTable loottable = serverworld.getServer().getLootTableManager().getLootTableFromLocation(resourcelocation);
-							
-							for (ItemStack droppedItem : loottable.generate(lootContext)) {
-								
-								Block.spawnAsEntity(world, blockpos, droppedItem);
-								
-							}
+							Block.spawnAsEntity(world, blockPos, droppedItem);
 							
 						}
 						
 					}
 					
 				}
-					
+				
 			}
 			
 		}

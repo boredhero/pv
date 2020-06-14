@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":  { "model": "vinum:block/stripped_cinnamon_log" },
+        "axis=z":   { "model": "vinum:block/stripped_cinnamon_log", "x": 90 },
+        "axis=x":   { "model": "vinum:block/stripped_cinnamon_log", "x": 90, "y": 90 }
+    }
+}
