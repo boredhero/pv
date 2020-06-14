@@ -12,7 +12,6 @@ public class StillRecipes {
 	public void initRecipes() {
 		
 		addStillRecipe(new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()), new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), 240);
-		addStillRecipe(new ItemStack(ModItems.APPLE_JUICE.get()), new ItemStack(ModItems.BARREL.get()), new ItemStack(ModItems.STEEL_INGOT.get()), 25);
 		
 	}
 	
