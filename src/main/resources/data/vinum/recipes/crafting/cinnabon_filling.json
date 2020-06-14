@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "vinum:cinnamon"
+		},
+		{
+			"item": "minecraft:sugar"
+		}
+	],
+	"result": {
+		"item": "vinum:cinnabon_filling", "count":4
+	}
+}

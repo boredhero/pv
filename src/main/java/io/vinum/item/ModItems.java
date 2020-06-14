@@ -53,5 +53,11 @@ public final class ModItems {
 	public static final RegistryObject<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new EffectInstance(Effects.LUCK, 18000), new EffectInstance(Effects.JUMP_BOOST, 12000), new EffectInstance(Effects.SPEED, 12000)));
 	//BIG SHIM ENERGY
 	public static final RegistryObject<Item> BARREL = ITEMS.register("barrel", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
-
+	//I LOVE THESE SO MUCH
+	public static final RegistryObject<Item> CINNABON_GLAZE = ITEMS.register("cinnabon_glaze", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> CINNABON_FILLING = ITEMS.register("cinnabon_filling", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> CINNABON_DOUGH = ITEMS.register("cinnabon_dough", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> FILLED_CINNABON_DOUGH = ITEMS.register("filled_cinnabon_dough", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> BAKED_CINNABON_DOUGH = ITEMS.register("baked_cinnabon_dough", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> CINNABON = ITEMS.register("cinnabon", () -> new Item(ModItemGroup.PROPERTIES.food(Foods.PUMPKIN_PIE)));
 }
