@@ -24,7 +24,7 @@ public interface IDrink {
 	public UseAction getUseAction(ItemStack stack);
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn);
 	
-	public static void setBACLevel(World world, PlayerEntity player, int level) {
+	public static void setBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -44,7 +44,7 @@ public interface IDrink {
 		
 	}
 	
-	public static void addBACLevel(World world, PlayerEntity player, int level) {
+	public static void addBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -64,7 +64,7 @@ public interface IDrink {
 		
 	}
 	
-	public static void removeBACLevel(World world, PlayerEntity player, int level) {
+	public static void removeBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -84,7 +84,7 @@ public interface IDrink {
 		
 	}
 	
-	public static void updatePlayerBAC(PlayerEntity player, int level) {
+	public static void updatePlayerBAC(PlayerEntity player, double level) {
 		
 		if (!player.isCreative() && level > 0) {
 			

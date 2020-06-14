@@ -2,7 +2,7 @@ package io.vinum.capability;
 
 public class BAC implements IBAC {
 	
-	private int BACLevel;
+	private double BACLevel;
 	private int BACTicks;
 	
 	public BAC() {
@@ -13,28 +13,28 @@ public class BAC implements IBAC {
 	}
 	
 	@Override
-	public int getBACLevel() {
+	public double getBACLevel() {
 		
 		return BACLevel;
 		
 	}
 	
 	@Override
-	public void setBACLevel(int BACLevel) {
+	public void setBACLevel(double BACLevel) {
 		
 		this.BACLevel = BACLevel;
 		
 	}
 	
 	@Override
-	public void addBACLevel(int BACLevel) {
+	public void addBACLevel(double BACLevel) {
 		
 		this.BACLevel += BACLevel;
 		
 	}
 	
 	@Override
-	public void removeBACLevel(int BACLevel) {
+	public void removeBACLevel(double BACLevel) {
 		
 		this.BACLevel -= BACLevel;
 		

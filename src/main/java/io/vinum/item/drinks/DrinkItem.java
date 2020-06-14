@@ -13,11 +13,11 @@ import net.minecraft.world.World;
 public class DrinkItem extends Item implements IDrink {
 	
 	private int useDuration;
-	private int BACLevel;
+	private double BACLevel;
 	private ItemStack returnedItem;
 	private EffectInstance[] givenPotionEffects;
 	
-	public DrinkItem(Properties properties, int useDuration, int BACLevel, ItemStack returnedItem) {
+	public DrinkItem(Properties properties, int useDuration, double BACLevel, ItemStack returnedItem) {
 		super(properties);
 		
 		this.useDuration = useDuration;
@@ -27,7 +27,7 @@ public class DrinkItem extends Item implements IDrink {
 		
 	}
 	
-	public DrinkItem(Properties properties, int useDuration, int BACLevel, ItemStack returnedItem, EffectInstance... givenPotionEffects) {
+	public DrinkItem(Properties properties, int useDuration, double BACLevel, ItemStack returnedItem, EffectInstance... givenPotionEffects) {
 		super(properties);
 		
 		this.useDuration = useDuration;

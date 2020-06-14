@@ -12,7 +12,7 @@ public class BACStorage implements IStorage<IBAC> {
 	public INBT writeNBT(Capability<IBAC> capability, IBAC instance, Direction side) {
 		
 		CompoundNBT tag = new CompoundNBT();
-		tag.putInt("BACLevel", instance.getBACLevel());
+		tag.putDouble("BACLevel", instance.getBACLevel());
 		tag.putInt("BACTicks", instance.getBACTicks());
 		
 		return tag;
@@ -23,7 +23,7 @@ public class BACStorage implements IStorage<IBAC> {
 	public void readNBT(Capability<IBAC> capability, IBAC instance, Direction side, INBT nbt) {
 		
 		CompoundNBT tag = (CompoundNBT) nbt;
-		instance.setBACLevel(tag.getInt("BACLevel"));
+		instance.setBACLevel(tag.getDouble("BACLevel"));
 		instance.setBACTicks(tag.getInt("BACTicks"));
 		
 	}

@@ -2,7 +2,6 @@ package io.vinum.item;
 
 import java.util.function.Supplier;
 
-import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
