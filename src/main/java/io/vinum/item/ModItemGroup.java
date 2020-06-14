@@ -20,7 +20,7 @@ public class ModItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
 	@SuppressWarnings("deprecation")
-	public static final ItemGroup MAIN = new ModItemGroup(Defines.MODID, () -> new ItemStack(ModItems.COCKTAIL_SHAKER.get()));
+	public static final ItemGroup MAIN = new ModItemGroup(Defines.MODID, () -> new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get()));
 
 	public static final Item.Properties PROPERTIES = new Item.Properties().group(ModItemGroup.MAIN);
 

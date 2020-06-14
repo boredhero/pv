@@ -31,5 +31,11 @@
 	"item.vinum.cinnamon": "Cinnamon",
 	"item.vinum.sea_salt": "Sea Salt",
 	"item.vinum.spiced_apple_margarita": "Spiced Apple Margarita",
-	"item.vinum.barrel": "Barrel"
+	"item.vinum.barrel": "Barrel",
+	"item.vinum.cinnabon": "Cinnabon",
+	"item.vinum.cinnabon_dough": "Cinnabon Dough",
+	"item.vinum.cinnabon_glaze": "Cinnabon Glaze",
+	"item.vinum.baked_cinnabon_dough": "Baked Cinnabon Dough",
+	"item.vinum.filled_cinnabon_dough": "Filled Cinnabon Dough",
+	"item.vinum.cinnabon_filling": "Cinnabon Filling"
 }
