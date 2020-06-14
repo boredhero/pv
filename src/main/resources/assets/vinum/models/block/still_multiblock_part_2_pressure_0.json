@@ -4,7 +4,7 @@
 	"textures": {
 		"0": "vinum:block/still_multiblock_part_2_side",
 		"1": "vinum:block/still_multiblock_part_2_base",
-		"2": "vinum:block/still_multiblock_part_2_front",
+		"2": "vinum:block/still_multiblock_part_2_front_pressure_0",
 		"3": "vinum:block/still_multiblock_part_2_long_side",
 		"4": "vinum:block/still_multiblock_part_2_top",
 		"5": "vinum:block/steel_coil",

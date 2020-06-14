@@ -1,8 +1,20 @@
 {
     "variants": {
-        "facing=north": { "model": "vinum:block/still_multiblock_part_2" },
-        "facing=south": { "model": "vinum:block/still_multiblock_part_2", "y": 180 },
-        "facing=west":  { "model": "vinum:block/still_multiblock_part_2", "y": 270 },
-        "facing=east":  { "model": "vinum:block/still_multiblock_part_2", "y": 90 }
+        "facing=north,pressure=0": { "model": "vinum:block/still_multiblock_part_2_pressure_0" },
+        "facing=south,pressure=0": { "model": "vinum:block/still_multiblock_part_2_pressure_0", "y": 180 },
+        "facing=west,pressure=0":  { "model": "vinum:block/still_multiblock_part_2_pressure_0", "y": 270 },
+        "facing=east,pressure=0":  { "model": "vinum:block/still_multiblock_part_2_pressure_0", "y": 90 },
+		"facing=north,pressure=1": { "model": "vinum:block/still_multiblock_part_2_pressure_1" },
+        "facing=south,pressure=1": { "model": "vinum:block/still_multiblock_part_2_pressure_1", "y": 180 },
+        "facing=west,pressure=1":  { "model": "vinum:block/still_multiblock_part_2_pressure_1", "y": 270 },
+        "facing=east,pressure=1":  { "model": "vinum:block/still_multiblock_part_2_pressure_1", "y": 90 },
+		"facing=north,pressure=2": { "model": "vinum:block/still_multiblock_part_2_pressure_2" },
+        "facing=south,pressure=2": { "model": "vinum:block/still_multiblock_part_2_pressure_2", "y": 180 },
+        "facing=west,pressure=2":  { "model": "vinum:block/still_multiblock_part_2_pressure_2", "y": 270 },
+        "facing=east,pressure=2":  { "model": "vinum:block/still_multiblock_part_2_pressure_2", "y": 90 },
+		"facing=north,pressure=3": { "model": "vinum:block/still_multiblock_part_2_pressure_3" },
+        "facing=south,pressure=3": { "model": "vinum:block/still_multiblock_part_2_pressure_3", "y": 180 },
+        "facing=west,pressure=3":  { "model": "vinum:block/still_multiblock_part_2_pressure_3", "y": 270 },
+        "facing=east,pressure=3":  { "model": "vinum:block/still_multiblock_part_2_pressure_3", "y": 90 }
     }
 }

@@ -2,6 +2,7 @@ package io.vinum.block;
 
 import javax.annotation.Nullable;
 
+import io.vinum.block.state.properties.ModBlockStateProperties;
 import io.vinum.tileentity.StillSlaveTileEntity;
 import io.vinum.util.VoxelShapeHelper;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -39,11 +41,12 @@ public class StillMultiblockPart2Block extends ContainerBlock implements IWaterL
 	
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public static final IntegerProperty PRESSURE = ModBlockStateProperties.PRESSURE;
 	
 	public StillMultiblockPart2Block(Block.Properties propertiesIn) {
 		super(propertiesIn);
 		
-		this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE));
+		this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE).with(PRESSURE, 0));
 		
 	}
 	
@@ -155,7 +158,7 @@ public class StillMultiblockPart2Block extends ContainerBlock implements IWaterL
 	
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		
-		builder.add(WATERLOGGED, FACING);
+		builder.add(WATERLOGGED, FACING, PRESSURE);
 		
 	}
 	

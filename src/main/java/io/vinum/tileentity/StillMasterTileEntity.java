@@ -3,11 +3,14 @@ package io.vinum.tileentity;
 import javax.annotation.Nullable;
 
 import io.vinum.ProjectVinum;
+import io.vinum.block.ModBlocks;
+import io.vinum.block.state.properties.ModBlockStateProperties;
 import io.vinum.common.Defines;
 import io.vinum.inventory.container.ModContainers;
 import io.vinum.inventory.container.StillMasterContainer;
 import io.vinum.item.ModItems;
 import io.vinum.tileentity.recipes.StillRecipes;
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
@@ -34,6 +38,12 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	public int fuelTime;
 	public int progressTime;
 	public int totalProgressTime;
+	
+	public int currentPressure;
+	
+	public int animatePressureTime;
+	
+	boolean hasMaxPressure;
 	
 	protected final IIntArray stillData = new IIntArray() {
 		
@@ -88,6 +98,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		this.fuelTime = compound.getInt("FuelTime");
 		this.progressTime = compound.getInt("ProgressTime");
 		this.totalProgressTime = compound.getInt("TotalProgressTime");
+		this.currentPressure = compound.getInt("CurrentPressure");
 		
 	}
 	
@@ -98,6 +109,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		compound.putInt("FuelTime", this.fuelTime);
 		compound.putInt("ProgressTime", this.progressTime);
 		compound.putInt("TotalProgressTime", this.totalProgressTime);
+		compound.putInt("CurrentPressure", this.currentPressure);
 		
 		return compound;
 		
@@ -115,6 +127,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	public void tick() {
 		
+		boolean flag = false;
+		
 		if (!world.isRemote()) {
 			
 			ItemStack input = this.items.get(0);
@@ -122,10 +136,13 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
 			
+			this.currentRecipe = null;
+			
 			for (StillRecipes.StillRecipe recipe : ProjectVinum.STILL_RECIPES.getRecipes()) {
 				
 				if (recipe.matchesRecipe(input, bottle)) {
 					
+					flag = true;
 					this.currentRecipe = recipe;
 					
 				}
@@ -142,6 +159,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 					
 					if (AbstractFurnaceTileEntity.isFuel(fuel)) {
 						
+						flag = true;
 						fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
 						fuel.shrink(1);
 						
@@ -149,10 +167,16 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 					
 				}
 				
-				if (fuelTime >= 0 && canStill()) {
+				if (fuelTime > 0) {
 					
-					progressTime++;
+					flag = true;
 					fuelTime--;
+					
+					if (canStill()) {
+						
+						progressTime++;
+						
+					}
 					
 				} else {
 					
@@ -161,6 +185,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				}
 				
 				if (progressTime >= this.totalProgressTime) {
+					
+					flag = true;
 					
 					input.shrink(1);
 					bottle.shrink(1);
@@ -188,6 +214,87 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				this.totalProgressTime = 0;
 				
 			}
+			
+			if (totalProgressTime > 0 && (fuelTime > 0 || AbstractFurnaceTileEntity.isFuel(fuel))) {
+				
+				if (progressTime <= totalProgressTime) {
+					
+					currentPressure = 3;
+					
+				}
+				
+				if (progressTime <= (totalProgressTime / 4) * 3 && !hasMaxPressure) {
+					
+					currentPressure = 2;
+					
+				}
+				
+				if (progressTime <= (totalProgressTime / 4) * 2 && !hasMaxPressure) {
+					
+					currentPressure = 1;
+					
+				}
+				
+				if (progressTime <= totalProgressTime / 4 && !hasMaxPressure) {
+					
+					currentPressure = 0;
+					
+				}
+				
+				if (currentPressure == 3) {
+					
+					hasMaxPressure = true;
+					
+				}
+				
+				animatePressureTime = 10;
+				
+			} else if (currentPressure > 0) {
+				
+				if (animatePressureTime > 0) {
+					
+					animatePressureTime--;
+					
+				} else {
+					
+					animatePressureTime = 10;
+					currentPressure--;
+					
+				}
+				
+				hasMaxPressure = false;
+				
+			}
+			
+			if (world.getBlockState(pos.up()).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_2.get()) {
+				
+				if (world.getBlockState(pos.up()).get(ModBlockStateProperties.PRESSURE) != currentPressure) {
+					
+					flag = true;
+					this.world.setBlockState(this.pos.up(), this.world.getBlockState(this.pos.up()).with(ModBlockStateProperties.PRESSURE, currentPressure), 3);
+					
+				}
+				
+				
+			}
+			
+			if (fuelTime > 0) {
+				
+				flag = true;
+				this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.TRUE), 3);
+				
+			} else if (fuelTime <= 0 && this.getBlockState().get(BlockStateProperties.LIT) == true && !AbstractFurnaceTileEntity.isFuel(fuel)) {
+				
+				flag = true;
+				this.world.setBlockState(pos, world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.FALSE), 3);
+				
+			}
+			
+		}
+		
+		if (flag) {
+			
+			this.markDirty();
 			
 		}
 		
