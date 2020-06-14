@@ -1,5 +1,7 @@
 package io.vinum.inventory.container;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -123,6 +125,13 @@ public class StillMasterContainer extends Container {
 		
 		return this.stillData.get(0) * 13 / 200;
 		
+	}
+
+	// EXPERIMENTAL ATTEMPT TO ADD RECIPES TO THIS FORMULA!
+	private ArrayList<ArrayList<Object>> stillRecipes = new ArrayList<ArrayList<Object>>();
+
+	public void addStillRecipe(ItemStack ItemStackToDistill, ItemStack BottleItemStack, ItemStack ResultItemStack, int timeInTicks){
+		stillRecipes.add(new ArrayList<Object>(Arrays.asList(ItemStackToDistill, BottleItemStack, ResultItemStack, timeInTicks)));
 	}
 	
 }
