@@ -10,9 +10,8 @@ public class StillRecipes {
 	private static final ArrayList<StillRecipe> STILL_RECIPES = new ArrayList<StillRecipe>();
 	
 	public void initRecipes() {
-		
+		//Add recipes for the Still here		
 		addStillRecipe(new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()), new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), 240);
-		
 	}
 	
 	public void addStillRecipe(ItemStack distilledItemstack, ItemStack requiredBottleItemstack, ItemStack distillingResultItemstack, int ticksToDistill) {
