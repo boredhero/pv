@@ -34,8 +34,10 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -58,7 +60,9 @@ import io.vinum.capability.IBAC;
 import io.vinum.client.renderer.color.ModColors;
 import io.vinum.client.renderer.tileentity.ModSignTileEntityRenderer;
 import io.vinum.common.Defines;
+import io.vinum.config.PVConfig;
 import io.vinum.core.RegistryHandler;
+import io.vinum.fuels.PVFuels;
 import io.vinum.gui.GuiHandler;
 import io.vinum.gui.screen.inventory.StillMasterScreen;
 import io.vinum.inventory.container.ModContainers;
@@ -79,6 +83,7 @@ public class ProjectVinum {
 	
 	public ProjectVinum() {
 		
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PVConfig.COMMON_SPEC);
 		RegistryHandler.registerDeferred(FMLJavaModLoadingContext.get().getModEventBus());
 		
 		PVLogger.init(LogManager.getLogger());
@@ -89,12 +94,14 @@ public class ProjectVinum {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(PVFuels.instance);
 		//MinecraftForge.EVENT_BUS.register(new GuiHandler());
 		
 	}
 	
 	private void setup(final FMLCommonSetupEvent event) {
 		
+		PVConfig.bakeConfig();
 		NetworkLoader.register();
 		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
 		GuiHandler.initIcons();

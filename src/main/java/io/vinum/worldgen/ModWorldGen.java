@@ -5,6 +5,7 @@ import java.util.HashSet;
 import com.google.common.collect.ImmutableList;
 import io.vinum.block.AgaveCropBlock;
 import io.vinum.block.ModBlocks;
+import io.vinum.config.PVConfig;
 import io.vinum.world.biome.ModDefaultBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.tags.BlockTags;
@@ -22,6 +23,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModWorldGen {
 	
+	//Config
+	final static int AGAVE_SPAWN_CHANCES = PVConfig.agave_spawn_chances;
+	//TODO: Figure out how to do a similar thing for the tree...
+
 	public static final BlockClusterFeatureConfig AGAVE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.CROP_AGAVE.get().getDefaultState().with(AgaveCropBlock.AGE, 2)), new SimpleBlockPlacer())).tries(5).whitelist(new HashSet<Block>((BlockTags.SAND.getAllElements()))).build();
 	
 	public static void addFeatures () {
@@ -30,7 +35,7 @@ public class ModWorldGen {
 			
 			if (biome.getCategory() == Biome.Category.DESERT || biome.getCategory() == Biome.Category.MESA) {
 				
-				biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AGAVE_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(15))));
+				biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AGAVE_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(AGAVE_SPAWN_CHANCES))));
 				
 			}
 			
