@@ -36,6 +36,8 @@ public final class ModItems {
 	//Fifths of Booze
 	public static final RegistryObject<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new Item(ModItemGroup.PROPERTIES));
 	public static final RegistryObject<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRITS = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
+	public static final RegistryObject<Item> FIFTH_VODKA = ITEMS.register("fifth_vodka", () -> new Item(ModItemGroup.PROPERTIES));
 	//public static final RegistryObject<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(ModItemGroup.PROPERTIES));
 	//Items used in crafting that must not break when used.
 	public static final RegistryObject<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
@@ -50,6 +52,8 @@ public final class ModItems {
 	//ALL DRINKABLE THINGS ARE BELOW
 	public static final RegistryObject<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new DrinkItem(ModItemGroup.PROPERTIES, 16, 1, new ItemStack(Items.GLASS_BOTTLE)));
 	public static final RegistryObject<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkItem(ModItemGroup.PROPERTIES, 16, 1, new ItemStack(Items.GLASS_BOTTLE)));
+	public static final RegistryObject<Item> SHOT_RECTIFIED_SPIRIT = ITEMS.register("shot_rectified_spirit", () -> new DrinkItem(ModItemGroup.PROPERTIES, 16, 2.375), new ItemStack(Items.GLASS_BOTTLE));
+	public static final RegistryObject<Item> SHOT_VODKA = ITEMS.register("shot_vodka", () -> new DrinkItem(ModItemGroup.PROPERTIES, 16, 1, new ItemStack(Items.GLASS_BOTTLE)));
 	public static final RegistryObject<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(ModItemGroup.PROPERTIES, 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new EffectInstance(Effects.LUCK, 18000), new EffectInstance(Effects.JUMP_BOOST, 12000), new EffectInstance(Effects.SPEED, 12000)));
 	//BIG SHIM ENERGY
 	public static final RegistryObject<Item> BARREL = ITEMS.register("barrel", () -> new DontBreakOnCraftItem(new Item.Properties().maxStackSize(1).group(ModItemGroup.MAIN)));
