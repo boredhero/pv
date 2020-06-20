@@ -88,7 +88,7 @@ public interface IDrink {
 		
 		if (!player.isCreative() && level > 0) {
 			
-			if (level >= 1) {
+			if (level >= 0.001) {
 				
 				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 605));
 				
