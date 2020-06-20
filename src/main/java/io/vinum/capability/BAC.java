@@ -15,6 +15,9 @@ public class BAC implements IBAC {
 	@Override
 	public double getBACLevel() {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		return BACLevel;
 		
 	}
@@ -22,6 +25,9 @@ public class BAC implements IBAC {
 	@Override
 	public void setBACLevel(double BACLevel) {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		this.BACLevel = BACLevel;
 		
 	}
@@ -29,6 +35,9 @@ public class BAC implements IBAC {
 	@Override
 	public void addBACLevel(double BACLevel) {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		this.BACLevel += BACLevel;
 		
 	}
@@ -37,6 +46,9 @@ public class BAC implements IBAC {
 	public void removeBACLevel(double BACLevel) {
 		
 		this.BACLevel -= BACLevel;
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		
 	}
 	
