@@ -36,8 +36,7 @@ import io.vinum.common.PVDefines;
 public class PVItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
-	@SuppressWarnings("deprecation")
-	public static final ItemGroup MAIN = new PVItemGroup(PVDefines.MODID, () -> new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get()));
+	public static final ItemGroup MAIN = new PVItemGroup(PVDefines.MODID, () -> new ItemStack(PVItems.SPICED_APPLE_MARGARITA.get()));
 
 	public static final Item.Properties PROPERTIES = new Item.Properties().group(PVItemGroup.MAIN);
 

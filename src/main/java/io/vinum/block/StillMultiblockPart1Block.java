@@ -75,6 +75,7 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 	}
 	
 	@Override
+	@SuppressWarnings("Depreciated")
 	public int getLightValue(BlockState state) {
 		
 		return state.get(LIT) ? super.getLightValue(state) : 0;
