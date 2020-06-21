@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModBlocks.java
+    Project Vinum - PVBlocks.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -36,11 +36,11 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import io.vinum.block.trees.CinnamonTree;
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 
-public final class ModBlocks {
+public final class PVBlocks {
 	
-	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
+	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, PVDefines.MODID);
 	
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
 	
@@ -61,11 +61,11 @@ public final class ModBlocks {
 	public static final RegistryObject<Block> CINNAMON_LEAVES = register("cinnamon_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()));
 	public static final RegistryObject<Block> CINNAMON_PLANKS = register("cinnamon_planks", () -> new Block(Block.Properties.create(Material.WOOD, MaterialColor.ADOBE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
 	
-	public static final RegistryObject<Block> CINNAMON_SIGN = register("cinnamon_sign", () -> new ModStandingSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), ModWoodType.CINNAMON), false);
-	public static final RegistryObject<Block> CINNAMON_WALL_SIGN = register("cinnamon_wall_sign", () -> new ModWallSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(CINNAMON_SIGN.get()), ModWoodType.CINNAMON), false);
+	public static final RegistryObject<Block> CINNAMON_SIGN = register("cinnamon_sign", () -> new PVStandingSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), PVWoodType.CINNAMON), false);
+	public static final RegistryObject<Block> CINNAMON_WALL_SIGN = register("cinnamon_wall_sign", () -> new PVWallSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(CINNAMON_SIGN.get()), PVWoodType.CINNAMON), false);
 	
 	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
-	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new ModSaplingBlock(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
+	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new PVSaplingBlock(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
 
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.

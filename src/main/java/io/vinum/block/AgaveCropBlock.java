@@ -19,7 +19,7 @@ package io.vinum.block;
 
 import java.util.Random;
 
-import io.vinum.item.ModItems;
+import io.vinum.item.PVItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -229,7 +229,7 @@ public class AgaveCropBlock extends BushBlock implements IGrowable {
 	
 	protected IItemProvider getSeedsItem() {
 		
-		return ModItems.AGAVE_SEEDS.get();
+		return PVItems.AGAVE_SEEDS.get();
 		
 	}
 	

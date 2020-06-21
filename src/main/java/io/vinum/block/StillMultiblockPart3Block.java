@@ -20,7 +20,7 @@ package io.vinum.block;
 import javax.annotation.Nullable;
 
 import io.vinum.tileentity.StillSlaveTileEntity;
-import io.vinum.util.VoxelShapeHelper;
+import io.vinum.util.PVVoxelShapeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -77,7 +77,7 @@ public class StillMultiblockPart3Block extends ContainerBlock implements IWaterL
 	
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		
-		return VoxelShapeHelper.addShapes(VoxelShapeHelper.createRotatableShape(state, 12.0D, 1.0D, 6.0D, 14.0D, 3.0D, 8.0D), VoxelShapeHelper.createRotatableShape(state, 8.0D, 3.0D, 5.0D, 13.0D, 5.0D, 7.0D), VoxelShapeHelper.createRotatableShape(state, 6.0D, 4.0D, 6.0D, 8.0D, 6.0D, 8.0D), VoxelShapeHelper.createRotatableShape(state, 5.0D, 5.0D, 8.0D, 7.0D, 7.0D, 13.0D), VoxelShapeHelper.createRotatableShape(state, 6.0D, 6.0D, 13.0D, 8.0D, 8.0D, 15.0D), VoxelShapeHelper.createRotatableShape(state, 8.0D, 7.0D, 14.0D, 13.0D, 9.0D, 16.0D), VoxelShapeHelper.createRotatableShape(state, 13.0D, 8.0D, 13.0D, 15.0D, 10.0D, 15.0D), VoxelShapeHelper.createRotatableShape(state, 14.0D, 9.0D, 8.0D, 16.0D, 11.0D, 13.0D));
+		return PVVoxelShapeHelper.addShapes(PVVoxelShapeHelper.createRotatableShape(state, 12.0D, 1.0D, 6.0D, 14.0D, 3.0D, 8.0D), PVVoxelShapeHelper.createRotatableShape(state, 8.0D, 3.0D, 5.0D, 13.0D, 5.0D, 7.0D), PVVoxelShapeHelper.createRotatableShape(state, 6.0D, 4.0D, 6.0D, 8.0D, 6.0D, 8.0D), PVVoxelShapeHelper.createRotatableShape(state, 5.0D, 5.0D, 8.0D, 7.0D, 7.0D, 13.0D), PVVoxelShapeHelper.createRotatableShape(state, 6.0D, 6.0D, 13.0D, 8.0D, 8.0D, 15.0D), PVVoxelShapeHelper.createRotatableShape(state, 8.0D, 7.0D, 14.0D, 13.0D, 9.0D, 16.0D), PVVoxelShapeHelper.createRotatableShape(state, 13.0D, 8.0D, 13.0D, 15.0D, 10.0D, 15.0D), PVVoxelShapeHelper.createRotatableShape(state, 14.0D, 9.0D, 8.0D, 16.0D, 11.0D, 13.0D));
 				
 	}
 	

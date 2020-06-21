@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModWallSignBlock.java
+    Project Vinum - PVWallSignBlock.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 */
 package io.vinum.block;
 
-import io.vinum.tileentity.ModSignTileEntity;
+import io.vinum.tileentity.PVSignTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.block.WoodType;
@@ -32,9 +32,9 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class ModWallSignBlock extends WallSignBlock {
+public class PVWallSignBlock extends WallSignBlock {
 	
-	public ModWallSignBlock(Properties properties, WoodType wood) {
+	public PVWallSignBlock(Properties properties, WoodType wood) {
 		super(properties, wood);
 		
 	}
@@ -42,7 +42,7 @@ public class ModWallSignBlock extends WallSignBlock {
 	@Override
 	public TileEntity createNewTileEntity(IBlockReader worldIn) {
 		
-		return new ModSignTileEntity();
+		return new PVSignTileEntity();
 		
 	}
 	
@@ -59,9 +59,9 @@ public class ModWallSignBlock extends WallSignBlock {
 			
 			TileEntity tileentity = worldIn.getTileEntity(pos);
 			
-			if (tileentity instanceof ModSignTileEntity) {
+			if (tileentity instanceof PVSignTileEntity) {
 				
-				ModSignTileEntity signtileentity = (ModSignTileEntity)tileentity;
+				PVSignTileEntity signtileentity = (PVSignTileEntity)tileentity;
 				
 				if (flag) {
 					

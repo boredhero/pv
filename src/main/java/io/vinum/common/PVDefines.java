@@ -1,5 +1,5 @@
 /*
-    Project Vinum - Defines.java
+    Project Vinum - PVDefines.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 */
 package io.vinum.common;
 
-public class Defines {
+public class PVDefines {
 
 	public static final String MODID = "vinum";
 	

@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModColors.java
+    Project Vinum - PVColors.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 */
 package io.vinum.client.renderer.color;
 
-import io.vinum.block.ModBlocks;
+import io.vinum.block.PVBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModColors {
+public class PVColors {
 	
 	public static void init() {
 		
@@ -42,7 +42,7 @@ public class ModColors {
 			
 			return world != null && blockPos != null ? BiomeColors.getFoliageColor(world, blockPos) : FoliageColors.getDefault();
 			
-		}, ModBlocks.CINNAMON_LEAVES.get());
+		}, PVBlocks.CINNAMON_LEAVES.get());
         
         itemColors.register((stack, tintIndex) -> {
 			
@@ -50,7 +50,7 @@ public class ModColors {
 			
 			return blockColors.getColor(blockstate, (ILightReader)null, (BlockPos)null, tintIndex);
 			
-		}, ModBlocks.CINNAMON_LEAVES.get());
+		}, PVBlocks.CINNAMON_LEAVES.get());
 		
 	}
 	

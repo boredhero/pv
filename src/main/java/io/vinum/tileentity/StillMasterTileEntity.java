@@ -20,12 +20,12 @@ package io.vinum.tileentity;
 import javax.annotation.Nullable;
 
 import io.vinum.ProjectVinum;
-import io.vinum.block.ModBlocks;
-import io.vinum.block.state.properties.ModBlockStateProperties;
-import io.vinum.common.Defines;
-import io.vinum.inventory.container.ModContainers;
+import io.vinum.block.PVBlocks;
+import io.vinum.block.state.properties.PVBlockStateProperties;
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.PVContainers;
 import io.vinum.inventory.container.StillMasterContainer;
-import io.vinum.item.ModItems;
+import io.vinum.item.PVItems;
 import io.vinum.tileentity.recipes.StillRecipes;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Blocks;
@@ -97,7 +97,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	   };
 	
 	public StillMasterTileEntity() {
-		super(ModTileEntities.STILL_MASTER.get());
+		super(PVTileEntities.STILL_MASTER.get());
 		
 	}
 	
@@ -283,12 +283,12 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				
 			}
 			
-			if (world.getBlockState(pos.up()).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_2.get()) {
+			if (world.getBlockState(pos.up()).getBlock() == PVBlocks.STILL_MULTIBLOCK_PART_2.get()) {
 				
-				if (world.getBlockState(pos.up()).get(ModBlockStateProperties.PRESSURE) != currentPressure) {
+				if (world.getBlockState(pos.up()).get(PVBlockStateProperties.PRESSURE) != currentPressure) {
 					
 					flag = true;
-					this.world.setBlockState(this.pos.up(), this.world.getBlockState(this.pos.up()).with(ModBlockStateProperties.PRESSURE, currentPressure), 3);
+					this.world.setBlockState(this.pos.up(), this.world.getBlockState(this.pos.up()).with(PVBlockStateProperties.PRESSURE, currentPressure), 3);
 					
 				}
 				
@@ -411,14 +411,14 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	protected ITextComponent getDefaultName() {
 		
-		return new TranslationTextComponent(Defines.MODID + ":container.still");
+		return new TranslationTextComponent(PVDefines.MODID + ":container.still");
 		
 	}
 	
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, stillData);
+		return new StillMasterContainer(PVContainers.STILL_MASTER.get(), id, this, player, stillData);
 		
 	}
 	

@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModContainers.java
+    Project Vinum - PVContainers.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,16 +17,16 @@
 */
 package io.vinum.inventory.container;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ModContainers {
+public class PVContainers {
 	
-	public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, Defines.MODID);
+	public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, PVDefines.MODID);
 	
 	public static final RegistryObject<ContainerType<StillMasterContainer>> STILL_MASTER = CONTAINERS.register("still_master", () -> IForgeContainerType.create(StillMasterContainer::new));
 	

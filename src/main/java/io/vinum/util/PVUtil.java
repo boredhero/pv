@@ -1,5 +1,5 @@
 /*
-    Project Vinum - RLHelper.java
+    Project Vinum - PVUtil.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,15 @@
 */
 package io.vinum.util;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import net.minecraft.util.ResourceLocation;
 
 /**
  * Tiny utility class to help find the right {@code ResourceLocation}.
  */
-public final class RLHelper {
+public final class PVUtil {
 
-	private RLHelper() {
+	private PVUtil() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -33,7 +33,7 @@ public final class RLHelper {
 	 * @return {@code ResourceLocation} pointing to provided path with {@code MODID} as namespace.
 	 */
 	public static ResourceLocation getModResourceLocation(String path) {
-		return new ResourceLocation(Defines.MODID, path);
+		return new ResourceLocation(PVDefines.MODID, path);
 	}
 
 	/**

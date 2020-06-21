@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModWorldGen.java
+    Project Vinum - PVWorldGen.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@ import java.util.HashSet;
 
 import com.google.common.collect.ImmutableList;
 import io.vinum.block.AgaveCropBlock;
-import io.vinum.block.ModBlocks;
+import io.vinum.block.PVBlocks;
 import io.vinum.config.PVConfig;
-import io.vinum.world.biome.ModDefaultBiomeFeatures;
+import io.vinum.world.biome.PVDefaultBiomeFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.biome.Biome;
@@ -38,13 +38,13 @@ import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ModWorldGen {
+public class PVWorldGen {
 	
 	//Config
 	final static int AGAVE_SPAWN_CHANCES = PVConfig.agave_spawn_chances;
 	//TODO: Figure out how to do a similar thing for the tree...
 
-	public static final BlockClusterFeatureConfig AGAVE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModBlocks.CROP_AGAVE.get().getDefaultState().with(AgaveCropBlock.AGE, 2)), new SimpleBlockPlacer())).tries(5).whitelist(new HashSet<Block>((BlockTags.SAND.getAllElements()))).build();
+	public static final BlockClusterFeatureConfig AGAVE_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(PVBlocks.CROP_AGAVE.get().getDefaultState().with(AgaveCropBlock.AGE, 2)), new SimpleBlockPlacer())).tries(5).whitelist(new HashSet<Block>((BlockTags.SAND.getAllElements()))).build();
 	
 	public static void addFeatures () {
 		
@@ -58,7 +58,7 @@ public class ModWorldGen {
 			
 			if (biome.getCategory() == Biome.Category.JUNGLE) {
 				
-				biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(ModFeatures.CINNAMON_TREE.get().withConfiguration(ModDefaultBiomeFeatures.CINNAMON_TREE_CONFIG).withChance(0.1F)), ModFeatures.CINNAMON_TREE.get().withConfiguration(ModDefaultBiomeFeatures.CINNAMON_TREE_WITH_BEEHIVE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(50, 0.1F, 1))));
+				biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(PVFeatures.CINNAMON_TREE.get().withConfiguration(PVDefaultBiomeFeatures.CINNAMON_TREE_CONFIG).withChance(0.1F)), PVFeatures.CINNAMON_TREE.get().withConfiguration(PVDefaultBiomeFeatures.CINNAMON_TREE_WITH_BEEHIVE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(50, 0.1F, 1))));
 				
 			}
 			

@@ -19,7 +19,7 @@ package io.vinum.gui.screen.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import io.vinum.inventory.container.StillMasterContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -36,7 +36,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class StillMasterScreen extends ContainerScreen<StillMasterContainer> implements IContainerListener {
 	
-	private static final ResourceLocation STILL_MASTER_RESOURCE = new ResourceLocation(Defines.MODID, "textures/gui/container/still.png");
+	private static final ResourceLocation STILL_MASTER_RESOURCE = new ResourceLocation(PVDefines.MODID, "textures/gui/container/still.png");
 	
 	public StillMasterScreen(StillMasterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);

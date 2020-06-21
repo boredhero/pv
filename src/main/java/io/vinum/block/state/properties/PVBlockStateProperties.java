@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModBlockStateProperties.java
+    Project Vinum - PVBlockStateProperties.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@ package io.vinum.block.state.properties;
 
 import net.minecraft.state.IntegerProperty;
 
-public class ModBlockStateProperties {
+public class PVBlockStateProperties {
 	
 	public static final IntegerProperty PRESSURE = IntegerProperty.create("pressure", 0, 3);
 	

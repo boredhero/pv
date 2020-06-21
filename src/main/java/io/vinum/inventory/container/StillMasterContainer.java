@@ -39,7 +39,7 @@ public class StillMasterContainer extends Container {
 	private IIntArray stillData;
 	
 	public StillMasterContainer(int id, PlayerInventory playerInv, PacketBuffer extraData) {
-		this(ModContainers.STILL_MASTER.get(), id, playerInv, new IntArray(2));
+		this(PVContainers.STILL_MASTER.get(), id, playerInv, new IntArray(2));
 	  
 	}
 	

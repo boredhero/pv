@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModSignTileEntity.java
+    Project Vinum - PVSignTileEntity.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ModSignTileEntity extends TileEntity {
+public class PVSignTileEntity extends TileEntity {
 	//Copied from vanilla class
 	
 	public final ITextComponent[] signText = new ITextComponent[]{new StringTextComponent(""), new StringTextComponent(""), new StringTextComponent(""), new StringTextComponent("")};
@@ -60,8 +60,8 @@ public class ModSignTileEntity extends TileEntity {
 	private final String[] renderText = new String[4];
 	private DyeColor textColor = DyeColor.BLACK;
 
-	public ModSignTileEntity() {
-		super(ModTileEntities.VINUM_SIGN.get());
+	public PVSignTileEntity() {
+		super(PVTileEntities.VINUM_SIGN.get());
 	}
 
 	public CompoundNBT write(CompoundNBT compound) {

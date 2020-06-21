@@ -15,7 +15,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-
 package io.vinum;
 
 import net.minecraft.block.Block;
@@ -69,29 +68,29 @@ import javax.annotation.Nonnull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.vinum.block.ModBlocks;
-import io.vinum.block.stripping.StrippableBlocks;
+import io.vinum.block.PVBlocks;
+import io.vinum.block.stripping.PVStrippableBlocks;
 import io.vinum.capability.BAC;
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.BACStorage;
 import io.vinum.capability.IBAC;
-import io.vinum.client.renderer.color.ModColors;
-import io.vinum.client.renderer.tileentity.ModSignTileEntityRenderer;
-import io.vinum.common.Defines;
+import io.vinum.client.renderer.color.PVColors;
+import io.vinum.client.renderer.tileentity.PVSignTileEntityRenderer;
+import io.vinum.common.PVDefines;
 import io.vinum.config.PVConfig;
-import io.vinum.core.RegistryHandler;
+import io.vinum.core.PVRegistryHandler;
 import io.vinum.fuels.PVFuels;
-import io.vinum.gui.GuiHandler;
+import io.vinum.gui.PVGUIHandler;
 import io.vinum.gui.screen.inventory.StillMasterScreen;
-import io.vinum.inventory.container.ModContainers;
+import io.vinum.inventory.container.PVContainers;
 import io.vinum.item.drinks.IDrink;
 import io.vinum.network.BACSyncMessage;
-import io.vinum.network.NetworkLoader;
-import io.vinum.tileentity.ModTileEntities;
+import io.vinum.network.PVNetworkLoader;
+import io.vinum.tileentity.PVTileEntities;
 import io.vinum.tileentity.recipes.StillRecipes;
-import io.vinum.worldgen.ModWorldGen;
+import io.vinum.worldgen.PVWorldGen;
 
-@Mod(Defines.MODID)
+@Mod(PVDefines.MODID)
 public class ProjectVinum {
 	
 	@SuppressWarnings("unused")
@@ -102,7 +101,7 @@ public class ProjectVinum {
 	public ProjectVinum() {
 		
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PVConfig.COMMON_SPEC);
-		RegistryHandler.registerDeferred(FMLJavaModLoadingContext.get().getModEventBus());
+		PVRegistryHandler.registerDeferred(FMLJavaModLoadingContext.get().getModEventBus());
 		
 		PVLogger.init(LogManager.getLogger());
 		
@@ -120,27 +119,27 @@ public class ProjectVinum {
 	private void setup(final FMLCommonSetupEvent event) {
 		
 		PVConfig.bakeConfig();
-		NetworkLoader.register();
+		PVNetworkLoader.register();
 		CapabilityManager.INSTANCE.register(IBAC.class, new BACStorage(), BAC::new);
-		GuiHandler.initIcons();
-		ModWorldGen.addFeatures();
-		StrippableBlocks.registerStrippableBlocks();
+		PVGUIHandler.initIcons();
+		PVWorldGen.addFeatures();
+		PVStrippableBlocks.registerStrippableBlocks();
 		STILL_RECIPES.initRecipes();
 		
 	}
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		
-		RenderTypeLookup.setRenderLayer(ModBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(ModBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(ModBlocks.CINNAMON_LEAVES.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(ModBlocks.CINNAMON_SAPLING.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_LEAVES.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_SAPLING.get(), RenderType.getCutoutMipped());
 		
-		ScreenManager.registerFactory(ModContainers.STILL_MASTER.get(), StillMasterScreen::new);
+		ScreenManager.registerFactory(PVContainers.STILL_MASTER.get(), StillMasterScreen::new);
 		
-		ModColors.init();
+		PVColors.init();
 		
-		ClientRegistry.bindTileEntityRenderer(ModTileEntities.VINUM_SIGN.get(), ModSignTileEntityRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(PVTileEntities.VINUM_SIGN.get(), PVSignTileEntityRenderer::new);
 		
 	}
 	
@@ -165,7 +164,7 @@ public class ProjectVinum {
 			
 			if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
 				
-				event.addSprite(new ResourceLocation(Defines.MODID, "entity/signs/cinnamon"));
+				event.addSprite(new ResourceLocation(PVDefines.MODID, "entity/signs/cinnamon"));
 				
 			}
 			
@@ -179,7 +178,7 @@ public class ProjectVinum {
 		World world = event.getWorld();
 		BlockPos blockPos = event.getPos();
 		BlockState blockstate = world.getBlockState(blockPos);
-		Block block = StrippableBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
+		Block block = PVStrippableBlocks.BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
 		
 		if (block != null && event.getItemStack().getItem() instanceof AxeItem) {
 			
@@ -200,9 +199,9 @@ public class ProjectVinum {
 					
 				}
 				
-				if (block == ModBlocks.STRIPPED_CINNAMON_LOG.get() || block == ModBlocks.STRIPPED_CINNAMON_WOOD.get()) {
+				if (block == PVBlocks.STRIPPED_CINNAMON_LOG.get() || block == PVBlocks.STRIPPED_CINNAMON_WOOD.get()) {
 					
-					ResourceLocation resourcelocation = new ResourceLocation(Defines.MODID, "block_stripping/cinnamon_log");
+					ResourceLocation resourcelocation = new ResourceLocation(PVDefines.MODID, "block_stripping/cinnamon_log");
 					
 					if (resourcelocation != LootTables.EMPTY) {
 						
@@ -231,7 +230,7 @@ public class ProjectVinum {
 		
 		if (event.getObject() instanceof PlayerEntity) {
 			
-			event.addCapability(new ResourceLocation(Defines.MODID, "bac_capability"), new BACCapability());
+			event.addCapability(new ResourceLocation(PVDefines.MODID, "bac_capability"), new BACCapability());
 			
 		}
 		
@@ -252,7 +251,7 @@ public class ProjectVinum {
                     Capability<IBAC> cap = BACCapability.BAC_CAPABILITY;
                     Capability.IStorage<IBAC> storage = cap.getStorage();
                     nbt.put(cap.getName(), storage.writeNBT(cap, state, null));
-                    NetworkLoader.INSTANCE.send(PacketDistributor.PLAYER.with(() -> target), new BACSyncMessage(nbt));
+                    PVNetworkLoader.INSTANCE.send(PacketDistributor.PLAYER.with(() -> target), new BACSyncMessage(nbt));
                     
 				});
 				

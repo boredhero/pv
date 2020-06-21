@@ -17,7 +17,7 @@
 */
 package io.vinum.tileentity;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -35,7 +35,7 @@ public class BarrelTileEntity extends LockableTileEntity implements ITickableTil
 	protected NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
 	
 	public BarrelTileEntity() {
-		super(ModTileEntities.BARREL.get());
+		super(PVTileEntities.BARREL.get());
 		
 	}
 	
@@ -138,7 +138,7 @@ public class BarrelTileEntity extends LockableTileEntity implements ITickableTil
 	@Override
 	protected ITextComponent getDefaultName() {
 		
-		return new TranslationTextComponent(Defines.MODID + ":container.barrel");
+		return new TranslationTextComponent(PVDefines.MODID + ":container.barrel");
 		
 	}
 	

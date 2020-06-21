@@ -22,7 +22,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import io.vinum.tileentity.StillMasterTileEntity;
-import io.vinum.util.VoxelShapeHelper;
+import io.vinum.util.PVVoxelShapeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -121,7 +121,7 @@ public class StillMultiblockPart1Block extends ContainerBlock implements IWaterL
 	
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		
-		return VoxelShapeHelper.addShapes(Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D), Block.makeCuboidShape(0.0D, 1.0D, 0.0D, 16.0D, 15.0D, 16.0D));
+		return PVVoxelShapeHelper.addShapes(Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D), Block.makeCuboidShape(0.0D, 1.0D, 0.0D, 16.0D, 15.0D, 16.0D));
 		
 	}
 	

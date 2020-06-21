@@ -17,7 +17,7 @@
 */
 package io.vinum.tileentity;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -41,7 +41,7 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 	private BlockPos masterTileEntityPos;
 	
 	public StillSlaveTileEntity() {
-		super(ModTileEntities.STILL_SLAVE.get());
+		super(PVTileEntities.STILL_SLAVE.get());
 		
 	}
 	
@@ -168,7 +168,7 @@ public class StillSlaveTileEntity extends LockableTileEntity implements ITickabl
 	@Override
 	protected ITextComponent getDefaultName() {
 		
-		return new TranslationTextComponent(Defines.MODID + ":container.still");
+		return new TranslationTextComponent(PVDefines.MODID + ":container.still");
 		
 	}
 	

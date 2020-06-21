@@ -1,5 +1,5 @@
 /*
-    Project Vinum - NetworkLoader.java
+    Project Vinum - PVNetworkLoader.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,12 +17,12 @@
 */
 package io.vinum.network;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-public class NetworkLoader {
+public class PVNetworkLoader {
 	
 	private static int channelID = 1;
 	
@@ -32,7 +32,7 @@ public class NetworkLoader {
 	
 	public static void register() {
 		
-		INSTANCE = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(Defines.MODID, "main")).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions(PROTOCOL_VERSION::equals).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel();
+		INSTANCE = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(PVDefines.MODID, "main")).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions(PROTOCOL_VERSION::equals).networkProtocolVersion(() -> PROTOCOL_VERSION).simpleChannel();
 		INSTANCE.messageBuilder(BACSyncMessage.class, channelID++).decoder(BACSyncMessage::new).encoder(BACSyncMessage::encode).consumer(BACSyncMessage::handle).add();
 		
 	}

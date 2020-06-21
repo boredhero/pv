@@ -1,5 +1,5 @@
 /*
-    Project Vinum - EditModSignScreen.java
+    Project Vinum - PVEditSignScreen.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.vinum.client.renderer.tileentity.ModSignTileEntityRenderer;
-import io.vinum.tileentity.ModSignTileEntity;
+import io.vinum.client.renderer.tileentity.PVSignTileEntityRenderer;
+import io.vinum.tileentity.PVSignTileEntity;
 
 import java.util.List;
 import net.minecraft.block.BlockState;
@@ -51,20 +51,20 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class EditModSignScreen extends Screen {
+public class PVEditSignScreen extends Screen {
 	
 	//Copied from vanilla class
 	
-   private final ModSignTileEntityRenderer.SignModel field_228191_a_ = new ModSignTileEntityRenderer.SignModel();
+   private final PVSignTileEntityRenderer.SignModel field_228191_a_ = new PVSignTileEntityRenderer.SignModel();
    /** Reference to the sign object. */
-   private final ModSignTileEntity tileSign;
+   private final PVSignTileEntity tileSign;
    /** Counts the number of screen updates. */
    private int updateCounter;
    /** The index of the line that is being edited. */
    private int editLine;
    private TextInputUtil textInputUtil;
 
-   public EditModSignScreen(ModSignTileEntity teSign) {
+   public PVEditSignScreen(PVSignTileEntity teSign) {
       super(new TranslationTextComponent("sign.edit"));
       this.tileSign = teSign;
    }
@@ -147,7 +147,7 @@ public class EditModSignScreen extends Screen {
       matrixstack.push();
       matrixstack.scale(0.6666667F, -0.6666667F, -0.6666667F);
       IRenderTypeBuffer.Impl irendertypebuffer$impl = this.minecraft.getRenderTypeBuffers().getBufferSource();
-      Material material = ModSignTileEntityRenderer.getMaterial(blockstate.getBlock());
+      Material material = PVSignTileEntityRenderer.getMaterial(blockstate.getBlock());
       IVertexBuilder ivertexbuilder = material.getBuffer(irendertypebuffer$impl, this.field_228191_a_::getRenderType);
       this.field_228191_a_.signBoard.render(matrixstack, ivertexbuilder, 15728880, OverlayTexture.NO_OVERLAY);
       if (flag) {

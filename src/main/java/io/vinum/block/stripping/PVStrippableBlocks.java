@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModWoodType.java
+    Project Vinum - PVStrippableBlocks.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -15,16 +15,22 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-package io.vinum.block;
+package io.vinum.block.stripping;
 
-import net.minecraft.block.WoodType;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ModWoodType extends WoodType {
+import io.vinum.block.PVBlocks;
+import net.minecraft.block.Block;
+
+public class PVStrippableBlocks {
 	
-	public static final WoodType CINNAMON = new ModWoodType("cinnamon");
+	public static final Map<Block, Block> BLOCK_STRIPPING_MAP = new HashMap<>();
 	
-	public ModWoodType(String nameIn) {
-		super(nameIn);
+	public static void registerStrippableBlocks() {
+		
+		BLOCK_STRIPPING_MAP.put(PVBlocks.CINNAMON_LOG.get(), PVBlocks.STRIPPED_CINNAMON_LOG.get());
+		BLOCK_STRIPPING_MAP.put(PVBlocks.CINNAMON_WOOD.get(), PVBlocks.STRIPPED_CINNAMON_WOOD.get());
 		
 	}
 	

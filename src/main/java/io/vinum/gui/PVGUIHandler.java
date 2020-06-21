@@ -1,5 +1,5 @@
 /*
-    Project Vinum - GuiHandler.java
+    Project Vinum - PVGUIHandler.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.IBAC;
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 import io.yooksi.cocolib.gui.Alignment;
 import io.yooksi.cocolib.gui.GuiElement;
 import io.yooksi.cocolib.gui.SpriteObject;
@@ -37,7 +37,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class GuiHandler {
+public class PVGUIHandler {
 	
 	public static boolean hasInit;
 	public static boolean hasSwimmingInit;
@@ -52,8 +52,8 @@ public class GuiHandler {
 		
 		for (int i = 0; i < 9; i++) {
 			
-			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(0, 0).withSize(9, 9).build());
-			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(9, 0).withSize(9, 9).build());
+			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(PVDefines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(0, 0).withSize(9, 9).build());
+			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(PVDefines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 40).withUV(9, 0).withSize(9, 9).build());
 			
 		}
 		
@@ -69,8 +69,8 @@ public class GuiHandler {
 		
 		for (int i = 0; i < 9; i++) {
 			
-			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(0, 0).withSize(9, 9).build());
-			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(Defines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(9, 0).withSize(9, 9).build());
+			BAC_HUD_EMPTY_ICONS.add(SpriteObject.Builder.create(PVDefines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(0, 0).withSize(9, 9).build());
+			BAC_HUD_FULL_ICONS.add(SpriteObject.Builder.create(PVDefines.MODID, "textures/gui/bac_hud_bar.png").withPos(Alignment.BOTTOM_CENTER, 13 + (i * 9), 50).withUV(9, 0).withSize(9, 9).build());
 			
 		}
 		

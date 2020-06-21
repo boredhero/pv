@@ -1,10 +1,27 @@
+/*
+    Project Vinum - PVSignTileEntityRenderer.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.client.renderer.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.vinum.common.Defines;
-import io.vinum.tileentity.ModSignTileEntity;
+import io.vinum.common.PVDefines;
+import io.vinum.tileentity.PVSignTileEntity;
 
 import java.util.List;
 import net.minecraft.block.AbstractSignBlock;
@@ -32,15 +49,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModSignTileEntityRenderer extends TileEntityRenderer<ModSignTileEntity> {
+public class PVSignTileEntityRenderer extends TileEntityRenderer<PVSignTileEntity> {
 	
-	private final ModSignTileEntityRenderer.SignModel model = new ModSignTileEntityRenderer.SignModel();
+	private final PVSignTileEntityRenderer.SignModel model = new PVSignTileEntityRenderer.SignModel();
 	
-	public ModSignTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
+	public PVSignTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn);
 		
 	}
-	public void render(ModSignTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+	public void render(PVSignTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		
 		BlockState blockstate = tileEntityIn.getBlockState();
 		matrixStackIn.push();
@@ -114,7 +131,7 @@ public class ModSignTileEntityRenderer extends TileEntityRenderer<ModSignTileEnt
 			
 		}
 		
-		return new Material(Atlases.SIGN_ATLAS, new ResourceLocation(Defines.MODID, "entity/signs/" + woodtype.getName()));
+		return new Material(Atlases.SIGN_ATLAS, new ResourceLocation(PVDefines.MODID, "entity/signs/" + woodtype.getName()));
 		
 	}
 	

@@ -1,5 +1,5 @@
 /*
-    Project Vinum - ModSaplingBlock.java
+    Project Vinum - PVWoodType.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -17,14 +17,14 @@
 */
 package io.vinum.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.trees.Tree;
+import net.minecraft.block.WoodType;
 
-public class ModSaplingBlock extends SaplingBlock {
+public class PVWoodType extends WoodType {
 	
-	public ModSaplingBlock(Tree treeIn, Block.Properties properties) {
-		super(treeIn, properties);
+	public static final WoodType CINNAMON = new PVWoodType("cinnamon");
+	
+	public PVWoodType(String nameIn) {
+		super(nameIn);
 		
 	}
 	

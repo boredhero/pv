@@ -17,7 +17,7 @@
 */
 package io.vinum.fuels;
 
-import io.vinum.block.ModBlocks;
+import io.vinum.block.PVBlocks;
 import io.vinum.config.PVConfig;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,21 +39,21 @@ public class PVFuels {
         stripped_cinnamon_wood = PVConfig.stripped_cinnamon_wood, cinnamon_planks = PVConfig.cinnamon_planks, cinnamon_leaves = PVConfig.cinnamon_leaves, cinnamon_sign = PVConfig.cinnamon_sign,
         cinnamon_sapling = PVConfig.cinnamon_sapling;
 
-        if(fuel == ModBlocks.CINNAMON_LOG.get().asItem())
+        if(fuel == PVBlocks.CINNAMON_LOG.get().asItem())
             event.setBurnTime(cinnamon_log);
-        else if(fuel == ModBlocks.STRIPPED_CINNAMON_LOG.get().asItem())
+        else if(fuel == PVBlocks.STRIPPED_CINNAMON_LOG.get().asItem())
             event.setBurnTime(stripped_cinnamon_log);
-        else if(fuel == ModBlocks.CINNAMON_WOOD.get().asItem())
+        else if(fuel == PVBlocks.CINNAMON_WOOD.get().asItem())
             event.setBurnTime(cinnamon_wood);
-        else if(fuel == ModBlocks.STRIPPED_CINNAMON_WOOD.get().asItem())
+        else if(fuel == PVBlocks.STRIPPED_CINNAMON_WOOD.get().asItem())
             event.setBurnTime(stripped_cinnamon_wood);
-        else if(fuel == ModBlocks.CINNAMON_PLANKS.get().asItem())
+        else if(fuel == PVBlocks.CINNAMON_PLANKS.get().asItem())
             event.setBurnTime(cinnamon_planks);
-        else if(fuel == ModBlocks.CINNAMON_LEAVES.get().asItem())
+        else if(fuel == PVBlocks.CINNAMON_LEAVES.get().asItem())
             event.setBurnTime(cinnamon_leaves);
-        else if(fuel == ModBlocks.CINNAMON_SIGN.get().asItem())
+        else if(fuel == PVBlocks.CINNAMON_SIGN.get().asItem())
             event.setBurnTime(cinnamon_sign);
-        else if(fuel == ModBlocks.CINNAMON_SAPLING.get().asItem())
+        else if(fuel == PVBlocks.CINNAMON_SAPLING.get().asItem())
             event.setBurnTime(cinnamon_sapling);
 
     }

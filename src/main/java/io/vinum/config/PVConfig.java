@@ -23,7 +23,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-import io.vinum.common.Defines;
+import io.vinum.common.PVDefines;
 
 public class PVConfig {
 
@@ -68,7 +68,7 @@ public static class Common {
         //Spawn Chances
         agave_spawn_chances = builder
         .comment("Set spawn chances for Agave Plants in the Mesa/Desert Biome (Default:15)")
-        .translation(Defines.MODID + ".config." + "agave_spawn_chances")
+        .translation(PVDefines.MODID + ".config." + "agave_spawn_chances")
         .define("agave_spawn_chances", 15);
 
         //So...I used the same fuels logic as I use in More Fuels Mod for these
@@ -78,42 +78,42 @@ public static class Common {
         //Fuels
         cinnamon_log = builder
         .comment("Set fuel burn time in ticks for Cinnamon Log")
-        .translation(Defines.MODID + ".config." + "cinnamon_log")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_log")
         .define("cinnamon_log", 300);
 
         stripped_cinnamon_log = builder
         .comment("Set fuel burn time in ticks for Stripped Cinnamon Log")
-        .translation(Defines.MODID + ".config." + "stripped_cinnamon_log")
+        .translation(PVDefines.MODID + ".config." + "stripped_cinnamon_log")
         .define("stripped_cinnamon_log", 300);
 
         cinnamon_wood = builder
         .comment("Set fuel burn time in ticks for Cinnamon Wood")
-        .translation(Defines.MODID + ".config." + "cinnamon_wood")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_wood")
         .define("cinnamon_wood", 300);
 
         stripped_cinnamon_wood = builder
         .comment("Set fuel burn time in ticks for Stripped Cinnamon Wood")
-        .translation(Defines.MODID + ".config." + "stripped_cinnamon_wood")
+        .translation(PVDefines.MODID + ".config." + "stripped_cinnamon_wood")
         .define("stripped_cinnamon_wood", 300);
 
         cinnamon_planks = builder
         .comment("Set fuel burn time in ticks for Cinnamon Planks")
-        .translation(Defines.MODID + ".config." + "cinnamon_planks")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_planks")
         .define("cinnamon_planks", 75);
 
         cinnamon_leaves = builder
         .comment("Set fuel burn time in ticks for Cinnamon Leaves")
-        .translation(Defines.MODID + ".config." + "cinnamon_leaves")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_leaves")
         .define("cinnamon_leaves", 75);
 
         cinnamon_sign = builder
         .comment("Set fuel burn time in ticks for Cinnamon Sign")
-        .translation(Defines.MODID + ".config." + "cinnamon_sign")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_sign")
         .define("cinnamon_sign", 163);
 
         cinnamon_sapling = builder
         .comment("Set fuel burn time in ticks for Cinnamon Sapling")
-        .translation(Defines.MODID + ".config." + "cinnamon_sapling")
+        .translation(PVDefines.MODID + ".config." + "cinnamon_sapling")
         .define("cinnamon_sapling", 100);
 
         }

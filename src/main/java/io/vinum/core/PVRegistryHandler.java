@@ -1,5 +1,5 @@
 /*
-    Project Vinum - RegistryHandler.java
+    Project Vinum - PVRegistryHandler.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -32,19 +32,19 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.vinum.PVLogger;
-import io.vinum.block.ModBlocks;
-import io.vinum.block.stripping.StrippableBlocks;
-import io.vinum.common.Defines;
-import io.vinum.inventory.container.ModContainers;
-import io.vinum.item.ModItemGroup;
-import io.vinum.item.ModItems;
-import io.vinum.tileentity.ModTileEntities;
-import io.vinum.util.RLHelper;
-import io.vinum.worldgen.ModFeatures;
+import io.vinum.block.PVBlocks;
+import io.vinum.block.stripping.PVStrippableBlocks;
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.PVContainers;
+import io.vinum.item.PVItemGroup;
+import io.vinum.item.PVItems;
+import io.vinum.tileentity.PVTileEntities;
+import io.vinum.util.PVUtil;
+import io.vinum.worldgen.PVFeatures;
 
-@ObjectHolder(Defines.MODID)
-@Mod.EventBusSubscriber(modid = Defines.MODID, bus=Mod.EventBusSubscriber.Bus.MOD)
-public class RegistryHandler {
+@ObjectHolder(PVDefines.MODID)
+@Mod.EventBusSubscriber(modid = PVDefines.MODID, bus=Mod.EventBusSubscriber.Bus.MOD)
+public class PVRegistryHandler {
 
 
 	@SubscribeEvent
@@ -53,10 +53,10 @@ public class RegistryHandler {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 		AtomicInteger blockItemCount = new AtomicInteger();
 
-		ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
-				.filter(ModBlocks::needsItemBlock).forEach(block -> {
+		PVBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
+				.filter(PVBlocks::needsItemBlock).forEach(block -> {
 
-					final Item.Properties properties = new Item.Properties().group(ModItemGroup.MAIN);
+					final Item.Properties properties = new Item.Properties().group(PVItemGroup.MAIN);
 					final BlockItem blockItem = new BlockItem(block, properties);
 					blockItem.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
 					registry.register(blockItem);
@@ -68,11 +68,11 @@ public class RegistryHandler {
 
 	public static void registerDeferred(IEventBus iEventBus) {
 
-		ModBlocks.BLOCKS.register(iEventBus);
-		ModItems.ITEMS.register(iEventBus);
-		ModTileEntities.TILEENTITIES.register(iEventBus);
-		ModContainers.CONTAINERS.register(iEventBus);
-		ModFeatures.FEATURES.register(iEventBus);
+		PVBlocks.BLOCKS.register(iEventBus);
+		PVItems.ITEMS.register(iEventBus);
+		PVTileEntities.TILEENTITIES.register(iEventBus);
+		PVContainers.CONTAINERS.register(iEventBus);
+		PVFeatures.FEATURES.register(iEventBus);
 		
 	}
 
@@ -88,7 +88,7 @@ public class RegistryHandler {
 	@SuppressWarnings("unused")
 	private static <T extends IForgeRegistryEntry<T>> T setup(final T entry, final String name) {
 
-		entry.setRegistryName(RLHelper.getModResourceLocation(name));
+		entry.setRegistryName(PVUtil.getModResourceLocation(name));
 		return entry;
 	}
 }

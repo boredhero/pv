@@ -1,5 +1,5 @@
 /*
-    Project Vinum - StrippableBlocks.java
+    Project Vinum - PVSaplingBlock.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -15,22 +15,16 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-package io.vinum.block.stripping;
+package io.vinum.block;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import io.vinum.block.ModBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.trees.Tree;
 
-public class StrippableBlocks {
+public class PVSaplingBlock extends SaplingBlock {
 	
-	public static final Map<Block, Block> BLOCK_STRIPPING_MAP = new HashMap<>();
-	
-	public static void registerStrippableBlocks() {
-		
-		BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_LOG.get(), ModBlocks.STRIPPED_CINNAMON_LOG.get());
-		BLOCK_STRIPPING_MAP.put(ModBlocks.CINNAMON_WOOD.get(), ModBlocks.STRIPPED_CINNAMON_WOOD.get());
+	public PVSaplingBlock(Tree treeIn, Block.Properties properties) {
+		super(treeIn, properties);
 		
 	}
 	

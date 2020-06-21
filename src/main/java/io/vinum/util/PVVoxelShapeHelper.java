@@ -1,5 +1,5 @@
 /*
-    Project Vinum - VoxelShapeHelper.java
+    Project Vinum - PVVoxelShapeHelper.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 
-public class VoxelShapeHelper {
+public class PVVoxelShapeHelper {
 	
 	public static VoxelShape createRotatableShape(BlockState state, double x1, double y1, double z1, double x2, double y2, double z2) {
 		
