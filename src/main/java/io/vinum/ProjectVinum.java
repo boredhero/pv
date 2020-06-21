@@ -133,6 +133,7 @@ public class ProjectVinum {
 		RenderTypeLookup.setRenderLayer(PVBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_LEAVES.get(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_SAPLING.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_DOOR.get(), RenderType.getCutoutMipped());
 		
 		ScreenManager.registerFactory(PVContainers.STILL_MASTER.get(), StillMasterScreen::new);
 		

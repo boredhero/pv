@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": { "model": "vinum:block/cinnamon_pressure_plate" },
+        "powered=true": { "model": "vinum:block/cinnamon_pressure_plate_down" }
+    }
+}

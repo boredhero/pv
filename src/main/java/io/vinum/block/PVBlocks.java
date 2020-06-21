@@ -21,9 +21,11 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;
@@ -58,6 +60,8 @@ public final class PVBlocks {
 	
 	public static final RegistryObject<Block> CINNAMON_SIGN = register("cinnamon_sign", () -> new PVStandingSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), PVWoodType.CINNAMON), false);
 	public static final RegistryObject<Block> CINNAMON_WALL_SIGN = register("cinnamon_wall_sign", () -> new PVWallSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(CINNAMON_SIGN.get()), PVWoodType.CINNAMON), false);
+	public static final RegistryObject<Block> CINNAMON_DOOR = register("cinnamon_door", () -> new PVDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.ADOBE).hardnessAndResistance(3.0F).sound(SoundType.WOOD).notSolid()), false);
+	public static final RegistryObject<Block> CINNAMON_STAIRS = register("cinnamon_stairs", () -> new PVStairsBlock(CINNAMON_PLANKS.get().getDefaultState(), Block.Properties.from(CINNAMON_PLANKS.get())));
 	
 	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
 	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new PVSaplingBlock(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));

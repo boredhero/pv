@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "vinum:block/cinnamon_door_bottom",
+        "top": "vinum:block/cinnamon_door_top"
+    }
+}
