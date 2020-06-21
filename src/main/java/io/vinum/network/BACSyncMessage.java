@@ -19,14 +19,15 @@ package io.vinum.network;
 
 import java.util.function.Supplier;
 
-import io.vinum.capability.BACCapability;
-import io.vinum.capability.IBAC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.network.NetworkEvent;
+
+import io.vinum.capability.BACCapability;
+import io.vinum.capability.IBAC;
 
 public class BACSyncMessage {
 	

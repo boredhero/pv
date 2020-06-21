@@ -17,12 +17,13 @@
 */
 package io.vinum.fuels;
 
-import io.vinum.block.PVBlocks;
-import io.vinum.config.PVConfig;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import io.vinum.block.PVBlocks;
+import io.vinum.config.PVConfig;
 
 public class PVFuels {
     public static final PVFuels instance = new PVFuels();

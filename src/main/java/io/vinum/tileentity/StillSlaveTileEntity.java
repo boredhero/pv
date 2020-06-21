@@ -17,7 +17,6 @@
 */
 package io.vinum.tileentity;
 
-import io.vinum.common.PVDefines;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -31,6 +30,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+
+import io.vinum.common.PVDefines;
 
 public class StillSlaveTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	

@@ -19,7 +19,6 @@ package io.vinum.block;
 
 import java.util.Random;
 
-import io.vinum.item.PVItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -41,6 +40,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import io.vinum.item.PVItems;
 
 public class AgaveCropBlock extends BushBlock implements IGrowable {
 	

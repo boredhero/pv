@@ -21,7 +21,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import io.vinum.multiblock.StillMultiblock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -62,6 +61,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.multiblock.StillMultiblock;
 
 public class SteelBrazierBlock extends Block implements IWaterLoggable {
 	

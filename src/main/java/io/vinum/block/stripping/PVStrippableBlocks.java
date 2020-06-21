@@ -20,8 +20,9 @@ package io.vinum.block.stripping;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.vinum.block.PVBlocks;
 import net.minecraft.block.Block;
+
+import io.vinum.block.PVBlocks;
 
 public class PVStrippableBlocks {
 	

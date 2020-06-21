@@ -17,6 +17,9 @@
 */
 package io.vinum.core;
 
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -28,12 +31,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.ObjectHolder;
 
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import io.vinum.PVLogger;
 import io.vinum.block.PVBlocks;
-import io.vinum.block.stripping.PVStrippableBlocks;
 import io.vinum.common.PVDefines;
 import io.vinum.inventory.container.PVContainers;
 import io.vinum.item.PVItemGroup;

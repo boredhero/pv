@@ -21,11 +21,12 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import io.vinum.world.biome.PVDefaultBiomeFeatures;
-import io.vinum.worldgen.PVFeatures;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
+
+import io.vinum.world.biome.PVDefaultBiomeFeatures;
+import io.vinum.worldgen.PVFeatures;
 
 public class CinnamonTree extends Tree {
 	

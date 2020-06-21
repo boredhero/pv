@@ -17,11 +17,13 @@
 */
 package io.vinum.worldgen.features;
 
-import com.mojang.datafixers.Dynamic;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
+
+import com.mojang.datafixers.Dynamic;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.gen.IWorldGenerationReader;

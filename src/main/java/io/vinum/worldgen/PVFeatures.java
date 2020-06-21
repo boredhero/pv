@@ -1,5 +1,5 @@
 /*
-    Project Vinum - PVFeatures.java
+    Project Vinum - PV.java
     Copyright (C) 2020 Noah Martino and Tiller Eaton
 
     This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,6 @@ import java.util.function.Supplier;
 
 import com.mojang.datafixers.Dynamic;
 
-import io.vinum.block.PVBlocks;
-import io.vinum.common.PVDefines;
-import io.vinum.worldgen.features.CinnamonTreeFeature;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.Feature;
@@ -33,6 +30,10 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import io.vinum.block.PVBlocks;
+import io.vinum.common.PVDefines;
+import io.vinum.worldgen.features.CinnamonTreeFeature;
 
 public class PVFeatures {
 	

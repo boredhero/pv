@@ -19,12 +19,13 @@ package io.vinum.world.biome;
 
 import com.google.common.collect.ImmutableList;
 
-import io.vinum.block.PVBlocks;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.treedecorator.BeehiveTreeDecorator;
 import net.minecraftforge.common.IPlantable;
+
+import io.vinum.block.PVBlocks;
 
 public class PVDefaultBiomeFeatures {
 	

@@ -17,9 +17,9 @@
 */
 package io.vinum.util;
 
-import io.vinum.common.PVDefines;
 import net.minecraft.util.ResourceLocation;
 
+import io.vinum.common.PVDefines;
 /**
  * Tiny utility class to help find the right {@code ResourceLocation}.
  */

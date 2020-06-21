@@ -19,6 +19,7 @@ package io.vinum;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
+
 import org.jetbrains.annotations.Contract;
 
 /**

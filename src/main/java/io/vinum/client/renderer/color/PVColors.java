@@ -17,7 +17,6 @@
 */
 package io.vinum.client.renderer.color;
 
-import io.vinum.block.PVBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -29,6 +28,8 @@ import net.minecraft.world.ILightReader;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.block.PVBlocks;
 
 @OnlyIn(Dist.CLIENT)
 public class PVColors {

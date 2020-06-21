@@ -19,15 +19,6 @@ package io.vinum.tileentity;
 
 import javax.annotation.Nullable;
 
-import io.vinum.ProjectVinum;
-import io.vinum.block.PVBlocks;
-import io.vinum.block.state.properties.PVBlockStateProperties;
-import io.vinum.common.PVDefines;
-import io.vinum.inventory.container.PVContainers;
-import io.vinum.inventory.container.StillMasterContainer;
-import io.vinum.item.PVItems;
-import io.vinum.tileentity.recipes.StillRecipes;
-import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -45,6 +36,14 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+
+import io.vinum.ProjectVinum;
+import io.vinum.block.PVBlocks;
+import io.vinum.block.state.properties.PVBlockStateProperties;
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.PVContainers;
+import io.vinum.inventory.container.StillMasterContainer;
+import io.vinum.tileentity.recipes.StillRecipes;
 
 public class StillMasterTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	

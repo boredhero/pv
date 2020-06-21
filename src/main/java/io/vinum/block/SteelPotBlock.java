@@ -19,7 +19,6 @@ package io.vinum.block;
 
 import javax.annotation.Nullable;
 
-import io.vinum.multiblock.StillMultiblock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -44,6 +43,8 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import io.vinum.multiblock.StillMultiblock;
 
 public class SteelPotBlock extends Block implements IWaterLoggable {
 	

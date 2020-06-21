@@ -19,8 +19,6 @@ package io.vinum.gui.screen.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import io.vinum.common.PVDefines;
-import io.vinum.inventory.container.StillMasterContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -32,6 +30,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.StillMasterContainer;
 
 @OnlyIn(Dist.CLIENT)
 public class StillMasterScreen extends ContainerScreen<StillMasterContainer> implements IContainerListener {

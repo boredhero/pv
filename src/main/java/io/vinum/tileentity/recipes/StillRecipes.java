@@ -19,8 +19,9 @@ package io.vinum.tileentity.recipes;
 
 import java.util.ArrayList;
 
-import io.vinum.item.PVItems;
 import net.minecraft.item.ItemStack;
+
+import io.vinum.item.ModItems;
 
 public class StillRecipes {
 	
@@ -28,7 +29,7 @@ public class StillRecipes {
 	
 	public void initRecipes() {
 		//Add recipes for the Still here		
-		addStillRecipe(new ItemStack(PVItems.FERMENTED_AGAVE_WORT.get()), new ItemStack(PVItems.FIFTH_BOTTLE_EMPTY.get()), new ItemStack(PVItems.FIFTH_SILVER_TEQUILA.get()), 240);
+		addStillRecipe(new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()), new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), 240);
 	}
 	
 	public void addStillRecipe(ItemStack distilledItemstack, ItemStack requiredBottleItemstack, ItemStack distillingResultItemstack, int ticksToDistill) {

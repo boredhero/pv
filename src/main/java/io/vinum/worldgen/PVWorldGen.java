@@ -20,10 +20,7 @@ package io.vinum.worldgen;
 import java.util.HashSet;
 
 import com.google.common.collect.ImmutableList;
-import io.vinum.block.AgaveCropBlock;
-import io.vinum.block.PVBlocks;
-import io.vinum.config.PVConfig;
-import io.vinum.world.biome.PVDefaultBiomeFeatures;
+
 import net.minecraft.block.Block;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.biome.Biome;
@@ -37,6 +34,11 @@ import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import io.vinum.block.AgaveCropBlock;
+import io.vinum.block.PVBlocks;
+import io.vinum.config.PVConfig;
+import io.vinum.world.biome.PVDefaultBiomeFeatures;
 
 public class PVWorldGen {
 	

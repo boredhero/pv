@@ -19,10 +19,11 @@ package io.vinum.item;
 
 import java.util.function.Supplier;
 
-import io.vinum.common.PVDefines;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+
+import io.vinum.common.PVDefines;
 
 /**
  * ModItemGroup is an ItemGroup (previously called {@code CreativeTab} child for our mod
@@ -36,7 +37,7 @@ public class PVItemGroup extends ItemGroup {
 
 	/** Main item group for this mod used for all items */
 	@SuppressWarnings("deprecation")
-	public static final ItemGroup MAIN = new PVItemGroup(PVDefines.MODID, () -> new ItemStack(PVItems.SPICED_APPLE_MARGARITA.get()));
+	public static final ItemGroup MAIN = new PVItemGroup(PVDefines.MODID, () -> new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get()));
 
 	public static final Item.Properties PROPERTIES = new Item.Properties().group(PVItemGroup.MAIN);
 

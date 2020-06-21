@@ -17,10 +17,11 @@
 */
 package io.vinum.network;
 
-import io.vinum.common.PVDefines;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+
+import io.vinum.common.PVDefines;
 
 public class PVNetworkLoader {
 	

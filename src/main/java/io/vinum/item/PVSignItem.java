@@ -19,8 +19,6 @@ package io.vinum.item;
 
 import javax.annotation.Nullable;
 
-import io.vinum.gui.screen.PVEditSignScreen;
-import io.vinum.tileentity.PVSignTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -29,7 +27,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import io.vinum.gui.screen.PVEditSignScreen;
+import io.vinum.tileentity.PVSignTileEntity;
 
 public class PVSignItem extends WallOrFloorItem {
 	

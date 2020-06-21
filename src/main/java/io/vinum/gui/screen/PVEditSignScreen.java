@@ -17,15 +17,13 @@
 */
 package io.vinum.gui.screen;
 
+import java.util.List;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.vinum.client.renderer.tileentity.PVSignTileEntityRenderer;
-import io.vinum.tileentity.PVSignTileEntity;
-
-import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StandingSignBlock;
 import net.minecraft.client.gui.RenderComponentsUtil;
@@ -49,6 +47,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.client.renderer.tileentity.PVSignTileEntityRenderer;
+import io.vinum.tileentity.PVSignTileEntity;
+
 
 @OnlyIn(Dist.CLIENT)
 public class PVEditSignScreen extends Screen {

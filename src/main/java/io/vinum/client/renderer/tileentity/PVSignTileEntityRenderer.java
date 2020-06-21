@@ -17,13 +17,11 @@
 */
 package io.vinum.client.renderer.tileentity;
 
+import java.util.List;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import io.vinum.common.PVDefines;
-import io.vinum.tileentity.PVSignTileEntity;
-
-import java.util.List;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -39,7 +37,6 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.NativeImage;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -47,6 +44,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.common.PVDefines;
+import io.vinum.tileentity.PVSignTileEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class PVSignTileEntityRenderer extends TileEntityRenderer<PVSignTileEntity> {

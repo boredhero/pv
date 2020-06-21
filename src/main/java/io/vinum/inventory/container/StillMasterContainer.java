@@ -17,8 +17,6 @@
 */
 package io.vinum.inventory.container;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;

@@ -19,9 +19,6 @@ package io.vinum.item.drinks;
 
 import javax.annotation.Nonnull;
 
-import io.vinum.capability.BACCapability;
-import io.vinum.capability.IBAC;
-import io.vinum.common.Defines;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -33,6 +30,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.NonNullConsumer;
+
+import io.vinum.capability.BACCapability;
+import io.vinum.capability.IBAC;
+import io.vinum.common.PVDefines;
 
 public interface IDrink {
 	

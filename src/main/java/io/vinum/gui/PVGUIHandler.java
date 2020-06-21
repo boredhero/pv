@@ -22,12 +22,6 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.vinum.capability.BACCapability;
-import io.vinum.capability.IBAC;
-import io.vinum.common.PVDefines;
-import io.yooksi.cocolib.gui.Alignment;
-import io.yooksi.cocolib.gui.GuiElement;
-import io.yooksi.cocolib.gui.SpriteObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.multiplayer.PlayerController;
@@ -35,6 +29,14 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import io.yooksi.cocolib.gui.Alignment;
+import io.yooksi.cocolib.gui.GuiElement;
+import io.yooksi.cocolib.gui.SpriteObject;
+
+import io.vinum.capability.BACCapability;
+import io.vinum.capability.IBAC;
+import io.vinum.common.PVDefines;
 
 @Mod.EventBusSubscriber
 public class PVGUIHandler {

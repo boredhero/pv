@@ -17,7 +17,6 @@
 */
 package io.vinum.block;
 
-import io.vinum.tileentity.PVSignTileEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.block.WoodType;
@@ -31,6 +30,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import io.vinum.tileentity.PVSignTileEntity;
 
 public class PVWallSignBlock extends WallSignBlock {
 	

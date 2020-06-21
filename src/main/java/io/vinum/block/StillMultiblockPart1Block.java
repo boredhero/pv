@@ -21,14 +21,11 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import io.vinum.tileentity.StillMasterTileEntity;
-import io.vinum.util.PVVoxelShapeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.RedstoneTorchBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
@@ -60,6 +57,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import io.vinum.tileentity.StillMasterTileEntity;
+import io.vinum.util.PVVoxelShapeHelper;
 
 public class StillMultiblockPart1Block extends ContainerBlock implements IWaterLoggable {
 	

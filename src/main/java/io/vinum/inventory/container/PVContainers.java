@@ -17,12 +17,13 @@
 */
 package io.vinum.inventory.container;
 
-import io.vinum.common.PVDefines;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import io.vinum.common.PVDefines;
 
 public class PVContainers {
 	
