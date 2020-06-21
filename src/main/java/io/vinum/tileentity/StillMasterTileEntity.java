@@ -1,19 +1,19 @@
 /*
-    Project Vinum - StillMasterTileEntity.java
-    Copyright (C) 2020 Noah Martino and Tiller Eaton
+	Project Vinum - StillMasterTileEntity.java
+	Copyright (C) 2020 Noah Martino and Tiller Eaton
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package io.vinum.tileentity;
 
@@ -27,6 +27,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
@@ -36,7 +37,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-
+import net.minecraftforge.common.ForgeHooks;
 import io.vinum.ProjectVinum;
 import io.vinum.block.PVBlocks;
 import io.vinum.block.state.properties.PVBlockStateProperties;
@@ -52,6 +53,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	public StillRecipes.StillRecipe currentRecipe;
 	
 	public int fuelTime;
+	public int totalFuelTime;
 	public int progressTime;
 	public int totalProgressTime;
 	
@@ -69,40 +71,57 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			
 			case 0:
 				return fuelTime;
+				
+			case 1:
+				return totalFuelTime;
+				
 			case 2:
 				return progressTime;
+				
 			case 3:
 				return totalProgressTime;
+				
 			default:
 				return 0;
+				
 			}
+			
 		}
-
-	      public void set(int index, int value) {
-	         switch(index) {
-	         case 0:
-	        	progressTime = value;
-	            break;
-	         case 1:
-	        	fuelTime = value;
-	            break;
-	         }
-
-	      }
-
-	      public int size() {
-	         return 3;
-	      }
-	   };
+		
+		public void set(int index, int value) {
+			
+			switch(index) {
+			
+			case 0:
+				fuelTime = value;
+				break;
+				
+			 case 1:
+				totalFuelTime = value;
+				break;
+				
+			 case 2:
+				progressTime = value;
+				break;
+				
+			 case 3:
+				totalProgressTime = value;
+				break;
+				
+			}
+			
+		}
+		
+		public int size() {
+			
+			return 4;
+			
+		}
+		
+	};
 	
 	public StillMasterTileEntity() {
 		super(PVTileEntities.STILL_MASTER.get());
-		
-	}
-	
-	public IIntArray getStillData() {
-		
-		return stillData;
 		
 	}
 	
@@ -131,15 +150,31 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		
 	}
 	
-	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		
-		return new SUpdateTileEntityPacket(this.pos, 42, this.getUpdateTag());
+		this.read(pkt.getNbtCompound());
+		world.notifyBlockUpdate(pos, world.getBlockState(pos).getBlock().getDefaultState(), world.getBlockState(pos), 2);
+		
+	}
+
+	@Override
+	public CompoundNBT getUpdateTag() {
+		
+		CompoundNBT compound = new CompoundNBT();
+		
+		this.write(compound);
+		return compound;
 		
 	}
 	
-	@SuppressWarnings("deprecation")
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		
+		return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
+		
+	}
+	
 	@Override
 	public void tick() {
 		
@@ -176,8 +211,13 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 					if (AbstractFurnaceTileEntity.isFuel(fuel)) {
 						
 						flag = true;
-						fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
+						fuelTime = ForgeHooks.getBurnTime(fuel);
+						totalFuelTime = ForgeHooks.getBurnTime(fuel);
 						fuel.shrink(1);
+						
+					} else {
+						
+						totalFuelTime = 0;
 						
 					}
 					
@@ -194,7 +234,9 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 						
 					}
 					
-				} else {
+				}
+				
+				if (this.currentRecipe.getDistilledItemstack().getItem() != input.getItem()) {
 					
 					progressTime = 0;
 					
@@ -299,7 +341,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 				flag = true;
 				this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.TRUE), 3);
 				
-			} else if (fuelTime <= 0 && this.getBlockState().get(BlockStateProperties.LIT) == true && !AbstractFurnaceTileEntity.isFuel(fuel)) {
+			} else if (fuelTime <= 0 && this.getBlockState().get(BlockStateProperties.LIT) == true) {
 				
 				flag = true;
 				this.world.setBlockState(pos, world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.FALSE), 3);
@@ -354,7 +396,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		}
 		
 		return true;
-	      
+		  
 	}
 	
 	@Override
@@ -417,7 +459,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(PVContainers.STILL_MASTER.get(), id, this, player, stillData);
+		return new StillMasterContainer(id, this, player, this.stillData);
 		
 	}
 	

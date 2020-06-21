@@ -102,11 +102,21 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		int j = (this.height - this.ySize) / 2;
 		this.blit(i, j, 0, 0, this.xSize, this.ySize);
 		
-		//int k = tileEntity.getStillData().get(1) * 13 / 200;
-        //this.blit(i + 43, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+		int k = ((StillMasterContainer)this.container).getBurnLeftScaled();
 		
-        //int l = tileEntity.getStillData().get(0) * 24 / 240;
-        //this.blit(i + 79, j + 34, 176, 14, l + 1, 16);
+		if (k != 0) {
+			
+			this.blit(i + 43, j + 48 - k, 176, 12 - k, 14, k + 1);
+			
+		}
+		
+        int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
+        
+        if (l != 0) {
+        	
+        	this.blit(i + 60, j + 19, 176, 14, l + 1, 16);
+        	
+        }
         
 	}
 

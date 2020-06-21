@@ -74,7 +74,9 @@ public class DrinkItem extends Item implements IDrink {
 			
 		}
 		
-		return stack.isEmpty() ? returnedItem : stack;
+		((PlayerEntity) entityLiving).addItemStackToInventory(returnedItem);
+		
+		return stack;
 		
 	}
 	
