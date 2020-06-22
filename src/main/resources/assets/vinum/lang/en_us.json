@@ -13,6 +13,8 @@
 	"block.vinum.stripped_cinnamon_wood": "Stripped Cinnamon Wood",
 	"block.vinum.cinnamon_planks": "Cinnamon Planks",
 	"block.vinum.cinnamon_sign": "Cinnamon Sign",
+	"block.vinum.cinnamon_stairs": "Cinnamon Stairs",
+	"block.vinum.cinnamon_door": "Cinnamon Door",
 
 	"item.vinum.ice_pick": "Ice Pick",
 	"item.vinum.ice_cubes": "Ice Cubes",
@@ -44,5 +46,9 @@
 	"item.vinum.cinnabon_glaze": "Cinnabon Glaze",
 	"item.vinum.baked_cinnabon_dough": "Baked Cinnabon Dough",
 	"item.vinum.filled_cinnabon_dough": "Filled Cinnabon Dough",
-	"item.vinum.cinnabon_filling": "Cinnabon Filling"
+	"item.vinum.cinnabon_filling": "Cinnabon Filling",
+	"item.vinum.fifth_rectified_spirits": "Fifth [Rectified Spirits]",
+	"item.vinum.fifth_vodka": "Fifth [Vodka]",
+	"item.vinum.shot_rectified_spirit": "Shot [Rectified Spirit]",
+	"item.vinum.shot_vodka": "Shot [Vodka]"
 }
