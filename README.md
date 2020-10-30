@@ -2,6 +2,8 @@
 
 # Project Vinum
 
+![pv-issues](https://img.shields.io/github/issues/boredhero/pv?color=purple&style=flat-square)
+
 ## SPECIAL NOTE:
 **Please no not ever commit directly to** ```master```**. Instead, please commit to** ```dev``` **and then update** ```master``` **via a pull request.**
 
