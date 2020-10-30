@@ -4,6 +4,8 @@
 
 ![pv-issues](https://img.shields.io/github/issues/boredhero/pv?color=purple&style=flat-square) ![pv-lang](https://img.shields.io/github/languages/top/boredhero/pv?style=flat-square)
 
+<iframe src="https://discordapp.com/widget?id=414088356524457984&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+
 ## SPECIAL NOTE:
 **Please no not ever commit directly to** ```master```**. Instead, please commit to** ```dev``` **and then update** ```master``` **via a pull request.**
 
