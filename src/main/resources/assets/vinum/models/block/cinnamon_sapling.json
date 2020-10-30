@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "vinum:block/cinnamon_sapling"
+    }
+}

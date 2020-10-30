@@ -1,15 +1,35 @@
+/*
+	Project Vinum - StillMasterTileEntity.java
+	Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.tileentity;
 
-import io.vinum.common.Defines;
-import io.vinum.inventory.container.ModContainers;
-import io.vinum.inventory.container.StillMasterContainer;
-import io.vinum.item.ModItems;
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
@@ -17,51 +37,91 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.ForgeHooks;
+import io.vinum.ProjectVinum;
+import io.vinum.block.PVBlocks;
+import io.vinum.block.state.properties.PVBlockStateProperties;
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.PVContainers;
+import io.vinum.inventory.container.StillMasterContainer;
+import io.vinum.tileentity.recipes.StillRecipes;
 
 public class StillMasterTileEntity extends LockableTileEntity implements ITickableTileEntity {
 	
 	protected NonNullList<ItemStack> items = NonNullList.withSize(4, ItemStack.EMPTY);
 	
+	public StillRecipes.StillRecipe currentRecipe;
+	
 	public int fuelTime;
+	public int totalFuelTime;
 	public int progressTime;
+	public int totalProgressTime;
+	
+	public int currentPressure;
+	
+	public int animatePressureTime;
+	
+	boolean hasMaxPressure;
 	
 	protected final IIntArray stillData = new IIntArray() {
-	      public int get(int index) {
-	         switch(index) {
-	         case 0:
-	            return progressTime;
-	         case 1:
-	            return fuelTime;
-	         default:
-	            return 0;
-	         }
-	      }
-
-	      public void set(int index, int value) {
-	         switch(index) {
-	         case 0:
-	        	progressTime = value;
-	            break;
-	         case 1:
-	        	fuelTime = value;
-	            break;
-	         }
-
-	      }
-
-	      public int size() {
-	         return 2;
-	      }
-	   };
+		
+		public int get(int index) {
+			
+			switch(index) {
+			
+			case 0:
+				return fuelTime;
+				
+			case 1:
+				return totalFuelTime;
+				
+			case 2:
+				return progressTime;
+				
+			case 3:
+				return totalProgressTime;
+				
+			default:
+				return 0;
+				
+			}
+			
+		}
+		
+		public void set(int index, int value) {
+			
+			switch(index) {
+			
+			case 0:
+				fuelTime = value;
+				break;
+				
+			 case 1:
+				totalFuelTime = value;
+				break;
+				
+			 case 2:
+				progressTime = value;
+				break;
+				
+			 case 3:
+				totalProgressTime = value;
+				break;
+				
+			}
+			
+		}
+		
+		public int size() {
+			
+			return 4;
+			
+		}
+		
+	};
 	
 	public StillMasterTileEntity() {
-		super(ModTileEntities.STILL_MASTER.get());
-		
-	}
-	
-	public IIntArray getStillData() {
-		
-		return stillData;
+		super(PVTileEntities.STILL_MASTER.get());
 		
 	}
 	
@@ -72,6 +132,8 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		ItemStackHelper.loadAllItems(compound, this.items);
 		this.fuelTime = compound.getInt("FuelTime");
 		this.progressTime = compound.getInt("ProgressTime");
+		this.totalProgressTime = compound.getInt("TotalProgressTime");
+		this.currentPressure = compound.getInt("CurrentPressure");
 		
 	}
 	
@@ -81,14 +143,42 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		ItemStackHelper.saveAllItems(compound, this.items);
 		compound.putInt("FuelTime", this.fuelTime);
 		compound.putInt("ProgressTime", this.progressTime);
+		compound.putInt("TotalProgressTime", this.totalProgressTime);
+		compound.putInt("CurrentPressure", this.currentPressure);
 		
 		return compound;
 		
 	}
 	
-	@SuppressWarnings("deprecation")
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+		
+		this.read(pkt.getNbtCompound());
+		world.notifyBlockUpdate(pos, world.getBlockState(pos).getBlock().getDefaultState(), world.getBlockState(pos), 2);
+		
+	}
+
+	@Override
+	public CompoundNBT getUpdateTag() {
+		
+		CompoundNBT compound = new CompoundNBT();
+		
+		this.write(compound);
+		return compound;
+		
+	}
+	
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket() {
+		
+		return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
+		
+	}
+	
 	@Override
 	public void tick() {
+		
+		boolean flag = false;
 		
 		if (!world.isRemote()) {
 			
@@ -97,60 +187,191 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 			ItemStack fuel = this.items.get(2);
 			ItemStack output = this.items.get(3);
 			
-			//System.out.println(progressTime + " | " + fuelTime + " | " + canStill());
+			this.currentRecipe = null;
 			
-			if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
+			for (StillRecipes.StillRecipe recipe : ProjectVinum.STILL_RECIPES.getRecipes()) {
 				
-				if (AbstractFurnaceTileEntity.isFuel(fuel)) {
+				if (recipe.matchesRecipe(input, bottle)) {
 					
-					fuelTime = AbstractFurnaceTileEntity.getBurnTimes().get(fuel.getItem());
-					fuel.shrink(1);
+					flag = true;
+					this.currentRecipe = recipe;
 					
 				}
 				
 			}
 			
-			if (fuelTime >= 0 && canStill()) {
+			//System.out.println(progressTime + " | " + totalProgressTime + " | " + fuelTime + " | " + canStill());
+			
+			if (this.currentRecipe != null) {
 				
-				progressTime++;
-				fuelTime--;
+				this.totalProgressTime = this.currentRecipe.getTicksToDistill();
+				
+				if (fuel != null && fuelTime <= 0 && (progressTime != 0 || canStill())) {
+					
+					if (AbstractFurnaceTileEntity.isFuel(fuel)) {
+						
+						flag = true;
+						fuelTime = ForgeHooks.getBurnTime(fuel);
+						totalFuelTime = ForgeHooks.getBurnTime(fuel);
+						fuel.shrink(1);
+						
+					} else {
+						
+						totalFuelTime = 0;
+						
+					}
+					
+				}
+				
+				if (fuelTime > 0) {
+					
+					flag = true;
+					fuelTime--;
+					
+					if (canStill()) {
+						
+						progressTime++;
+						
+					}
+					
+				}
+				
+				if (this.currentRecipe.getDistilledItemstack().getItem() != input.getItem()) {
+					
+					progressTime = 0;
+					
+				}
+				
+				if (progressTime >= this.totalProgressTime) {
+					
+					flag = true;
+					
+					input.shrink(1);
+					bottle.shrink(1);
+					
+					if (output.getItem() != this.currentRecipe.getDistillingResultItemstack().getItem()) {
+						
+						this.items.set(3, new ItemStack(this.currentRecipe.getDistillingResultItemstack().getItem(), 1));
+						
+					} else if (output.getItem() == this.currentRecipe.getDistillingResultItemstack().getItem()) {
+						
+						output.grow(1);
+						
+					} else {
+						
+						this.items.set(3, new ItemStack(this.currentRecipe.getDistillingResultItemstack().getItem(), 1));
+						
+					}
+					
+					progressTime = 0;
+					
+				}
 				
 			} else {
 				
-				progressTime = 0;
+				this.totalProgressTime = 0;
 				
 			}
 			
-			if (progressTime >= 240) {
+			if (totalProgressTime > 0 && (fuelTime > 0 || AbstractFurnaceTileEntity.isFuel(fuel))) {
 				
-				input.shrink(1);
-				bottle.shrink(1);
-				
-				if (output.getItem() != ModItems.FIFTH_SILVER_TEQUILA.get()) {
+				if (progressTime <= totalProgressTime) {
 					
-					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
-					
-				} else if (output.getItem() == ModItems.FIFTH_SILVER_TEQUILA.get()) {
-					
-					output.grow(1);
-					
-				} else {
-					
-					this.items.set(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 1));
+					currentPressure = 3;
 					
 				}
 				
-				progressTime = 0;
+				if (progressTime <= (totalProgressTime / 4) * 3 && !hasMaxPressure) {
+					
+					currentPressure = 2;
+					
+				}
+				
+				if (progressTime <= (totalProgressTime / 4) * 2 && !hasMaxPressure) {
+					
+					currentPressure = 1;
+					
+				}
+				
+				if (progressTime <= totalProgressTime / 4 && !hasMaxPressure) {
+					
+					currentPressure = 0;
+					
+				}
+				
+				if (currentPressure == 3) {
+					
+					hasMaxPressure = true;
+					
+				}
+				
+				animatePressureTime = 10;
+				
+			} else if (currentPressure > 0) {
+				
+				if (animatePressureTime > 0) {
+					
+					animatePressureTime--;
+					
+				} else {
+					
+					animatePressureTime = 10;
+					currentPressure--;
+					
+				}
+				
+				hasMaxPressure = false;
+				
+			}
+			
+			if (world.getBlockState(pos.up()).getBlock() == PVBlocks.STILL_MULTIBLOCK_PART_2.get()) {
+				
+				if (world.getBlockState(pos.up()).get(PVBlockStateProperties.PRESSURE) != currentPressure) {
+					
+					flag = true;
+					this.world.setBlockState(this.pos.up(), this.world.getBlockState(this.pos.up()).with(PVBlockStateProperties.PRESSURE, currentPressure), 3);
+					
+				}
+				
+				
+			}
+			
+			if (fuelTime > 0) {
+				
+				flag = true;
+				this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.TRUE), 3);
+				
+			} else if (fuelTime <= 0 && this.getBlockState().get(BlockStateProperties.LIT) == true) {
+				
+				flag = true;
+				this.world.setBlockState(pos, world.getBlockState(this.pos).with(BlockStateProperties.LIT, Boolean.FALSE), 3);
 				
 			}
 			
 		}
 		
+		if (flag) {
+			
+			this.markDirty();
+			
+		}
+		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean canStill() {
 		
-		return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == ModItems.FERMENTED_AGAVE_WORT.get() && this.items.get(1).getItem() == ModItems.FIFTH_BOTTLE_EMPTY.get());
+		if (this.currentRecipe != null) {
+			
+			if (this.items.get(3).getItem() == Item.getItemFromBlock(Blocks.AIR) || this.items.get(3).getItem() == this.currentRecipe.getDistillingResultItemstack().getItem()) {
+				
+				return (this.items.get(3).getCount() <= 63 && this.items.get(0).getItem() == this.currentRecipe.getDistilledItemstack().getItem() && this.items.get(1).getItem() == this.currentRecipe.getRequiredBottleItemstack().getItem());
+				
+			}
+			
+		}
+		
+		return false;
 		
 	}
 	
@@ -175,7 +396,7 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 		}
 		
 		return true;
-	      
+		  
 	}
 	
 	@Override
@@ -231,14 +452,14 @@ public class StillMasterTileEntity extends LockableTileEntity implements ITickab
 	@Override
 	protected ITextComponent getDefaultName() {
 		
-		return new TranslationTextComponent(Defines.MODID + ":container.still");
+		return new TranslationTextComponent(PVDefines.MODID + ":container.still");
 		
 	}
 	
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		
-		return new StillMasterContainer(ModContainers.STILL_MASTER.get(), id, this, player, stillData);
+		return new StillMasterContainer(id, this, player, this.stillData);
 		
 	}
 	

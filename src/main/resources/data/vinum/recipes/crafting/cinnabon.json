@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "vinum:baked_cinnabon_dough"
+		},
+		{
+			"item": "vinum:cinnabon_glaze"
+		}
+	],
+	"result": {
+		"item": "vinum:cinnabon", "count":4
+	}
+}

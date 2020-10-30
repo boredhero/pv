@@ -1,0 +1,9 @@
+{
+    "type": "minecraft:smelting",
+    "ingredient": {
+      "item": "vinum:filled_cinnabon_dough"
+    },
+    "result": "vinum:baked_cinnabon_dough",
+    "experience": 0.25,
+    "cookingtime": 60
+  }

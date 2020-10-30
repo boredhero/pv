@@ -1,0 +1,23 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:milk_bucket"
+		},
+		{
+			"item": "minecraft:egg"
+        },
+        {
+            "tag": "forge:crops/wheat"
+        },
+        {
+            "item": "vinum:sea_salt"
+        },
+        {
+            "item": "minecraft:sugar"
+        }
+	],
+	"result": {
+		"item": "vinum:cinnabon_dough", "count":4
+	}
+}

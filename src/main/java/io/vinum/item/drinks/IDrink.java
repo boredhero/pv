@@ -1,10 +1,24 @@
+/*
+    Project Vinum - IDrink.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.item.drinks;
 
 import javax.annotation.Nonnull;
 
-import io.vinum.capability.BACCapability;
-import io.vinum.capability.IBAC;
-import io.vinum.common.Defines;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,6 +31,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.NonNullConsumer;
 
+import io.vinum.capability.BACCapability;
+import io.vinum.capability.IBAC;
+import io.vinum.common.PVDefines;
+
 public interface IDrink {
 	
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving);
@@ -24,7 +42,7 @@ public interface IDrink {
 	public UseAction getUseAction(ItemStack stack);
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn);
 	
-	public static void setBACLevel(World world, PlayerEntity player, int level) {
+	public static void setBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -43,8 +61,8 @@ public interface IDrink {
 		}
 		
 	}
-	
-	public static void addBACLevel(World world, PlayerEntity player, int level) {
+
+public static void addBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -64,7 +82,7 @@ public interface IDrink {
 		
 	}
 	
-	public static void removeBACLevel(World world, PlayerEntity player, int level) {
+	public static void removeBACLevel(World world, PlayerEntity player, double level) {
 		
 		if (!world.isRemote()) {
 			
@@ -84,11 +102,11 @@ public interface IDrink {
 		
 	}
 	
-	public static void updatePlayerBAC(PlayerEntity player, int level) {
+	public static void updatePlayerBAC(PlayerEntity player, double level) {
 		
 		if (!player.isCreative() && level > 0) {
 			
-			if (level >= 1) {
+			if (level >= 0.001) {
 				
 				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 605));
 				
@@ -137,7 +155,7 @@ public interface IDrink {
 			
 			if (level >= 10) {
 				
-				player.attackEntityFrom(new DamageSource(Defines.MODID + ".too_drunk"), 40F);
+				player.attackEntityFrom(new DamageSource(PVDefines.MODID + ".too_drunk"), 40F);
 				player.clearActivePotions();
 				
 			}

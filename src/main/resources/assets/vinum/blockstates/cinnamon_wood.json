@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":  { "model": "vinum:block/cinnamon_wood" },
+        "axis=z":   { "model": "vinum:block/cinnamon_wood", "x": 90 },
+        "axis=x":   { "model": "vinum:block/cinnamon_wood", "x": 90, "y": 90 }
+    }
+}

@@ -1,3 +1,20 @@
+/*
+    Project Vinum - StillMasterContainer.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.inventory.container;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +29,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,31 +38,29 @@ public class StillMasterContainer extends Container {
 	
 	private IIntArray stillData;
 	
-	public StillMasterContainer(int id, PlayerInventory playerInv, PacketBuffer extraData) {
-		this(ModContainers.STILL_MASTER.get(), id, playerInv, new IntArray(2));
+	public StillMasterContainer(int id, PlayerInventory playerInventory, PacketBuffer extraData) {
+		this(id, new Inventory(4), playerInventory, new IntArray(4));
 	  
 	}
 	
-	public StillMasterContainer(ContainerType<?> type, int id, PlayerInventory playerInv, IIntArray stillData) {
-		this(type, id, new Inventory(4), playerInv, stillData);
+	public StillMasterContainer(int id, IInventory stillInventory, PlayerInventory playerInventory, IIntArray stillData) {
+		super(PVContainers.STILL_MASTER.get(), id);
 		
-	}
-	
-	public StillMasterContainer(ContainerType<?> type, int id, IInventory inventory, PlayerInventory playerInv, IIntArray stillData) {
-		super(type, id);
+		assertInventorySize(stillInventory, 4);
+		assertIntArraySize(stillData, 4);
 		
 		this.stillData = stillData;
 		
-		this.addSlot(new Slot(inventory, 0, 43, 17));
-		this.addSlot(new Slot(inventory, 1, 117, 17));
-		this.addSlot(new Slot(inventory, 2, 43, 53));
-		this.addSlot(new FurnaceResultSlot(playerInv.player, inventory, 3, 117, 53));
+		this.addSlot(new Slot(stillInventory, 0, 43, 17));
+		this.addSlot(new Slot(stillInventory, 1, 117, 17));
+		this.addSlot(new Slot(stillInventory, 2, 43, 53));
+		this.addSlot(new FurnaceResultSlot(playerInventory.player, stillInventory, 3, 117, 53));
 		
 		for (int i = 0; i < 3; i++) {
 			
 			for (int j = 0; j < 9; j++) {
 				
-				this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 				
 			}
 			
@@ -51,9 +68,11 @@ public class StillMasterContainer extends Container {
 		
 		for (int k = 0; k < 9; ++k) {
 			
-			this.addSlot(new Slot(playerInv, k, 8 + k * 18, 142));
+			this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 142));
 			
 		}
+		
+		this.trackIntArray(stillData);
 		
 	}
 	
@@ -112,16 +131,29 @@ public class StillMasterContainer extends Container {
 	@OnlyIn(Dist.CLIENT)
 	public int getCookProgressionScaled() {
 		
-		int i = this.stillData.get(1);
-		int j = 240;
-		return j != 0 && i != 0 ? i * 24 / j : 0;
+		int i = stillData.get(2);
+		int j = stillData.get(3);
+		
+		if (i == 0 || j == 0) {
+			
+			return 0;
+			
+		}
+		
+		return j != 0 && i != 0 ? i * 56 / j : 0;
 		
 	}
 	
 	@OnlyIn(Dist.CLIENT)
 	public int getBurnLeftScaled() {
 		
-		return this.stillData.get(0) * 13 / 200;
+		if (stillData.get(0) == 0 || stillData.get(1) == 0) {
+			
+			return 0;
+			
+		}
+		
+		return stillData.get(0) * 13 / stillData.get(1);
 		
 	}
 	

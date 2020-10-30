@@ -1,9 +1,24 @@
+/*
+    Project Vinum - StillMasterScreen.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.gui.screen.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import io.vinum.common.Defines;
-import io.vinum.inventory.container.StillMasterContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,10 +31,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import io.vinum.common.PVDefines;
+import io.vinum.inventory.container.StillMasterContainer;
+
 @OnlyIn(Dist.CLIENT)
 public class StillMasterScreen extends ContainerScreen<StillMasterContainer> implements IContainerListener {
 	
-	private static final ResourceLocation STILL_MASTER_RESOURCE = new ResourceLocation(Defines.MODID, "textures/gui/container/still.png");
+	private static final ResourceLocation STILL_MASTER_RESOURCE = new ResourceLocation(PVDefines.MODID, "textures/gui/container/still.png");
 	
 	public StillMasterScreen(StillMasterContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
 		super(screenContainer, inv, titleIn);
@@ -84,11 +102,21 @@ public class StillMasterScreen extends ContainerScreen<StillMasterContainer> imp
 		int j = (this.height - this.ySize) / 2;
 		this.blit(i, j, 0, 0, this.xSize, this.ySize);
 		
-		//int k = tileEntity.getStillData().get(1) * 13 / 200;
-        //this.blit(i + 43, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+		int k = ((StillMasterContainer)this.container).getBurnLeftScaled();
 		
-        //int l = tileEntity.getStillData().get(0) * 24 / 240;
-        //this.blit(i + 79, j + 34, 176, 14, l + 1, 16);
+		if (k != 0) {
+			
+			this.blit(i + 43, j + 48 - k, 176, 12 - k, 14, k + 1);
+			
+		}
+		
+        int l = ((StillMasterContainer)this.container).getCookProgressionScaled();
+        
+        if (l != 0) {
+        	
+        	this.blit(i + 60, j + 19, 176, 14, l + 1, 16);
+        	
+        }
         
 	}
 

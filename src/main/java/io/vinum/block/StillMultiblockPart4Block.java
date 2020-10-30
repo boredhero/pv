@@ -1,9 +1,24 @@
+/*
+    Project Vinum - StillMultiblockPart4Block.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.block;
 
 import javax.annotation.Nullable;
 
-import io.vinum.tileentity.StillSlaveTileEntity;
-import io.vinum.util.VoxelShapeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -36,6 +51,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
+import io.vinum.tileentity.StillSlaveTileEntity;
+import io.vinum.util.PVVoxelShapeHelper;
+
 public class StillMultiblockPart4Block extends ContainerBlock implements IWaterLoggable {
 	
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -61,7 +79,7 @@ public class StillMultiblockPart4Block extends ContainerBlock implements IWaterL
 	
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		
-		return VoxelShapeHelper.addShapes(VoxelShapeHelper.createRotatableShape(state, 3.0D, 0.0D, 2.0D, 15.0D, 1.0D, 14.0D), VoxelShapes.or(VoxelShapeHelper.createRotatableShape(state, 2.0D, 1.0D, 2.0D, 3.0D, 13.0D, 14.0D), VoxelShapeHelper.createRotatableShape(state, 15.0D, 1.0D, 2.0D, 16.0D, 13.0D, 14.0D), VoxelShapeHelper.createRotatableShape(state, 3.0D, 1.0D, 1.0D, 15.0D, 13.0D, 2.0D), VoxelShapeHelper.createRotatableShape(state, 3.0D, 1.0D, 14.0D, 15.0D, 13.0D, 15.0D)));
+		return PVVoxelShapeHelper.addShapes(PVVoxelShapeHelper.createRotatableShape(state, 3.0D, 0.0D, 2.0D, 15.0D, 1.0D, 14.0D), VoxelShapes.or(PVVoxelShapeHelper.createRotatableShape(state, 2.0D, 1.0D, 2.0D, 3.0D, 13.0D, 14.0D), PVVoxelShapeHelper.createRotatableShape(state, 15.0D, 1.0D, 2.0D, 16.0D, 13.0D, 14.0D), PVVoxelShapeHelper.createRotatableShape(state, 3.0D, 1.0D, 1.0D, 15.0D, 13.0D, 2.0D), PVVoxelShapeHelper.createRotatableShape(state, 3.0D, 1.0D, 14.0D, 15.0D, 13.0D, 15.0D)));
 		
 	}
 	

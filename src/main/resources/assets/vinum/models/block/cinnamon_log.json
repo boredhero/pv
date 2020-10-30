@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "vinum:block/cinnamon_log_top",
+        "side": "vinum:block/cinnamon_log"
+    }
+}

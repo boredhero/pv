@@ -1,8 +1,25 @@
+/*
+    Project Vinum - BAC.java
+    Copyright (C) 2020 Noah Martino and Tiller Eaton
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 package io.vinum.capability;
 
 public class BAC implements IBAC {
 	
-	private int BACLevel;
+	private double BACLevel;
 	private int BACTicks;
 	
 	public BAC() {
@@ -13,30 +30,42 @@ public class BAC implements IBAC {
 	}
 	
 	@Override
-	public int getBACLevel() {
+	public double getBACLevel() {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		return BACLevel;
 		
 	}
 	
 	@Override
-	public void setBACLevel(int BACLevel) {
+	public void setBACLevel(double BACLevel) {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		this.BACLevel = BACLevel;
 		
 	}
 	
 	@Override
-	public void addBACLevel(int BACLevel) {
+	public void addBACLevel(double BACLevel) {
 		
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		this.BACLevel += BACLevel;
 		
 	}
 	
 	@Override
-	public void removeBACLevel(int BACLevel) {
+	public void removeBACLevel(double BACLevel) {
 		
 		this.BACLevel -= BACLevel;
+		if(this.BACLevel < 0){
+			this.BACLevel = 0;
+		}
 		
 	}
 	

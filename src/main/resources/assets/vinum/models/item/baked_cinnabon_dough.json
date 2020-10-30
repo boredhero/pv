@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+            "layer0": "vinum:item/baked_cinnabon_dough"
+    }
+}
