@@ -114,12 +114,8 @@ public class StillRecipes {
 		public boolean matchesRecipe(ItemStack distilledItemstack, ItemStack requiredBottleItemstack) {
 			
 			if (distilledItemstack != null && distilledItemstack != null) {
-				
-				if (distilledItemstack.getItem().equals(this.distilledItemstack.getItem()) || requiredBottleItemstack.getItem().equals(this.requiredBottleItemstack.getItem())) {
-					
-					return true;
-					
-				}
+
+				return distilledItemstack.getItem().equals(this.distilledItemstack.getItem()) || requiredBottleItemstack.getItem().equals(this.requiredBottleItemstack.getItem());
 				
 			}
 			
