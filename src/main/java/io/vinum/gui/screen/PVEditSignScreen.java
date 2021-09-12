@@ -37,7 +37,10 @@ import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
-import net.minecraft.client.renderer.model.Material;
+//import net.minecraft.client.renderer.model.Material;
+//TODO: Is this the new one?
+import net.minecraft.client.renderer.model.RenderMaterial;
+// END TODO
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
@@ -96,7 +99,7 @@ public class PVEditSignScreen extends Screen {
 
    public void tick() {
       ++this.updateCounter;
-      if (!this.tileSign.getType().isValidBlock(this.tileSign.getBlockState().getBlock())) {
+      if (!this.tileSign.getType().isValid(this.tileSign.getBlockState().getBlock())) {
          this.close();
       }
 
@@ -108,7 +111,9 @@ public class PVEditSignScreen extends Screen {
    }
 
    public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
-      this.textInputUtil.func_216894_a(p_charTyped_1_);
+      //this.textInputUtil.func_216894_a(p_charTyped_1_);
+      //TODO: I think this is the method we want here? No fucking clue tho, tbh. Please investigate
+      this.textInputUtil.charTyped(p_charTyped_1_);
       return true;
    }
 
@@ -149,7 +154,7 @@ public class PVEditSignScreen extends Screen {
       matrixstack.push();
       matrixstack.scale(0.6666667F, -0.6666667F, -0.6666667F);
       IRenderTypeBuffer.Impl irendertypebuffer$impl = this.minecraft.getRenderTypeBuffers().getBufferSource();
-      Material material = PVSignTileEntityRenderer.getMaterial(blockstate.getBlock());
+      RenderMaterial material = PVSignTileEntityRenderer.getMaterial(blockstate.getBlock());
       IVertexBuilder ivertexbuilder = material.getBuffer(irendertypebuffer$impl, this.field_228191_a_::getRenderType);
       this.field_228191_a_.signBoard.render(matrixstack, ivertexbuilder, 15728880, OverlayTexture.NO_OVERLAY);
       if (flag) {

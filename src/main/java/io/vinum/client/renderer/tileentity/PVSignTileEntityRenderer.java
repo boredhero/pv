@@ -35,6 +35,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.client.renderer.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.NativeImage;
@@ -117,7 +119,7 @@ public class PVSignTileEntityRenderer extends TileEntityRenderer<PVSignTileEntit
 		
 	}
 	
-	public static Material getMaterial(Block blockIn) {
+	public static RenderMaterial getMaterial(Block blockIn) {
 		
 		WoodType woodtype;
 		
@@ -131,7 +133,7 @@ public class PVSignTileEntityRenderer extends TileEntityRenderer<PVSignTileEntit
 			
 		}
 		
-		return new Material(Atlases.SIGN_ATLAS, new ResourceLocation(PVDefines.MODID, "entity/signs/" + woodtype.getName()));
+		return new Material(Atlases.SIGN_MATERIALS, new ResourceLocation(PVDefines.MODID, "entity/signs/" + woodtype.name()));
 		
 	}
 	
