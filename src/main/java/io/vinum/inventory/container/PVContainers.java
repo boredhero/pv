@@ -27,7 +27,7 @@ import io.vinum.common.PVDefines;
 
 public class PVContainers {
 	
-	public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, PVDefines.MODID);
+	public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PVDefines.MODID);
 	
 	public static final RegistryObject<ContainerType<StillMasterContainer>> STILL_MASTER = CONTAINERS.register("still_master", () -> IForgeContainerType.create(StillMasterContainer::new));
 	

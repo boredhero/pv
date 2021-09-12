@@ -6,8 +6,7 @@ import net.minecraft.block.StairsBlock;
 public class PVStairsBlock extends StairsBlock {
 
 	protected PVStairsBlock(BlockState state, Properties properties) {
-		super(state, properties);
-		
+		super(state, properties); //TODO: Use a non deprecated c'tor here
 	}
 	
 }

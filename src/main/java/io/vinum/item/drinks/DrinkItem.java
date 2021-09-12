@@ -57,13 +57,13 @@ public class DrinkItem extends Item implements IDrink {
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
 		
-		if (!worldIn.isRemote()) {
+		if (worldIn.isClientSide) {
 			
 			if (entityLiving instanceof PlayerEntity) {
 				
 				for (EffectInstance potionEffect : givenPotionEffects) {
 					
-					entityLiving.addPotionEffect(potionEffect);
+					entityLiving.addEffect(potionEffect);
 					
 				}
 				
@@ -74,7 +74,7 @@ public class DrinkItem extends Item implements IDrink {
 			
 		}
 		
-		((PlayerEntity) entityLiving).addItemStackToInventory(returnedItem);
+		((PlayerEntity) entityLiving).addItem(returnedItem);
 		
 		return stack;
 		
@@ -98,7 +98,7 @@ public class DrinkItem extends Item implements IDrink {
 		
 		playerIn.setActiveHand(handIn);
 		
-		return ActionResult.resultSuccess(playerIn.getHeldItem(handIn));
+		return ActionResult.success(playerIn.getItemInHand(handIn));
 		
 	}
 	

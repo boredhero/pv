@@ -21,11 +21,9 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.DoorBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.fml.RegistryObject;

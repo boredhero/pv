@@ -36,7 +36,7 @@ public class StillMultiblock {
 	@SuppressWarnings("deprecation")
 	public static void build(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		
-		if (!worldIn.isRemote()) {
+		if (worldIn.isClientSide) {
 			
 			Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 			

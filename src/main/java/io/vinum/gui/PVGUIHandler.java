@@ -30,9 +30,9 @@ import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import io.yooksi.cocolib.gui.Alignment;
-import io.yooksi.cocolib.gui.GuiElement;
-import io.yooksi.cocolib.gui.SpriteObject;
+//import io.yooksi.cocolib.gui.Alignment;
+//import io.yooksi.cocolib.gui.GuiElement; //TODO: Assess consequences of removing the yooksi lib
+//import io.yooksi.cocolib.gui.SpriteObject;
 
 import io.vinum.capability.BACCapability;
 import io.vinum.capability.IBAC;

@@ -55,7 +55,7 @@ public class PVRegistryHandler {
 		PVBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)
 				.filter(PVBlocks::needsItemBlock).forEach(block -> {
 
-					final Item.Properties properties = new Item.Properties().group(PVItemGroup.MAIN);
+					final Item.Properties properties = new Item.Properties().tab(PVItemGroup.MAIN);
 					final BlockItem blockItem = new BlockItem(block, properties);
 					blockItem.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
 					registry.register(blockItem);

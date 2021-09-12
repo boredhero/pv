@@ -44,7 +44,7 @@ public interface IDrink {
 	
 	public static void setBACLevel(World world, PlayerEntity player, double level) {
 		
-		if (!world.isRemote()) {
+		if (world.isClientSide) {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
@@ -64,7 +64,7 @@ public interface IDrink {
 
 public static void addBACLevel(World world, PlayerEntity player, double level) {
 		
-		if (!world.isRemote()) {
+		if (world.isClientSide) {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
@@ -84,7 +84,7 @@ public static void addBACLevel(World world, PlayerEntity player, double level) {
 	
 	public static void removeBACLevel(World world, PlayerEntity player, double level) {
 		
-		if (!world.isRemote()) {
+		if (world.isClientSide) {
 			
 			player.getCapability(BACCapability.BAC_CAPABILITY).ifPresent(new NonNullConsumer<IBAC>() {
 				
@@ -108,49 +108,49 @@ public static void addBACLevel(World world, PlayerEntity player, double level) {
 			
 			if (level >= 0.001) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 605));
+				player.addEffect(new EffectInstance(Effects.REGENERATION, 605));
 				
 			}
 			
 			if (level >= 2) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.STRENGTH, 605));
+				player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 605));
 				
 			}
 			
 			if (level >= 3) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 605));
+				player.addEffect(new EffectInstance(Effects.JUMP, 605));
 				
 			}
 			
 			if (level >= 4) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 605));
+				player.addEffect(new EffectInstance(Effects.ABSORPTION, 605));
 				
 			}
 			
 			if (level >= 6) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 1005));
+				player.addEffect(new EffectInstance(Effects.CONFUSION, 1005));
 				
 			}
 			
 			if (level >= 7) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 1805));
+				player.addEffect(new EffectInstance(Effects.WEAKNESS, 1805));
 				
 			}
 			
 			if (level >= 8) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 1405));
+				player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 1405));
 				
 			}
 			
 			if (level >= 9) {
 				
-				player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 605));
+				player.addEffect(new EffectInstance(Effects.BLINDNESS, 605));
 			}
 			
 			if (level >= 10) {

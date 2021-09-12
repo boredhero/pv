@@ -86,7 +86,7 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 	
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		
-		if (!worldIn.isRemote()) {
+		if (worldIn.isClientSide) {
 			
 			if (!state.get(LIT) && !state.get(WATERLOGGED)) {
 				
@@ -186,7 +186,7 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 			
 			if (rand.nextInt(10) == 0) {
 				
-				worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 0.5F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.6F, false);
+				worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 0.5F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.6F, false);
 				
 			}
 			
@@ -218,17 +218,17 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 			
 			if (flag) {
 				
-				if (worldIn.isRemote()) {
+				if (!worldIn.isClientSide()) {
 					
 					for (int i = 0; i < 15; ++i) {
 						
-						worldIn.getWorld().addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, true, (double)pos.getX() + 0.5D + worldIn.getRandom().nextDouble() / 3.0D * (double)(worldIn.getRandom().nextBoolean() ? 1 : -1), (double)pos.getY() + worldIn.getRandom().nextDouble() + worldIn.getRandom().nextDouble(), (double)pos.getZ() + 0.5D + worldIn.getRandom().nextDouble() / 3.0D * (double)(worldIn.getRandom().nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
+						worldIn.getWorld.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, true, (double)pos.getX() + 0.5D + worldIn.getRandom().nextDouble() / 3.0D * (double)(worldIn.getRandom().nextBoolean() ? 1 : -1), (double)pos.getY() + worldIn.getRandom().nextDouble() + worldIn.getRandom().nextDouble(), (double)pos.getZ() + 0.5D + worldIn.getRandom().nextDouble() / 3.0D * (double)(worldIn.getRandom().nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
 						
 					}
 					
 				} else {
 					
-					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					worldIn.playSound((PlayerEntity)null, pos, SoundEvents.FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1.0F, 1.0F);
 					
 				}
 				
@@ -257,7 +257,7 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 			
 		} else {
 			
-			return entity instanceof AbstractArrowEntity ? ((AbstractArrowEntity)entity).getShooter() : null;
+			return entity instanceof AbstractArrowEntity ? ((AbstractArrowEntity)entity).getOwner() : null;
 			
 		}
 		
@@ -265,9 +265,9 @@ public class SteelBrazierBlock extends Block implements IWaterLoggable {
 	
 	public void onProjectileCollision(World worldIn, BlockState state, BlockRayTraceResult hit, Entity projectile) {
 		
-		if (!worldIn.isRemote) {
+		if (worldIn.isClientSide) {
 			
-			boolean flag = projectile instanceof AbstractFireballEntity || projectile instanceof AbstractArrowEntity && projectile.isBurning();
+			boolean flag = projectile instanceof AbstractFireballEntity || projectile instanceof AbstractArrowEntity && projectile.isOnFire();
 			
 			if (flag) {
 				
