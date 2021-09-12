@@ -156,5 +156,10 @@ public class StillMasterContainer extends Container {
 		return stillData.get(0) * 13 / stillData.get(1);
 		
 	}
-	
+
+	//TODO: Investiage this. This was a quick fix auto implement
+	@Override
+	public boolean stillValid(PlayerEntity p_75145_1_) {
+		return false;
+	}
 }

@@ -38,7 +38,7 @@ public class PVItemGroup extends ItemGroup {
 	/** Main item group for this mod used for all items */
 	public static final ItemGroup MAIN = new PVItemGroup(PVDefines.MODID, () -> new ItemStack(PVItems.SPICED_APPLE_MARGARITA.get()));
 
-	public static final Item.Properties PROPERTIES = new Item.Properties().group(PVItemGroup.MAIN);
+	public static final Item.Properties PROPERTIES = new Item.Properties().tab(PVItemGroup.MAIN);
 
 	/**
 	 * Here we use a {@link java.util.function.Supplier Supplier} because need to delay
@@ -57,7 +57,7 @@ public class PVItemGroup extends ItemGroup {
 	}
 
 	@Override
-	public ItemStack createIcon() {
+	public ItemStack makeIcon() {
 		return iconSupplier.get();
 	}
 }
