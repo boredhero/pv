@@ -45,7 +45,7 @@ import io.vinum.item.PVItems;
 
 public class AgaveCropBlock extends BushBlock implements IGrowable {
 	
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_2;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 11.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D)};
 	
 	
@@ -263,5 +263,20 @@ public class AgaveCropBlock extends BushBlock implements IGrowable {
 		builder.add(AGE);
 		
 	}
-	
+
+	//TODO: Investigate the Below Three overrides which were required to be implemented and are in their default state
+	@Override
+	public boolean isValidBonemealTarget(IBlockReader p_176473_1_, BlockPos p_176473_2_, BlockState p_176473_3_, boolean p_176473_4_) {
+		return true;
+	}
+
+	@Override
+	public boolean isBonemealSuccess(World p_180670_1_, Random p_180670_2_, BlockPos p_180670_3_, BlockState p_180670_4_) {
+		return true;
+	}
+
+	@Override
+	public void performBonemeal(ServerWorld p_225535_1_, Random p_225535_2_, BlockPos p_225535_3_, BlockState p_225535_4_) {
+
+	}
 }

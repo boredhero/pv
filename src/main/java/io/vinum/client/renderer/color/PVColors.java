@@ -24,7 +24,8 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
-import net.minecraft.world.ILightReader;
+//import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,15 +42,15 @@ public class PVColors {
 		
         blockColors.register((state, world, blockPos, tintIndex) -> {
 			
-			return world != null && blockPos != null ? BiomeColors.getFoliageColor(world, blockPos) : FoliageColors.getDefault();
+			return world != null && blockPos != null ? BiomeColors.getAverageFoliageColor(world, blockPos) : FoliageColors.getDefaultColor();
 			
 		}, PVBlocks.CINNAMON_LEAVES.get());
         
         itemColors.register((stack, tintIndex) -> {
 			
-			BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().getDefaultState();
+			BlockState blockstate = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
 			
-			return blockColors.getColor(blockstate, (ILightReader)null, (BlockPos)null, tintIndex);
+			return blockColors.getColor(blockstate, (IBlockDisplayReader) null, (BlockPos)null, tintIndex);
 			
 		}, PVBlocks.CINNAMON_LEAVES.get());
 		
