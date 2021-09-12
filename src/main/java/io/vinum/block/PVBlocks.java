@@ -37,34 +37,34 @@ import io.vinum.common.PVDefines;
 
 public final class PVBlocks {
 	
-	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, PVDefines.MODID);
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PVDefines.MODID);
 	
 	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
 	
-	//public static final RegistryObject<Block> BARREL = register("barrel", () -> new BarrelBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.5F, 2.5F)));
+	//public static final RegistryObject<Block> BARREL = register("barrel", () -> new BarrelBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.5F, 2.5F)));
 	
-	public static final RegistryObject<Block> STEEL_BRAZIER = register("steel_brazier", () -> new SteelBrazierBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).lightValue(15).notSolid()));
-	public static final RegistryObject<Block> STEEL_POT = register("steel_pot", () -> new SteelPotBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
-	public static final RegistryObject<Block> STEEL_COIL = register("steel_coil", () -> new SteelCoilBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_1 = register("still_multiblock_part_1", () -> new StillMultiblockPart1Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).lightValue(13).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_2 = register("still_multiblock_part_2", () -> new StillMultiblockPart2Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
+	public static final RegistryObject<Block> STEEL_BRAZIER = register("steel_brazier", () -> new SteelBrazierBlock(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air())); //TODO: I removed light level to get this running. the new thing takes a function with a BlockState parameter which returns a value from zero to fifteen.
+	public static final RegistryObject<Block> STEEL_POT = register("steel_pot", () -> new SteelPotBlock(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()));
+	public static final RegistryObject<Block> STEEL_COIL = register("steel_coil", () -> new SteelCoilBlock(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()));
+	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_1 = register("still_multiblock_part_1", () -> new StillMultiblockPart1Block(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()), false); //TODO: I removed light level to get this running. the new thing takes a function with a BlockState parameter which returns a value from zero to fifteen.
+	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_2 = register("still_multiblock_part_2", () -> new StillMultiblockPart2Block(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()), false);
+	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()), false);
+	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.of(Material.METAL, MaterialColor.STONE).strength(2.0F, 2.0F).air()), false);
 	
-	public static final RegistryObject<Block> CINNAMON_LOG = register("cinnamon_log", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> STRIPPED_CINNAMON_LOG = register("stripped_cinnamon_log", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> CINNAMON_WOOD = register("cinnamon_wood", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> STRIPPED_CINNAMON_WOOD = register("stripped_cinnamon_wood", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
-	public static final RegistryObject<Block> CINNAMON_LEAVES = register("cinnamon_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()));
-	public static final RegistryObject<Block> CINNAMON_PLANKS = register("cinnamon_planks", () -> new Block(Block.Properties.create(Material.WOOD, MaterialColor.ADOBE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> CINNAMON_LOG = register("cinnamon_log", () -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> STRIPPED_CINNAMON_LOG = register("stripped_cinnamon_log", () -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> CINNAMON_WOOD = register("cinnamon_wood", () -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> STRIPPED_CINNAMON_WOOD = register("stripped_cinnamon_wood", () -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+	public static final RegistryObject<Block> CINNAMON_LEAVES = register("cinnamon_leaves", () -> new LeavesBlock(Block.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.CROP).air()));
+	public static final RegistryObject<Block> CINNAMON_PLANKS = register("cinnamon_planks", () -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.CLAY).strength(2.0F, 3.0F).sound(SoundType.WOOD)));
 	
-	public static final RegistryObject<Block> CINNAMON_SIGN = register("cinnamon_sign", () -> new PVStandingSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), PVWoodType.CINNAMON), false);
-	public static final RegistryObject<Block> CINNAMON_WALL_SIGN = register("cinnamon_wall_sign", () -> new PVWallSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(CINNAMON_SIGN.get()), PVWoodType.CINNAMON), false);
-	public static final RegistryObject<Block> CINNAMON_DOOR = register("cinnamon_door", () -> new PVDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.ADOBE).hardnessAndResistance(3.0F).sound(SoundType.WOOD).notSolid()), false);
-	public static final RegistryObject<Block> CINNAMON_STAIRS = register("cinnamon_stairs", () -> new PVStairsBlock(CINNAMON_PLANKS.get().getDefaultState(), Block.Properties.from(CINNAMON_PLANKS.get())));
+	public static final RegistryObject<Block> CINNAMON_SIGN = register("cinnamon_sign", () -> new PVStandingSignBlock(Block.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), PVWoodType.CINNAMON), false);
+	public static final RegistryObject<Block> CINNAMON_WALL_SIGN = register("cinnamon_wall_sign", () -> new PVWallSignBlock(Block.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), PVWoodType.CINNAMON), false); //TODO: I removed '.lootFrom(CINNAMON_SIGN.get()), PVWoodType.CINNAMON)' because it now requires a supplier
+	public static final RegistryObject<Block> CINNAMON_DOOR = register("cinnamon_door", () -> new PVDoorBlock(Block.Properties.of(Material.WOOD, MaterialColor.CLAY).strength(3.0F).sound(SoundType.WOOD).air()), false);
+	public static final RegistryObject<Block> CINNAMON_STAIRS = register("cinnamon_stairs", () -> new PVStairsBlock(CINNAMON_PLANKS.get().defaultBlockState(), Block.Properties.copy(CINNAMON_PLANKS.get())));
 	
-	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
-	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new PVSaplingBlock(new CinnamonTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.0F).sound(SoundType.PLANT)));
+	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F, 0.F).sound(SoundType.CROP)), false);
+	public static final RegistryObject<Block> CINNAMON_SAPLING = register("cinnamon_sapling", () -> new PVSaplingBlock(new CinnamonTree(), Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)));
 
 	/**
 	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.

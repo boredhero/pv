@@ -50,9 +50,9 @@ public class PVStandingSignBlock extends StandingSignBlock {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		
-		ItemStack itemstack = player.getHeldItem(handIn);
-		boolean flag = itemstack.getItem() instanceof DyeItem && player.abilities.allowEdit;
-		if (worldIn.isRemote) {
+		ItemStack itemstack = player.getItemInHand(handIn);
+		boolean flag = itemstack.getItem() instanceof DyeItem && player.abilities.mayBuild;
+		if (!(worldIn.isClientSide())) {
 			
 			return flag ? ActionResultType.SUCCESS : ActionResultType.CONSUME;
 			
