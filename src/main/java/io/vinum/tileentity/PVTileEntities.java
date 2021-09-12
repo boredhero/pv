@@ -27,13 +27,13 @@ import io.vinum.common.PVDefines;
 
 public class PVTileEntities {
 	
-	public static final DeferredRegister<TileEntityType<?>> TILEENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, PVDefines.MODID);
+	public static final DeferredRegister<TileEntityType<?>> TILEENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, PVDefines.MODID);
 	
-	public static final RegistryObject<TileEntityType<?>> STILL_MASTER = TILEENTITIES.register("still_master", () -> TileEntityType.Builder.create(StillMasterTileEntity::new, PVBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
-	public static final RegistryObject<TileEntityType<?>> STILL_SLAVE = TILEENTITIES.register("still_slave", () -> TileEntityType.Builder.create(StillSlaveTileEntity::new, PVBlocks.STILL_MULTIBLOCK_PART_2.get(), PVBlocks.STILL_MULTIBLOCK_PART_3.get(), PVBlocks.STILL_MULTIBLOCK_PART_4.get()).build(null));
+	public static final RegistryObject<TileEntityType<?>> STILL_MASTER = TILEENTITIES.register("still_master", () -> TileEntityType.Builder.of(StillMasterTileEntity::new, PVBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
+	public static final RegistryObject<TileEntityType<?>> STILL_SLAVE = TILEENTITIES.register("still_slave", () -> TileEntityType.Builder.of(StillSlaveTileEntity::new, PVBlocks.STILL_MULTIBLOCK_PART_2.get(), PVBlocks.STILL_MULTIBLOCK_PART_3.get(), PVBlocks.STILL_MULTIBLOCK_PART_4.get()).build(null));
 	
-	public static final RegistryObject<TileEntityType<?>> BARREL = TILEENTITIES.register("barrel", () -> TileEntityType.Builder.create(BarrelTileEntity::new, PVBlocks.STEEL_POT.get()).build(null));
+	public static final RegistryObject<TileEntityType<?>> BARREL = TILEENTITIES.register("barrel", () -> TileEntityType.Builder.of(BarrelTileEntity::new, PVBlocks.STEEL_POT.get()).build(null));
 	
-	public static final RegistryObject<TileEntityType<PVSignTileEntity>> VINUM_SIGN = TILEENTITIES.register("vinum_sign", () -> TileEntityType.Builder.create(PVSignTileEntity::new, PVBlocks.CINNAMON_SIGN.get(), PVBlocks.CINNAMON_WALL_SIGN.get()).build(null));
+	public static final RegistryObject<TileEntityType<PVSignTileEntity>> VINUM_SIGN = TILEENTITIES.register("vinum_sign", () -> TileEntityType.Builder.of(PVSignTileEntity::new, PVBlocks.CINNAMON_SIGN.get(), PVBlocks.CINNAMON_WALL_SIGN.get()).build(null));
 	
 }
