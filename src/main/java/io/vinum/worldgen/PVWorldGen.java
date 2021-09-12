@@ -22,17 +22,22 @@ import java.util.HashSet;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
+import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import io.vinum.block.AgaveCropBlock;
@@ -67,5 +72,24 @@ public class PVWorldGen {
 		}
 		
 	}
-	
+
+	// NEW CODE -Noah
+	//TODO: This doesn't work yet, but it's the direction we need to go in -Noah
+	/*public static void generateTrees(final BiomeLoadingEvent event){
+		if(!(event.getCategory().equals(Biome.Category.NETHER) && event.getCategory().equals(Biome.Category.THEEND))){
+			//Add tree generators
+		}
+	}
+
+	public static void generateTree(BiomeGenerationSettingsBuilder settings, RuleTest fillerType, BlockState state){
+		settings.addFeature(
+				GenerationStage.Decoration.VEGETAL_DECORATION,
+				Feature.TREE.configured(
+						new BaseTreeFeatureConfig(
+								state,
+
+						)
+				)
+		)
+	}*/
 }
