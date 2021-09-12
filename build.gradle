@@ -148,19 +148,6 @@ jar {
 // This is the preferred method to reobfuscate your jar file
 jar.finalizedBy('reobfJar')
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
 // Generate sources when building mod
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
