@@ -129,13 +129,13 @@ public class ProjectVinum {
 	
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		
-		RenderTypeLookup.setRenderLayer(PVBlocks.STEEL_BRAZIER.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(PVBlocks.CROP_AGAVE.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_LEAVES.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_SAPLING.get(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_DOOR.get(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.STEEL_BRAZIER.get(), RenderType.cutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CROP_AGAVE.get(), RenderType.cutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_LEAVES.get(), RenderType.cutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_SAPLING.get(), RenderType.cutoutMipped());
+		RenderTypeLookup.setRenderLayer(PVBlocks.CINNAMON_DOOR.get(), RenderType.cutoutMipped());
 		
-		ScreenManager.registerFactory(PVContainers.STILL_MASTER.get(), StillMasterScreen::new);
+		ScreenManager.register(PVContainers.STILL_MASTER.get(), StillMasterScreen::new);
 		
 		PVColors.init();
 		
@@ -162,7 +162,7 @@ public class ProjectVinum {
 		@SubscribeEvent
 		public static void registerSignSprites(TextureStitchEvent.Pre event) {
 			
-			if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
+			if (event.getMap().location().equals(Atlases.SIGN_SHEET)) {
 				
 				event.addSprite(new ResourceLocation(PVDefines.MODID, "entity/signs/cinnamon"));
 				
@@ -183,9 +183,9 @@ public class ProjectVinum {
 		if (block != null && event.getItemStack().getItem() instanceof AxeItem) {
 			
 			PlayerEntity playerEntity = event.getPlayer();
-			world.playSound(playerEntity, blockPos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			world.playSound(playerEntity, blockPos, SoundEvents.AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			
-			if (!world.isRemote) {
+			if (world.isClientSide) {
 				
 				world.setBlockState(blockPos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
 				
