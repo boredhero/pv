@@ -5,16 +5,22 @@ bin
 .metadata
 .classpath
 .project
+/.eclipse
 
 # idea
 out
 *.ipr
 *.iws
 *.iml
+/.idea
+
+# VSCode
+/.vscode
 
 # gradle
 build
 .gradle
+/.gradle
 
 # other
 eclipse
