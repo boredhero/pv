@@ -123,10 +123,10 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.2.4"
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
-    compile group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
+    //implementation group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
 
     // Improve my modding experience!
-    implementation "com.github.yooksi:cocolib:${cocoLibVersion}:dev"
+    //implementation "com.github.yooksi:cocolib:${cocoLibVersion}:dev"
 }
 
 // Get properties into the manifest for reading by the runtime..
