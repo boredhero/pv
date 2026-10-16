@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "vinum:block_ferrous_sand",
+    "vinum:block_leaded_sand",
+    "vinum:block_refined_sand"
+  ]
+}

@@ -1,70 +1,75 @@
 package io.vinum.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import java.util.Set;
-import java.util.function.Supplier;
-
 import io.vinum.common.Defines;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.ColoredFallingBlock;
+import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.util.ColorRGBA;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModBlocks {
-	
-	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Defines.MODID);
-	
-	private static final Set<RegistryObject<Block>> PURE_BLOCKS = new java.util.HashSet<>();
-	
-	//public static final RegistryObject<Block> BARREL = register("barrel", () -> new BarrelBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.5F, 2.5F)));
-	
-	public static final RegistryObject<Block> STEEL_BRAZIER = register("steel_brazier", () -> new SteelBrazierBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).lightValue(15).notSolid()));
-	public static final RegistryObject<Block> STEEL_POT = register("steel_pot", () -> new SteelPotBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
-	public static final RegistryObject<Block> STEEL_COIL = register("steel_coil", () -> new SteelCoilBlock(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()));
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_1 = register("still_multiblock_part_1", () -> new StillMultiblockPart1Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_2 = register("still_multiblock_part_2", () -> new StillMultiblockPart2Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_3 = register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	public static final RegistryObject<Block> STILL_MULTIBLOCK_PART_4 = register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(Block.Properties.create(Material.IRON, MaterialColor.STONE).hardnessAndResistance(2.0F, 2.0F).notSolid()), false);
-	
-	public static final RegistryObject<Block> CROP_AGAVE = register("crop_agave", () -> new AgaveCropBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F, 0.F).sound(SoundType.CROP)), false);
-	
-	/**
-	 * @return {@code true} if the given {@code Block} requires an associated {@code BlockItem}.
-	 * 			Most blocks will want to have {@code BlockItems} as they want to be in inventory.
-	 */
-	public static boolean needsItemBlock(Block block) {
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Defines.MODID);
+    public static final DeferredHolder<Block, SteelBrazierBlock> STEEL_BRAZIER = BLOCKS.register("steel_brazier",
+        () -> new SteelBrazierBlock(steel().lightLevel(state -> state.getValue(SteelBrazierBlock.LIT) ? 15 : 0)));
+    public static final DeferredHolder<Block, SteelPotBlock> STEEL_POT = BLOCKS.register("steel_pot", () -> new SteelPotBlock(steel()));
+    public static final DeferredHolder<Block, SteelCoilBlock> STEEL_COIL = BLOCKS.register("steel_coil", () -> new SteelCoilBlock(steel()));
+    public static final DeferredHolder<Block, StillMultiblockPart1Block> STILL_MULTIBLOCK_PART_1 = BLOCKS.register("still_multiblock_part_1", () -> new StillMultiblockPart1Block(still()));
+    public static final DeferredHolder<Block, StillMultiblockPart2Block> STILL_MULTIBLOCK_PART_2 = BLOCKS.register("still_multiblock_part_2", () -> new StillMultiblockPart2Block(still()));
+    public static final DeferredHolder<Block, StillMultiblockPart3Block> STILL_MULTIBLOCK_PART_3 = BLOCKS.register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(still()));
+    public static final DeferredHolder<Block, StillMultiblockPart4Block> STILL_MULTIBLOCK_PART_4 = BLOCKS.register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(still()));
+    public static final DeferredHolder<Block, AgaveCropBlock> CROP_AGAVE = BLOCKS.register("crop_agave", () -> new AgaveCropBlock(
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-		for (RegistryObject<Block> pureBlock : PURE_BLOCKS) {
-			if (pureBlock.get() == block) {
-				return false;
-			}
-		} return true;
-	}
-	
-	/**
-	 * Adds the given supplier associated with the given name to the list of entries to be registered.
-	 *
-	 * @param name the new entry's name, it will automatically be prefixed.
-	 * @param sup a factory for the new entry, it should return a new instance every time it is called.
-	 * @param hasItem whether this {@code Block} is intended to have an associated {@code BlockItem}.
-	 *
-	 * @return {@code RegistryObject} that will be updated with when the entries in the registry change.
-	 */
-	private static RegistryObject<Block> register(String name, Supplier<? extends Block> sup, boolean hasItem) {
-		
-		RegistryObject<Block> registryObject = BLOCKS.register(name, sup);
-		if (!hasItem) PURE_BLOCKS.add(registryObject);
+    public static final DeferredHolder<Block, Block> BLOCK_LEAD_ORE = BLOCKS.register("block_lead_ore", () -> new Block(
+        BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(3.0F, 5.0F).requiresCorrectToolForDrops()));
+    public static final DeferredHolder<Block, Block> BLOCK_LEAD = BLOCKS.register("block_lead", () -> new Block(
+        BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.0F, 5.0F).sound(SoundType.METAL).requiresCorrectToolForDrops()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_EMPTY = BLOCKS.register("block_wine_barrel_empty", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_CHARDONNAY = BLOCKS.register("block_wine_barrel_chardonnay", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_SAUVIGNON_BLANC = BLOCKS.register("block_wine_barrel_sauvignon_blanc", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_CABERNET_SAUVIGNON = BLOCKS.register("block_wine_barrel_cabernet_sauvignon", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_MERLOT = BLOCKS.register("block_wine_barrel_merlot", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_PINOT_NOIR = BLOCKS.register("block_wine_barrel_pinot_noir", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, WineBarrelBlock> BLOCK_WINE_BARREL_ZINFANDEL = BLOCKS.register("block_wine_barrel_zinfandel", () -> new WineBarrelBlock(barrel()));
+    public static final DeferredHolder<Block, ColoredFallingBlock> BLOCK_LEADED_SAND = BLOCKS.register("block_leaded_sand", () -> new ColoredFallingBlock(new ColorRGBA(0xA6A697), sand()));
+    public static final DeferredHolder<Block, ColoredFallingBlock> BLOCK_FERROUS_SAND = BLOCKS.register("block_ferrous_sand", () -> new ColoredFallingBlock(new ColorRGBA(0xB1A596), sand()));
+    public static final DeferredHolder<Block, ColoredFallingBlock> BLOCK_REFINED_SAND = BLOCKS.register("block_refined_sand", () -> new ColoredFallingBlock(new ColorRGBA(0xDFD5C1), sand()));
+    public static final DeferredHolder<Block, TransparentBlock> BLOCK_DARK_WINE_GLASS = BLOCKS.register("block_dark_wine_glass", () -> new TransparentBlock(glass()));
+    public static final DeferredHolder<Block, TransparentBlock> BLOCK_FINE_CRYSTAL_GLASS = BLOCKS.register("block_fine_crystal_glass", () -> new TransparentBlock(glass()));
 
-		return registryObject;
-	}
+    private ModBlocks() {}
 
-	/**
-	 * Default registration method that registers blocks as {@code BlockItem} owners.
-	 * @see #register(String, Supplier, boolean)
-	 */
-	private static RegistryObject<Block> register(String name, Supplier<? extends Block> sup) {
-		return register(name, sup, true);
-	}
+    private static BlockBehaviour.Properties barrel() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD);
+    }
+
+    private static BlockBehaviour.Properties sand() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.5F, 2.5F).sound(SoundType.SAND);
+    }
+
+    private static BlockBehaviour.Properties glass() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(0.3F, 1.5F).sound(SoundType.GLASS)
+            .noOcclusion().isValidSpawn((state, level, pos, entityType) -> false)
+            .isRedstoneConductor((state, level, pos) -> false).isSuffocating((state, level, pos) -> false)
+            .isViewBlocking((state, level, pos) -> false);
+    }
+
+
+    private static BlockBehaviour.Properties steel() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0F).sound(SoundType.METAL).noOcclusion();
+    }
+
+    private static BlockBehaviour.Properties still() {
+        return steel().pushReaction(PushReaction.BLOCK);
+    }
+
+    public static boolean needsItemBlock(Block block) {
+        return !(block instanceof StillPartBlock) && block != CROP_AGAVE.get();
+    }
 }

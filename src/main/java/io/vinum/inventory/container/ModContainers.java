@@ -1,16 +1,17 @@
 package io.vinum.inventory.container;
 
 import io.vinum.common.Defines;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.MenuType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModContainers {
-	
-	public static final DeferredRegister<ContainerType<?>> CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS, Defines.MODID);
-	
-	public static final RegistryObject<ContainerType<StillMasterContainer>> STILL_MASTER = CONTAINERS.register("still_master", () -> IForgeContainerType.create(StillMasterContainer::new));
-	
+public final class ModContainers {
+    public static final DeferredRegister<MenuType<?>> CONTAINERS =
+            DeferredRegister.create(Registries.MENU, Defines.MODID);
+    public static final DeferredHolder<MenuType<?>, MenuType<StillMasterContainer>> STILL_MASTER =
+            CONTAINERS.register("still_master", () -> new MenuType<>(StillMasterContainer::new, FeatureFlags.DEFAULT_FLAGS));
+
+    private ModContainers() {}
 }

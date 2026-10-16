@@ -2,18 +2,29 @@ package io.vinum.tileentity;
 
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModTileEntities {
-	
-	public static final DeferredRegister<TileEntityType<?>> TILEENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, Defines.MODID);
-	
-	public static final RegistryObject<TileEntityType<?>> STILL_MASTER = TILEENTITIES.register("still_master", () -> TileEntityType.Builder.create(StillMasterTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
-	public static final RegistryObject<TileEntityType<?>> STILL_SLAVE = TILEENTITIES.register("still_slave", () -> TileEntityType.Builder.create(StillSlaveTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_2.get(), ModBlocks.STILL_MULTIBLOCK_PART_3.get(), ModBlocks.STILL_MULTIBLOCK_PART_4.get()).build(null));
-	
-	public static final RegistryObject<TileEntityType<?>> BARREL = TILEENTITIES.register("barrel", () -> TileEntityType.Builder.create(BarrelTileEntity::new, ModBlocks.STEEL_POT.get()).build(null));
-	
+@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD)
+public final class ModTileEntities {
+    public static final DeferredRegister<BlockEntityType<?>> TILEENTITIES =
+            DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Defines.MODID);
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StillMasterTileEntity>> STILL_MASTER =
+            TILEENTITIES.register("still_master", () -> BlockEntityType.Builder.of(
+                    StillMasterTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
+
+    private ModTileEntities() {}
+
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, STILL_MASTER.get(),
+                StillMasterTileEntity::getItemHandler);
+    }
 }

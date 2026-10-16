@@ -1,183 +1,138 @@
 package io.vinum.multiblock;
 
-import javax.annotation.Nullable;
-
 import io.vinum.block.ModBlocks;
-import io.vinum.tileentity.StillSlaveTileEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import io.vinum.block.SteelComponentBlock;
+import io.vinum.block.StillPartBlock;
+import java.util.HashSet;
+import java.util.Set;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class StillMultiblock {
-	
-	@SuppressWarnings("deprecation")
-	public static void build(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		
-		if (!worldIn.isRemote()) {
-			
-			Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-			
-			for (Direction direction : directions) {
-				
-				if (stack.getItem() == Item.getItemFromBlock(ModBlocks.STEEL_BRAZIER.get())) {
-					
-					BlockPos topPot = pos.up();
-					BlockPos bottomPot = pos.offset(direction.rotateYCCW());
-					BlockPos coil = pos.offset(direction.rotateYCCW()).up();
-					
-					boolean hasTopPot = (worldIn.getBlockState(topPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(topPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_2.get());
-					boolean hasBottomPot = (worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_4.get());
-					boolean hasCoil = (worldIn.getBlockState(coil).getBlock() == ModBlocks.STEEL_COIL.get() || worldIn.getBlockState(coil).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_3.get());
-					
-					if (hasTopPot && hasBottomPot && hasCoil) {
-						
-						worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_1.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(topPot, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						
-						if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(pos));
-							
-						}
-						
-						if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(pos));
-							
-						}
-						
-						if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(pos));
-							
-						}
-						
-					}
-					
-				} else if (stack.getItem() == Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())) {
-					
-					BlockPos topPot = pos.offset(direction.rotateY());
-					BlockPos bottomPot = pos.down();
-					BlockPos brazier = pos.offset(direction.rotateY()).down();
-					
-					boolean hasTopPot = (worldIn.getBlockState(topPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(topPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_2.get());
-					boolean hasBottomPot = (worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_4.get());
-					boolean hasBrazier = (worldIn.getBlockState(brazier).getBlock() == ModBlocks.STEEL_BRAZIER.get() || worldIn.getBlockState(brazier).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_1.get());
-					
-					if (hasTopPot && hasBottomPot && hasBrazier) {
-						
-						worldIn.setBlockState(brazier, ModBlocks.STILL_MULTIBLOCK_PART_1.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(topPot, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						
-						if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-						if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-						if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-					}
-					
-				} else if (stack.getItem() == Item.getItemFromBlock(ModBlocks.STEEL_POT.get())) {
-					
-					BlockPos bottomPot = pos.offset(direction.rotateYCCW()).down();
-					BlockPos coil = pos.offset(direction.rotateYCCW());
-					BlockPos brazier = pos.down();
-					
-					boolean hasBottomPot = (worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(bottomPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_4.get());
-					boolean hasCoil = (worldIn.getBlockState(coil).getBlock() == ModBlocks.STEEL_COIL.get() || worldIn.getBlockState(coil).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_3.get());
-					boolean hasBrazier = (worldIn.getBlockState(brazier).getBlock() == ModBlocks.STEEL_BRAZIER.get() || worldIn.getBlockState(brazier).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_1.get());
-					
-					if (hasBottomPot && hasCoil && hasBrazier) {
-						
-						worldIn.setBlockState(brazier, ModBlocks.STILL_MULTIBLOCK_PART_1.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						worldIn.setBlockState(bottomPot, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-						
-						if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-						if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-						if (worldIn.getTileEntity(bottomPot) instanceof StillSlaveTileEntity) {
-							
-							((StillSlaveTileEntity) worldIn.getTileEntity(bottomPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-							
-						}
-						
-					} else {
-						
-						BlockPos topPot = pos.offset(direction.rotateY()).up();
-						coil = pos.up();
-						brazier = pos.offset(direction.rotateY());
-						
-						boolean hasTopPot = (worldIn.getBlockState(topPot).getBlock() == ModBlocks.STEEL_POT.get() || worldIn.getBlockState(topPot).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_2.get());
-						hasCoil = (worldIn.getBlockState(coil).getBlock() == ModBlocks.STEEL_COIL.get() || worldIn.getBlockState(coil).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_3.get());
-						hasBrazier = (worldIn.getBlockState(brazier).getBlock() == ModBlocks.STEEL_BRAZIER.get() || worldIn.getBlockState(brazier).getBlock() == ModBlocks.STILL_MULTIBLOCK_PART_1.get());
-						
-						if (hasTopPot && hasCoil && hasBrazier) {
-							
-							worldIn.setBlockState(brazier, ModBlocks.STILL_MULTIBLOCK_PART_1.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-							worldIn.setBlockState(topPot, ModBlocks.STILL_MULTIBLOCK_PART_2.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-							worldIn.setBlockState(coil, ModBlocks.STILL_MULTIBLOCK_PART_3.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-							worldIn.setBlockState(pos, ModBlocks.STILL_MULTIBLOCK_PART_4.get().getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, direction));
-							
-							if (worldIn.getTileEntity(topPot) instanceof StillSlaveTileEntity) {
-								
-								((StillSlaveTileEntity) worldIn.getTileEntity(topPot)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-								
-							}
-							
-							if (worldIn.getTileEntity(coil) instanceof StillSlaveTileEntity) {
-								
-								((StillSlaveTileEntity) worldIn.getTileEntity(coil)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-								
-							}
-							
-							if (worldIn.getTileEntity(pos) instanceof StillSlaveTileEntity) {
-								
-								((StillSlaveTileEntity) worldIn.getTileEntity(pos)).setMasterTileEntity(worldIn.getTileEntity(brazier));
-								
-							}
-							
-						}
-						
-					}
-					
-				}
-				
-			}
-			
-		}
-		
-	}
-	
+/** Atomic assembly and reversible teardown of the original two-by-two tequila still. */
+public final class StillMultiblock {
+    private record Assembly(Level level, BlockPos master) {}
+    private static final Set<Assembly> DISASSEMBLING = new HashSet<>();
+
+    private StillMultiblock() {}
+
+    public static BlockPos position(BlockPos master, Direction facing, int part) {
+        return switch (part) {
+            case 1 -> master;
+            case 2 -> master.above();
+            case 3 -> master.relative(facing.getCounterClockWise()).above();
+            case 4 -> master.relative(facing.getCounterClockWise());
+            default -> throw new IllegalArgumentException("Invalid still part: " + part);
+        };
+    }
+
+    public static BlockPos masterPosition(BlockPos pos, BlockState state) {
+        if (!(state.getBlock() instanceof StillPartBlock part)) return pos;
+        Direction right = state.getValue(SteelComponentBlock.FACING).getClockWise();
+        return switch (part.part()) {
+            case 2 -> pos.below();
+            case 3 -> pos.relative(right).below();
+            case 4 -> pos.relative(right);
+            default -> pos;
+        };
+    }
+
+    private static Block partBlock(int part) {
+        return switch (part) {
+            case 1 -> ModBlocks.STILL_MULTIBLOCK_PART_1.get();
+            case 2 -> ModBlocks.STILL_MULTIBLOCK_PART_2.get();
+            case 3 -> ModBlocks.STILL_MULTIBLOCK_PART_3.get();
+            case 4 -> ModBlocks.STILL_MULTIBLOCK_PART_4.get();
+            default -> throw new IllegalArgumentException("Invalid still part: " + part);
+        };
+    }
+
+    private static Block rawBlock(int part) {
+        return switch (part) {
+            case 1 -> ModBlocks.STEEL_BRAZIER.get();
+            case 3 -> ModBlocks.STEEL_COIL.get();
+            default -> ModBlocks.STEEL_POT.get();
+        };
+    }
+
+    public static boolean isLoaded(Level level, BlockPos master, Direction facing) {
+        for (int part = 1; part <= 4; part++) if (!level.hasChunkAt(position(master, facing, part))) return false;
+        return true;
+    }
+
+    public static boolean isComplete(Level level, BlockPos master, Direction facing) {
+        if (!isLoaded(level, master, facing)) return false;
+        for (int part = 1; part <= 4; part++) {
+            BlockState state = level.getBlockState(position(master, facing, part));
+            if (!state.is(partBlock(part)) || state.getValue(SteelComponentBlock.FACING) != facing) return false;
+        }
+        return true;
+    }
+
+    /** Called after any of the four raw components is placed. Never consumes an existing still. */
+    public static boolean build(Level level, BlockPos placedPos) {
+        if (level.isClientSide) return false;
+        for (Direction facing : Direction.Plane.HORIZONTAL) {
+            for (int placedPart = 1; placedPart <= 4; placedPart++) {
+                BlockPos offset = position(BlockPos.ZERO, facing, placedPart);
+                BlockPos master = placedPos.subtract(offset);
+                if (!isLoaded(level, master, facing)) continue;
+                boolean matches = true;
+                for (int part = 1; part <= 4; part++) {
+                    if (!level.getBlockState(position(master, facing, part)).is(rawBlock(part))) {
+                        matches = false;
+                        break;
+                    }
+                }
+                if (!matches) continue;
+                for (int part = 1; part <= 4; part++) {
+                    BlockPos pos = position(master, facing, part);
+                    boolean water = level.getBlockState(pos).getValue(SteelComponentBlock.WATERLOGGED);
+                    level.setBlock(pos, partBlock(part).defaultBlockState().setValue(SteelComponentBlock.FACING, facing)
+                        .setValue(SteelComponentBlock.WATERLOGGED, water), Block.UPDATE_CLIENTS);
+                }
+                notifyNeighbors(level, master, facing);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static BlockState originalState(BlockState partState) {
+        StillPartBlock part = (StillPartBlock) partState.getBlock();
+        return part.originalBlock().defaultBlockState()
+            .setValue(SteelComponentBlock.FACING, partState.getValue(SteelComponentBlock.FACING))
+            .setValue(SteelComponentBlock.WATERLOGGED, partState.getValue(SteelComponentBlock.WATERLOGGED));
+    }
+
+    /** The removed block drops through its loot table; the other components stay in the world. */
+    public static void disassemble(Level level, BlockPos removedPos, BlockState removedState) {
+        if (level.isClientSide) return;
+        BlockPos master = masterPosition(removedPos, removedState);
+        Direction facing = removedState.getValue(SteelComponentBlock.FACING);
+        Assembly assembly = new Assembly(level, master);
+        if (!DISASSEMBLING.add(assembly)) return;
+        try {
+            for (int part = 1; part <= 4; part++) {
+                BlockPos pos = position(master, facing, part);
+                if (pos.equals(removedPos) || !level.hasChunkAt(pos)) continue;
+                BlockState state = level.getBlockState(pos);
+                if (state.is(partBlock(part)) && state.getValue(SteelComponentBlock.FACING) == facing) {
+                    level.setBlock(pos, originalState(state), Block.UPDATE_CLIENTS);
+                }
+            }
+            notifyNeighbors(level, master, facing);
+        } finally {
+            DISASSEMBLING.remove(assembly);
+        }
+    }
+
+    private static void notifyNeighbors(Level level, BlockPos master, Direction facing) {
+        for (int part = 1; part <= 4; part++) {
+            BlockPos pos = position(master, facing, part);
+            if (level.hasChunkAt(pos)) level.updateNeighborsAt(pos, level.getBlockState(pos).getBlock());
+        }
+    }
 }

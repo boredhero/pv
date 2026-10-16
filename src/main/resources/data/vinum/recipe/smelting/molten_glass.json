@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "c:glass_blocks"
+  },
+  "result": {
+    "id": "vinum:molten_glass"
+  },
+  "experience": 0.25,
+  "cookingtime": 100
+}

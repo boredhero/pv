@@ -1,47 +1,20 @@
 package io.vinum.item;
 
-import java.util.function.Supplier;
-
-import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-/**
- * ModItemGroup is an ItemGroup (previously called {@code CreativeTab} child for our mod
- * that gives us a dedicated tab in the creative menu that contains all our mod items.
- * @see
- * <a href="https://cadiboo.github.io/tutorials/1.15.1/forge/1.7-itemgroup/#setup--util-code">
- *  ItemGroup - Setup & Util code (Cadiboo)</a>
- */
-@mcp.MethodsReturnNonnullByDefault
-public class ModItemGroup extends ItemGroup {
+public final class ModItemGroup {
+    public static final DeferredRegister<CreativeModeTab> TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Defines.MODID);
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN = TABS.register("main", () ->
+            CreativeModeTab.builder().title(Component.translatable("itemGroup.vinum"))
+                    .icon(() -> ModItems.FIFTH_SILVER_TEQUILA.get().getDefaultInstance())
+                    .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(item -> output.accept(item.get())))
+                    .build());
 
-	/** Main item group for this mod used for all items */
-	@SuppressWarnings("deprecation")
-	public static final ItemGroup MAIN = new ModItemGroup(Defines.MODID, () -> new ItemStack(Item.getItemFromBlock(ModBlocks.STEEL_COIL.get())));
-
-	public static final Item.Properties PROPERTIES = new Item.Properties().group(ModItemGroup.MAIN);
-
-	/**
-	 * Here we use a {@link java.util.function.Supplier Supplier} because need to delay
-	 * creation of icon {@link ItemStack} because ItemGroups are created before any Items are
-	 * registered. The icon is not needed before the first time the {@code ItemGroup} is rendered
-	 * (by which time Items will have been registered). If we try to make a new ItemStack with an
-	 * Item when we create our ItemGroup, we will get an error because all Items are {@code null}
-	 * at this time and trying to use them will cause a {@code NullPointerException}.
-	 */
-	private final Supplier<ItemStack> iconSupplier;
-
-	public ModItemGroup(final String label, Supplier<ItemStack> iconSupplier) {
-
-		super(label);
-		this.iconSupplier = iconSupplier;
-	}
-
-	@Override
-	public ItemStack createIcon() {
-		return iconSupplier.get();
-	}
+    private ModItemGroup() {}
 }

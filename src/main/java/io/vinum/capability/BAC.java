@@ -1,71 +1,59 @@
 package io.vinum.capability;
 
-public class BAC implements IBAC {
-	
-	private int BACLevel;
-	private int BACTicks;
-	
-	public BAC() {
-		
-		BACLevel = 0;
-		BACTicks = 0;
-		
-	}
-	
-	@Override
-	public int getBACLevel() {
-		
-		return BACLevel;
-		
-	}
-	
-	@Override
-	public void setBACLevel(int BACLevel) {
-		
-		this.BACLevel = BACLevel;
-		
-	}
-	
-	@Override
-	public void addBACLevel(int BACLevel) {
-		
-		this.BACLevel += BACLevel;
-		
-	}
-	
-	@Override
-	public void removeBACLevel(int BACLevel) {
-		
-		this.BACLevel -= BACLevel;
-		
-	}
-	
-	@Override
-	public int getBACTicks() {
-		
-		return BACTicks;
-		
-	}
-	
-	@Override
-	public void setBACTicks(int BACTicks) {
-		
-		this.BACTicks = BACTicks;
-		
-	}
-	
-	@Override
-	public void addBACTicks(int BACTicks) {
-		
-		this.BACTicks += BACTicks;
-		
-	}
-	
-	@Override
-	public void removeBACTicks(int BACTicks) {
-		
-		this.BACTicks -= BACTicks;
-		
-	}
-	
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+
+/** Server-owned alcohol state; the persisted decay timer is never sent each tick. */
+public final class BAC implements IBAC, INBTSerializable<CompoundTag> {
+    public static final int DECAY_TICKS = 4000;
+    private int level;
+    private int ticks;
+
+    @Override
+    public int getBACLevel() { return level; }
+    @Override
+    public void setBACLevel(int level) {
+        this.level = Math.clamp(level, 0, Integer.MAX_VALUE);
+        if (this.level == 0) ticks = 0;
+    }
+    @Override
+    public void addBACLevel(int amount) { setBACLevel((int) Math.clamp((long) level + amount, 0, Integer.MAX_VALUE)); }
+    @Override
+    public void removeBACLevel(int amount) { setBACLevel((int) Math.clamp((long) level - amount, 0, Integer.MAX_VALUE)); }
+    @Override
+    public int getBACTicks() { return ticks; }
+    @Override
+    public void setBACTicks(int ticks) { this.ticks = Math.clamp(ticks, 0, DECAY_TICKS); }
+    @Override
+    public void addBACTicks(int amount) { setBACTicks((int) Math.clamp((long) ticks + amount, 0, DECAY_TICKS)); }
+    @Override
+    public void removeBACTicks(int amount) { setBACTicks((int) Math.clamp((long) ticks - amount, 0, DECAY_TICKS)); }
+
+    /** @return whether the visible level changed. */
+    public boolean tick() {
+        if (level == 0) {
+            ticks = 0;
+            return false;
+        }
+        if (++ticks >= DECAY_TICKS) {
+            ticks = 0;
+            --level;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("BACLevel", level);
+        tag.putInt("BACTicks", ticks);
+        return tag;
+    }
+    @Override
+    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+        setBACLevel(tag.getInt("BACLevel"));
+        setBACTicks(level == 0 ? 0 : tag.getInt("BACTicks"));
+    }
 }

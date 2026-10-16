@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "vinum:block_wine_barrel_cabernet_sauvignon",
+    "vinum:block_wine_barrel_chardonnay",
+    "vinum:block_wine_barrel_empty",
+    "vinum:block_wine_barrel_merlot",
+    "vinum:block_wine_barrel_pinot_noir",
+    "vinum:block_wine_barrel_sauvignon_blanc",
+    "vinum:block_wine_barrel_zinfandel"
+  ]
+}

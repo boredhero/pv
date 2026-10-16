@@ -1,4 +1,5 @@
 {
+	"render_type": "minecraft:cutout_mipped",
     "parent": "block/cross",
     "textures": {
         "cross": "vinum:block/agave_crop_stage0"

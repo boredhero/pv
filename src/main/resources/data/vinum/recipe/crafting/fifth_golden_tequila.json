@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "vinum:fifth_silver_tequila"
+    },
+    {
+      "item": "vinum:barrel"
+    }
+  ],
+  "result": {
+    "id": "vinum:fifth_golden_tequila"
+  }
+}

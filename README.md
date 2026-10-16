@@ -1,66 +1,100 @@
-# Proposal for MMD-Jam Mod Contest of Project Vinum Alpha Features
+# Project Vinum — Minecraft 1.21.1
 
-## Contributors:
-* Noah Martino (A.K.A. Captain Bored) - personal.boredhero@gmail.com
-* Rellit
-* Yooks
+A unified NeoForge port of the released tequila mod from `boredhero/pv`
+(`1.15.2-0.1.0-HOTFIX`) and the wine prototype from `boredhero/project-vinum`
+(`401c3ee`). The mod ID and all content namespaces are now `vinum`.
 
-### Alcohol Type: Tequila
-Tequila is an agave based alcoholic beverage generally bottled at 40% alcohol by volume/proof. It is indigenous to the American Southwest deserted areas where the Agave plant is native. The agave plant is high in sugar, and thus an ideal fermentation ingredient for alcohol production. For centuries, the native peoples of the region have produced some form or another of agave-based alcohol. Tequila can be consumed right after distillation (Silver Tequila) OR it may be placed back into barrels for aging, which causes it to turn golden, and then it is referred to as Gold Tequila.
+## Requirements and installation
 
-For the production of Tequila using this mod, the following steps must occur. Items, Blocks, and Emphasis in bold:
-1. Craft **Glass Fifth Bottle [Empty]** from **Vanilla Glass Blocks**
-2. Harvest **Agave Plant** to get **Agave**
-3. Cook **Agave** in a **Vanilla Furnace** to get **Cooked Agave**
-4. Craft **Cooked Agave** with **Vanilla Water Bucket** to get **Unfermented Agave Wort**
-5. Ferment **Unfermented Agave Wort** in **Barrel** for **1-2 Days** to get **Fermented Agave Wort**
-6. Cook **Glass Fifth Bottle [Empty]** (or **Canteen**), **Fermented Agave Wort**, and **Vanilla Fuel Item** in **Still**
-7. Get a **Silver Tequila Fifth** or **Canteen (Silver Tequila)** and **Vanilla Empty Bucket** out
+- Minecraft **1.21.1**
+- NeoForge **21.1.262** (the version used for development and verification)
+- Java **21**
 
-* Note: A whole bottle of tequila = 25 **Standard Alcohol Units** and will kill a player if consumed directly. To counteract this, the player may craft shot glasses and consume those individually, OR using the **Canteen**, a special item that supports taking multiple swigs (1 shot equiv. per swig). Lastly, they can craft a **Cocktail** using the shots of tequila which may then be consumed safely, and will also provide perks beyond the perks of standard alcohol consumption alone, similar to a Pam's "Top Tier Food" item.
+Put the non-sources `vinum-0.3.0.jar` from `build/libs/` in the client's
+and server's `mods` directories. CocoLib is no longer required. Use a new world
+for this port; migration of saves from the old Minecraft releases is not provided.
 
-### Machine: Barrel
-A barrel is a wooden cask used for the fermentation and aging of alcohol. It can be crafted from most any wood. In our case, it should be just like a chest except that it has a different texture and is capable of keeping track of time passed and replacing the items in it with updated items.
+## Included content
 
-The Barrel Must:
-1. Accept **Unfermented Agave Wort** in its chest slots
-2. Keep track of how long each **Unfermented Agave Wort** has been aging.
-3. After **1-2 days of aging**, replace the **Unfermented Agave Wort** with **Fermented Agave Wort**
-4. Also be able to do 1-3 for **Silver Tequila Fifth/Canteen (Silver Tequila)** --> **Gold Tequila Fifth/Canteen (Gold Tequila)**
+The tequila production chain includes wild agave, plantable seeds, cooked agave,
+wort fermentation, the four-part steel pot still, silver and golden tequila,
+shots, and the spiced apple margarita. Reusable tools and barrels survive crafting.
+Drinks affect blood alcohol content (BAC), with the original progression of
+benefits and penalties, a client HUD, and gradual recovery.
 
-### Machine: Still
-A still is a machine universal to the production of all high-proof (> 15-20% ABV) spirits. It serves two purposes. The first is to concentrate the alcohol in a low concentration wort into something of usable strength. The second is that the pollutants, bacteria, and mash from the fermented liquid, professionally referred to as "wort", are filtered out automatically by this process. Most simple stills are essentially a pot that is heated with a metal coil out the top that catches evaporated alcohol and flavor compounds, and then they condensate in the hose and drip into the other tank, which is your drinking grade alcohol. We will be implementing this process as a furnace-like machine.
+The wine prototype contributes all six grape varieties, seeds, juices, bottles,
+glasses, seven decorative wine barrels, lead ore and metal, three falling sands,
+and two translucent glass blocks. Its grape-growing and wine-fermentation systems
+were unfinished in the original prototype and are not advertised as implemented
+here. Wine content is accessible from the unified Project Vinum creative tab.
 
-The Still must:
-1. Accept **Vanilla Furnace Fuels**, **Empty Bottles/Canteens**, and **Fermented Agave Wort**
-2. Consume **Vanilla Furnace Fuel**
-3. Output **Vanilla Empty Bucket** AND **Tequila Fifth/Canteen**
+## Tequila quick start
 
-### Special Feature: Cocktails
-Cocktails are made with other ingredients than just liqour. They may have strange and mysterious yet powerful and beneficial potion effects at what is arguably a much cheaper cost than making potions themselves from rare ingredients from the nether and mob drops. These are TBD but will be very flexible.
+1. Find mature agave in deserts or badlands. Harvest it and replant seeds on sand
+   or farmland; bone meal also works. Smelt agave into cooked agave pulp.
+2. Blast iron ingots or nuggets into steel. Craft a steel brazier, two steel pots,
+   and a steel coil. Place them in a two-by-two vertical arrangement, facing the
+   same direction: pot above brazier on the left, coil above pot on the right.
+   The still assembles automatically when the last component is placed.
+3. Craft cooked agave pulp with a water bucket to make unfermented wort. Craft
+   that wort with the reusable barrel item to ferment it.
+4. Open the still and insert fermented wort, an empty fifth bottle, and furnace
+   fuel. A bottle of silver tequila takes **240 active ticks** (12 seconds).
+5. Craft silver tequila with a reusable barrel to make golden tequila. Combine a
+   fifth with a pack of shot glasses for drinkable shots. Craft the margarita with
+   two golden tequila shots, apple juice, salt, cinnamon, honey, ice, a margarita
+   glass, and a reusable shaker.
 
-### Special Feature: Blood Alcohol Content (BAC)/Alchol By Volume (ABV)
-Blood alcohol content is the measure of how much alcohol is in a person's blood. A little, and the person may experience various uplifting and pleasant tonic-like effects. A little more, and these effects increase at a slight cost in visual effects. However, drink too much booze, and one will end up dying from alcohol poisoning. You can consume standard units of alcohol (1.5 fl oz shots of 40% ABV tequilla, for example), at whatever rate you want, but the human liver can only dissipate their effects at a rate of 1 standard unit of alcohol per hour. This must be minded.
+The still supports hoppers and NeoForge item handlers: inputs from above, fuel
+from the sides, and finished bottles/spent fuel containers from below. Breaking
+any part dismantles the structure and drops its inventory once.
 
-This BAC System will be responsible for:
-1. Tagging every consumable alcoholic item with a number of how many standard units of alcohol it contains.
-2. Used as a reference for applying positive and negative effects to the player based on their drinking.
-3. Updating a HUD row with 10 empty shotglasses, filling them up to show how many standard units the player has consumed.
-  1. At 1-4 Shots, the player should experience mild positive effects
-  2. At 5-7 Shots, the player should experience very positive effects with visual distortion
-  3. At 8-9 Shots, the player should experience nausea, blindness, and poisoning effects
-  4. At 10 Shots, the player will instantly be killed with a display message of "[Player] died of Acute Alcohol Poisoning"
+The [original tutorial](https://github.com/boredhero/pv/blob/tutorials/src-tutorial/versions/alpha-0.1.0-mmdjam2020/alpha-0.1.0-mmdjam2020.md)
+illustrates the recipes and explains BAC. The port fixes several bugs in that
+release, including fuel-free progress, invalid output replacement, inconsistent
+multiblock orientation, shared item properties, and lost drinking containers.
 
-### Special Feature: Mod API
-An API that allows other mods to see and interface with the machines, items, and especially and most importantly, the BAC/ABV System.
+## Development and checks
 
-The API should:
-1. Provide full access to machines to add new recipes
-2. Provide full access to querying a players BAC and updating it.
-3. Provide full access to tag items in their own mods with the ABV Standard Units of Alcohol
+```sh
+./gradlew build
+./gradlew runClient
+./gradlew runServer
+./gradlew runGameTestServer
+python scripts/check_resources.py
+```
 
-### Full Registry of Blocks, Items, Machines, ETC
+The wrapper pins Gradle 9.2.1 with a distribution checksum; ModDevGradle 2.0.148
+uses Java 21. Runtime data lives in ignored `run/` and `run-gametest/` directories.
+GameTests live separately in `src/gametest/` and are excluded from the released jar.
+The asset validator checks JSON, references, recipes, models, and textures; when
+Minecraft and NeoForge artifacts are cached it also resolves their resources.
 
-* Items: Agave Seeds, Agave, Cooked Agave, Unfermented Agave Wort, Fermented Agave Wort, Glass Fifth Bottle [Empty], Silver Tequila Fifth, Gold Tequila Fifth, Shot Glass [Empty], Shot Glass [Silver Tequila], Shot Glass[Gold Tequila], ??Canteen & Variations??
+Keep changes on a development branch and submit them through a pull request.
+Do not commit directly to the upstream `master` branch.
 
-* Machines: Barrel, Still
+## Continuous integration and downloads
+
+GitHub Actions runs on every branch push and can also be started manually:
+
+| Branch | Checks | Downloadable artifacts |
+| --- | --- | --- |
+| Any branch except `develop` and `master` | Build, resource validation, Gradle checks, and all server GameTests | Test reports and logs (14 days), including failed runs |
+| `develop` or `master` | Build and resource validation | Mod and sources JARs (90 days), after a successful build |
+
+Open **Actions → Build and test → a successful develop/master run → Artifacts**
+to download the JAR bundle. Install the JAR without the `-sources` suffix.
+Artifact names include the branch and commit SHA to identify each build.
+
+The workflow uses Java 21 and the Gradle wrapper, with GitHub's cache backing
+Gradle distributions, dependencies, build outputs, and NeoForm's Minecraft data.
+Each branch can save its cache for subsequent pushes. JARs are GitHub Actions
+artifacts; the workflow does not create GitHub Releases.
+
+## Credits and license
+
+Project Vinum: Noah Martino (boredhero), Rellit, and Yooks.
+Wine prototype: Noah Martino, with credits to Cadiboo's modding tutorial.
+The tequila code retains [GPLv3](LICENSE.md); the imported wine prototype retains
+its [original license notice](LICENSE-WINE-PROTOTYPE.md). Both notices are included
+in the distributed jar.

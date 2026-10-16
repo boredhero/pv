@@ -1,7 +1,7 @@
 package io.vinum.util;
 
 import io.vinum.common.Defines;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Tiny utility class to help find the right {@code ResourceLocation}.
@@ -16,7 +16,7 @@ public final class RLHelper {
 	 * @return {@code ResourceLocation} pointing to provided path with {@code MODID} as namespace.
 	 */
 	public static ResourceLocation getModResourceLocation(String path) {
-		return new ResourceLocation(Defines.MODID, path);
+		return ResourceLocation.fromNamespaceAndPath(Defines.MODID, path);
 	}
 
 	/**
@@ -25,7 +25,7 @@ public final class RLHelper {
 	 * this location will create a registry override (replace).
 	 */
 	public static ResourceLocation getOverrideResourceLocation(String path) {
-		return new ResourceLocation("minecraft", path);
+		return ResourceLocation.fromNamespaceAndPath("minecraft", path);
 	}
 
 	/**
