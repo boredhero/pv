@@ -1,8 +1,3 @@
 {
-    "parent": "block/orientable",
-    "textures": {
-        "top": "vinum:block/wine_barrel_side_horizontal",
-        "front": "vinum:block/wine_barrel_front_merlot",
-        "side": "vinum:block/wine_barrel_side_vertical"
-    }
+  "parent": "vinum:block/oak_barrel"
 }

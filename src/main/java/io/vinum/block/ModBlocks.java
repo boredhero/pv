@@ -15,6 +15,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Defines.MODID);
+    public static final DeferredHolder<Block, WineBarrelBlock> BARREL = BLOCKS.register("barrel", () -> new WineBarrelBlock(barrel()));
     public static final DeferredHolder<Block, SteelBrazierBlock> STEEL_BRAZIER = BLOCKS.register("steel_brazier",
         () -> new SteelBrazierBlock(steel().lightLevel(state -> state.getValue(SteelBrazierBlock.LIT) ? 15 : 0)));
     public static final DeferredHolder<Block, SteelPotBlock> STEEL_POT = BLOCKS.register("steel_pot", () -> new SteelPotBlock(steel()));
@@ -46,7 +47,8 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     private static BlockBehaviour.Properties barrel() {
-        return BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD);
+        return BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD)
+            .noOcclusion().dynamicShape().pushReaction(PushReaction.BLOCK);
     }
 
     private static BlockBehaviour.Properties sand() {

@@ -343,7 +343,13 @@ public final class VinumGameTests {
         var server = helper.getLevel().getServer();
         long recipes = server.getAdvancements().getAllAdvancements().stream()
                 .filter(advancement -> advancement.id().getNamespace().equals("vinum") && advancement.id().getPath().startsWith("recipes/")).count();
-        helper.assertTrue(recipes == 28, "All 28 Vinum recipes must have loaded unlock advancements; got " + recipes);
+        helper.assertTrue(recipes >= 28, "All original Vinum recipe unlock advancements must remain loaded; got " + recipes);
+        for (var recipe : helper.getLevel().getRecipeManager().getRecipes()) {
+            if (recipe.id().getNamespace().equals("vinum")) {
+                ResourceLocation unlock = ResourceLocation.fromNamespaceAndPath("vinum", "recipes/" + recipe.id().getPath());
+                helper.assertTrue(server.getAdvancements().get(unlock) != null, "Vinum recipe must be discoverable through an unlock advancement: " + recipe.id());
+            }
+        }
         ServerPlayer player = serverPlayer(helper);
         ResourceLocation recipe = ResourceLocation.fromNamespaceAndPath("vinum", "smelting/steel_ingot");
         helper.assertTrue(!player.getRecipeBook().contains(recipe), "New player must begin without steel recipe");

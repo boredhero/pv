@@ -13,7 +13,12 @@ public final class ModItemGroup {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN = TABS.register("main", () ->
             CreativeModeTab.builder().title(Component.translatable("itemGroup.vinum"))
                     .icon(() -> ModItems.FIFTH_SILVER_TEQUILA.get().getDefaultInstance())
-                    .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(item -> output.accept(item.get())))
+                    .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(item -> {
+                        // Keep legacy registry IDs loadable without presenting eight identical barrels.
+                        if (!(item.get() instanceof BarrelItem) || item.get() == ModItems.BARREL.get()) {
+                            output.accept(item.get());
+                        }
+                    }))
                     .build());
 
     private ModItemGroup() {}

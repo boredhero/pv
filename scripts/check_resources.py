@@ -63,6 +63,13 @@ def main():
             for texture in doc.get("textures", {}).values():
                 if not texture.startswith("#"):
                     check_ref(source, texture, "assets/{namespace}/textures", ".png")
+            for element in doc.get("elements", []):
+                if any(value < -16 or value > 32 for key in ("from", "to") for value in element[key]):
+                    errors.append(f"{source}: model element exceeds Minecraft bounds")
+                rotation = element.get("rotation")
+                if rotation and (rotation.get("axis") not in {"x", "y", "z"}
+                                 or rotation.get("angle") not in {-45, -22.5, 0, 22.5, 45}):
+                    errors.append(f"{source}: unsupported native model rotation")
         if "/blockstates/" in source:
             name = Path(source).stem
             if source.startswith("assets/vinum/"):

@@ -1,6 +1,10 @@
 package io.vinum.item.drinks;
 
 import java.util.Arrays;
+import java.util.List;
+import io.vinum.item.AgedBeverageItem;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -53,6 +57,11 @@ public class DrinkItem extends Item implements IDrink {
             }
         }
         return stack;
+    }
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltip, flag);
+        AgedBeverageItem.appendAgeTooltip(stack, tooltip);
     }
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) { return useDuration; }

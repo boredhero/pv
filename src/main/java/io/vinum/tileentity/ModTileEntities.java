@@ -20,11 +20,20 @@ public final class ModTileEntities {
             TILEENTITIES.register("still_master", () -> BlockEntityType.Builder.of(
                     StillMasterTileEntity::new, ModBlocks.STILL_MULTIBLOCK_PART_1.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BarrelBlockEntity>> BARREL =
+            TILEENTITIES.register("barrel", () -> BlockEntityType.Builder.of(BarrelBlockEntity::new,
+                    ModBlocks.BARREL.get(), ModBlocks.BLOCK_WINE_BARREL_EMPTY.get(),
+                    ModBlocks.BLOCK_WINE_BARREL_CHARDONNAY.get(), ModBlocks.BLOCK_WINE_BARREL_SAUVIGNON_BLANC.get(),
+                    ModBlocks.BLOCK_WINE_BARREL_CABERNET_SAUVIGNON.get(), ModBlocks.BLOCK_WINE_BARREL_MERLOT.get(),
+                    ModBlocks.BLOCK_WINE_BARREL_PINOT_NOIR.get(), ModBlocks.BLOCK_WINE_BARREL_ZINFANDEL.get()).build(null));
+
     private ModTileEntities() {}
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, STILL_MASTER.get(),
                 StillMasterTileEntity::getItemHandler);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BARREL.get(),
+                BarrelBlockEntity::getFluidHandler);
     }
 }

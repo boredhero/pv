@@ -34,8 +34,8 @@ public final class ModItems {
 	public static final DeferredItem<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> MARGARITA_GLASS = ITEMS.register("margarita_glass", () -> new Item(new Item.Properties()));
 	//Fifths of Booze
-	public static final DeferredItem<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new AgedBeverageItem(new Item.Properties()));
 	//public static final DeferredItem<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(new Item.Properties()));
 	//Items used in crafting that must not break when used.
 	public static final DeferredItem<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
@@ -52,7 +52,7 @@ public final class ModItems {
 	public static final DeferredItem<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(Items.GLASS_BOTTLE)));
 	public static final DeferredItem<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(new Item.Properties(), 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new MobEffectInstance(MobEffects.LUCK, 18000), new MobEffectInstance(MobEffects.JUMP, 12000), new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 12000)));
 	//BIG SHIM ENERGY
-	public static final DeferredItem<Item> BARREL = ITEMS.register("barrel", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<BarrelItem> BARREL = ITEMS.register("barrel", () -> new BarrelItem(ModBlocks.BARREL.get(), new Item.Properties()));
 
 
 	// Wine content unified from the original project-vinum prototype.
@@ -64,19 +64,19 @@ public final class ModItems {
 	public static final DeferredItem<Item> LEAD_POWDER = ITEMS.register("lead_powder", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> IRON_POWDER = ITEMS.register("iron_powder", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> WINE_BOTTLE_EMPTY = ITEMS.register("wine_bottle_empty", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_CHARDONNAY = ITEMS.register("wine_bottle_chardonnay", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_SAUVIGNON_BLANC = ITEMS.register("wine_bottle_sauvignon_blanc", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_CABERNET_SAUVIGNON = ITEMS.register("wine_bottle_cabernet_sauvignon", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_MERLOT = ITEMS.register("wine_bottle_merlot", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_PINOT_NOIR = ITEMS.register("wine_bottle_pinot_noir", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_BOTTLE_ZINFANDEL = ITEMS.register("wine_bottle_zinfandel", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_CHARDONNAY = ITEMS.register("wine_bottle_chardonnay", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_SAUVIGNON_BLANC = ITEMS.register("wine_bottle_sauvignon_blanc", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_CABERNET_SAUVIGNON = ITEMS.register("wine_bottle_cabernet_sauvignon", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_MERLOT = ITEMS.register("wine_bottle_merlot", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_PINOT_NOIR = ITEMS.register("wine_bottle_pinot_noir", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_BOTTLE_ZINFANDEL = ITEMS.register("wine_bottle_zinfandel", () -> new AgedBeverageItem(new Item.Properties()));
 	public static final DeferredItem<Item> WINE_GLASS_EMPTY = ITEMS.register("wine_glass_empty", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_CHARDONNAY = ITEMS.register("wine_glass_chardonnay", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_SAUVIGNON_BLANC = ITEMS.register("wine_glass_sauvignon_blanc", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_CABERNET_SAUVIGNON = ITEMS.register("wine_glass_cabernet_sauvignon", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_MERLOT = ITEMS.register("wine_glass_merlot", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_PINOT_NOIR = ITEMS.register("wine_glass_pinot_noir", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_GLASS_ZINFANDEL = ITEMS.register("wine_glass_zinfandel", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_GLASS_CHARDONNAY = ITEMS.register("wine_glass_chardonnay", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
+	public static final DeferredItem<Item> WINE_GLASS_SAUVIGNON_BLANC = ITEMS.register("wine_glass_sauvignon_blanc", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
+	public static final DeferredItem<Item> WINE_GLASS_CABERNET_SAUVIGNON = ITEMS.register("wine_glass_cabernet_sauvignon", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
+	public static final DeferredItem<Item> WINE_GLASS_MERLOT = ITEMS.register("wine_glass_merlot", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
+	public static final DeferredItem<Item> WINE_GLASS_PINOT_NOIR = ITEMS.register("wine_glass_pinot_noir", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
+	public static final DeferredItem<Item> WINE_GLASS_ZINFANDEL = ITEMS.register("wine_glass_zinfandel", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(WINE_GLASS_EMPTY.get())));
 	public static final DeferredItem<Item> GRAPES_CHARDONNAY = ITEMS.register("grapes_chardonnay", () -> new Item(new Item.Properties().food(Foods.SWEET_BERRIES)));
 	public static final DeferredItem<Item> GRAPES_SAUVIGNON_BLANC = ITEMS.register("grapes_sauvignon_blanc", () -> new Item(new Item.Properties().food(Foods.SWEET_BERRIES)));
 	public static final DeferredItem<Item> GRAPES_CABERNET_SAUVIGNON = ITEMS.register("grapes_cabernet_sauvignon", () -> new Item(new Item.Properties().food(Foods.SWEET_BERRIES)));
@@ -102,16 +102,21 @@ public final class ModItems {
 	public static final DeferredItem<BlockItem> STEEL_COIL = ITEMS.register("steel_coil", () -> new BlockItem(ModBlocks.STEEL_COIL.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_LEAD_ORE = ITEMS.register("block_lead_ore", () -> new BlockItem(ModBlocks.BLOCK_LEAD_ORE.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_LEAD = ITEMS.register("block_lead", () -> new BlockItem(ModBlocks.BLOCK_LEAD.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_EMPTY = ITEMS.register("block_wine_barrel_empty", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_EMPTY.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_CHARDONNAY = ITEMS.register("block_wine_barrel_chardonnay", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_CHARDONNAY.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_SAUVIGNON_BLANC = ITEMS.register("block_wine_barrel_sauvignon_blanc", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_SAUVIGNON_BLANC.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_CABERNET_SAUVIGNON = ITEMS.register("block_wine_barrel_cabernet_sauvignon", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_CABERNET_SAUVIGNON.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_MERLOT = ITEMS.register("block_wine_barrel_merlot", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_MERLOT.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_PINOT_NOIR = ITEMS.register("block_wine_barrel_pinot_noir", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_PINOT_NOIR.get(), new Item.Properties()));
-	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_ZINFANDEL = ITEMS.register("block_wine_barrel_zinfandel", () -> new BlockItem(ModBlocks.BLOCK_WINE_BARREL_ZINFANDEL.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_EMPTY = ITEMS.register("block_wine_barrel_empty", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_EMPTY.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_CHARDONNAY = ITEMS.register("block_wine_barrel_chardonnay", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_CHARDONNAY.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_SAUVIGNON_BLANC = ITEMS.register("block_wine_barrel_sauvignon_blanc", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_SAUVIGNON_BLANC.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_CABERNET_SAUVIGNON = ITEMS.register("block_wine_barrel_cabernet_sauvignon", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_CABERNET_SAUVIGNON.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_MERLOT = ITEMS.register("block_wine_barrel_merlot", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_MERLOT.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_PINOT_NOIR = ITEMS.register("block_wine_barrel_pinot_noir", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_PINOT_NOIR.get(), new Item.Properties()));
+	public static final DeferredItem<BlockItem> BLOCK_WINE_BARREL_ZINFANDEL = ITEMS.register("block_wine_barrel_zinfandel", () -> new BarrelItem(ModBlocks.BLOCK_WINE_BARREL_ZINFANDEL.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_LEADED_SAND = ITEMS.register("block_leaded_sand", () -> new BlockItem(ModBlocks.BLOCK_LEADED_SAND.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_FERROUS_SAND = ITEMS.register("block_ferrous_sand", () -> new BlockItem(ModBlocks.BLOCK_FERROUS_SAND.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_REFINED_SAND = ITEMS.register("block_refined_sand", () -> new BlockItem(ModBlocks.BLOCK_REFINED_SAND.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_DARK_WINE_GLASS = ITEMS.register("block_dark_wine_glass", () -> new BlockItem(ModBlocks.BLOCK_DARK_WINE_GLASS.get(), new Item.Properties()));
 	public static final DeferredItem<BlockItem> BLOCK_FINE_CRYSTAL_GLASS = ITEMS.register("block_fine_crystal_glass", () -> new BlockItem(ModBlocks.BLOCK_FINE_CRYSTAL_GLASS.get(), new Item.Properties()));
+
+	// Oak-matured tequila stages share the same fluid and retain their batch age.
+	public static final DeferredItem<Item> FIFTH_REPOSADO_TEQUILA = ITEMS.register("fifth_reposado_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_ANEJO_TEQUILA = ITEMS.register("fifth_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_EXTRA_ANEJO_TEQUILA = ITEMS.register("fifth_extra_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
 }
