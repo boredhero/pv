@@ -215,11 +215,14 @@ engine directly to pretend a client interaction happened. These are targeted
 functional scenarios, not screenshot comparisons or proof of every rendering detail.
 
 The runner requires singleplayer Creative with cheats. It reserves an empty loaded
-air volume above the player, snapshots their inventory and position, and restores
+air volume near and above the player (searching up to 16 blocks horizontally and
+64 above), faces the camera toward the fixture, snapshots inventory and position, and restores
 state and removes fixtures after success, failure, or cancellation. Unexpected
 container screens abort; typing in chat pauses action steps. If the world is closed
 during a test, reconnect and run `restore` before starting another test. Recovery
 data stays with the original saved player/world until restoration succeeds.
+Each step pauses for half a second so fixtures and interactions are visible.
+The development JVM property `vinum.clientTestStepDelayTicks` adjusts that delay (0–40 ticks).
 
 Client reports are in `run-test-client/client-test-results/<scenario>.json`, with
 outcome, completed steps, and the failing step or timeout. New scenarios implement

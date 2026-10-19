@@ -1,6 +1,7 @@
 package io.vinum.test.client;
 
 import io.vinum.test.harness.PlayerTestRecovery;
+import io.vinum.test.harness.FixtureSiteSelector;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.Vec3;
 /** The server bridge is the only place scenarios may inspect or mutate authoritative state. */
 public final class ClientTestContext {
     public final Minecraft mc = Minecraft.getInstance();
-    public final BlockPos target;
+    public volatile BlockPos target;
     private final net.minecraft.client.server.IntegratedServer server;
     private final UUID playerId;
     private boolean captured;
@@ -57,14 +58,7 @@ public final class ClientTestContext {
             if (!player.isCreative() || !player.hasPermissions(2)) throw new IllegalStateException("Creative and cheats required");
             if (PlayerTestRecovery.hasSnapshot(player))
                 throw new IllegalStateException("Unfinished test recovery exists; run /vinumclienttest restore first");
-            // Require a loaded, completely empty volume before taking ownership of any blocks.
-            for (BlockPos pos : BlockPos.betweenClosed(target.offset(-3, -1, -3), target.offset(3, 3, 3))) {
-                if (!player.serverLevel().hasChunkAt(pos) || !player.serverLevel().isInWorldBounds(pos)
-                        || !player.serverLevel().getBlockState(pos).isAir())
-                    throw new IllegalStateException("Fixture requires a loaded empty 7×5×7 air volume eight blocks above the player");
-            }
-            if (!player.serverLevel().getEntities(player, new net.minecraft.world.phys.AABB(Vec3.atLowerCornerOf(target.offset(-3, -1, -3)), Vec3.atLowerCornerOf(target.offset(4, 4, 4)))).isEmpty())
-                throw new IllegalStateException("Fixture volume contains entities");
+            target = FixtureSiteSelector.find(player);
             selected = player.getInventory().selected;
             PlayerTestRecovery.capture(player, target);
             captured = true;
@@ -72,7 +66,7 @@ public final class ClientTestContext {
             player.getInventory().selected = 0;
             for (int x = -2; x <= 2; x++) for (int z = -2; z <= 2; z++)
                 player.serverLevel().setBlockAndUpdate(target.offset(x, -1, z), Blocks.GLASS.defaultBlockState());
-            player.teleportTo(target.getX() + .5, target.getY(), target.getZ() + 2.5);
+            player.teleportTo(player.serverLevel(), target.getX() + .5, target.getY(), target.getZ() + 2.5, 180F, 30F);
             player.getAbilities().flying = true;
             player.onUpdateAbilities();
             player.inventoryMenu.broadcastChanges();

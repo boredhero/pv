@@ -125,10 +125,13 @@ public final class ClientTestRunner {
             if (context.mc.screen instanceof ChatScreen) return;
             ClientScenario.Step step = steps.get(index);
             if (!started) { started = true; ticks = 0; step.start().run(); }
-            if (step.complete().getAsBoolean()) {
+            boolean complete = step.complete().getAsBoolean();
+            // Give the player time to observe each action before the next step or cleanup.
+            int delay = Math.clamp(Integer.getInteger("vinum.clientTestStepDelayTicks", 10), 0, 40);
+            if (complete && ticks >= delay) {
                 completed.add(step.name()); index++; started = false;
                 if (index == steps.size()) finish("passed", "All client steps passed");
-            } else if (++ticks > step.timeoutTicks()) throw new AssertionError("Timed out: " + step.name());
+            } else if (++ticks > Math.max(delay, step.timeoutTicks())) throw new AssertionError("Timed out: " + step.name());
         } catch (Throwable error) { finish("failed", status() + ": " + error); }
     }
 
