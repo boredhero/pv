@@ -27,6 +27,21 @@ public final class ModFluids {
     public static final FluidEntry PINOT_NOIR = registerBeverage("pinot_noir", 0xFF9A3C4C);
     public static final FluidEntry ZINFANDEL = registerBeverage("zinfandel", 0xFF76213A);
 
+    public static final FluidEntry AGAVE_MOSTO = registerBeverage("agave_mosto", 0xFFD5BA79);
+    public static final FluidEntry AGAVE_WASH = registerBeverage("agave_wash", 0xFFCEC09A);
+    public static final FluidEntry JUICE_CHARDONNAY = registerBeverage("juice_chardonnay", 0xFFEBD17F);
+    public static final FluidEntry MUST_CHARDONNAY = registerBeverage("must_chardonnay", 0xFFEBD17F);
+    public static final FluidEntry JUICE_SAUVIGNON_BLANC = registerBeverage("juice_sauvignon_blanc", 0xFFD8D99A);
+    public static final FluidEntry MUST_SAUVIGNON_BLANC = registerBeverage("must_sauvignon_blanc", 0xFFD8D99A);
+    public static final FluidEntry JUICE_CABERNET_SAUVIGNON = registerBeverage("juice_cabernet_sauvignon", 0xFF64182D);
+    public static final FluidEntry MUST_CABERNET_SAUVIGNON = registerBeverage("must_cabernet_sauvignon", 0xFF64182D);
+    public static final FluidEntry JUICE_MERLOT = registerBeverage("juice_merlot", 0xFF842D40);
+    public static final FluidEntry MUST_MERLOT = registerBeverage("must_merlot", 0xFF842D40);
+    public static final FluidEntry JUICE_PINOT_NOIR = registerBeverage("juice_pinot_noir", 0xFF9A3C4C);
+    public static final FluidEntry MUST_PINOT_NOIR = registerBeverage("must_pinot_noir", 0xFF9A3C4C);
+    public static final FluidEntry JUICE_ZINFANDEL = registerBeverage("juice_zinfandel", 0xFF76213A);
+    public static final FluidEntry MUST_ZINFANDEL = registerBeverage("must_zinfandel", 0xFF76213A);
+
     private ModFluids() {}
     public static void register(IEventBus bus) { FLUID_TYPES.register(bus); FLUIDS.register(bus); }
     public static List<FluidEntry> entries() { return List.copyOf(ENTRIES); }

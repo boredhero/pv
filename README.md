@@ -17,16 +17,17 @@ for this port; migration of saves from the old Minecraft releases is not provide
 ## Included content
 
 The tequila production chain includes wild agave, plantable seeds, cooked agave,
-wort fermentation, the four-part steel pot still, silver and golden tequila,
+timed wort fermentation, the four-part steel pot still, silver and golden tequila,
 shots, and the spiced apple margarita. Reusable tools and barrels survive crafting.
 Drinks affect blood alcohol content (BAC), with the original progression of
 benefits and penalties, a client HUD, and gradual recovery.
 
 The wine content includes six grape varieties, seeds, juices, bottles, drinkable
 glasses, lead ore and metal, three falling sands, and two translucent glass blocks.
-Universal oak barrels now store, age, and dispense wine and spirits. Grape-growing
-and grape-to-wine fermentation remain unfinished; bottled wines are currently
-available from the creative tab for testing the maturation system.
+Universal oak barrels store, age, and dispense wine and spirits. All six grape
+varieties grow from seeds and occur as mature wild bushes in newly generated
+plains, forests, birch forests, flower forests, and meadows. Juice and skin-on must
+ferment in glass carboys or wooden vats; both wine and tequila are survival-producible.
 
 ## Universal oak barrels
 
@@ -107,6 +108,96 @@ The seven legacy barrel registry IDs still load existing blocks, but now use the
 same universal storage and unlabelled appearance. Only the canonical oak barrel is
 offered in the creative tab.
 
+## Fermentation and preparation
+
+- Craft a **Carboy** from three glass blocks, a glass bottle, and an oak slab. It
+  holds 4 L and accepts clarified liquids. Its narrow neck rejects skin-on must.
+- Craft **Fermentation Vat** blocks from three oak planks and an iron ingot.
+  Complete cubes automatically combine at sizes 1, 2, and 3, with 16 L per block
+  (maximum 432 L). Empty space inside the rendered vat is intentional; place the
+  complete cube of segments to assemble it, as with the barrels.
+- Craft a reusable **Wine Press** from a piston, iron ingot, and oak planks. One
+  grape item, the press, and a glass bottle prepare 1 L of juice. One grape item,
+  the reusable juicer, and a bowl prepare 1 L of skin-on must.
+- Right-click a vessel with prepared juice, must, or unfermented agave wort to
+  pour it. Juice returns a glass bottle; must returns a bowl. Fill the batch first,
+  then **sneak-right-click with an empty hand to start**. Ordinary empty-hand use
+  reports contents and progress. Active batches reject transfers to protect their
+  composition and processing clock.
+- Wild fermentation takes **24,000 loaded-world ticks** (20 minutes at 20 TPS).
+  Optional wine yeast doubles the rate; craft it from wheat, sugar, and a brown
+  mushroom. Batches pause in unloaded chunks, while the world is closed, and while
+  carried as items. They do not spoil for lack of tending.
+- Finished juice becomes wine directly. Skin-on must retains its skins: right-click
+  the finished vat with the reusable Wine Press to separate them before bottling
+  or transferring into a carboy. Pressing is a simplified separation step with no
+  liquid loss; separate pomace items and sediment racking are not simulated.
+- Craft empty wine bottles from a glass bottle and green dye, or empty wine glasses
+  from a glass bottle and glass pane. Empty wine bottles draw 750 mL; glasses draw 125 mL. Ordinary empty buckets draw
+  1 L into a metadata-preserving Batch Bucket, which can pour into another vessel,
+  aging barrel, or the still's input slot. Partial servings never consume items.
+- Breaking a filled vessel preserves its local fluid and fermentation progress in
+  the dropped item. Splitting a vat preserves each physical part's owned contents.
+  Compatible inactive batches can assemble; active batches cannot join a new vat.
+
+### Production extension contract
+
+`production/BatchProfile` is immutable, validated, and serialized as the
+`vinum:batch_profile` fluid component. Sugar, starch, and solids use grams per litre;
+ABV and ingredient proportions use fractions. Volume stays on `FluidStack`, so
+copying a smaller amount cannot duplicate an entire batch's sugar or alcohol.
+Yeast identity and a bounded processing history travel through buckets, bottles,
+barrels, and distillation. Different component profiles are conservatively kept
+separate by storage; `BatchProfile.blend` provides explicit volume-weighted blending
+for future blend operations. Fermentation progress lives on the vessel, separate
+from the barrel's maturation age. Active recipe plans persist across save/reload.
+
+`ProductionInputs.register(itemId, fluidId, defaultProfile)` adds a prepared input
+without adding beverage branches to vessels. Register fluids/items first, then
+register input adapters during common setup. Processing recipes are data-pack
+recipes in `data/<namespace>/recipe/`; for example:
+
+```json
+{
+  "type": "vinum:fermentation",
+  "input_fluid": "example:grain_wort",
+  "output_fluid": "example:grain_wash",
+  "duration_ticks": 24000,
+  "sugar_consumed_g_per_litre": 180,
+  "alcohol_yield_fraction": 0.0006,
+  "solids_remaining_fraction": 1.0
+}
+```
+
+`FermentationEngine` handles sugar conversion; `MashingRecipe`/`MashingEngine`
+provide heat-gated starch conversion; `DistillationRecipe` declares wash, output
+fluid/item, strength, volume, and processing duration. Distillation rounds input
+volume up to conserve alcohol. A future whisky module can register grain inputs,
+mashing recipes, wash, and spirit outputs without changing fermenter storage.
+A player-operated mash tun and playable whisky, rum, cider, and mead are future
+content, not included in this update. Temperature control, spoilage, clay jars,
+metal fermenters, and stirring bonuses are also not implemented.
+
+### Manual client checks
+
+Automated server tests verify processing and persistence; visual/client behavior
+requires manual testing. Use a disposable Creative world with cheats enabled:
+
+1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Wine Press, empty wine
+   bottles, and ordinary buckets from the Vinum/vanilla tabs.
+2. Confirm juice enters a carboy, while must is rejected unchanged. Fill a vat
+   with must and confirm an ordinary empty-hand click shows its contents.
+3. Add optional yeast and sneak-empty-hand click to start. Active transfers must
+   fail without consuming anything. To accelerate a **single** test vessel after
+   starting, run `/data merge block X Y Z {FermentationProgress:23980}` using its
+   coordinates; it should finish on the next processing tick.
+4. Press finished must, then draw a wine bottle and pour it into an aging barrel.
+   Confirm the press is reusable and the bottle retains batch metadata.
+5. Ferment three wort items, draw three wash buckets, and feed the still with an
+   empty fifth and coal. Confirm a silver tequila bottle and emptied wash buffer.
+6. Assemble 2³/3³ vats, check the open top and liquid rendering, break/replace a
+   filled segment, and save/reopen the world to check contents and progress.
+
 ## Tequila quick start
 
 1. Find mature agave in deserts or badlands. Harvest it and replant seeds on sand
@@ -115,10 +206,16 @@ offered in the creative tab.
    and a steel coil. Place them in a two-by-two vertical arrangement, facing the
    same direction: pot above brazier on the left, coil above pot on the right.
    The still assembles automatically when the last component is placed.
-3. Craft cooked agave pulp with a water bucket to make unfermented wort. Craft
-   that wort with the reusable barrel item to ferment it.
-4. Open the still and insert fermented wort, an empty fifth bottle, and furnace
-   fuel. A bottle of silver tequila takes **240 active ticks** (12 seconds).
+3. Craft cooked agave pulp with a water bucket to make unfermented wort. Pour it
+   into a carboy or vat, optionally add wine yeast, and sneak-right-click with an
+   empty hand to start. Draw the finished wash with ordinary empty buckets.
+4. Open the still and put each wash bucket into its upper-left input slot, removing
+   the returned empty bucket between pours. Add an empty fifth bottle and fuel.
+   Its 16 L wash buffer also accepts fluid pipes. **3 L of 10% wash produces a
+   750 mL bottle at 40% ABV**, taking 1,200 heated ticks (60 seconds). Remaining
+   stillage is discarded; evaporation and distillation cuts are not simulated.
+   Existing fermented-wort items remain accepted through a 240-tick legacy path,
+   but the instant barrel-crafting fermentation recipe has been removed.
 5. Craft silver tequila with a reusable barrel to make golden tequila. Combine a
    fifth with a pack of shot glasses for drinkable shots. Craft the margarita with
    two golden tequila shots, apple juice, salt, cinnamon, honey, ice, a margarita

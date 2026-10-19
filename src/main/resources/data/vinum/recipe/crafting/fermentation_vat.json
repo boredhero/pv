@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:oak_planks"
+    },
+    {
+      "item": "minecraft:oak_planks"
+    },
+    {
+      "item": "minecraft:oak_planks"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "id": "vinum:fermentation_vat"
+  }
+}

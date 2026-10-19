@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "vinum:item/grapes_cabernet_sauvignon",
+    "layer1": "minecraft:item/bowl"
+  }
+}

@@ -56,6 +56,7 @@ public abstract class StillPartBlock extends SteelComponentBlock {
         if (!state.is(nextState.getBlock())) {
             if (!level.isClientSide) {
                 if (level.getBlockEntity(pos) instanceof StillMasterTileEntity master) {
+                    master.dropWash();
                     Containers.dropContents(level, pos, master);
                     level.updateNeighbourForOutputSignal(pos, this);
                 }

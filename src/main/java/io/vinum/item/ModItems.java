@@ -14,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import io.vinum.item.drinks.DrinkItem;
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
+import io.vinum.production.vessel.VesselBlockItem;
 
 public final class ModItems {
 
@@ -58,7 +59,7 @@ public final class ModItems {
 	// Wine content unified from the original project-vinum prototype.
 	public static final DeferredItem<Item> CORK_BARK = ITEMS.register("cork_bark", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> WINE_CORK = ITEMS.register("wine_cork", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_PRESS = ITEMS.register("wine_press", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> WINE_PRESS = ITEMS.register("wine_press", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<Item> WINE_YEAST = ITEMS.register("wine_yeast", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> LEAD_INGOT = ITEMS.register("lead_ingot", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> LEAD_POWDER = ITEMS.register("lead_powder", () -> new Item(new Item.Properties()));
@@ -89,12 +90,12 @@ public final class ModItems {
 	public static final DeferredItem<Item> GRAPE_JUICE_MERLOT = ITEMS.register("grape_juice_merlot", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_JUICE_PINOT_NOIR = ITEMS.register("grape_juice_pinot_noir", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_JUICE_ZINFANDEL = ITEMS.register("grape_juice_zinfandel", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_CHARDONNAY = ITEMS.register("grape_seeds_chardonnay", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_SAUVIGNON_BLANC = ITEMS.register("grape_seeds_sauvignon_blanc", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_CABERNET_SAUVIGNON = ITEMS.register("grape_seeds_cabernet_sauvignon", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_MERLOT = ITEMS.register("grape_seeds_merlot", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_PINOT_NOIR = ITEMS.register("grape_seeds_pinot_noir", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_ZINFANDEL = ITEMS.register("grape_seeds_zinfandel", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_CHARDONNAY = ITEMS.register("grape_seeds_chardonnay", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_CHARDONNAY.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_SAUVIGNON_BLANC = ITEMS.register("grape_seeds_sauvignon_blanc", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_SAUVIGNON_BLANC.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_CABERNET_SAUVIGNON = ITEMS.register("grape_seeds_cabernet_sauvignon", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_CABERNET_SAUVIGNON.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_MERLOT = ITEMS.register("grape_seeds_merlot", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_MERLOT.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_PINOT_NOIR = ITEMS.register("grape_seeds_pinot_noir", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_PINOT_NOIR.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS_ZINFANDEL = ITEMS.register("grape_seeds_zinfandel", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_ZINFANDEL.get(), new Item.Properties()));
 
 	// Only placed blocks with inventory forms receive block items.
 	public static final DeferredItem<BlockItem> STEEL_BRAZIER = ITEMS.register("steel_brazier", () -> new BlockItem(ModBlocks.STEEL_BRAZIER.get(), new Item.Properties()));
@@ -119,4 +120,15 @@ public final class ModItems {
 	public static final DeferredItem<Item> FIFTH_REPOSADO_TEQUILA = ITEMS.register("fifth_reposado_tequila", () -> new AgedBeverageItem(new Item.Properties()));
 	public static final DeferredItem<Item> FIFTH_ANEJO_TEQUILA = ITEMS.register("fifth_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
 	public static final DeferredItem<Item> FIFTH_EXTRA_ANEJO_TEQUILA = ITEMS.register("fifth_extra_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+
+	// Production containers and vessels share generic batch metadata.
+	public static final DeferredItem<Item> BATCH_BUCKET = ITEMS.register("batch_bucket", () -> new ProductionContainerItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<VesselBlockItem> CARBOY = ITEMS.register("carboy", () -> new VesselBlockItem(ModBlocks.CARBOY.get(), new Item.Properties()));
+	public static final DeferredItem<VesselBlockItem> FERMENTATION_VAT = ITEMS.register("fermentation_vat", () -> new VesselBlockItem(ModBlocks.FERMENTATION_VAT.get(), new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_CHARDONNAY = ITEMS.register("grape_must_chardonnay", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_SAUVIGNON_BLANC = ITEMS.register("grape_must_sauvignon_blanc", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_CABERNET_SAUVIGNON = ITEMS.register("grape_must_cabernet_sauvignon", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_MERLOT = ITEMS.register("grape_must_merlot", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_PINOT_NOIR = ITEMS.register("grape_must_pinot_noir", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_MUST_ZINFANDEL = ITEMS.register("grape_must_zinfandel", () -> new Item(new Item.Properties()));
 }

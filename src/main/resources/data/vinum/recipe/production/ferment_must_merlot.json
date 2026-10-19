@@ -1,0 +1,9 @@
+{
+  "type": "vinum:fermentation",
+  "input_fluid": "vinum:must_merlot",
+  "output_fluid": "vinum:merlot",
+  "duration_ticks": 24000,
+  "sugar_consumed_g_per_litre": 200.0,
+  "alcohol_yield_fraction": 0.0006,
+  "solids_remaining_fraction": 1
+}

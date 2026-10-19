@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "vinum:grapes_pinot_noir"
+    },
+    {
+      "item": "vinum:wine_press"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "id": "vinum:grape_juice_pinot_noir"
+  }
+}

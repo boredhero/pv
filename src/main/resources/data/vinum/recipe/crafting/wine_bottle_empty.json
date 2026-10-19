@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "vinum:unfermented_agave_wort"
+      "item": "minecraft:glass_bottle"
     },
     {
-      "item": "vinum:barrel"
+      "item": "minecraft:green_dye"
     }
   ],
   "result": {
-    "id": "vinum:fermented_agave_wort"
+    "id": "vinum:wine_bottle_empty"
   }
 }

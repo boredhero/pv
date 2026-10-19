@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "vinum:grapes_zinfandel"
+    },
+    {
+      "item": "vinum:juicer"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "id": "vinum:grape_must_zinfandel"
+  }
+}

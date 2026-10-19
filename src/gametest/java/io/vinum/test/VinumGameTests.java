@@ -256,9 +256,11 @@ public final class VinumGameTests {
     }
 
     @GameTest(template = "empty")
-    public static void fermentationAndJuicingKeepReusableTools(GameTestHelper helper) {
+    public static void instantFermentationIsUnavailableAndReusableCraftingToolsRemain(GameTestHelper helper) {
         assertCraft(helper, List.of(new ItemStack(Items.WATER_BUCKET), new ItemStack(ModItems.COOKED_AGAVE_PULP.get())), ModItems.UNFERMENTED_AGAVE_WORT.get(), 1, Items.BUCKET);
-        assertCraft(helper, List.of(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.BARREL.get())), ModItems.FERMENTED_AGAVE_WORT.get(), 1, ModItems.BARREL.get());
+        CraftingInput instantFerment = CraftingInput.of(2, 1, List.of(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.BARREL.get())));
+        helper.assertTrue(helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, instantFerment, helper.getLevel()).isEmpty(),
+                "Wort must ferment over time in a production vessel, not bypass fermentation through a crafting shortcut");
         assertCraft(helper, List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), new ItemStack(ModItems.BARREL.get())), ModItems.FIFTH_GOLDEN_TEQUILA.get(), 1, ModItems.BARREL.get());
         assertCraft(helper, List.of(new ItemStack(Items.APPLE), new ItemStack(ModItems.JUICER.get()), new ItemStack(Items.GLASS_BOTTLE)), ModItems.APPLE_JUICE.get(), 1, ModItems.JUICER.get());
         assertCraft(helper, List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), new ItemStack(ModItems.PACK_OF_SHOT_GLASSES.get())), ModItems.SHOT_SILVER_TEQUILA.get(), 25, null);
@@ -345,7 +347,7 @@ public final class VinumGameTests {
                 .filter(advancement -> advancement.id().getNamespace().equals("vinum") && advancement.id().getPath().startsWith("recipes/")).count();
         helper.assertTrue(recipes >= 28, "All original Vinum recipe unlock advancements must remain loaded; got " + recipes);
         for (var recipe : helper.getLevel().getRecipeManager().getRecipes()) {
-            if (recipe.id().getNamespace().equals("vinum")) {
+            if (recipe.id().getNamespace().equals("vinum") && !(recipe.value() instanceof io.vinum.production.FluidProcessRecipe)) {
                 ResourceLocation unlock = ResourceLocation.fromNamespaceAndPath("vinum", "recipes/" + recipe.id().getPath());
                 helper.assertTrue(server.getAdvancements().get(unlock) != null, "Vinum recipe must be discoverable through an unlock advancement: " + recipe.id());
             }

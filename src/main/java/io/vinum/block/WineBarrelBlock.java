@@ -3,6 +3,7 @@ package io.vinum.block;
 import com.mojang.serialization.MapCodec;
 import io.vinum.multiblock.BarrelMultiblock;
 import io.vinum.barrel.BarrelBottling;
+import io.vinum.production.ProductionContainers;
 import io.vinum.multiblock.BarrelShapes;
 import io.vinum.tileentity.BarrelBlockEntity;
 import java.util.List;
@@ -124,6 +125,8 @@ public class WineBarrelBlock extends HorizontalDirectionalBlock implements Entit
                                               Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (level.getBlockEntity(pos) instanceof BarrelBlockEntity barrel) {
+            ItemInteractionResult production = ProductionContainers.useItemOn(stack, level, player, hand, barrel.getFluidHandler(hit.getDirection()));
+            if (production != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return production;
             ItemInteractionResult bottled = BarrelBottling.useItemOn(stack, level, player, hand, barrel.getFluidHandler(hit.getDirection()));
             if (bottled != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return bottled;
         }

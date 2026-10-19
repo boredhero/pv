@@ -84,7 +84,15 @@ def main():
             kind = "block" if f"assets/vinum/blockstates/{name}.json" in documents else "item"
             if f"{kind}.vinum.{name}" not in translations:
                 errors.append(f"{source}: missing item display name")
-        if "/recipe/" in source:
+        if "/recipe/" in source and doc.get("type") in {"vinum:fermentation", "vinum:mashing", "vinum:distillation"}:
+            recipes += 1
+            if not isinstance(doc.get("duration_ticks"), int) or doc["duration_ticks"] <= 0:
+                errors.append(f"{source}: process duration must be a positive integer")
+            if not all(isinstance(doc.get(key), str) and ":" in doc[key] for key in ("input_fluid", "output_fluid")):
+                errors.append(f"{source}: process requires namespaced input and output fluids")
+            if "output_item" in doc:
+                check_ref(source, doc["output_item"].replace("vinum:", "vinum:item/"), "assets/{namespace}/models")
+        if "/recipe/" in source and doc.get("type", "").startswith("minecraft:"):
             recipes += 1
             recipe_path = source.split("/recipe/", 1)[1]
             advancement_path = "data/vinum/advancement/recipes/" + recipe_path

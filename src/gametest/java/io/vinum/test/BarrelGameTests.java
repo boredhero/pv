@@ -446,10 +446,10 @@ public final class BarrelGameTests {
         tank(helper, barrel.getBlockPos()).fill(BarrelFluidData.withAge(new FluidStack(Fluids.WATER, 4_000), 1_234), IFluidHandler.FluidAction.EXECUTE);
         ItemStack storedBarrel = new ItemStack(ModItems.BARREL.get());
         barrel.saveToItem(storedBarrel, helper.getLevel().registryAccess());
-        CraftingInput input = CraftingInput.of(2, 1, java.util.List.of(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()), storedBarrel));
+        CraftingInput input = CraftingInput.of(2, 1, java.util.List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), storedBarrel));
         var recipe = helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, helper.getLevel()).orElseThrow().value();
         var result = recipe.assemble(input, helper.getLevel().registryAccess());
-        helper.assertTrue(result.is(ModItems.FERMENTED_AGAVE_WORT.get()) && result.getCount() == 1, "Filled barrel must remain usable in legacy fermentation recipe");
+        helper.assertTrue(result.is(ModItems.FIFTH_GOLDEN_TEQUILA.get()) && result.getCount() == 1, "Filled barrel must remain usable in the retained legacy golden-blend recipe");
         var remainders = recipe.getRemainingItems(input);
         int barrels = remainders.stream().filter(stack -> stack.is(ModItems.BARREL.get())).mapToInt(ItemStack::getCount).sum();
         helper.assertTrue(barrels == 1, "Crafting must return exactly one filled barrel, without duplicating stored contents");

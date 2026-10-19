@@ -1,6 +1,9 @@
 package io.vinum.block;
 
 import io.vinum.common.Defines;
+import io.vinum.crop.GrapeVariety;
+import io.vinum.production.vessel.CarboyBlock;
+import io.vinum.production.vessel.FermentationVatBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -44,6 +47,15 @@ public final class ModBlocks {
     public static final DeferredHolder<Block, TransparentBlock> BLOCK_DARK_WINE_GLASS = BLOCKS.register("block_dark_wine_glass", () -> new TransparentBlock(glass()));
     public static final DeferredHolder<Block, TransparentBlock> BLOCK_FINE_CRYSTAL_GLASS = BLOCKS.register("block_fine_crystal_glass", () -> new TransparentBlock(glass()));
 
+    public static final DeferredHolder<Block, CarboyBlock> CARBOY = BLOCKS.register("carboy", () -> new CarboyBlock(glass().strength(1.0F).dynamicShape().pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, FermentationVatBlock> FERMENTATION_VAT = BLOCKS.register("fermentation_vat", () -> new FermentationVatBlock(barrel()));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_CHARDONNAY = BLOCKS.register("crop_grape_chardonnay", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.CHARDONNAY));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_SAUVIGNON_BLANC = BLOCKS.register("crop_grape_sauvignon_blanc", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.SAUVIGNON_BLANC));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_CABERNET_SAUVIGNON = BLOCKS.register("crop_grape_cabernet_sauvignon", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.CABERNET_SAUVIGNON));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_MERLOT = BLOCKS.register("crop_grape_merlot", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.MERLOT));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_PINOT_NOIR = BLOCKS.register("crop_grape_pinot_noir", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.PINOT_NOIR));
+    public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_ZINFANDEL = BLOCKS.register("crop_grape_zinfandel", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.ZINFANDEL));
+
     private ModBlocks() {}
 
     private static BlockBehaviour.Properties barrel() {
@@ -72,6 +84,6 @@ public final class ModBlocks {
     }
 
     public static boolean needsItemBlock(Block block) {
-        return !(block instanceof StillPartBlock) && block != CROP_AGAVE.get();
+        return !(block instanceof StillPartBlock) && block != CROP_AGAVE.get() && !(block instanceof GrapeCropBlock);
     }
 }

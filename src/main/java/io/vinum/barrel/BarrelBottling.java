@@ -1,6 +1,7 @@
 package io.vinum.barrel;
 
 import java.util.Optional;
+import io.vinum.production.BatchProfile;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -35,7 +36,7 @@ public final class BarrelBottling {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
             FluidStack sample = tank.drain(Integer.MAX_VALUE, FluidAction.SIMULATE);
             Optional<BeverageDefinition> beverage = BeverageCatalog.lookupFluid(sample.getFluid());
-            if (sample.isEmpty() || beverage.isEmpty()) return ItemInteractionResult.FAIL;
+            if (sample.isEmpty() || beverage.isEmpty() || BatchProfile.of(sample).solidsGramsPerLitre() > 0) return ItemInteractionResult.FAIL;
             Optional<Serving> serving = beverage.get().servings().stream()
                     .filter(candidate -> held.is(candidate.emptyItem().get())).findFirst();
             if (serving.isEmpty() || sample.getAmount() < serving.get().volume()) return ItemInteractionResult.FAIL;

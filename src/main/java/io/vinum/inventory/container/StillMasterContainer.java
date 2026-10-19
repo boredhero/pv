@@ -19,13 +19,13 @@ public class StillMasterContainer extends AbstractContainerMenu {
     private final ContainerData stillData;
 
     public StillMasterContainer(int id, Inventory playerInventory) {
-        this(id, playerInventory, new SimpleContainer(4), new SimpleContainerData(3));
+        this(id, playerInventory, new SimpleContainer(4), new SimpleContainerData(6));
     }
 
     public StillMasterContainer(int id, Inventory playerInventory, Container inventory, ContainerData stillData) {
         super(ModContainers.STILL_MASTER.get(), id);
         checkContainerSize(inventory, 4);
-        checkContainerDataCount(stillData, 3);
+        checkContainerDataCount(stillData, 6);
         this.inventory = inventory;
         this.stillData = stillData;
         inventory.startOpen(playerInventory.player);
@@ -116,8 +116,11 @@ public class StillMasterContainer extends AbstractContainerMenu {
         return original;
     }
 
+    public int getWashAmount() { return stillData.get(3); }
+    public int getRequiredWashAmount() { return stillData.get(4); }
+
     public int getCookProgressionScaled() {
-        return Math.clamp(stillData.get(0) * 24 / StillMasterTileEntity.PROCESSING_TICKS, 0, 24);
+        return Math.clamp((int) ((long) stillData.get(0) * 24 / Math.max(1, stillData.get(5))), 0, 24);
     }
 
     public int getBurnLeftScaled() {

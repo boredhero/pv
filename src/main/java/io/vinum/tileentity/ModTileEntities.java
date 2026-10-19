@@ -2,6 +2,7 @@ package io.vinum.tileentity;
 
 import io.vinum.block.ModBlocks;
 import io.vinum.common.Defines;
+import io.vinum.production.vessel.FermentationVesselBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,12 +28,20 @@ public final class ModTileEntities {
                     ModBlocks.BLOCK_WINE_BARREL_CABERNET_SAUVIGNON.get(), ModBlocks.BLOCK_WINE_BARREL_MERLOT.get(),
                     ModBlocks.BLOCK_WINE_BARREL_PINOT_NOIR.get(), ModBlocks.BLOCK_WINE_BARREL_ZINFANDEL.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FermentationVesselBlockEntity>> CARBOY =
+            TILEENTITIES.register("carboy", () -> BlockEntityType.Builder.of(FermentationVesselBlockEntity::new, ModBlocks.CARBOY.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FermentationVesselBlockEntity>> FERMENTATION_VAT =
+            TILEENTITIES.register("fermentation_vat", () -> BlockEntityType.Builder.of(FermentationVesselBlockEntity::new, ModBlocks.FERMENTATION_VAT.get()).build(null));
+
     private ModTileEntities() {}
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, STILL_MASTER.get(),
                 StillMasterTileEntity::getItemHandler);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CARBOY.get(), FermentationVesselBlockEntity::getFluidHandler);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FERMENTATION_VAT.get(), FermentationVesselBlockEntity::getFluidHandler);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, STILL_MASTER.get(), StillMasterTileEntity::getFluidHandler);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BARREL.get(),
                 BarrelBlockEntity::getFluidHandler);
     }
