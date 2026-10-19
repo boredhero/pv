@@ -17,10 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.GameTestInfo;
 import net.minecraft.gametest.framework.GlobalTestReporter;
-import net.minecraft.gametest.framework.JUnitLikeTestReporter;
-import net.minecraft.gametest.framework.LogTestReporter;
 import net.minecraft.gametest.framework.TestReporter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -65,16 +62,7 @@ public final class VinumGameTests {
     private static final BlockPos ORIGIN = new BlockPos(4, 1, 4);
 
     public VinumGameTests() throws javax.xml.parsers.ParserConfigurationException {
-        TestReporter xml = new JUnitLikeTestReporter(new java.io.File("vinum-gametest-results.xml"));
-        TestReporter log = new LogTestReporter();
-        GlobalTestReporter.replaceWith(new TestReporter() {
-            @Override
-            public void onTestFailed(GameTestInfo test) { log.onTestFailed(test); xml.onTestFailed(test); }
-            @Override
-            public void onTestSuccess(GameTestInfo test) { log.onTestSuccess(test); xml.onTestSuccess(test); }
-            @Override
-            public void finish() { log.finish(); xml.finish(); }
-        });
+        GlobalTestReporter.replaceWith(new io.vinum.test.harness.StructuredTestReporter());
     }
 
     @GameTest(template = "empty", timeoutTicks = 280)
@@ -475,7 +463,7 @@ public final class VinumGameTests {
         if (remainder != null) helper.assertTrue(count(recipe.getRemainingItems(input), remainder) == 1, "Crafting must preserve " + remainder);
     }
 
-    private static ServerPlayer serverPlayer(GameTestHelper helper) {
+    static ServerPlayer serverPlayer(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
         GameProfile profile = new GameProfile(UUID.randomUUID(), "vinum-test-player");
         ServerPlayer player = new ServerPlayer(server, helper.getLevel(), profile, ClientInformation.createDefault());

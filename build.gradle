@@ -36,6 +36,15 @@ neoForge {
             client()
             loadedMods = [mods[project.mod_id]]
         }
+        testClient {
+            client()
+            sourceSet = sourceSets.gametest
+            loadedMods = [mods[project.mod_id], mods.vinum_tests]
+            gameDirectory = project.file('run-test-client')
+            systemProperty 'neoforge.enableGameTest', 'true'
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'vinum_tests'
+            systemProperty 'vinum.clientTests', 'true'
+        }
         server {
             server()
             programArgument '--nogui'
@@ -97,4 +106,11 @@ publishing {
 idea.module {
     downloadSources = true
     downloadJavadoc = true
+}
+
+// Optional development add-on, never built by assemble or included in the normal mod JAR.
+tasks.register('testHarnessJar', Jar) {
+    dependsOn tasks.named('gametestClasses')
+    archiveClassifier = 'tests'
+    from sourceSets.gametest.output
 }

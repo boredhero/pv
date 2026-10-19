@@ -9,13 +9,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 final class VesselShapes {
     private static final Map<Integer, VoxelShape> CACHE = new HashMap<>();
     private VesselShapes() {}
-    static VoxelShape shape(int size, int x, int y, int z) {
-        int key = size * 1000 + x * 100 + y * 10 + z;
-        return CACHE.computeIfAbsent(key, ignored -> build(size, x, y, z));
+    static VoxelShape shape(int size, int height, int x, int y, int z) {
+        int key = height * 10000 + size * 1000 + x * 100 + y * 10 + z;
+        return CACHE.computeIfAbsent(key, ignored -> build(size, height, x, y, z));
     }
-    private static VoxelShape build(int size, int x, int y, int z) {
+    private static VoxelShape build(int size, int height, int x, int y, int z) {
         double center = size / 2D, radius = size * .46D, inner = radius - .09D;
-        double top = Math.clamp(size * .94D - y, 0, 1);
+        double top = Math.clamp(height * .94D - y, 0, 1);
         VoxelShape shape = Shapes.empty();
         for (int row = 0; row < 16; row++) {
             double dz = z + (row + .5D) / 16 - center;

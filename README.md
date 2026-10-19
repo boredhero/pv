@@ -113,9 +113,10 @@ offered in the creative tab.
 - Craft a **Carboy** from three glass blocks, a glass bottle, and an oak slab. It
   holds 4 L and accepts clarified liquids. Its narrow neck rejects skin-on must.
 - Craft **Fermentation Vat** blocks from three oak planks and an iron ingot.
-  Complete cubes automatically combine at sizes 1, 2, and 3, with 16 L per block
-  (maximum 432 L). Empty space inside the rendered vat is intentional; place the
-  complete cube of segments to assemble it, as with the barrels.
+  Complete square footprints combine at widths 1, 2, and 3, independently of
+  heights 1, 2, and 3, with 16 L per block (maximum 432 L). A **2×2 footprint one
+  block high holds 64 L**; 3×3 one high holds 144 L. Place every segment in the
+  footprint and height; empty space inside the rendered vat is intentional.
 - Craft a reusable **Wine Press** from a piston, iron ingot, and oak planks. One
   grape item, the press, and a glass bottle prepare 1 L of juice. One grape item,
   the reusable juicer, and a bowl prepare 1 L of skin-on must.
@@ -178,6 +179,92 @@ A player-operated mash tun and playable whisky, rum, cider, and mead are future
 content, not included in this update. Temperature control, spoilage, clay jars,
 metal fermenters, and stirring bonuses are also not implemented.
 
+### Scripted test harness
+
+The development-only test mod contains reusable world and real-client scenario
+runners. Close any client using this checkout before launching the dedicated
+profile; this avoids mixing old loaded classes with a fresh compilation:
+
+```sh
+./gradlew runTestClient
+```
+
+This profile uses its own `run-test-client/` directory and loads the test mod.
+Create a disposable flat Creative world with cheats enabled. The ordinary
+`runClient` profile and release JAR exclude the harness.
+
+Run real-client scenarios from chat:
+
+```mcfunction
+/vinumclienttest list
+/vinumclienttest runall
+/vinumclienttest run carboy_interaction
+/vinumclienttest run still_menu
+/vinumclienttest run shallow_vat
+/vinumclienttest status
+/vinumclienttest cancel
+/vinumclienttest restore
+```
+
+Use `runall` to execute the suite sequentially; a failure or cancellation stops it.
+The scenarios execute automatically: carboy fill/start and client synchronization;
+opening the actual still screen and moving a bottle through its slots; and placing
+the last segment of a shallow vat. Actions use Minecraft's client interaction and
+container APIs, including network packets. They do not call the fermentation
+engine directly to pretend a client interaction happened. These are targeted
+functional scenarios, not screenshot comparisons or proof of every rendering detail.
+
+The runner requires singleplayer Creative with cheats. It reserves an empty loaded
+air volume above the player, snapshots their inventory and position, and restores
+state and removes fixtures after success, failure, or cancellation. Unexpected
+container screens abort; typing in chat pauses action steps. If the world is closed
+during a test, reconnect and run `restore` before starting another test. Recovery
+data stays with the original saved player/world until restoration succeeds.
+
+Client reports are in `run-test-client/client-test-results/<scenario>.json`, with
+outcome, completed steps, and the failing step or timeout. New scenarios implement
+`ClientScenario` with named `Sequence.action`/`await` steps; use `ClientTestContext`
+for authoritative server work and actual client actions. Keep waits conditional,
+use explicit timeouts, and keep world/player mutations within the fixture lifecycle.
+
+World/server scenarios can also run visibly in that test world:
+
+```mcfunction
+/vinumtest list
+/vinumtest runall
+/vinumtest run scriptedwinescenariousesactionswaitsandassertions
+/vinumtest failed
+/vinumtest report
+```
+
+These delegate to Minecraft's GameTest system, build fixture scenes, and assert
+world state. They use server actors, so they complement real-client scenarios
+rather than establish that a GUI or input path works. Native `/test` commands also
+remain available. `vinum-test-results.json` and `vinum-gametest-results.xml` in the
+run directory record world-test outcomes; JSON updates after each completed test.
+
+`test/harness/GameScenario` provides reusable actions and assertions. For example:
+
+```java
+GameScenario.begin(helper)
+    .place(pos, ModBlocks.CARBOY.get())
+    .equip(new ItemStack(ModItems.GRAPE_JUICE_CHARDONNAY.get())).use(pos)
+    .expectFluid(pos, ProductionInputs.id("juice_chardonnay"), 1000)
+    .sneakUseEmptyHand(pos)
+    .step("assert processing", scene -> helper.assertTrue(scene.vessel(pos).isFermenting(), "Not fermenting"))
+    .succeed();
+```
+
+`ScenarioLibraryGameTests` contains a full runnable example with timed waits,
+bottling, and quantity assertions. Each test's `@GameTest` timeout bounds waiting.
+Named steps appear in failure messages. Existing headless CI continues to run
+these world scenarios with `./gradlew runGameTestServer`.
+
+An optional test add-on JAR is available with `./gradlew testHarnessJar`. It is
+built separately, never included in the production JAR, and client scenarios
+require the dedicated `-Dvinum.clientTests=true` JVM flag. Prefer the dedicated
+Gradle profile to get matching classes, test registration, flags, and assets.
+
 ### Manual client checks
 
 Automated server tests verify processing and persistence; visual/client behavior
@@ -195,7 +282,7 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    Confirm the press is reusable and the bottle retains batch metadata.
 5. Ferment three wort items, draw three wash buckets, and feed the still with an
    empty fifth and coal. Confirm a silver tequila bottle and emptied wash buffer.
-6. Assemble 2³/3³ vats, check the open top and liquid rendering, break/replace a
+6. Assemble shallow 2×2×1 and taller vats, check the open top and liquid rendering, break/replace a
    filled segment, and save/reopen the world to check contents and progress.
 
 ## Tequila quick start

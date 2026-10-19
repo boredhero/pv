@@ -123,13 +123,14 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
     @Override protected RenderShape getRenderShape(BlockState state) { return this instanceof FermentationVatBlock ? RenderShape.INVISIBLE : RenderShape.MODEL; }
     @Override protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         if (this instanceof CarboyBlock) return Shapes.or(box(3, 0, 3, 13, 11, 13), box(6, 11, 6, 10, 16, 10));
-        int size = 1, x = 0, y = 0, z = 0;
+        int size = 1, height = 1, x = 0, y = 0, z = 0;
         if (world.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel) {
             size = vessel.getStructureSize();
+            height = vessel.getStructureHeight();
             x = pos.getX() - vessel.getStructureOrigin().getX();
             y = pos.getY() - vessel.getStructureOrigin().getY();
             z = pos.getZ() - vessel.getStructureOrigin().getZ();
         }
-        return VesselShapes.shape(size, x, y, z);
+        return VesselShapes.shape(size, height, x, y, z);
     }
 }

@@ -31,6 +31,7 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
     @Override public void render(FermentationVesselBlockEntity vessel, float partialTick, PoseStack poses, MultiBufferSource buffers, int light, int overlay) {
         if (!vessel.isController()) return;
         int size = vessel.getStructureSize();
+        int structureHeight = vessel.getStructureHeight();
         float center = size / 2F;
         float radius = vessel.isVat() ? size * .46F : .285F;
         if (vessel.isVat()) {
@@ -39,16 +40,16 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
             for (int i = 0; i < 20; i++) {
                 float a = (float) (i * Math.PI * 2 / 20), b = (float) ((i + .97) * Math.PI * 2 / 20);
                 int tint = i % 2 == 0 ? 0xFFFFFFFF : 0xFFE5D7BE;
-                wall(wood, poses.last(), center, radius, .08F, size * .94F, a, b, tint, light, overlay, false);
-                wall(wood, poses.last(), center, radius - .09F, .12F, size * .94F, a, b, 0xFFC1A17A, light, overlay, true);
+                wall(wood, poses.last(), center, radius, .08F, structureHeight * .94F, a, b, tint, light, overlay, false);
+                wall(wood, poses.last(), center, radius - .09F, .12F, structureHeight * .94F, a, b, 0xFFC1A17A, light, overlay, true);
                 float[] p = point(center, radius, a), q = point(center, radius, b);
                 float[] r = point(center, radius - .09F, a), s = point(center, radius - .09F, b);
-                quad(wood, poses.last(), p[0], size * .94F, p[1], q[0], size * .94F, q[1], s[0], size * .94F, s[1], r[0], size * .94F, r[1], 0xFFDDC394, light, overlay, 0, 1, 0);
+                quad(wood, poses.last(), p[0], structureHeight * .94F, p[1], q[0], structureHeight * .94F, q[1], s[0], structureHeight * .94F, s[1], r[0], structureHeight * .94F, r[1], 0xFFDDC394, light, overlay, 0, 1, 0);
                 quad(wood, poses.last(), center, .12F, center, r[0], .12F, r[1], s[0], .12F, s[1], center, .12F, center, 0xFFAC8762, light, overlay, 0, 1, 0);
             }
             var hoops = buffers.getBuffer(RenderType.entityCutoutNoCull(IRON));
-            for (float height : new float[] {size * .20F, size * .77F}) for (int i = 0; i < 20; i++) {
-                wall(hoops, poses.last(), center, radius + .012F, height, height + .045F * size,
+            for (float height : new float[] {structureHeight * .20F, structureHeight * .77F}) for (int i = 0; i < 20; i++) {
+                wall(hoops, poses.last(), center, radius + .012F, height, height + .045F * structureHeight,
                         (float) (i * Math.PI * 2 / 20), (float) ((i + 1) * Math.PI * 2 / 20), 0xFF544F48, light, overlay, false);
             }
         }
@@ -60,7 +61,7 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
         var sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
         var out = buffers.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
         float fill = Math.min(1F, fluid.getAmount() / (float) vessel.getCapacity());
-        float height = vessel.isVat() ? .14F + fill * (size * .87F - .14F) : .13F + fill * .56F;
+        float height = vessel.isVat() ? .14F + fill * (structureHeight * .87F - .14F) : .13F + fill * .56F;
         int tint = extension.getTintColor(fluid);
         tint = (tint & 0x00FFFFFF) | 0xDF000000;
         float liquidRadius = radius - (vessel.isVat() ? .095F : .02F);
@@ -99,6 +100,7 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
     @Override public AABB getRenderBoundingBox(FermentationVesselBlockEntity vessel) {
         var origin = vessel.getStructureOrigin();
         int size = vessel.getStructureSize();
-        return new AABB(origin.getX(), origin.getY(), origin.getZ(), origin.getX() + size, origin.getY() + size, origin.getZ() + size);
+        int structureHeight = vessel.getStructureHeight();
+        return new AABB(origin.getX(), origin.getY(), origin.getZ(), origin.getX() + size, origin.getY() + structureHeight, origin.getZ() + size);
     }
 }

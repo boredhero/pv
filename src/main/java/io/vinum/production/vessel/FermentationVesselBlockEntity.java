@@ -32,6 +32,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     private FluidStack fluid = FluidStack.EMPTY;
     private BlockPos origin;
     private int size = 1;
+    private int height = 1;
     private int progress;
     private boolean starter;
     private FermentationRecipe recipe;
@@ -45,9 +46,11 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
 
     public boolean isVat() { return getBlockState().getBlock() instanceof FermentationVatBlock; }
     public int localCapacity() { return isVat() ? VAT_CAPACITY : CARBOY_CAPACITY; }
-    public int getCapacity() { return localCapacity() * size * size * size; }
+    public int getCapacity() { return localCapacity() * size * size * height; }
     public BlockPos getStructureOrigin() { return origin; }
+    /** Square footprint width/depth; retained for compatibility with cube callers. */
     public int getStructureSize() { return size; }
+    public int getStructureHeight() { return height; }
     public boolean isController() { return origin.equals(worldPosition); }
     public FluidStack getLocalFluid() { return fluid.copy(); }
     public FluidStack getFluid() { return handler.getFluidInTank(0); }
@@ -56,9 +59,15 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     public int getProgress() { return recipe == null ? 0 : (int) Math.min(100L, progress * 100L / recipe.durationTicks()); }
 
     public void setStructure(BlockPos newOrigin, int newSize) {
-        if (origin.equals(newOrigin) && size == newSize) return;
+        setStructure(newOrigin, newSize, newSize);
+    }
+
+    public void setStructure(BlockPos newOrigin, int newSize, int newHeight) {
+        if (newSize < 1 || newSize > 3 || newHeight < 1 || newHeight > 3) throw new IllegalArgumentException("Vat dimensions must be between one and three");
+        if (origin.equals(newOrigin) && size == newSize && height == newHeight) return;
         origin = newOrigin.immutable();
         size = newSize;
+        height = newHeight;
         invalidateCapabilities();
         changed();
     }
@@ -71,10 +80,10 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     /** Loaded parts only: automation must never reach across an unavailable chunk. */
     @Nullable public List<FermentationVesselBlockEntity> members() {
         if (level == null || isRemoved()) return null;
-        List<FermentationVesselBlockEntity> members = new ArrayList<>(size * size * size);
-        for (BlockPos cursor : BlockPos.betweenClosed(origin, origin.offset(size - 1, size - 1, size - 1))) {
+        List<FermentationVesselBlockEntity> members = new ArrayList<>(size * size * height);
+        for (BlockPos cursor : BlockPos.betweenClosed(origin, origin.offset(size - 1, height - 1, size - 1))) {
             if (!level.hasChunkAt(cursor) || !(level.getBlockEntity(cursor) instanceof FermentationVesselBlockEntity part)
-                    || part.isRemoved() || part.size != size || !part.origin.equals(origin) || part.isVat() != isVat()) return null;
+                    || part.isRemoved() || part.size != size || part.height != height || !part.origin.equals(origin) || part.isVat() != isVat()) return null;
             members.add(part);
         }
         return members;
@@ -118,7 +127,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     public Component getStatusMessage() {
         if (members() == null) return Component.translatable("vessel.vinum.unavailable");
         FluidStack contents = getFluid();
-        String dimensions = size + "×" + size + "×" + size;
+        String dimensions = size + "×" + height + "×" + size;
         int percentage = 100;
         boolean active = false;
         int totalAmount = 0;
@@ -187,6 +196,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         tag.put("Fluid", fluid.saveOptional(registries));
         tag.putLong("StructureOrigin", origin.asLong());
         tag.putInt("StructureSize", size);
+        tag.putInt("StructureHeight", height);
         tag.putInt("FermentationProgress", progress);
         tag.putBoolean("Starter", starter);
         if (recipe != null) FermentationRecipe.CODEC.codec().encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), recipe)
@@ -198,7 +208,9 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         fluid = FluidStack.parseOptional(registries, tag.getCompound("Fluid"));
         origin = tag.contains("StructureOrigin") ? BlockPos.of(tag.getLong("StructureOrigin")) : worldPosition;
         size = isVat() ? Math.clamp(tag.getInt("StructureSize"), 1, 3) : 1;
-        if (!VesselMultiblock.contains(origin, size, worldPosition)) { origin = worldPosition; size = 1; }
+        // Old saves only stored a cube size.
+        height = isVat() ? Math.clamp(tag.contains("StructureHeight") ? tag.getInt("StructureHeight") : size, 1, 3) : 1;
+        if (!VesselMultiblock.contains(origin, size, height, worldPosition)) { origin = worldPosition; size = 1; height = 1; }
         recipe = tag.contains("FermentationPlan") ? FermentationRecipe.CODEC.codec()
                 .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.get("FermentationPlan")).result().orElse(null) : null;
         progress = recipe == null ? 0 : Math.clamp(tag.getInt("FermentationProgress"), 0, recipe.durationTicks());
@@ -210,6 +222,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         CompoundTag tag = saveCustomOnly(registries);
         tag.remove("StructureOrigin");
         tag.remove("StructureSize");
+        tag.remove("StructureHeight");
         BlockItem.setBlockEntityData(stack, getType(), tag);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveCustomOnly(registries); }

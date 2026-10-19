@@ -20,6 +20,7 @@ build
 eclipse
 run
 run-gametest
+run-test-client
 
 # vs
 .vscode

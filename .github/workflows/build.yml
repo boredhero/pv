@@ -52,6 +52,7 @@ jobs:
           name: test-results-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             run-gametest/vinum-gametest-results.xml
+            run-gametest/vinum-test-results.json
             run-gametest/logs/
             run-gametest/crash-reports/
             build/reports/
