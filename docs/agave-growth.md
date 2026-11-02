@@ -26,8 +26,9 @@ cream-and-green diamond-scarred piña model. Break that heart to obtain the exis
 Creative removal of a leaf removes the whole plant without harvest drops.
 Younger plants return seeds, and removing their root or a leaf clears the plant.
 
-Cook the harvested piña into `cooked_agave_pulp`, combine that with water to prepare
-agave wort, ferment it in a vessel, and distill the fermented wash into tequila.
+Cook the harvested piña into `cooked_agave_pulp`, then extract it in the Press:
+one pulp yields 1,000 mB of agave mosto after eight crank turns or 2,000 FE.
+Collect the liquid in a carboy, ferment it in a vessel, and distill the wash into tequila.
 The harvest uses the existing processing ingredient, so the cooking, wort,
 fermentation, and distillation recipes remain connected.
 

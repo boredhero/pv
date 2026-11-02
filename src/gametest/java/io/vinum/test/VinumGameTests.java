@@ -259,7 +259,6 @@ public final class VinumGameTests {
 
     @GameTest(template = "empty")
     public static void instantFermentationIsUnavailableAndReusableCraftingToolsRemain(GameTestHelper helper) {
-        assertCraft(helper, List.of(new ItemStack(Items.WATER_BUCKET), new ItemStack(ModItems.COOKED_AGAVE_PULP.get())), ModItems.UNFERMENTED_AGAVE_WORT.get(), 1, Items.BUCKET);
         CraftingInput instantFerment = CraftingInput.of(2, 1, List.of(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.BARREL.get())));
         helper.assertTrue(helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, instantFerment, helper.getLevel()).isEmpty(),
                 "Wort must ferment over time in a production vessel, not bypass fermentation through a crafting shortcut");

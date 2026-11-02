@@ -84,7 +84,7 @@ public final class WinePressScreen extends AbstractContainerScreen<WinePressMenu
   @Override
   protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
     super.renderLabels(g, mouseX, mouseY);
-    g.drawString(font, Component.translatable("gui.vinum.grapes"), 30, 24, 0x493B2D, false);
+    g.drawString(font, Component.translatable("gui.vinum.press_input"), 30, 24, 0x493B2D, false);
     g.drawString(font, Component.translatable("gui.vinum.container"), 104, 12, 0x493B2D, false);
     g.drawString(font, Component.translatable("gui.vinum.output"), 106, 54, 0x493B2D, false);
     g.drawString(

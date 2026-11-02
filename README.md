@@ -118,7 +118,7 @@ offered in the creative tab.
   heights 1, 2, and 3, with 16 L per block (maximum 432 L). A **2×2 footprint one
   block high holds 64 L**; 3×3 one high holds 144 L. Place every segment in the
   footprint and height; empty space inside the rendered vat is intentional.
-- Craft a **Wine Press** from oak planks, iron, a barrel, and a stone slab. Place
+- Craft a **Press** from oak planks, iron, a barrel, and a stone slab. Place
   it with two clear blocks of height. Its wooden basket, central screw, purple
   metal hoops, feet, and catch tray occupy a 1×1×2 space.
 - Attach a **Hand Crank** by right-clicking either half. Turn it with an empty
@@ -126,19 +126,20 @@ offered in the creative tab.
   Alternatively attach a **Press Motor Upgrade**, then supply FE. A neighboring
   **Basic Generator** burns furnace fuels to supply it. An unpowered press does
   no work; the motor is required for external FE input.
-- Put grapes in the press UI or feed them with a hopper above its upper half.
-  Each grape produces 1 L of juice after eight manual turns. Each turn directly
+- Put grapes or cooked agave pulp in the press UI or feed them with a hopper above its upper half.
+  Each grape produces 1 L of juice; each cooked agave pulp produces 1 L of mosto.
+  Both take eight manual turns. Each turn directly
   advances progress by one eighth, with a half-second cooldown; manual work never
   creates or requires FE and stops between turns. The manual UI shows progress,
   not an FE bar. The optional motor instead consumes 2,000 FE per batch at up to
   10 FE/tick. The output tank holds 8 L and the motor buffer holds 8,000 FE.
-  Incompatible juice or insufficient tank space pauses processing without
-  consuming grapes or power. Add a juice carboy to the container slot, or use
-  one on the press to draw juice. Side hoppers insert containers; bottom hoppers
-  extract filled containers. Fluid pipes can drain juice from either half.
+  Incompatible liquid or insufficient tank space pauses processing without
+  consuming ingredients or power. Add a juice carboy to the container slot, or use
+  one on the press to draw liquid. Side hoppers insert containers; bottom hoppers
+  extract filled containers. Fluid pipes can drain liquid from either half.
 - One grape item, the reusable juicer, and a bowl still prepare 1 L of skin-on must.
-- Right-click a vessel with prepared juice, must, or unfermented agave wort to
-  pour it (sneak-use a portable juice carboy). Juice stays in its reusable
+- Sneak-use a filled portable carboy on a vessel to pour juice or agave mosto;
+  right-click with a bowl of must to add it. Liquid stays in its reusable
   container when partially poured; must returns a bowl. Fill the batch first,
   then **sneak-right-click with an empty hand to start**. Ordinary empty-hand use
   reports contents and progress. Active batches reject transfers to protect their
@@ -148,7 +149,7 @@ offered in the creative tab.
   mushroom. Batches pause in unloaded chunks, while the world is closed, and while
   carried as items. They do not spoil for lack of tending.
 - Finished juice becomes wine directly. Skin-on must retains its skins: place a
-  Wine Press horizontally beside the finished vat and use **Clarify vat** in the
+  Press horizontally beside the finished vat and use **Clarify vat** in the
   press UI. Then turn the attached crank eight times, or supply 2,000 FE through
   the motor. The work targets a snapshot of the selected batch; changing that
   batch cancels progress. The wine stays in the vat, preserving its volume,
@@ -295,7 +296,7 @@ Gradle profile to get matching classes, test registration, flags, and assets.
 Automated server tests verify processing and persistence; visual/client behavior
 requires manual testing. Use a disposable Creative world with cheats enabled:
 
-1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Wine Press, Hand Crank,
+1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Press, Hand Crank,
    Press Motor Upgrade, Basic Generator, empty wine bottles, and buckets.
 2. Confirm juice enters a carboy, while must is rejected unchanged. Fill a vat
    with must and confirm an ordinary empty-hand click shows its contents.
@@ -303,10 +304,10 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    fail without consuming anything. To accelerate a **single** test vessel after
    starting, run `/data merge block X Y Z {FermentationProgress:23980}` using its
    coordinates; it should finish on the next processing tick.
-4. Place and power a Wine Press beside the finished vat, click **Clarify vat**,
+4. Place and power a Press beside the finished vat, click **Clarify vat**,
    then draw a wine bottle and pour it into an aging barrel. Confirm the bottle
    retains batch metadata and separation required eight manual turns or 2,000 motor FE.
-5. Ferment three wort items, draw three wash buckets, and feed the still with an
+5. Press three cooked agave pulp into 3 L of mosto, ferment it, and feed the still with an
    empty fifth and coal. Confirm a blanco tequila bottle and emptied wash buffer.
 6. Assemble shallow 2×2×1 and taller vats, check the open top and liquid rendering, break/replace a
    filled segment, and save/reopen the world to check contents and progress.
@@ -319,8 +320,10 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    and a steel coil. Place them in a two-by-two vertical arrangement, facing the
    same direction: pot above brazier on the left, coil above pot on the right.
    The still assembles automatically when the last component is placed.
-3. Craft cooked agave pulp with a water bucket to make unfermented wort. Pour it
-   into a carboy or vat, optionally add wine yeast, and sneak-right-click with an
+3. Put cooked agave pulp in the **Press**. Each pulp yields **1 L of agave mosto**
+   after eight crank turns or 2,000 FE through the motor. Draw it into a reusable
+   carboy (or pipe it directly to a vessel). Pour it into a carboy or vat,
+   optionally add wine yeast, and sneak-right-click with an
    empty hand to start. Draw the finished wash into a reusable carboy or ordinary
    empty buckets.
 4. Open the still and put the wash container into its upper-left input slot,
@@ -433,7 +436,7 @@ item bar and liquid surface indicate fullness. Use a filled wine glass in the ai
 to drink it. Container acceptance and drinkability are separate fluid tags:
 `data/vinum/tags/fluid/container_contents.json` and `drinkable.json`.
 
-Process grapes in the placed, powered **Wine Press** to produce 1,000 mB of juice
+Process grapes in the placed, powered **Press** to produce 1,000 mB of juice
 per grape. Fill an **empty juice carboy** from its tank; craft the carboy with glass
 in a ` G / G G / GGG` pattern. Must remains a bowl of crushed grapes. Juice carboys
 and must share artwork across varieties.

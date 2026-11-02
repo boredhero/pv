@@ -13,7 +13,7 @@ playable; the regression suite exercises world interactions and machine outputs.
 | Wine from must | Grapes + juicer + bowl → must → vat fermentation → adjacent powered press clarification → wine | Skins remain until clarification. Bulk containers can carry the cloudy batch; serving glasses reject solids. |
 | Wine blend | Finished wines → shared container or barrel → volume-weighted blend | Mixing preserves proportions and alcohol; incompatible extra metadata prevents mixing. |
 | Aged wine | Finished wine/blend → assembled oak barrel → reusable bottle/glass | Fermentation progress and maturation age are distinct. Bottling preserves age and composition. |
-| Tequila | Mature agave → strip leaves → piña → furnace cooking → cooked pulp + water bucket → wort → fermentation → wash → still → spirit | 3 L of 10% wash produces 750 mL at 40% ABV in 1,200 heated ticks. |
+| Tequila | Mature agave → strip leaves → piña → furnace cooking → cooked pulp → powered press → mosto → fermentation → wash → still → spirit | 3 L of 10% wash produces 750 mL at 40% ABV in 1,200 heated ticks. |
 | Aged tequila | Spirit → oak barrel → reposado/añejo/extra añejo → fifth bottle or shot glass | Age controls the presentation and maturation stage. It is not a second fluid identity. |
 
 The core machine, support, tool, yeast, steel, barrel, bottle, and glass recipes
@@ -68,9 +68,10 @@ These are still incomplete features, not implied to be solved by this audit.
 2. **Pre-fermentation blending:** finished wines blend; different juice fluids
    cannot currently co-ferment in one tank. A universal must/juice representation
    would need recipe selection based on batch composition.
-3. **Playable mashing/extraction:** `MashingRecipe` and `MashingEngine` are tested
-   infrastructure, with no machine caller or shipped mashing recipes. Agave
-   cooking and extraction currently use a furnace and a crafting recipe.
+3. **Grain mashing:** `MashingRecipe` and `MashingEngine` are tested starch-conversion
+   infrastructure, with no machine caller or shipped grain recipes. Agave
+   cooking uses a furnace; extraction now uses the shared Press. The old
+   pulp-and-water crafting shortcut has been removed.
 4. **Distillation depth:** no cuts, multiple passes, cooling-water requirement, or
    recoverable stillage. The existing recipe conserves output alcohol but
    discards the remainder of the consumed wash.
@@ -94,7 +95,8 @@ Distillation outputs must be supported reusable containers and fit their capacit
 Custom recipes must preserve real tool/container remainders and reject incomplete
 inputs before consuming anything.
 
-Validation: all 128 server GameTests passed; 528 JSON resources and 72 recipes
+Validation after agave extraction integration: all 129 server GameTests passed;
+527 JSON resources and 72 recipes
 passed the resource checker; the distributable build succeeded. In-client checks
 remain for the player-facing salt interaction, reusable-carboy still intake, and
 aged wine/blend tooltips. Logs are under the ignored `build/logs/` directory.
