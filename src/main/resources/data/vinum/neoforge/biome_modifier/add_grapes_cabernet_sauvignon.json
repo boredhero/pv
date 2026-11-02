@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#vinum:has_grapes",
+  "features": "vinum:patch_grapes_cabernet_sauvignon",
+  "step": "vegetal_decoration"
+}

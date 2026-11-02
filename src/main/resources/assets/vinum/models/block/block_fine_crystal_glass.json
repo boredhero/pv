@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "vinum:block/block_fine_crystal_glass"
+  },
+  "render_type": "minecraft:translucent"
+}

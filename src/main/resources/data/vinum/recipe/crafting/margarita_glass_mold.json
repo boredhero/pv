@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NIN",
+    "INI",
+    "INI"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/steel"
+    },
+    "I": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "vinum:margarita_glass_mold"
+  }
+}

@@ -1,100 +1,59 @@
-/*
-    Project Vinum - BAC.java
-    Copyright (C) 2020 Noah Martino and Tiller Eaton
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
 package io.vinum.capability;
 
-public class BAC implements IBAC {
-	
-	private double BACLevel;
-	private int BACTicks;
-	
-	public BAC() {
-		
-		BACLevel = 0;
-		BACTicks = 0;
-		
-	}
-	
-	@Override
-	public double getBACLevel() {
-		
-		if(this.BACLevel < 0){
-			this.BACLevel = 0;
-		}
-		return BACLevel;
-		
-	}
-	
-	@Override
-	public void setBACLevel(double BACLevel) {
-		
-		if(this.BACLevel < 0){
-			this.BACLevel = 0;
-		}
-		this.BACLevel = BACLevel;
-		
-	}
-	
-	@Override
-	public void addBACLevel(double BACLevel) {
-		
-		if(this.BACLevel < 0){
-			this.BACLevel = 0;
-		}
-		this.BACLevel += BACLevel;
-		
-	}
-	
-	@Override
-	public void removeBACLevel(double BACLevel) {
-		
-		this.BACLevel -= BACLevel;
-		if(this.BACLevel < 0){
-			this.BACLevel = 0;
-		}
-		
-	}
-	
-	@Override
-	public int getBACTicks() {
-		
-		return BACTicks;
-		
-	}
-	
-	@Override
-	public void setBACTicks(int BACTicks) {
-		
-		this.BACTicks = BACTicks;
-		
-	}
-	
-	@Override
-	public void addBACTicks(int BACTicks) {
-		
-		this.BACTicks += BACTicks;
-		
-	}
-	
-	@Override
-	public void removeBACTicks(int BACTicks) {
-		
-		this.BACTicks -= BACTicks;
-		
-	}
-	
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.neoforged.neoforge.common.util.INBTSerializable;
+
+/** Server-owned alcohol state; the persisted decay timer is never sent each tick. */
+public final class BAC implements IBAC, INBTSerializable<CompoundTag> {
+    public static final int DECAY_TICKS = 4000;
+    private int level;
+    private int ticks;
+
+    @Override
+    public int getBACLevel() { return level; }
+    @Override
+    public void setBACLevel(int level) {
+        this.level = Math.clamp(level, 0, Integer.MAX_VALUE);
+        if (this.level == 0) ticks = 0;
+    }
+    @Override
+    public void addBACLevel(int amount) { setBACLevel((int) Math.clamp((long) level + amount, 0, Integer.MAX_VALUE)); }
+    @Override
+    public void removeBACLevel(int amount) { setBACLevel((int) Math.clamp((long) level - amount, 0, Integer.MAX_VALUE)); }
+    @Override
+    public int getBACTicks() { return ticks; }
+    @Override
+    public void setBACTicks(int ticks) { this.ticks = Math.clamp(ticks, 0, DECAY_TICKS); }
+    @Override
+    public void addBACTicks(int amount) { setBACTicks((int) Math.clamp((long) ticks + amount, 0, DECAY_TICKS)); }
+    @Override
+    public void removeBACTicks(int amount) { setBACTicks((int) Math.clamp((long) ticks - amount, 0, DECAY_TICKS)); }
+
+    /** @return whether the visible level changed. */
+    public boolean tick() {
+        if (level == 0) {
+            ticks = 0;
+            return false;
+        }
+        if (++ticks >= DECAY_TICKS) {
+            ticks = 0;
+            --level;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("BACLevel", level);
+        tag.putInt("BACTicks", ticks);
+        return tag;
+    }
+    @Override
+    public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+        setBACLevel(tag.getInt("BACLevel"));
+        setBACTicks(level == 0 ? 0 : tag.getInt("BACTicks"));
+    }
 }

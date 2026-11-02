@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NGN",
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/steel"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "vinum:fifth_bottle_empty",
+    "count": 7
+  }
+}
