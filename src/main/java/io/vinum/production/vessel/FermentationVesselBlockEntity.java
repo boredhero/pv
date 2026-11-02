@@ -1,5 +1,8 @@
 package io.vinum.production.vessel;
 
+import io.vinum.beverage.FluidBlending;
+import io.vinum.beverage.WineCatalog;
+
 import io.vinum.production.BatchProfile;
 import io.vinum.production.FermentationEngine;
 import io.vinum.production.FermentationRecipe;
@@ -205,7 +208,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
 
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        fluid = FluidStack.parseOptional(registries, tag.getCompound("Fluid"));
+        fluid = WineCatalog.normalize(FluidStack.parseOptional(registries, tag.getCompound("Fluid")));
         origin = tag.contains("StructureOrigin") ? BlockPos.of(tag.getLong("StructureOrigin")) : worldPosition;
         size = isVat() ? Math.clamp(tag.getInt("StructureSize"), 1, 3) : 1;
         // Old saves only stored a cube size.
@@ -253,17 +256,20 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
             if (parts == null) return 0;
             int available = 0;
             for (var part : parts) {
-                if (part.recipe != null || !part.fluid.isEmpty() && !FluidStack.isSameFluidSameComponents(part.fluid, resource)) return 0;
+                if (part.recipe != null || !part.fluid.isEmpty() && !FluidBlending.canBlend(part.fluid, resource)) return 0;
                 available += part.localCapacity() - part.fluid.getAmount();
             }
             int accepted = Math.min(available, resource.getAmount());
+            FluidStack current = getFluidInTank(0);
+            if (!FluidBlending.canBlend(current, resource)) return 0;
             if (action.execute() && accepted > 0) {
+                FluidStack blended = FluidBlending.blend(current, resource.copyWithAmount(accepted));
                 int remaining = accepted;
                 for (var part : parts) {
                     int portion = Math.min(remaining, part.localCapacity() - part.fluid.getAmount());
-                    if (portion == 0) continue;
-                    part.fluid = resource.copyWithAmount(part.fluid.getAmount() + portion);
-                    part.starter = BatchProfile.of(resource).yeast().isPresent();
+                    if (portion == 0 && part.fluid.isEmpty()) continue;
+                    part.fluid = blended.copyWithAmount(part.fluid.getAmount() + portion);
+                    part.starter = BatchProfile.of(blended).yeast().isPresent();
                     part.changed();
                     remaining -= portion;
                 }
@@ -273,7 +279,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         }
         @Override public FluidStack drain(FluidStack resource, FluidAction action) {
             FluidStack sample = getFluidInTank(0);
-            if (!FluidStack.isSameFluidSameComponents(sample, resource)) return FluidStack.EMPTY;
+            if (!FluidStack.isSameFluidSameComponents(sample, WineCatalog.normalize(resource))) return FluidStack.EMPTY;
             return drain(resource.getAmount(), action);
         }
         @Override public FluidStack drain(int maxDrain, FluidAction action) {

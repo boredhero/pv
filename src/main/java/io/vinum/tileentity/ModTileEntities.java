@@ -37,6 +37,10 @@ public final class ModTileEntities {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        io.vinum.item.ModItems.ITEMS.getEntries().forEach(entry -> {
+            if (entry.get() instanceof io.vinum.item.FluidContainerItem container)
+                event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> container.handler(stack), entry.get());
+        });
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, STILL_MASTER.get(),
                 StillMasterTileEntity::getItemHandler);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CARBOY.get(), FermentationVesselBlockEntity::getFluidHandler);

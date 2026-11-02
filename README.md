@@ -369,3 +369,38 @@ The new `assets/vinum/textures/block/barrel_oak.png` was generated with the buil
 imagegen tool using the prompt "seamless Minecraft pixel-art oak, vertical grain,
 limited warm brown palette, no seams, metal, labels, or lighting," then finalized
 at 64×64 using nearest-neighbor scaling. All barrel geometry is implemented in code.
+
+### Shared beverage containers and colors
+
+Wine now uses the single `vinum:wine` fluid. Its `vinum:batch_profile` component
+stores ingredient proportions, alcohol fraction, concentrations, yeast, and
+process history. Wine blends preserve volume-weighted composition and maturation
+age. Differing unknown components prevent mixing rather than silently losing data.
+
+The reusable wine glass holds 125 mB, the wine bottle 750 mB, and the portable
+juice carboy 4,000 mB, matching the placed carboy. Use on a storage vessel to draw
+liquid; sneak-use to pour. Transfers can be partial and preserve the remainder.
+The tooltip shows current amount, capacity, ABV, and ingredient proportions; the
+item bar and liquid surface indicate fullness. Use a filled wine glass in the air
+to drink it. Container acceptance and drinkability are separate fluid tags:
+`data/vinum/tags/fluid/container_contents.json` and `drinkable.json`.
+
+Press grapes with an **empty juice carboy** and the wine press to produce 1,000 mB
+of juice; craft the carboy with glass in a ` G / G G / GGG` pattern. Must remains
+a bowl of crushed grapes. Juice carboys and must share artwork across varieties.
+
+`src/main/resources/vinum/wines.json` defines ingredient IDs, wine/juice/must RGB
+colors (six hexadecimal digits), and default alcohol fractions for wine samples.
+These packaged definitions load at startup; restart after changing them. Blended
+wine colors are weighted by ingredient proportions. Add a definition for a new
+grape ingredient to reuse all container artwork; its grape item, crop, and
+production recipes still need registration. New alcohol families can reuse
+`FluidContainerItem` and the fluid tags; cross-family mixing is intentionally not
+implicit. Wine fermentation recipes retain the input batch composition.
+
+The grape, carboy, wine-glass, and must art is 64×64. Shared container models tint
+only the liquid or pulp, leaving glass highlights and wooden bowls unchanged.
+`python scripts/generate_beverage_models.py` regenerates the shared fill geometry
+from the artwork (requires Pillow). In-game visual verification is still needed:
+check grapes/must in Creative, craft juice, pour into a placed carboy, ferment,
+draw into a wine glass, inspect capacity/color, and drink to recover the empty glass.

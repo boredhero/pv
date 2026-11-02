@@ -58,6 +58,7 @@ public final class GameScenario {
         return step("equip " + snapshot, scene -> actor.setItemInHand(InteractionHand.MAIN_HAND, snapshot.copy()));
     }
     public GameScenario use(BlockPos pos) { return step("use " + pos, scene -> interact(pos, false)); }
+    public GameScenario sneakUse(BlockPos pos) { return step("sneak pour " + pos, scene -> interact(pos, true)); }
     public GameScenario sneakUseEmptyHand(BlockPos pos) {
         return equip(ItemStack.EMPTY).step("sneak use " + pos, scene -> interact(pos, true));
     }

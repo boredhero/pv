@@ -1,5 +1,8 @@
 package io.vinum.tileentity;
 
+import io.vinum.beverage.FluidBlending;
+import io.vinum.beverage.WineCatalog;
+
 import io.vinum.barrel.BarrelFluidData;
 import io.vinum.barrel.BarrelContents;
 import io.vinum.block.WineBarrelBlock;
@@ -53,7 +56,7 @@ public class BarrelBlockEntity extends BlockEntity {
     public boolean isStructureLoaded() { return members() != null; }
 
     public FluidStack getLocalFluid() {
-        return BarrelFluidData.withAge(localFluid, getLocalAge());
+        return BarrelFluidData.withAge(WineCatalog.normalize(localFluid), getLocalAge());
     }
 
     public long getLocalAge() {
@@ -80,7 +83,7 @@ public class BarrelBlockEntity extends BlockEntity {
         String days = String.format(Locale.ROOT, "%.1f",
                 BarrelFluidData.getAge(snapshot.fluid) / (double) BarrelConfig.ticksPerDay());
         return Component.translatableWithFallback("barrel.vinum.contents",
-                "Oak barrel · %s · %s / %s L · Age %s days · %s", snapshot.fluid.getHoverName(),
+                "Oak barrel · %s · %s / %s L · Age %s days · %s", WineCatalog.name(snapshot.fluid),
                 liters(snapshot.amount), liters(getCapacity()), days, dimensions);
     }
 
@@ -155,7 +158,7 @@ public class BarrelBlockEntity extends BlockEntity {
     private void setLocal(FluidStack fluid, long age) {
         boolean changedIdentity = localFluid.isEmpty() != fluid.isEmpty()
                 || !localFluid.isEmpty() && !BarrelFluidData.sameFluid(localFluid, fluid);
-        localFluid = BarrelFluidData.withAge(fluid, age);
+        localFluid = BarrelFluidData.withAge(WineCatalog.normalize(fluid), age);
         ageReferenceTick = level == null ? -1 : level.getGameTime();
         invalidateSnapshot();
         // The renderer depends only on structure metadata. Server-side inspection and
@@ -301,18 +304,18 @@ public class BarrelBlockEntity extends BlockEntity {
         public boolean isFluidValid(int tank, FluidStack stack) {
             if (tank != 0 || stack.isEmpty()) return false;
             Snapshot snapshot = snapshot();
-            return snapshot != null && (snapshot.fluid.isEmpty() || BarrelFluidData.sameFluid(snapshot.fluid, stack));
+            return snapshot != null && (snapshot.fluid.isEmpty() || FluidBlending.canBlend(snapshot.fluid, stack));
         }
 
         @Override
         public int fill(FluidStack resource, FluidAction action) {
             if (resource.isEmpty() || level == null || level.isClientSide) return 0;
             Snapshot snapshot = snapshot();
-            if (snapshot == null || !snapshot.fluid.isEmpty() && !BarrelFluidData.sameFluid(snapshot.fluid, resource)) return 0;
+            if (snapshot == null || !snapshot.fluid.isEmpty() && !FluidBlending.canBlend(snapshot.fluid, resource)) return 0;
             int accepted = Math.min(resource.getAmount(), Math.max(0, getCapacity() - snapshot.amount));
             if (accepted <= 0 || action.simulate()) return accepted;
-            long age = BarrelFluidData.weightedAge(BarrelFluidData.getAge(snapshot.fluid), snapshot.amount,
-                    BarrelFluidData.getAge(resource), accepted);
+            FluidStack blended = FluidBlending.blend(snapshot.fluid, resource.copyWithAmount(accepted));
+            long age = BarrelFluidData.getAge(blended);
             long free = 0;
             for (BarrelBlockEntity member : snapshot.members) free += Math.max(0, BarrelConfig.capacityPerBlock() - member.localFluid.getAmount());
             int remaining = accepted;
@@ -324,7 +327,7 @@ public class BarrelBlockEntity extends BlockEntity {
                 remaining -= share;
                 int newAmount = member.localFluid.getAmount() + share;
                 if (newAmount > 0) {
-                    FluidStack local = resource.copyWithAmount(newAmount);
+                    FluidStack local = blended.copyWithAmount(newAmount);
                     member.setLocal(local, age);
                 }
             }
@@ -335,7 +338,7 @@ public class BarrelBlockEntity extends BlockEntity {
         public FluidStack drain(FluidStack resource, FluidAction action) {
             if (resource.isEmpty()) return FluidStack.EMPTY;
             Snapshot snapshot = snapshot();
-            if (snapshot == null || !BarrelFluidData.sameFluid(snapshot.fluid, resource)) return FluidStack.EMPTY;
+            if (snapshot == null || !BarrelFluidData.sameFluid(snapshot.fluid, WineCatalog.normalize(resource))) return FluidStack.EMPTY;
             return drain(resource.getAmount(), action);
         }
 

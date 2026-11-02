@@ -9,6 +9,16 @@ public final class BAC implements IBAC, INBTSerializable<CompoundTag> {
     public static final int DECAY_TICKS = 4000;
     private int level;
     private int ticks;
+    private double alcoholRemainder;
+
+    /** Returns whole gameplay BAC points; retains fractional servings across drinking and saves. */
+    public int acceptAlcohol(double millibuckets) {
+        if (!Double.isFinite(millibuckets) || millibuckets < 0) throw new IllegalArgumentException("Invalid alcohol dose");
+        double points = alcoholRemainder + millibuckets / 15.0;
+        int whole = (int)Math.min(Integer.MAX_VALUE, Math.floor(points + 1e-9));
+        alcoholRemainder = Math.max(0, points - whole);
+        return whole;
+    }
 
     @Override
     public int getBACLevel() { return level; }
@@ -49,10 +59,13 @@ public final class BAC implements IBAC, INBTSerializable<CompoundTag> {
         CompoundTag tag = new CompoundTag();
         tag.putInt("BACLevel", level);
         tag.putInt("BACTicks", ticks);
+        tag.putDouble("AlcoholRemainder", alcoholRemainder);
         return tag;
     }
     @Override
     public void deserializeNBT(HolderLookup.Provider registries, CompoundTag tag) {
+        double remainder = tag.getDouble("AlcoholRemainder");
+        alcoholRemainder = Double.isFinite(remainder) && remainder >= 0 && remainder < 1 ? remainder : 0;
         setBACLevel(tag.getInt("BACLevel"));
         setBACTicks(level == 0 ? 0 : tag.getInt("BACTicks"));
     }

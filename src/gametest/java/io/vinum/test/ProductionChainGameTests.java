@@ -68,21 +68,22 @@ public final class ProductionChainGameTests {
     }
 
     @GameTest(template = "barrel_space")
-    public static void productionContainersExchangeExactContentsAndRejectPartialFill(GameTestHelper helper) {
+    public static void productionContainersPreservePartialPoursAndBucketContents(GameTestHelper helper) {
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
         var tank = new FluidTank(2000);
+        player.setShiftKeyDown(true);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.GRAPE_JUICE_CHARDONNAY.get(), 2));
         var result = ProductionContainers.useItemOn(player.getMainHandItem(), helper.getLevel(), player, InteractionHand.MAIN_HAND, tank);
         helper.assertTrue(result == ItemInteractionResult.CONSUME && tank.getFluidAmount() == 1000
                 && player.getMainHandItem().getCount() == 1, "One prepared juice item pours exactly one litre");
-        helper.assertTrue(player.getInventory().countItem(Items.GLASS_BOTTLE) == 1, "Pouring returns exactly one glass bottle");
+        helper.assertTrue(player.getInventory().countItem(ModItems.JUICE_CARBOY.get()) == 1, "Pouring returns exactly one reusable carboy");
         tank.fill(tank.getFluid().copyWithAmount(500), IFluidHandler.FluidAction.EXECUTE);
         ProductionContainers.useItemOn(player.getMainHandItem(), helper.getLevel(), player, InteractionHand.MAIN_HAND, tank);
-        helper.assertTrue(tank.getFluidAmount() == 1500 && player.getMainHandItem().getCount() == 1, "An insufficient gap must not consume a container or partially fill");
+        helper.assertTrue(tank.getFluidAmount() == 2000 && ((io.vinum.item.FluidContainerItem)player.getMainHandItem().getItem()).contents(player.getMainHandItem()).getAmount() == 500, "A partial pour must retain the untransferred 500 mB");
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BUCKET));
         ProductionContainers.useItemOn(player.getMainHandItem(), helper.getLevel(), player, InteractionHand.MAIN_HAND, tank);
         ItemStack bucket = player.getMainHandItem();
-        helper.assertTrue(bucket.is(ModItems.BATCH_BUCKET.get()) && tank.getFluidAmount() == 500, "Generic bucket must withdraw exactly one litre");
+        helper.assertTrue(bucket.is(ModItems.BATCH_BUCKET.get()) && tank.getFluidAmount() == 1000, "Generic bucket must withdraw exactly one litre");
         ItemStack restored = ItemStack.parseOptional(helper.getLevel().registryAccess(), (CompoundTag) bucket.save(helper.getLevel().registryAccess()));
         helper.assertTrue(ProductionContainers.read(restored).orElseThrow().getAmount() == 1000
                 && BatchProfile.of(ProductionContainers.read(restored).orElseThrow()).sugarGramsPerLitre() == 200,
@@ -121,9 +122,9 @@ public final class ProductionChainGameTests {
             var drops = Block.getDrops(mature, helper.getLevel(), ground.above(), null);
             helper.assertTrue(drops.stream().anyMatch(stack -> stack.is(variety.seedItem()))
                     && drops.stream().anyMatch(stack -> stack.is(variety.grapeItem())), "Mature " + variety + " must yield plantable seeds and fruit");
-            CraftingInput input = CraftingInput.of(3, 1, List.of(new ItemStack(variety.grapeItem()), new ItemStack(ModItems.WINE_PRESS.get()), new ItemStack(Items.GLASS_BOTTLE)));
+            CraftingInput input = CraftingInput.of(3, 1, List.of(new ItemStack(variety.grapeItem()), new ItemStack(ModItems.WINE_PRESS.get()), new ItemStack(ModItems.JUICE_CARBOY.get())));
             var crafting = helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, helper.getLevel()).orElseThrow().value();
-            helper.assertTrue(!ProductionInputs.fromItem(crafting.assemble(input, helper.getLevel().registryAccess())).isEmpty(), "Each grape must produce fermentable juice");
+            helper.assertTrue(!((io.vinum.item.FluidContainerItem)ModItems.JUICE_CARBOY.get()).contents(crafting.assemble(input, helper.getLevel().registryAccess())).isEmpty(), "Each grape must produce fermentable juice");
             helper.assertTrue(crafting.getRemainingItems(input).stream().anyMatch(stack -> stack.is(ModItems.WINE_PRESS.get())), "Preparing juice must preserve the press");
         }
         helper.succeed();

@@ -117,7 +117,7 @@ public final class FermentationVesselGameTests {
                 "Active dropped/copy-restored vessels retain culture, frozen plan, progress and intensive fluid components");
         helper.startSequence().thenWaitUntil(() -> {
             helper.assertTrue(!vessel.isFermenting(), "Frozen recipe eventually finishes");
-            helper.assertTrue(vessel.getFluid().getFluid().isSame(ModFluids.CHARDONNAY.source().get()) && vessel.getFluid().getAmount() == 1000,
+            helper.assertTrue(vessel.getFluid().getFluid().isSame(ModFluids.WINE.source().get()) && vessel.getFluid().getAmount() == 1000,
                     "Fermentation changes beverage without changing volume");
         }).thenExecute(() -> {
             FluidStack finished = vessel.getLocalFluid();

@@ -20,6 +20,6 @@ public final class FermentationEngine {
         FluidStack output = new FluidStack(BuiltInRegistries.FLUID.get(recipe.outputFluid()), input.getAmount());
         output.applyComponents(input.getComponentsPatch());
         output.remove(ModDataComponents.FLUID_AGE.get()); // Maturation starts after fermentation.
-        return result.applyTo(output);
+        return io.vinum.beverage.WineCatalog.normalize(result.applyTo(output));
     }
 }

@@ -8,10 +8,21 @@
       "item": "vinum:wine_press"
     },
     {
-      "item": "minecraft:glass_bottle"
+      "type": "neoforge:components",
+      "items": "vinum:juice_carboy",
+      "components": {
+        "vinum:contained_fluid": {}
+      },
+      "strict": false
     }
   ],
   "result": {
-    "id": "vinum:grape_juice_cabernet_sauvignon"
+    "id": "vinum:juice_carboy",
+    "components": {
+      "vinum:contained_fluid": {
+        "id": "vinum:juice_cabernet_sauvignon",
+        "amount": 1000
+      }
+    }
   }
 }

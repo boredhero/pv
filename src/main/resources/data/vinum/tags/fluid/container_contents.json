@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:water",
+    "vinum:wine",
+    "vinum:tequila",
+    "vinum:golden_tequila",
+    "vinum:agave_mosto",
+    "vinum:agave_wash",
+    "vinum:chardonnay",
+    "vinum:sauvignon_blanc",
+    "vinum:cabernet_sauvignon",
+    "vinum:merlot",
+    "vinum:pinot_noir",
+    "vinum:zinfandel",
+    "vinum:juice_chardonnay",
+    "vinum:juice_sauvignon_blanc",
+    "vinum:juice_cabernet_sauvignon",
+    "vinum:juice_merlot",
+    "vinum:juice_pinot_noir",
+    "vinum:juice_zinfandel",
+    "vinum:must_chardonnay",
+    "vinum:must_sauvignon_blanc",
+    "vinum:must_cabernet_sauvignon",
+    "vinum:must_merlot",
+    "vinum:must_pinot_noir",
+    "vinum:must_zinfandel"
+  ]
+}

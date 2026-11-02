@@ -15,6 +15,7 @@ public final class ModItemGroup {
                     .icon(() -> ModItems.FIFTH_SILVER_TEQUILA.get().getDefaultInstance())
                     .displayItems((parameters, output) -> ModItems.ITEMS.getEntries().forEach(item -> {
                         // Keep legacy registry IDs loadable without presenting eight identical barrels.
+                        if (item.get() instanceof FluidContainerItem container && container.legacy()) return;
                         if (!(item.get() instanceof BarrelItem) || item.get() == ModItems.BARREL.get()) {
                             output.accept(item.get());
                         }

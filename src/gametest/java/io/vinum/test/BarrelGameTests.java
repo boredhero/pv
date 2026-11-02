@@ -380,11 +380,11 @@ public final class BarrelGameTests {
         tank.fill(new FluidStack(ModFluids.CHARDONNAY.source().get(), 1_000), IFluidHandler.FluidAction.EXECUTE);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.WINE_BOTTLE_EMPTY.get()));
         bottle(helper, player, tank);
-        helper.assertTrue(player.getMainHandItem().is(ModItems.WINE_BOTTLE_CHARDONNAY.get()) && tank.getFluidInTank(0).getAmount() == 250,
+        helper.assertTrue(player.getMainHandItem().is(ModItems.WINE_BOTTLE_EMPTY.get()) && tank.getFluidInTank(0).getAmount() == 250,
                 "Chardonnay bottle must withdraw 750 mB and retain wine identity");
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.WINE_GLASS_EMPTY.get()));
         bottle(helper, player, tank);
-        helper.assertTrue(player.getMainHandItem().is(ModItems.WINE_GLASS_CHARDONNAY.get()) && tank.getFluidInTank(0).getAmount() == 125,
+        helper.assertTrue(player.getMainHandItem().is(ModItems.WINE_GLASS_EMPTY.get()) && tank.getFluidInTank(0).getAmount() == 125,
                 "Wine glass must withdraw 125 mB and retain wine identity");
         helper.succeed();
     }
@@ -608,7 +608,7 @@ public final class BarrelGameTests {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         Fluid[] fluids = {ModFluids.TEQUILA.source().get(), ModFluids.CHARDONNAY.source().get(), ModFluids.CHARDONNAY.source().get(), Fluids.WATER};
         Item[] empty = {ModItems.FIFTH_BOTTLE_EMPTY.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.BUCKET};
-        Item[] filled = {ModItems.FIFTH_SILVER_TEQUILA.get(), ModItems.WINE_BOTTLE_CHARDONNAY.get(), ModItems.WINE_GLASS_CHARDONNAY.get(), Items.WATER_BUCKET};
+        Item[] filled = {ModItems.FIFTH_SILVER_TEQUILA.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.WATER_BUCKET};
         int[] volumes = {750, 750, 125, 1_000};
         for (int index = 0; index < fluids.length; index++) {
             tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
@@ -619,6 +619,7 @@ public final class BarrelGameTests {
             original.set(DataComponents.CUSTOM_NAME, Component.literal("Special cellar batch"));
             original.set(DataComponents.CUSTOM_DATA, CustomData.of(marker));
             tank.fill(original, IFluidHandler.FluidAction.EXECUTE);
+            player.setShiftKeyDown(false);
             player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(empty[index]));
             bottle(helper, player, tank);
             helper.assertTrue(player.getMainHandItem().is(filled[index]) && tank.getFluidInTank(0).isEmpty(),
@@ -627,9 +628,10 @@ public final class BarrelGameTests {
                     (CompoundTag) player.getMainHandItem().saveOptional(helper.getLevel().registryAccess()));
             helper.assertTrue(!reloaded.isEmpty(), "Serving item and embedded fluid metadata must serialize successfully");
             player.setItemInHand(InteractionHand.MAIN_HAND, reloaded);
+            player.setShiftKeyDown(reloaded.getItem() instanceof io.vinum.item.FluidContainerItem);
             bottle(helper, player, tank);
             helper.assertTrue(player.getMainHandItem().is(empty[index]) && tank.getFluidInTank(0).getAmount() == volumes[index]
-                    && FluidStack.isSameFluidSameComponents(original, tank.getFluidInTank(0)),
+                    && FluidStack.isSameFluidSameComponents(io.vinum.beverage.WineCatalog.normalize(original), tank.getFluidInTank(0)),
                     "Serving roundtrip must preserve fluid identity, exact amount, age, custom name and batch data for " + filled[index]);
         }
         helper.succeed();

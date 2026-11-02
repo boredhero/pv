@@ -20,7 +20,7 @@ public final class ScenarioLibraryGameTests {
         BlockPos pos = new BlockPos(2, 1, 2);
         GameScenario.begin(helper)
                 .place(pos, ModBlocks.CARBOY.get())
-                .equip(new ItemStack(ModItems.GRAPE_JUICE_CHARDONNAY.get())).use(pos)
+                .equip(new ItemStack(ModItems.GRAPE_JUICE_CHARDONNAY.get())).sneakUse(pos)
                 .expectFluid(pos, ProductionInputs.id("juice_chardonnay"), 1000)
                 .sneakUseEmptyHand(pos)
                 .step("accelerate the fixture's frozen plan", scene -> {
@@ -33,8 +33,8 @@ public final class ScenarioLibraryGameTests {
                 })
                 .await("fermentation finishes", scene -> helper.assertTrue(!scene.vessel(pos).isFermenting(), "Still fermenting"))
                 .equip(new ItemStack(ModItems.WINE_BOTTLE_EMPTY.get())).use(pos)
-                .expectHeld(ModItems.WINE_BOTTLE_CHARDONNAY.get(), 1)
-                .expectFluid(pos, ProductionInputs.id("chardonnay"), 250)
+                .expectHeld(ModItems.WINE_BOTTLE_EMPTY.get(), 1)
+                .expectFluid(pos, ProductionInputs.id("wine"), 250)
                 .succeed();
     }
 

@@ -52,6 +52,7 @@ public final class ProductionContainers {
 
     public static ItemInteractionResult useItemOn(ItemStack held, Level level, Player player,
                                                   InteractionHand hand, IFluidHandler tank) {
+        if (held.getItem() instanceof io.vinum.item.FluidContainerItem) return io.vinum.beverage.ContainerTransfers.use(held, level, player, hand, tank);
         Optional<FluidStack> source = read(held);
         if (source.isPresent()) {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;

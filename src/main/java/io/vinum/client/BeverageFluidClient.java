@@ -22,6 +22,7 @@ public final class BeverageFluidClient {
                 public ResourceLocation getFlowingTexture() { return ResourceLocation.withDefaultNamespace("block/water_flow"); }
                 @Override
                 public int getTintColor() { return entry.color(); }
+                @Override public int getTintColor(net.neoforged.neoforge.fluids.FluidStack stack) { return io.vinum.beverage.WineCatalog.color(stack); }
             }, entry.type().get());
         }
     }

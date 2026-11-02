@@ -1,0 +1,50 @@
+[
+  {
+    "id": "chardonnay",
+    "ingredient": "vinum:grapes_chardonnay",
+    "wine_color": "EBD17F",
+    "juice_color": "E8CF65",
+    "must_color": "C0AD4A",
+    "default_alcohol": 0.12
+  },
+  {
+    "id": "sauvignon_blanc",
+    "ingredient": "vinum:grapes_sauvignon_blanc",
+    "wine_color": "D8D99A",
+    "juice_color": "CED56A",
+    "must_color": "AAB650",
+    "default_alcohol": 0.12
+  },
+  {
+    "id": "cabernet_sauvignon",
+    "ingredient": "vinum:grapes_cabernet_sauvignon",
+    "wine_color": "64182D",
+    "juice_color": "702290",
+    "must_color": "602566",
+    "default_alcohol": 0.12
+  },
+  {
+    "id": "merlot",
+    "ingredient": "vinum:grapes_merlot",
+    "wine_color": "842D40",
+    "juice_color": "84258E",
+    "must_color": "70305C",
+    "default_alcohol": 0.12
+  },
+  {
+    "id": "pinot_noir",
+    "ingredient": "vinum:grapes_pinot_noir",
+    "wine_color": "9A3C4C",
+    "juice_color": "551B70",
+    "must_color": "49204F",
+    "default_alcohol": 0.12
+  },
+  {
+    "id": "zinfandel",
+    "ingredient": "vinum:grapes_zinfandel",
+    "wine_color": "76213A",
+    "juice_color": "C05A9C",
+    "must_color": "A24F79",
+    "default_alcohol": 0.12
+  }
+]

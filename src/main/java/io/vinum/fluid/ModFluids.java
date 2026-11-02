@@ -18,6 +18,7 @@ public final class ModFluids {
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, Defines.MODID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, Defines.MODID);
     private static final List<FluidEntry> ENTRIES = new ArrayList<>();
+    public static final FluidEntry WINE = registerBeverage("wine", 0xFF842D40);
     public static final FluidEntry TEQUILA = registerBeverage("tequila", 0xFFECE7CF);
     public static final FluidEntry GOLDEN_TEQUILA = registerBeverage("golden_tequila", 0xFFCA933B);
     public static final FluidEntry CHARDONNAY = registerBeverage("chardonnay", 0xFFEBD17F);

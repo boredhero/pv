@@ -23,6 +23,8 @@ public final class BarrelBottling {
 
     public static ItemInteractionResult useItemOn(ItemStack held, Level level, Player player,
                                                   InteractionHand hand, IFluidHandler tank) {
+        var containerResult = io.vinum.beverage.ContainerTransfers.use(held, level, player, hand, tank);
+        if (containerResult != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return containerResult;
         Optional<BeverageCatalog.FilledServing> filled = BeverageCatalog.lookupFilled(held);
         if (filled.isPresent()) {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
