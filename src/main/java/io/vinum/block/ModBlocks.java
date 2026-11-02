@@ -28,9 +28,9 @@ public final class ModBlocks {
     public static final DeferredHolder<Block, StillMultiblockPart3Block> STILL_MULTIBLOCK_PART_3 = BLOCKS.register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(still()));
     public static final DeferredHolder<Block, StillMultiblockPart4Block> STILL_MULTIBLOCK_PART_4 = BLOCKS.register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(still()));
     public static final DeferredHolder<Block, AgaveLeafBlock> AGAVE_LEAVES = BLOCKS.register("agave_leaves", () -> new AgaveLeafBlock(
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noOcclusion().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final DeferredHolder<Block, AgaveCropBlock> CROP_AGAVE = BLOCKS.register("crop_agave", () -> new AgaveCropBlock(
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noOcclusion().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
     public static final DeferredHolder<Block, Block> BLOCK_LEAD_ORE = BLOCKS.register("block_lead_ore", () -> new Block(
         BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(3.0F, 5.0F).requiresCorrectToolForDrops()));

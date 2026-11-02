@@ -63,6 +63,31 @@ public final class AgaveGrowthGameTests {
   }
 
   @GameTest(template = "barrel_space")
+  public static void agaveGeometryBlocksMovementAndCutLeavesClearTheirSpace(GameTestHelper h) {
+    BlockPos root = plant(h, 0);
+    for (int age = 1; age <= 7; age++)
+      crop().performBonemeal(h.getLevel(), h.getLevel().random, root, h.getLevel().getBlockState(root));
+    for (BlockPos offset : AgaveGeometry.cells(7)) {
+      BlockPos pos = root.offset(offset);
+      var shape = h.getLevel().getBlockState(pos).getCollisionShape(h.getLevel(), pos);
+      h.assertTrue(!shape.isEmpty(), "The mature heart and every leaf section must have collision");
+      AABB inside = shape.toAabbs().getFirst().deflate(0.0001).move(pos);
+      h.assertTrue(!h.getLevel().noCollision(inside), "World movement must collide with the plant geometry");
+      if (!offset.equals(BlockPos.ZERO)) {
+        h.getLevel().removeBlock(pos, false);
+        h.assertTrue(h.getLevel().noCollision(inside), "Cut leaves must immediately clear their occupied space");
+      }
+    }
+    h.assertTrue(h.getLevel().getBlockState(root).getValue(AgaveCropBlock.STRIPPED),
+        "Clearing the leaves exposes the heart");
+    AABB heart = new AABB(root).deflate(0.25);
+    h.assertTrue(!h.getLevel().noCollision(heart), "The exposed pina remains solid until harvested");
+    h.getLevel().destroyBlock(root, false);
+    h.assertTrue(h.getLevel().noCollision(heart), "Harvesting the heart clears its collision");
+    h.succeed();
+  }
+
+  @GameTest(template = "barrel_space")
   public static void obstructedAgaveGrowthDoesNotOverwriteOrPartiallyExpand(GameTestHelper h) {
     BlockPos root = plant(h, 3);
     BlockPos offset =

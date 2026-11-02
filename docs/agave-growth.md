@@ -9,6 +9,9 @@ the mature rosette spans a 3×3 footprint and three blocks of height. Its eighte
 occupied cells leave empty corners available rather than reserving an invisible
 solid 3×3×3 cube. Plant centers should be at least three blocks apart, with room
 above them. Wild plants begin at stage 3 and grow normally after generation.
+The heart and leaves have collision following their growth-stage geometry;
+empty corners remain passable. Cutting a leaf immediately clears its collision,
+while the exposed piña stays solid until harvested.
 
 ## Cut the leaves, then harvest the piña
 
