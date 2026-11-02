@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
@@ -19,7 +19,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 
 /** Upright open stave vats and a rising liquid surface, using the vanilla block atlas. */
-@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Defines.MODID, value = Dist.CLIENT)
 public final class VesselRenderer implements BlockEntityRenderer<FermentationVesselBlockEntity> {
     private static final ResourceLocation OAK = ResourceLocation.withDefaultNamespace("textures/block/oak_planks.png");
     private static final ResourceLocation IRON = ResourceLocation.withDefaultNamespace("textures/block/iron_block.png");
@@ -58,8 +58,8 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
         var extension = IClientFluidTypeExtensions.of(fluid.getFluid());
         ResourceLocation texture = extension.getStillTexture(fluid);
         if (texture == null) return;
-        var sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(texture);
-        var out = buffers.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
+        var sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
+        var out = buffers.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
         float fill = Math.min(1F, fluid.getAmount() / (float) vessel.getCapacity());
         float height = vessel.isVat() ? .14F + fill * (structureHeight * .87F - .14F) : .13F + fill * .56F;
         int tint = extension.getTintColor(fluid);

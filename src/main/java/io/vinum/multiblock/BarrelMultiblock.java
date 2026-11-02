@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -116,7 +117,7 @@ public final class BarrelMultiblock {
         for (BlockPos pos : BlockPos.betweenClosed(origin, origin.offset(size - 1, size - 1, size - 1))) {
             // Missing chunks are not evidence of a broken structure. Their entities enqueue
             // themselves on load; no validation path force-loads neighboring chunks.
-            if (!level.hasChunkAt(pos)) continue;
+            if (!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) continue;
             BarrelBlockEntity other = barrelAt(level, pos);
             if (other == null || other.getBlockState().getValue(WineBarrelBlock.FACING) != facing
                     || other.getStructureSize() != size || !other.getStructureOrigin().equals(origin)) {
@@ -192,7 +193,7 @@ public final class BarrelMultiblock {
     }
 
     private static BarrelBlockEntity barrelAt(Level level, BlockPos pos) {
-        if (!level.hasChunkAt(pos)) return null;
+        if (!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) return null;
         BlockState state = level.getBlockState(pos);
         return state.getBlock() instanceof WineBarrelBlock && level.getBlockEntity(pos) instanceof BarrelBlockEntity barrel ? barrel : null;
     }

@@ -13,7 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
-@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Defines.MODID, value = Dist.CLIENT)
 public final class BeverageItemClient {
     private BeverageItemClient() {}
     @SubscribeEvent public static void colors(RegisterColorHandlersEvent.Item event) {

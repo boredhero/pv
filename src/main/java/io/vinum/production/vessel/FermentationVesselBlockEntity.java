@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -85,7 +86,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         if (level == null || isRemoved()) return null;
         List<FermentationVesselBlockEntity> members = new ArrayList<>(size * size * height);
         for (BlockPos cursor : BlockPos.betweenClosed(origin, origin.offset(size - 1, height - 1, size - 1))) {
-            if (!level.hasChunkAt(cursor) || !(level.getBlockEntity(cursor) instanceof FermentationVesselBlockEntity part)
+            if (!level.hasChunk(SectionPos.blockToSectionCoord(cursor.getX()), SectionPos.blockToSectionCoord(cursor.getZ())) || !(level.getBlockEntity(cursor) instanceof FermentationVesselBlockEntity part)
                     || part.isRemoved() || part.size != size || part.height != height || !part.origin.equals(origin) || part.isVat() != isVat()) return null;
             members.add(part);
         }

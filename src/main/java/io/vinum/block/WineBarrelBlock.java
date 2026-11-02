@@ -167,7 +167,7 @@ public class WineBarrelBlock extends HorizontalDirectionalBlock implements Entit
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override

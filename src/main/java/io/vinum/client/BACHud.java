@@ -10,7 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 /** Client-only registration keeps HUD classes off dedicated servers. */
-@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Defines.MODID, value = Dist.CLIENT)
 public final class BACHud {
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Defines.MODID, "textures/gui/bac_hud_bar.png");

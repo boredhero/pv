@@ -6,6 +6,7 @@ import io.vinum.block.StillPartBlock;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -58,7 +59,7 @@ public final class StillMultiblock {
     }
 
     public static boolean isLoaded(Level level, BlockPos master, Direction facing) {
-        for (int part = 1; part <= 4; part++) if (!level.hasChunkAt(position(master, facing, part))) return false;
+        for (int part = 1; part <= 4; part++) if (!level.hasChunk(SectionPos.blockToSectionCoord(position(master, facing, part).getX()), SectionPos.blockToSectionCoord(position(master, facing, part).getZ()))) return false;
         return true;
     }
 
@@ -117,7 +118,7 @@ public final class StillMultiblock {
         try {
             for (int part = 1; part <= 4; part++) {
                 BlockPos pos = position(master, facing, part);
-                if (pos.equals(removedPos) || !level.hasChunkAt(pos)) continue;
+                if (pos.equals(removedPos) || !level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) continue;
                 BlockState state = level.getBlockState(pos);
                 if (state.is(partBlock(part)) && state.getValue(SteelComponentBlock.FACING) == facing) {
                     level.setBlock(pos, originalState(state), Block.UPDATE_CLIENTS);
@@ -132,7 +133,7 @@ public final class StillMultiblock {
     private static void notifyNeighbors(Level level, BlockPos master, Direction facing) {
         for (int part = 1; part <= 4; part++) {
             BlockPos pos = position(master, facing, part);
-            if (level.hasChunkAt(pos)) level.updateNeighborsAt(pos, level.getBlockState(pos).getBlock());
+            if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) level.updateNeighborsAt(pos, level.getBlockState(pos).getBlock());
         }
     }
 }

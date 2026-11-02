@@ -12,7 +12,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Defines.MODID)
 public final class ModTileEntities {
     public static final DeferredRegister<BlockEntityType<?>> TILEENTITIES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Defines.MODID);

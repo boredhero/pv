@@ -26,7 +26,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 /** One coopered barrel mesh per reservoir, independent of its stored contents. */
-@EventBusSubscriber(modid = Defines.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Defines.MODID, value = Dist.CLIENT)
 public final class BarrelRenderer implements BlockEntityRenderer<BarrelBlockEntity> {
     private static final ResourceLocation OAK = ResourceLocation.fromNamespaceAndPath("vinum", "textures/block/barrel_oak.png");
     private static final ResourceLocation PLANKS = ResourceLocation.withDefaultNamespace("textures/block/oak_planks.png");

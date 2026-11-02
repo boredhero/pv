@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -105,7 +106,7 @@ public class BarrelBlockEntity extends BlockEntity {
         BigInteger totalAge = BigInteger.ZERO;
         // Validate and calculate the entire batch before changing any member.
         for (BarrelBlockEntity member : members) {
-            if (member.getLevel() != level || member.isRemoved() || !level.hasChunkAt(member.worldPosition)
+            if (member.getLevel() != level || member.isRemoved() || !level.hasChunk(SectionPos.blockToSectionCoord(member.worldPosition.getX()), SectionPos.blockToSectionCoord(member.worldPosition.getZ()))
                     || level.getBlockEntity(member.worldPosition) != member) return false;
             FluidStack fluid = member.getLocalFluid();
             if (fluid.isEmpty()) continue;
@@ -181,7 +182,7 @@ public class BarrelBlockEntity extends BlockEntity {
 
     private void invalidateSnapshot() {
         cachedSnapshot = null;
-        if (level != null && level.hasChunkAt(structureOrigin)
+        if (level != null && level.hasChunk(SectionPos.blockToSectionCoord(structureOrigin.getX()), SectionPos.blockToSectionCoord(structureOrigin.getZ()))
                 && level.getBlockEntity(structureOrigin) instanceof BarrelBlockEntity controller) {
             controller.cachedSnapshot = null;
         }
@@ -194,7 +195,7 @@ public class BarrelBlockEntity extends BlockEntity {
         Direction facing = getBlockState().getValue(WineBarrelBlock.FACING);
         for (BlockPos cursor : BlockPos.betweenClosed(structureOrigin,
                 structureOrigin.offset(structureSize - 1, structureSize - 1, structureSize - 1))) {
-            if (!level.hasChunkAt(cursor)) return null;
+            if (!level.hasChunk(SectionPos.blockToSectionCoord(cursor.getX()), SectionPos.blockToSectionCoord(cursor.getZ()))) return null;
             if (!(level.getBlockEntity(cursor) instanceof BarrelBlockEntity member) || member.isRemoved()
                     || member.structureSize != structureSize || !member.structureOrigin.equals(structureOrigin)
                     || member.getBlockState().getValue(WineBarrelBlock.FACING) != facing) return null;

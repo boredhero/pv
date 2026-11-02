@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -27,7 +28,7 @@ public final class VesselMultiblock {
         return part.getStructureOrigin().equals(origin) && part.getStructureSize() == width && part.getStructureHeight() == height;
     }
     private static FermentationVesselBlockEntity vat(Level level, BlockPos pos) {
-        return level.hasChunkAt(pos) && level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity be && !be.isRemoved() && be.isVat() ? be : null;
+        return level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ())) && level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity be && !be.isRemoved() && be.isVat() ? be : null;
     }
     public static void removed(Level level, FermentationVesselBlockEntity removed) {
         if (level.isClientSide) return;
@@ -55,7 +56,7 @@ public final class VesselMultiblock {
         BlockPos oldOrigin = changed.getStructureOrigin();
         int oldWidth = changed.getStructureSize(), oldHeight = changed.getStructureHeight();
         for (BlockPos pos : BlockPos.betweenClosed(oldOrigin, end(changed))) {
-            if (!level.hasChunkAt(pos)) { unavailable = true; continue; }
+            if (!level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) { unavailable = true; continue; }
             var part = vat(level, pos);
             if (part == null || !sameStructure(part, oldOrigin, oldWidth, oldHeight)) broken = true;
         }
