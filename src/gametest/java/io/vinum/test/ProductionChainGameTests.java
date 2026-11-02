@@ -143,6 +143,21 @@ public final class ProductionChainGameTests {
             var pressing = helper.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.PRESSING_TYPE.get()).stream()
                     .map(holder -> holder.value()).filter(recipe -> recipe.canProcess(new ItemStack(variety.grapeItem()))).findFirst().orElseThrow();
             helper.assertTrue(pressing.output().getAmount() == 1000 && pressing.energy() > 0, "Each grape has an exact-volume powered pressing recipe");
+            var definition = io.vinum.beverage.WineCatalog.varieties().stream()
+                    .filter(entry -> entry.ingredient().equals(BuiltInRegistries.ITEM.getKey(variety.grapeItem())))
+                    .findFirst().orElseThrow();
+            var juiceProfile = ProductionInputs.defaultProfile(pressing.output());
+            helper.assertTrue(juiceProfile.sugarGramsPerLitre() == 200
+                    && juiceProfile.solidsGramsPerLitre() == 0
+                    && juiceProfile.ingredientProportions().equals(java.util.Map.of(definition.ingredient(), 1D)),
+                    "Catalog-derived juice chemistry must retain fermentable sugar and grape identity");
+            var preparedMust = new ItemStack(BuiltInRegistries.ITEM.get(
+                    ProductionInputs.id("grape_must_" + variety.getSerializedName())));
+            var must = ProductionInputs.fromItem(preparedMust);
+            helper.assertTrue(must.getAmount() == 1000
+                    && io.vinum.production.BatchProfile.of(must).solidsGramsPerLitre() == 100
+                    && io.vinum.production.BatchProfile.of(must).ingredientProportions().equals(juiceProfile.ingredientProportions()),
+                    "Catalog-derived must must retain skins and the same grape identity");
         }
         helper.succeed();
     }

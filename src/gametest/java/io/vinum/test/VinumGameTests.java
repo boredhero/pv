@@ -65,11 +65,11 @@ public final class VinumGameTests {
         GlobalTestReporter.replaceWith(new io.vinum.test.harness.StructuredTestReporter());
     }
 
-    @GameTest(template = "empty", timeoutTicks = 280)
+    @GameTest(template = "empty", timeoutTicks = 1280)
     public static void stillRunsThroughWorldTicker(GameTestHelper helper) {
         StillMasterTileEntity still = assemble(helper, ORIGIN, Direction.NORTH);
         fill(still, Items.COAL);
-        helper.runAfterDelay(241, () -> {
+        helper.runAfterDelay(1201, () -> {
             assertTequilaBottle(helper, still.getItem(3));
             helper.assertTrue(still.getItem(0).isEmpty(), "Distillation must consume one wort");
             helper.assertTrue(still.getItem(1).isEmpty(), "Distillation must consume one bottle");
@@ -78,12 +78,12 @@ public final class VinumGameTests {
     }
 
     @GameTest(template = "empty")
-    public static void stillRequiresExactly240HeatedTicks(GameTestHelper helper) {
+    public static void stillRequiresConfigured1200HeatedTicks(GameTestHelper helper) {
         StillMasterTileEntity still = assemble(helper, ORIGIN, Direction.NORTH);
         fill(still, Items.COAL);
-        tick(helper, still, 239);
-        helper.assertTrue(still.getItem(3).isEmpty(), "Still must not finish before 240 ticks");
-        assertStack(helper, still.getItem(0), ModItems.FERMENTED_AGAVE_WORT.get(), 1);
+        tick(helper, still, 1199);
+        helper.assertTrue(still.getItem(3).isEmpty(), "Still must not finish before 1200 ticks");
+        helper.assertTrue(still.getFluidHandler(null).getFluidInTank(0).getAmount() == 3000, "Wash must remain until the batch finishes");
         tick(helper, still, 1);
         assertTequilaBottle(helper, still.getItem(3));
         helper.assertTrue(still.progressTime == 0, "Completed batch must reset progress");
@@ -97,7 +97,7 @@ public final class VinumGameTests {
         tick(helper, still, 500);
         helper.assertTrue(still.getItem(3).isEmpty(), "Fuel-free still must not produce tequila");
         helper.assertTrue(still.progressTime == 0, "Zero fuel must not advance progress");
-        assertStack(helper, still.getItem(0), ModItems.FERMENTED_AGAVE_WORT.get(), 1);
+        helper.assertTrue(still.getFluidHandler(null).getFluidInTank(0).getAmount() == 3000, "Wash must remain until the batch finishes");
         assertStack(helper, still.getItem(1), ModItems.FIFTH_BOTTLE_EMPTY.get(), 1);
         helper.succeed();
     }
@@ -109,7 +109,7 @@ public final class VinumGameTests {
         still.setItem(3, new ItemStack(Items.DIAMOND, 3));
         tick(helper, still, 300);
         assertStack(helper, still.getItem(3), Items.DIAMOND, 3);
-        assertStack(helper, still.getItem(0), ModItems.FERMENTED_AGAVE_WORT.get(), 1);
+        helper.assertTrue(still.getFluidHandler(null).getFluidInTank(0).getAmount() == 3000, "Wash must remain until the batch finishes");
         assertStack(helper, still.getItem(1), ModItems.FIFTH_BOTTLE_EMPTY.get(), 1);
         assertStack(helper, still.getItem(2), Items.COAL, 1);
         still.setItem(3, ((io.vinum.item.FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get()).filled(
@@ -125,6 +125,7 @@ public final class VinumGameTests {
     public static void invalidWortOrBottleDoesNotConsumeAnything(GameTestHelper helper) {
         StillMasterTileEntity still = assemble(helper, ORIGIN, Direction.NORTH);
         fill(still, Items.COAL);
+        still.getFluidHandler(null).drain(3000, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
         still.setItem(0, new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()));
         tick(helper, still, 300);
         assertStack(helper, still.getItem(0), ModItems.UNFERMENTED_AGAVE_WORT.get(), 1);
@@ -143,7 +144,7 @@ public final class VinumGameTests {
     public static void lavaFuelReturnsBucket(GameTestHelper helper) {
         StillMasterTileEntity still = assemble(helper, ORIGIN, Direction.NORTH);
         fill(still, Items.LAVA_BUCKET);
-        tick(helper, still, 240);
+        tick(helper, still, 1200);
         assertStack(helper, still.getItem(2), Items.BUCKET, 1);
         assertTequilaBottle(helper, still.getItem(3));
         helper.succeed();
@@ -157,14 +158,15 @@ public final class VinumGameTests {
         IItemHandler bottom = helper.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, still.getBlockPos(), Direction.DOWN);
         helper.assertTrue(top != null && side != null && bottom != null, "Still must expose item capabilities on all sides");
         assertStack(helper, top.insertItem(0, new ItemStack(Items.DIRT), false), Items.DIRT, 1);
-        helper.assertTrue(top.insertItem(0, new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get()), false).isEmpty(), "Top accepts wort");
+        helper.assertTrue(top.insertItem(0, ((io.vinum.item.FluidContainerItem)ModItems.JUICE_CARBOY.get()).filled(wash(still, 3000)), false).isEmpty(), "Top accepts a reusable wash carboy");
         helper.assertTrue(top.insertItem(1, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()), false).isEmpty(), "Top accepts bottle");
         helper.assertTrue(side.insertItem(0, new ItemStack(Items.LAVA_BUCKET), false).isEmpty(), "Side accepts fuel");
         helper.assertTrue(top.extractItem(0, 1, false).isEmpty(), "Automation must not steal unprocessed wort");
         helper.assertTrue(side.extractItem(0, 1, false).isEmpty(), "Automation must not steal unused fuel");
-        tick(helper, still, 240);
+        tick(helper, still, 1200);
         assertTequilaBottle(helper, bottom.extractItem(0, 64, false));
         assertStack(helper, bottom.extractItem(1, 64, false), Items.BUCKET, 1);
+        assertStack(helper, bottom.extractItem(2, 64, false), ModItems.JUICE_CARBOY.get(), 1);
         helper.assertTrue(still.isEmpty(), "Automated batch must leave no duplicate items");
         helper.succeed();
     }
@@ -180,7 +182,7 @@ public final class VinumGameTests {
         restored.setLevel(helper.getLevel());
         helper.assertTrue(restored.progressTime == original.progressTime, "Progress must survive save/load");
         helper.assertTrue(restored.fuelTime == original.fuelTime, "Fuel must survive save/load");
-        tick(helper, restored, 123);
+        tick(helper, restored, 1083);
         assertTequilaBottle(helper, restored.getItem(3));
         helper.assertTrue(restored.getItem(0).isEmpty() && restored.getItem(1).isEmpty(), "Restored batch consumes each input once");
         helper.succeed();
@@ -206,7 +208,7 @@ public final class VinumGameTests {
         Block[] raw = {ModBlocks.STEEL_BRAZIER.get(), ModBlocks.STEEL_POT.get(), ModBlocks.STEEL_COIL.get(), ModBlocks.STEEL_POT.get()};
         for (int broken = 0; broken < 4; broken++) {
             StillMasterTileEntity still = assemble(helper, origins[broken], Direction.NORTH);
-            still.setItem(0, new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get(), 3));
+            still.setItem(0, new ItemStack(ModItems.COOKED_AGAVE_PULP.get(), 3));
             still.setItem(1, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()));
             BlockPos[] positions = parts(still.getBlockPos(), Direction.NORTH);
             helper.getLevel().destroyBlock(positions[broken], true);
@@ -216,7 +218,7 @@ public final class VinumGameTests {
             }
             AABB area = new AABB(still.getBlockPos()).inflate(2);
             List<ItemStack> drops = helper.getLevel().getEntitiesOfClass(ItemEntity.class, area).stream().map(ItemEntity::getItem).toList();
-            helper.assertTrue(count(drops, ModItems.FERMENTED_AGAVE_WORT.get()) == 3, "Wort inventory must drop exactly once");
+            helper.assertTrue(count(drops, ModItems.COOKED_AGAVE_PULP.get()) == 3, "Wort inventory must drop exactly once");
             helper.assertTrue(count(drops, ModItems.FIFTH_BOTTLE_EMPTY.get()) == 1, "Bottle inventory must drop exactly once");
             helper.assertTrue(count(drops, raw[broken].asItem()) == 1, "Broken component must drop once");
         }
@@ -507,8 +509,15 @@ public final class VinumGameTests {
         return new BlockPos[]{master, master.above(), output.above(), output};
     }
 
+    private static net.neoforged.neoforge.fluids.FluidStack wash(StillMasterTileEntity still, int amount) {
+        var mosto = io.vinum.production.ProductionInputs.fromItem(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()));
+        var recipe = still.getLevel().getRecipeManager().getAllRecipesFor(io.vinum.production.ProductionRecipes.FERMENTATION_TYPE.get())
+                .stream().map(holder -> holder.value()).filter(candidate -> candidate.matches(mosto)).findFirst().orElseThrow();
+        return io.vinum.production.FermentationEngine.finish(mosto.copyWithAmount(amount), recipe);
+    }
+
     private static void fill(StillMasterTileEntity still, Item fuel) {
-        still.setItem(0, new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get()));
+        still.getFluidHandler(null).fill(wash(still, 3000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
         still.setItem(1, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()));
         still.setItem(2, new ItemStack(fuel));
     }

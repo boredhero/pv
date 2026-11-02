@@ -141,14 +141,14 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
             if (representative.isEmpty() && !part.fluid.isEmpty()) representative = part.fluid;
             if (part.recipe != null) { active = true; percentage = Math.min(percentage, part.getProgress()); }
         }
-        if (active) return Component.translatable("vessel.vinum.fermenting", representative.getHoverName(), totalAmount, getCapacity(), percentage);
+        if (active) return Component.translatable("vessel.vinum.fermenting", WineCatalog.name(representative), totalAmount, getCapacity(), percentage);
         if (contents.isEmpty()) return Component.translatable("vessel.vinum.empty", getBlockState().getBlock().getName(), getCapacity() / 1000, dimensions);
         if (BatchProfile.of(contents).solidsGramsPerLitre() > 0 && BatchProfile.of(contents).history()
                 .contains(ResourceLocation.fromNamespaceAndPath("vinum", "fermentation"))) {
             return Component.translatableWithFallback("vessel.vinum.needs_press", "%s · %s / %s mB · Use a Wine Press to remove skins before bottling",
-                    contents.getHoverName(), contents.getAmount(), getCapacity());
+                    WineCatalog.name(contents), contents.getAmount(), getCapacity());
         }
-        return Component.translatable("vessel.vinum.contents", contents.getHoverName(), contents.getAmount(), getCapacity(), dimensions);
+        return Component.translatable("vessel.vinum.contents", WineCatalog.name(contents), contents.getAmount(), getCapacity(), dimensions);
     }
 
     /** Validate the entire loaded reservoir before freezing any plan. No partial starts. */

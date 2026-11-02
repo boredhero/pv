@@ -82,7 +82,8 @@ public final class StillMultiblock {
                 if (!isLoaded(level, master, facing)) continue;
                 boolean matches = true;
                 for (int part = 1; part <= 4; part++) {
-                    if (!level.getBlockState(position(master, facing, part)).is(rawBlock(part))) {
+                    BlockState raw = level.getBlockState(position(master, facing, part));
+                    if (!raw.is(rawBlock(part)) || !io.vinum.block.SteelPotBlock.isPotEmpty(raw)) {
                         matches = false;
                         break;
                     }

@@ -53,6 +53,8 @@ public final class ModItemGroup {
                                                     GrapeSeedItem.stack(variety.legacyFluid())));
                                     return;
                                   }
+                                  if (item.get() == ModItems.FERMENTED_AGAVE_WORT.get()
+                                      || item.get() == ModItems.BATCH_BUCKET.get()) return;
                                   // Keep legacy registry IDs loadable without presenting eight
                                   // identical barrels.
                                   if (item.get() instanceof FluidContainerItem container

@@ -1,15 +1,19 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:shears"
-    },
-    {
-      "item": "minecraft:spruce_log"
+  "type": "vinum:tool_crafting",
+  "recipe": {
+    "ingredients": [
+      {
+        "item": "minecraft:shears"
+      },
+      {
+        "item": "minecraft:spruce_log"
+      }
+    ],
+    "result": {
+      "id": "vinum:cinnamon",
+      "count": 4
     }
-  ],
-  "result": {
-    "id": "vinum:cinnamon",
-    "count": 4
-  }
+  },
+  "tool_item": "minecraft:shears",
+  "tool_damage": 1
 }

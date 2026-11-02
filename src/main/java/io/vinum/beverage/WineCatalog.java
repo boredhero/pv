@@ -3,7 +3,6 @@ package io.vinum.beverage;
 import io.vinum.fluid.ModFluids;
 import io.vinum.production.BatchProfile;
 import io.vinum.production.ProductionDataComponents;
-import io.vinum.production.ProductionInputs;
 import java.util.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -25,7 +24,7 @@ public final class WineCatalog {
             for (var entry : entries) {
                 var data = entry.getAsJsonObject();
                 register(new Variety(ResourceLocation.parse(data.get("ingredient").getAsString()),
-                        ProductionInputs.id(data.get("id").getAsString()), hex(data, "wine_color"), hex(data, "juice_color"),
+                        ResourceLocation.fromNamespaceAndPath("vinum", data.get("id").getAsString()), hex(data, "wine_color"), hex(data, "juice_color"),
                         hex(data, "must_color"), hex(data, data.has("grape_color") ? "grape_color" : "must_color"), data.get("default_alcohol").getAsDouble()));
             }
         } catch (java.io.IOException e) { throw new ExceptionInInitializerError(e); }

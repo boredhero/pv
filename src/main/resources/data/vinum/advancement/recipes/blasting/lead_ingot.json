@@ -6,7 +6,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:water_bucket"
+            "items": "vinum:block_lead_ore"
           }
         ]
       }
@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "vinum:smelting/sea_salt"
+        "recipe": "vinum:blasting/lead_ingot"
       }
     }
   },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "vinum:smelting/sea_salt"
+      "vinum:blasting/lead_ingot"
     ]
   }
 }

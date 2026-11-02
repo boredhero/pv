@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "vinum:block_refined_sand"
+    },
+    {
+      "item": "vinum:lead_powder"
+    }
+  ],
+  "result": {
+    "id": "vinum:block_leaded_sand",
+    "count": 1
+  }
+}

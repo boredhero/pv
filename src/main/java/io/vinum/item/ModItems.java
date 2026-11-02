@@ -52,7 +52,7 @@ public final class ModItems {
 	public static final DeferredItem<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	//Misc Cocktail Ingredients
 	public static final DeferredItem<Item> ICE_CUBES = ITEMS.register("ice_cubes", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(new Item.Properties().food(Foods.APPLE)));
+	public static final DeferredItem<Item> APPLE_JUICE = ITEMS.register("apple_juice", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).food(new net.minecraft.world.food.FoodProperties.Builder().nutrition(4).saturationModifier(0.3F).usingConvertsTo(Items.GLASS_BOTTLE).build())));
 	public static final DeferredItem<Item> CINNAMON = ITEMS.register("cinnamon", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> SEA_SALT = ITEMS.register("sea_salt", () -> new Item(new Item.Properties()));
 	//ALL DRINKABLE THINGS ARE BELOW

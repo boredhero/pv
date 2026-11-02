@@ -29,6 +29,9 @@ public final class BeverageCatalog {
             new AgingProfile.Stage(() -> 0, "tooltip.vinum.maturation.golden")));
 
     static {
+        // Canonical wine stores its variety/blend in the batch profile. Reusable containers
+        // handle serving volumes themselves, but still need a maturation definition.
+        register(new BeverageDefinition(id("wine"), ModFluids.WINE.source(), WINE_AGING, List.of()));
         register(new BeverageDefinition(id("tequila"), ModFluids.TEQUILA.source(), TEQUILA_AGING, List.of(
                 new Serving(ModItems.FIFTH_BOTTLE_EMPTY, 750, List.of(
                         new Serving.Variant(() -> 0, ModItems.FIFTH_SILVER_TEQUILA),

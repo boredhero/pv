@@ -38,6 +38,17 @@ public abstract class StillPartBlock extends SteelComponentBlock {
     }
 
     @Override
+    protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos,
+            Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hit) {
+        BlockPos masterPos = StillMultiblock.masterPosition(pos, state);
+        if (!StillMultiblock.isComplete(level, masterPos, state.getValue(FACING))) return net.minecraft.world.ItemInteractionResult.FAIL;
+        if (level.getBlockEntity(masterPos) instanceof StillMasterTileEntity master) {
+            return io.vinum.production.ProductionContainers.useItemOn(held, level, player, hand, master.getFluidHandler(hit.getDirection()));
+        }
+        return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         BlockPos masterPos = StillMultiblock.masterPosition(pos, state);
         if (level.getBlockEntity(masterPos) instanceof StillMasterTileEntity master) {

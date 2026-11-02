@@ -202,5 +202,9 @@
   "tooltip.vinum.cork_log": "Use an axe to peel cork without felling the tree.",
   "tooltip.vinum.cork_log_used": "Harvested bark: regrowth deadline is preserved. Reattach to a living tree.",
   "block.vinum.grape_trellis": "Grape Trellis",
-  "item.vinum.grape_trellis": "Grape Trellis"
+  "item.vinum.grape_trellis": "Grape Trellis",
+  "message.vinum.salt_needs_heat": "Put a dry steel pot above a lit brazier or campfire to evaporate water.",
+  "message.vinum.salt_busy": "This pot already holds water or salt. Use an empty hand to check or collect it.",
+  "message.vinum.salt_evaporating": "Water is evaporating. Keep the heat lit; use an empty hand to collect the salt when ready.",
+  "message.vinum.salt_collected": "Salt collected. The pot is ready for more water."
 }

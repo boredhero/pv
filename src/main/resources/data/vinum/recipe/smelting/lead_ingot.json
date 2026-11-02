@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "vinum:block_lead_ore"
+  },
+  "result": {
+    "id": "vinum:lead_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

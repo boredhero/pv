@@ -169,9 +169,9 @@ offered in the creative tab.
 ABV and ingredient proportions use fractions. Volume stays on `FluidStack`, so
 copying a smaller amount cannot duplicate an entire batch's sugar or alcohol.
 Yeast identity and a bounded processing history travel through buckets, bottles,
-barrels, and distillation. Different component profiles are conservatively kept
-separate by storage; `BatchProfile.blend` provides explicit volume-weighted blending
-for future blend operations. Fermentation progress lives on the vessel, separate
+barrels, and distillation. Finished wines support volume-weighted blending;
+other component profiles are conservatively kept separate by storage. Different
+unfermented juice fluids cannot yet co-ferment. Fermentation progress lives on the vessel, separate
 from the barrel's maturation age. Active recipe plans persist across save/reload.
 
 `ProductionInputs.register(itemId, fluidId, defaultProfile)` adds a prepared input
@@ -192,7 +192,8 @@ recipes in `data/<namespace>/recipe/`; for example:
 ```
 
 `FermentationEngine` handles sugar conversion; `MashingRecipe`/`MashingEngine`
-provide heat-gated starch conversion; `DistillationRecipe` declares wash, output
+provide heat-gated starch conversion infrastructure with no playable machine or
+shipped mashing recipes; `DistillationRecipe` declares wash, output
 fluid/item, strength, volume, and processing duration. Distillation rounds input
 volume up to conserve alcohol. A future whisky module can register grain inputs,
 mashing recipes, wash, and spirit outputs without changing fermenter storage.
@@ -320,14 +321,18 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    The still assembles automatically when the last component is placed.
 3. Craft cooked agave pulp with a water bucket to make unfermented wort. Pour it
    into a carboy or vat, optionally add wine yeast, and sneak-right-click with an
-   empty hand to start. Draw the finished wash with ordinary empty buckets.
-4. Open the still and put each wash bucket into its upper-left input slot, removing
-   the returned empty bucket between pours. Add an empty fifth bottle and fuel.
+   empty hand to start. Draw the finished wash into a reusable carboy or ordinary
+   empty buckets.
+4. Open the still and put the wash container into its upper-left input slot,
+   removing the returned empty container between pours. A partially emptied
+   carboy retains its remaining wash. You can also sneak-use a filled carboy on
+   the assembled still to pour directly. Add an empty fifth bottle and fuel.
    Its 16 L wash buffer also accepts fluid pipes. **3 L of 10% wash produces a
    750 mL bottle at 40% ABV**, taking 1,200 heated ticks (60 seconds). Remaining
    stillage is discarded; evaporation and distillation cuts are not simulated.
-   Existing fermented-wort items remain accepted through a 240-tick legacy path,
-   but the instant barrel-crafting fermentation recipe has been removed.
+   The obsolete fermented-wort item bypass is removed: every batch uses the
+   actual fermented fluid and recipe duration. An incomplete or unloaded still
+   pauses processing without consuming heat or wash.
 5. Age tequila in a barrel to obtain reposado, añejo, and extra añejo. Open a pack
    to receive eight reusable shot glasses. A shot holds 50 mB: draw from a barrel,
    or hold a bottle in the offhand and use the shot glass in the main hand. Craft
@@ -335,6 +340,24 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    ice, a margarita glass, and a reusable shaker. The two empty shot glasses and
    shaker return as crafting remainders. Empty glasses or water do not satisfy
    the tequila requirement.
+
+For salt, place a standalone dry **Steel Pot** above a lit campfire or steel
+brazier. Use a water bucket on the pot: the bucket returns immediately. After
+100 heated ticks (five seconds), use an empty hand to collect the salt. Losing
+heat pauses evaporation. Collect the contents before using that pot in a still.
+Cinnamon crafting returns the same shears with one durability use; apple juice
+returns its glass bottle when drunk or used in crafting.
+
+The special glass chain is also obtainable: wash sand with a water bucket to
+make refined sand (returning the bucket), then mix in iron powder for ferrous sand
+or lead powder for leaded sand. Smelt those into dark wine glass or fine crystal
+glass respectively. An iron nugget makes one iron powder; a lead ingot makes nine
+lead powder. Lead ore smelts or blasts into ingots; nine ingots pack into a
+reversible lead block. These preparation recipes abstract the real processing.
+
+The [production architecture audit](docs/production-audit.md) records the complete
+wine/tequila paths, repaired gaps, and unfinished mechanics such as cork sealing,
+pre-fermentation blending, and a playable mash tun.
 
 The still supports hoppers and NeoForge item handlers: inputs from above, fuel
 from the sides, and finished bottles/spent fuel containers from below. Breaking

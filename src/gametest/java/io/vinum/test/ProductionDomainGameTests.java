@@ -27,7 +27,7 @@ public final class ProductionDomainGameTests {
         var unknown = ProductionInputs.id("missing_output");
         var inputId = ProductionInputs.id("agave_wash");
         var validFluid = ProductionInputs.id("tequila");
-        var validItem = ProductionInputs.id("fifth_silver_tequila");
+        var validItem = ProductionInputs.id("fifth_bottle_empty");
         var air = net.minecraft.resources.ResourceLocation.withDefaultNamespace("air");
         FluidStack input = profile(200, 100, 40).withAlcoholFraction(0.1).applyTo(fluid("agave_wash", 3000));
         FluidStack original = input.copy();

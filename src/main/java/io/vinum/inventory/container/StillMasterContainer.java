@@ -53,7 +53,7 @@ public class StillMasterContainer extends AbstractContainerMenu {
         addSlot(new Slot(inventory, index, x, y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return StillMasterTileEntity.isValidInput(index, stack);
+                return inventory instanceof StillMasterTileEntity ? inventory.canPlaceItem(index, stack) : StillMasterTileEntity.isValidInput(index, stack);
             }
         });
     }
@@ -87,7 +87,7 @@ public class StillMasterContainer extends AbstractContainerMenu {
         } else {
             int machineSlot = -1;
             for (int candidate = 0; candidate < 3; candidate++) {
-                if (StillMasterTileEntity.isValidInput(candidate, stack)) {
+                if (slots.get(candidate).mayPlace(stack)) {
                     machineSlot = candidate;
                     break;
                 }

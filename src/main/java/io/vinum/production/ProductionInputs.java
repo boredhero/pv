@@ -15,13 +15,18 @@ public final class ProductionInputs {
     private static final Map<ResourceLocation, ResourceLocation> ITEMS = new LinkedHashMap<>();
     private static final Map<ResourceLocation, BatchProfile> PROFILES = new LinkedHashMap<>();
     static {
-        for (String variety : List.of("chardonnay", "sauvignon_blanc", "cabernet_sauvignon", "merlot", "pinot_noir", "zinfandel")) {
-            register(id("grape_juice_" + variety), id("juice_" + variety), profile(id("grapes_" + variety), 200, 0));
-            register(id("grape_must_" + variety), id("must_" + variety), profile(id("grapes_" + variety), 200, 100));
+        // One variety catalog owns ingredient identity; defaults must not silently omit new varieties.
+        for (var variety : io.vinum.beverage.WineCatalog.varieties()) {
+            ResourceLocation key = variety.legacyFluid();
+            register(related(key, "grape_juice_"), related(key, "juice_"), profile(variety.ingredient(), 200, 0));
+            register(related(key, "grape_must_"), related(key, "must_"), profile(variety.ingredient(), 200, 100));
         }
         register(id("unfermented_agave_wort"), id("agave_mosto"), profile(id("agave"), 500.0 / 3, 0));
     }
     private ProductionInputs() {}
+    private static ResourceLocation related(ResourceLocation variety, String prefix) {
+        return ResourceLocation.fromNamespaceAndPath(variety.getNamespace(), prefix + variety.getPath());
+    }
     public static ResourceLocation id(String path) { return ResourceLocation.fromNamespaceAndPath("vinum", path); }
     private static BatchProfile profile(ResourceLocation ingredient, double sugar, double solids) {
         return new BatchProfile(sugar, 0, solids, 0, Map.of(ingredient, 1.0), Optional.empty(), List.of());

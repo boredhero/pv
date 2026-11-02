@@ -54,6 +54,10 @@ def main():
     recipes = 0
     translations = documents.get("assets/vinum/lang/en_us.json", {})
     for source, doc in documents.items():
+        if "/recipe/" in source and doc.get("type") == "vinum:tool_crafting":
+            if not isinstance(doc.get("tool_damage", 1), int) or not 1 <= doc.get("tool_damage", 1) <= 1024:
+                errors.append(f"{source}: tool crafting requires bounded positive wear")
+            doc = dict(doc.get("recipe", {}), type="minecraft:crafting_shapeless")
         if "/recipe/" in source and doc.get("type") == "vinum:fluid_crafting":
             if not isinstance(doc.get("amount"), int) or not 1 <= doc["amount"] <= 16000:
                 errors.append(f"{source}: fluid crafting requires a positive bounded volume")

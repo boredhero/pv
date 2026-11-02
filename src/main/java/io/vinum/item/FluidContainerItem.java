@@ -118,7 +118,8 @@ public class FluidContainerItem extends Item {
         @Override public FluidStack getFluidInTank(int tank) { return tank == 0 ? contents(stack) : FluidStack.EMPTY; }
         @Override public int getTankCapacity(int tank) { return tank == 0 ? capacity : 0; }
         @Override public boolean isFluidValid(int tank, FluidStack fluid) {
-            return tank == 0 && !fluid.isEmpty() && WineCatalog.normalize(fluid).is(CONTENTS);
+            return tank == 0 && !fluid.isEmpty() && WineCatalog.normalize(fluid).is(CONTENTS)
+                    && (!drinking || BatchProfile.of(fluid).solidsGramsPerLitre() <= 0);
         }
         private void write(FluidStack fluid) {
             if (canonicalItem != null) {
