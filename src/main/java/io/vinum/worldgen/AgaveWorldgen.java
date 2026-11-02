@@ -13,6 +13,7 @@ public final class AgaveWorldgen {
 
   static {
     FEATURES.register("mature_agave", MatureAgaveFeature::new);
+    FEATURES.register("agave_colony", AgaveColonyFeature::new);
   }
 
   private AgaveWorldgen() {}

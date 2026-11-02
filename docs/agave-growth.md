@@ -8,9 +8,23 @@ Stages 0–3 fit in one block. Later stages expand into a bounded set of leaf ce
 the mature rosette spans a 3×3 footprint and three blocks of height. Its eighteen
 occupied cells leave empty corners available rather than reserving an invisible
 solid 3×3×3 cube. Plant centers should be at least three blocks apart, with room
-above them. Wild plants generate fully mature at stage 7 with their complete leaf structure.
-Player-planted seeds still begin at stage 0. Generation rejects an obstructed
-footprint without replacing blocks or leaving a partial plant.
+above them. Wild colonies have a fully mature stage-7 center, partly grown plants
+nearby, and young pups around their outer edges. Player-planted seeds still begin
+at stage 0. Each plant's full footprint is checked before placement; obstructions
+are never replaced and no partial rosettes are left behind.
+
+Wild colonies have a 1-in-16 placement chance per eligible desert/badlands chunk.
+Each colony attempts five plants: the mature center (stage 7), two intermediate
+plants (stages 3–6) three blocks out, and two small outer pups (stages 0–2) five
+blocks out. Positions are randomized around the center, with at least three
+blocks between plant centers and clearance for their eventual mature forms.
+Terrain and obstructions can reduce the final count.
+The rarity is datapack-driven in `placed_feature/patch_agave.json`; existing
+chunks are unchanged. Clustering is inspired by the vegetative offsets described
+by the [Arizona-Sonora Desert Museum](https://desertmuseum.org/books/nhsd_agave.php).
+The exact frequency and age distribution are gameplay choices rather than
+botanical density estimates. Younger wild plants continue growing normally.
+
 The heart and leaves have collision following their growth-stage geometry;
 empty corners remain passable. Cutting a leaf immediately clears its collision,
 while the exposed piña stays solid until harvested.

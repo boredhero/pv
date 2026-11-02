@@ -21,7 +21,7 @@ public final class MatureAgaveFeature extends Feature<NoneFeatureConfiguration> 
     super(NoneFeatureConfiguration.CODEC);
   }
 
-  private static boolean available(WorldGenLevel level, BlockPos pos) {
+  static boolean available(WorldGenLevel level, BlockPos pos) {
     return !level.isOutsideBuildHeight(pos)
         && level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()),
             SectionPos.blockToSectionCoord(pos.getZ()))
@@ -34,16 +34,18 @@ public final class MatureAgaveFeature extends Feature<NoneFeatureConfiguration> 
 
   @Override
   public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-    var level = context.level();
-    BlockPos root = context.origin();
-    var mature = ModBlocks.CROP_AGAVE.get().getStateForAge(7)
+    return placePlant(context.level(), context.origin(), 7);
+  }
+
+  static boolean placePlant(WorldGenLevel level, BlockPos root, int age) {
+    var mature = ModBlocks.CROP_AGAVE.get().getStateForAge(age)
         .setValue(AgaveCropBlock.STRIPPED, false);
     if (!available(level, root.below())) return false;
     // Feature generation precedes lighting: CropBlock.canSurvive would consult uninitialized light.
     // Wild plants require the same sand/farmland substrate, without a runtime light check here.
     var soil = level.getBlockState(root.below());
     if (!soil.is(BlockTags.SAND) && !soil.is(Blocks.FARMLAND)) return false;
-    var cells = AgaveGeometry.cells(7);
+    var cells = AgaveGeometry.cells(age);
     for (BlockPos offset : cells) {
       BlockPos target = root.offset(offset);
       if (!available(level, target) || !level.getBlockState(target).isAir()) return false;
@@ -56,7 +58,7 @@ public final class MatureAgaveFeature extends Feature<NoneFeatureConfiguration> 
           .setValue(AgaveLeafBlock.X, offset.getX() + 1)
           .setValue(AgaveLeafBlock.Y, offset.getY())
           .setValue(AgaveLeafBlock.Z, offset.getZ() + 1)
-          .setValue(AgaveCropBlock.AGE, 7), Block.UPDATE_CLIENTS);
+          .setValue(AgaveCropBlock.AGE, age), Block.UPDATE_CLIENTS);
     }
     return true;
   }

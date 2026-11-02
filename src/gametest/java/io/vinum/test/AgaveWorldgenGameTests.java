@@ -82,4 +82,60 @@ public final class AgaveWorldgenGameTests {
     h.assertTrue(h.getLevel().getBlockState(root).isAir(), "Invalid soil leaves no root");
     h.succeed();
   }
+  @GameTest(template = "barrel_space")
+  public static void wildColonyHasMatureCenterAndYoungerSpacedOffsets(GameTestHelper h) {
+    BlockPos center = h.absolutePos(new BlockPos(7, 1, 7));
+    // Biome zoom can sample quart cells below/outside the structure at its floor.
+    // Fill a padded volume so this surface test is independent of the world's random test origin.
+    var biomeFill = net.minecraft.server.commands.FillBiomeCommand.fill(h.getLevel(),
+        center.offset(-10, -8, -10), center.offset(10, 10, 10),
+        h.getLevel().registryAccess().registryOrThrow(Registries.BIOME)
+            .getHolderOrThrow(net.minecraft.world.level.biome.Biomes.DESERT));
+    h.assertTrue(biomeFill.left().isPresent(), "Padded desert fixture must initialize");
+    // Remove the GameTest protective ceiling too: heightmap placement needs actual open sky.
+    for (BlockPos pos : BlockPos.betweenClosed(center.offset(-6, 0, -6), center.offset(6, 16, 6)))
+      h.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+    for (BlockPos pos : BlockPos.betweenClosed(center.offset(-6, -1, -6), center.offset(6, -1, 6)))
+      h.getLevel().setBlock(pos, Blocks.SAND.defaultBlockState(), Block.UPDATE_CLIENTS);
+    var colony = h.getLevel().registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE)
+        .get(ResourceLocation.fromNamespaceAndPath("vinum", "patch_agave"));
+    h.assertTrue(colony.place(h.getLevel(), h.getLevel().getChunkSource().getGenerator(),
+        net.minecraft.util.RandomSource.create(42), center), "Desert sand permits a colony; biome=" + h.getLevel().getBiome(center).unwrapKey()
+        + ", soil=" + h.getLevel().getBlockState(center.below()) + ", root=" + h.getLevel().getBlockState(center));
+    java.util.List<BlockPos> roots = new java.util.ArrayList<>();
+    int middle = 0, outer = 0;
+    for (BlockPos pos : BlockPos.betweenClosed(center.offset(-5, 0, -5), center.offset(5, 0, 5))) {
+      var state = h.getLevel().getBlockState(pos);
+      if (!state.is(ModBlocks.CROP_AGAVE.get())) continue;
+      roots.add(pos.immutable());
+      int distance = Math.max(Math.abs(pos.getX() - center.getX()), Math.abs(pos.getZ() - center.getZ()));
+      int age = state.getValue(AgaveCropBlock.AGE);
+      if (distance == 0) h.assertTrue(age == 7, "Colony mother is fully mature");
+      else if (distance == 3) {
+        h.assertTrue(age >= 3 && age <= 6, "Inner offsets are partly grown");
+        middle++;
+      } else {
+        h.assertTrue(distance == 5 && age <= 2, "Outer offsets are seedlings");
+        outer++;
+      }
+    }
+    h.assertTrue(roots.size() == 5 && middle == 2 && outer == 2, "Clear terrain supports five age-graded plants: roots=" + roots + ", middle=" + middle + ", outer=" + outer
+        + ", sample surface=" + h.getLevel().getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, center.east(3))
+        + ", center=" + center);
+    for (BlockPos a : roots) for (BlockPos b : roots)
+      if (!a.equals(b)) h.assertTrue(Math.max(Math.abs(a.getX() - b.getX()),
+          Math.abs(a.getZ() - b.getZ())) >= 3, "Offsets have space to mature");
+    // Reject an obstructed mother before placing any of its surrounding offspring.
+    for (BlockPos pos : BlockPos.betweenClosed(center.offset(-6, 0, -6), center.offset(6, 16, 6)))
+      h.getLevel().setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+    h.getLevel().setBlock(center, Blocks.STONE.defaultBlockState(), Block.UPDATE_CLIENTS);
+    h.assertTrue(!colony.place(h.getLevel(), h.getLevel().getChunkSource().getGenerator(),
+        net.minecraft.util.RandomSource.create(42), center), "Obstructed mother rejects the colony");
+    h.assertTrue(h.getLevel().getBlockState(center).is(Blocks.STONE), "Colony preserves existing blocks");
+    for (BlockPos pos : BlockPos.betweenClosed(center.offset(-6, 0, -6), center.offset(6, 3, 6)))
+      if (!pos.equals(center)) h.assertTrue(h.getLevel().getBlockState(pos).isAir(),
+          "Rejected colony leaves no partial offspring");
+    h.succeed();
+  }
+
 }

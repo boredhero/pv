@@ -2,8 +2,8 @@
   "feature": "vinum:patch_agave",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 1
+      "type": "minecraft:rarity_filter",
+      "chance": 16
     },
     {
       "type": "minecraft:in_square"
