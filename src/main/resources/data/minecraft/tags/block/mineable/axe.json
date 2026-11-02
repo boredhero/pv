@@ -17,6 +17,17 @@
     "vinum:crop_grape_pinot_noir",
     "vinum:crop_grape_chardonnay",
     "vinum:crop_grape_merlot",
-    "vinum:crop_grape_sauvignon_blanc"
+    "vinum:crop_grape_sauvignon_blanc",
+    "vinum:cork_oak_planks",
+    "vinum:cork_oak_stairs",
+    "vinum:cork_oak_slab",
+    "vinum:cork_oak_fence",
+    "vinum:cork_oak_fence_gate",
+    "vinum:cork_oak_door",
+    "vinum:cork_oak_trapdoor",
+    "vinum:cork_oak_button",
+    "vinum:cork_oak_pressure_plate",
+    "vinum:strainer",
+    "vinum:wine_shelf"
   ]
 }

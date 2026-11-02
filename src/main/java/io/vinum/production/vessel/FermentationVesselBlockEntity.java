@@ -39,6 +39,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     private int height = 1;
     private int progress;
     private boolean starter;
+    private boolean airlock;
     private FermentationRecipe recipe;
     private final IFluidHandler handler = new Handler();
 
@@ -59,6 +60,13 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     public FluidStack getLocalFluid() { return fluid.copy(); }
     public FluidStack getFluid() { return handler.getFluidInTank(0); }
     public IFluidHandler getFluidHandler(@Nullable Direction side) { return handler; }
+    public boolean hasAirlock() { return airlock; }
+    public boolean installAirlock() {
+        if (isVat() || airlock || level == null || level.isClientSide) return false;
+        airlock = true;
+        changed();
+        return true;
+    }
     public boolean isFermenting() { return recipe != null; }
     public int getProgress() { return recipe == null ? 0 : (int) Math.min(100L, progress * 100L / recipe.durationTicks()); }
 
@@ -109,25 +117,6 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         return true;
     }
 
-    /** Press all local escrows together; skins are abstracted away without losing liquid or alcohol. */
-    public boolean press() {
-        if (level == null || level.isClientSide) return false;
-        var parts = members();
-        FluidStack sample = getFluid();
-        if (parts == null || sample.isEmpty() || parts.stream().anyMatch(part -> part.recipe != null)) return false;
-        BatchProfile profile = BatchProfile.of(sample);
-        if (profile.solidsGramsPerLitre() <= 0 || !profile.history().contains(ResourceLocation.fromNamespaceAndPath("vinum", "fermentation"))) return false;
-        BatchProfile pressed = new BatchProfile(profile.sugarGramsPerLitre(), profile.starchGramsPerLitre(), 0,
-                profile.alcoholFraction(), profile.ingredientProportions(), profile.yeast(), profile.history())
-                .addHistory(ResourceLocation.fromNamespaceAndPath("vinum", "pressing"));
-        for (var part : parts) {
-            if (part.fluid.isEmpty()) continue;
-            part.fluid = pressed.applyTo(part.fluid);
-            part.changed();
-        }
-        return true;
-    }
-
     public Component getStatusMessage() {
         if (members() == null) return Component.translatable("vessel.vinum.unavailable");
         FluidStack contents = getFluid();
@@ -145,7 +134,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         if (contents.isEmpty()) return Component.translatable("vessel.vinum.empty", getBlockState().getBlock().getName(), getCapacity() / 1000, dimensions);
         if (BatchProfile.of(contents).solidsGramsPerLitre() > 0 && BatchProfile.of(contents).history()
                 .contains(ResourceLocation.fromNamespaceAndPath("vinum", "fermentation"))) {
-            return Component.translatableWithFallback("vessel.vinum.needs_press", "%s · %s / %s mB · Use a Wine Press to remove skins before bottling",
+            return Component.translatable("vessel.vinum.needs_strainer",
                     WineCatalog.name(contents), contents.getAmount(), getCapacity());
         }
         return Component.translatable("vessel.vinum.contents", WineCatalog.name(contents), contents.getAmount(), getCapacity(), dimensions);
@@ -153,7 +142,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
 
     /** Validate the entire loaded reservoir before freezing any plan. No partial starts. */
     public boolean startFermentation() {
-        if (level == null || level.isClientSide) return false;
+        if (level == null || level.isClientSide || !isVat() && !airlock) return false;
         var parts = members();
         FluidStack sample = getFluid();
         if (parts == null || sample.isEmpty() || parts.stream().anyMatch(part -> part.recipe != null)) return false;
@@ -203,6 +192,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         tag.putInt("StructureHeight", height);
         tag.putInt("FermentationProgress", progress);
         tag.putBoolean("Starter", starter);
+        tag.putBoolean("Airlock", airlock);
         if (recipe != null) FermentationRecipe.CODEC.codec().encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), recipe)
                 .result().ifPresent(encoded -> tag.put("FermentationPlan", encoded));
     }
@@ -219,15 +209,28 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
                 .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.get("FermentationPlan")).result().orElse(null) : null;
         progress = recipe == null ? 0 : Math.clamp(tag.getInt("FermentationProgress"), 0, recipe.durationTicks());
         starter = tag.getBoolean("Starter");
+        airlock = tag.getBoolean("Airlock");
     }
 
     @Override public void saveToItem(ItemStack stack, HolderLookup.Provider registries) {
-        if (fluid.isEmpty()) { stack.remove(DataComponents.BLOCK_ENTITY_DATA); return; }
+        if (!isVat()) stack.set(io.vinum.barrel.ModDataComponents.CONTAINED_FLUID.get(),
+                net.neoforged.neoforge.fluids.SimpleFluidContent.copyOf(fluid));
+        if (fluid.isEmpty() && !airlock) { stack.remove(DataComponents.BLOCK_ENTITY_DATA); return; }
         CompoundTag tag = saveCustomOnly(registries);
         tag.remove("StructureOrigin");
         tag.remove("StructureSize");
         tag.remove("StructureHeight");
         BlockItem.setBlockEntityData(stack, getType(), tag);
+    }
+    /** Portable contents are authoritative; the saved plan survives only untouched pick-up/place cycles. */
+    public void restoreCarboyItem(ItemStack stack) {
+        if (isVat() || level == null || !(stack.getItem() instanceof CarboyItem item)) return;
+        CompoundTag tag = stack.has(DataComponents.BLOCK_ENTITY_DATA)
+                ? stack.get(DataComponents.BLOCK_ENTITY_DATA).copyTag() : new CompoundTag();
+        tag.put("Fluid", item.contents(stack).saveOptional(level.registryAccess()));
+        loadAdditional(tag, level.registryAccess());
+        setStructure(worldPosition, 1);
+        setChanged();
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveCustomOnly(registries); }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }

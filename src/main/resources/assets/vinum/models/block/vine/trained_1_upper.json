@@ -1,11 +1,13 @@
 {
   "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
   "textures": {
     "wood": "minecraft:block/oak_log",
     "stem": "minecraft:block/stripped_oak_log",
     "wire": "minecraft:block/gray_concrete",
-    "leaf": "minecraft:block/white_concrete",
-    "berry": "minecraft:block/white_concrete",
+    "leaf": "vinum:block/vine/grape_leaf",
+    "twig": "minecraft:block/white_concrete",
+    "berry": "vinum:block/vine/grape_berry",
     "particle": "minecraft:block/oak_log"
   },
   "elements": []

@@ -22,6 +22,7 @@ public final class ScenarioLibraryGameTests {
                 .place(pos, ModBlocks.CARBOY.get())
                 .equip(new ItemStack(ModItems.GRAPE_JUICE_CHARDONNAY.get())).sneakUse(pos)
                 .expectFluid(pos, ProductionInputs.id("juice_chardonnay"), 1000)
+                .equip(new ItemStack(ModItems.AIRLOCK.get())).use(pos)
                 .sneakUseEmptyHand(pos)
                 .step("accelerate the fixture's frozen plan", scene -> {
                     var vessel = scene.vessel(pos);
@@ -32,6 +33,7 @@ public final class ScenarioLibraryGameTests {
                     vessel.loadWithComponents(saved, helper.getLevel().registryAccess());
                 })
                 .await("fermentation finishes", scene -> helper.assertTrue(!scene.vessel(pos).isFermenting(), "Still fermenting"))
+                .step("supply a bottling cork", scene -> scene.actor().getInventory().setItem(9, new ItemStack(ModItems.WINE_CORK.get())))
                 .equip(new ItemStack(ModItems.WINE_BOTTLE_EMPTY.get())).use(pos)
                 .expectHeld(ModItems.WINE_BOTTLE_EMPTY.get(), 1)
                 .expectFluid(pos, ProductionInputs.id("wine"), 250)

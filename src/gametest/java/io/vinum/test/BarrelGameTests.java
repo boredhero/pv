@@ -382,6 +382,7 @@ public final class BarrelGameTests {
         placeCube(helper, 1, Direction.NORTH);
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.getInventory().setItem(9, new ItemStack(ModItems.WINE_CORK.get()));
         tank.fill(new FluidStack(ModFluids.CHARDONNAY.source().get(), 1_000), IFluidHandler.FluidAction.EXECUTE);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.WINE_BOTTLE_EMPTY.get()));
         bottle(helper, player, tank);
@@ -624,6 +625,7 @@ public final class BarrelGameTests {
         placeCube(helper, 1, Direction.NORTH);
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.getInventory().setItem(9, new ItemStack(ModItems.WINE_CORK.get()));
         Fluid[] fluids = {ModFluids.TEQUILA.source().get(), ModFluids.CHARDONNAY.source().get(), ModFluids.CHARDONNAY.source().get(), Fluids.WATER};
         Item[] empty = {ModItems.FIFTH_BOTTLE_EMPTY.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.BUCKET};
         Item[] filled = {ModItems.FIFTH_BOTTLE_EMPTY.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.WATER_BUCKET};

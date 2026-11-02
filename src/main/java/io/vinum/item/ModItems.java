@@ -35,7 +35,9 @@ public final class ModItems {
 	public static final DeferredItem<Item> AGAVE = ITEMS.register("agave", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> COOKED_AGAVE_PULP = ITEMS.register("cooked_agave_pulp", () -> new Item(new Item.Properties().food(Foods.DRIED_KELP)));
 	//Glassware and glass crafting
-	public static final DeferredItem<Item> JUICE_CARBOY = ITEMS.register("juice_carboy", () -> new FluidContainerItem(new Item.Properties(), io.vinum.production.vessel.FermentationVesselBlockEntity.CARBOY_CAPACITY, false));
+	public static final DeferredItem<io.vinum.production.vessel.CarboyItem> CARBOY = ITEMS.register("carboy", () -> new io.vinum.production.vessel.CarboyItem(ModBlocks.CARBOY.get(), new Item.Properties()));
+    /** Java alias for callers that used the old portable container; only vinum:carboy is registered. */
+    public static final DeferredItem<io.vinum.production.vessel.CarboyItem> JUICE_CARBOY = CARBOY;
 	public static final DeferredItem<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> FIFTH_BOTTLE_EMPTY = ITEMS.register("fifth_bottle_empty", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> SHOT_GLASS = ITEMS.register("shot_glass", () -> new FluidContainerItem(new Item.Properties(), 50, true));
@@ -48,6 +50,7 @@ public final class ModItems {
 	//Items used in crafting that must not break when used.
 	public static final DeferredItem<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<Item> COA = ITEMS.register("coa", () -> new CoaItem(new Item.Properties()));
+	public static final DeferredItem<Item> AIRLOCK = ITEMS.register("airlock", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new IcePickItem(new Item.Properties()));
 	public static final DeferredItem<Item> COCKTAIL_SHAKER = ITEMS.register("cocktail_shaker", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
@@ -125,7 +128,6 @@ public final class ModItems {
 
 	// Production containers and vessels share generic batch metadata.
 	public static final DeferredItem<Item> BATCH_BUCKET = ITEMS.register("batch_bucket", () -> new ProductionContainerItem(new Item.Properties().stacksTo(1)));
-	public static final DeferredItem<VesselBlockItem> CARBOY = ITEMS.register("carboy", () -> new VesselBlockItem(ModBlocks.CARBOY.get(), new Item.Properties()));
 	public static final DeferredItem<VesselBlockItem> FERMENTATION_VAT = ITEMS.register("fermentation_vat", () -> new VesselBlockItem(ModBlocks.FERMENTATION_VAT.get(), new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_MUST_CHARDONNAY = ITEMS.register("grape_must_chardonnay", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_MUST_SAUVIGNON_BLANC = ITEMS.register("grape_must_sauvignon_blanc", () -> new Item(new Item.Properties()));

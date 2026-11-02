@@ -49,11 +49,14 @@ public class FluidContainerItem extends Item {
         if (stack.has(ModDataComponents.FLUID_AGE.get())) fluid = BarrelFluidData.withAge(fluid, stack.get(ModDataComponents.FLUID_AGE.get()));
         return WineCatalog.normalize(fluid);
     }
+    protected void contentsChanged(ItemStack stack) {}
     public Handler handler(ItemStack stack) { return new Handler(stack); }
     public ItemStack filled(FluidStack fluid) {
         ItemStack stack = new ItemStack(canonicalItem == null ? this : canonicalItem.get());
         if (fluid.getAmount() > capacity) throw new IllegalArgumentException("Container overflow");
         stack.set(ModDataComponents.CONTAINED_FLUID.get(), SimpleFluidContent.copyOf(WineCatalog.normalize(fluid)));
+        if (io.vinum.beverage.BottleCorks.isBottle(stack) && WineCatalog.isWine(fluid))
+            stack.set(ModDataComponents.BOTTLE_CORK.get(), true);
         return stack;
     }
     @Override public Component getName(ItemStack stack) {
@@ -67,6 +70,9 @@ public class FluidContainerItem extends Item {
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         FluidStack fluid = contents(stack);
         tooltip.add(Component.translatable("tooltip.vinum.container_capacity", fluid.getAmount(), capacity).withStyle(ChatFormatting.GRAY));
+        if (io.vinum.beverage.BottleCorks.isBottle(stack))
+            tooltip.add(Component.translatable(io.vinum.beverage.BottleCorks.hasCork(stack)
+                    ? "tooltip.vinum.cork_supplied" : "tooltip.vinum.cork_required").withStyle(ChatFormatting.GRAY));
         if (fluid.isEmpty()) return;
         io.vinum.barrel.BeverageCatalog.lookupFluid(fluid.getFluid()).ifPresent(beverage -> {
             long age=BarrelFluidData.getAge(fluid);
@@ -128,9 +134,12 @@ public class FluidContainerItem extends Item {
             }
             stack.set(ModDataComponents.CONTAINED_FLUID.get(), SimpleFluidContent.copyOf(fluid));
             stack.remove(ModDataComponents.FLUID_AGE.get());
+            if (fluid.isEmpty()) stack.remove(ModDataComponents.BOTTLE_CORK.get());
+            if (stack.getItem() instanceof FluidContainerItem item) item.contentsChanged(stack);
         }
         @Override public int fill(FluidStack resource, FluidAction action) {
             if (stack.getCount() != 1 || !isFluidValid(0, resource)) return 0;
+            if (io.vinum.beverage.BottleCorks.requiresCork(stack, resource)) return 0;
             FluidStack current = contents(stack);
             if (!FluidBlending.canBlend(current, resource)) return 0;
             int accepted = Math.min(resource.getAmount(), capacity - current.getAmount());

@@ -106,4 +106,17 @@ public final class CorkLogBlock extends RotatedPillarBlock implements EntityBloc
           bark.saveToItem(stack, params.getLevel().registryAccess());
     return drops;
   }
+
+  @Override
+  public ItemStack getCloneItemStack(
+      BlockState state,
+      net.minecraft.world.phys.HitResult target,
+      LevelReader level,
+      BlockPos pos,
+      Player player) {
+    ItemStack stack = new ItemStack(CorkOakContent.LOG_ITEM.get());
+    if (level.getBlockEntity(pos) instanceof CorkLogBlockEntity bark)
+      bark.saveToItem(stack, level.registryAccess());
+    return stack;
+  }
 }

@@ -44,6 +44,7 @@ public final class FermentationVesselGameTests {
         helper.startSequence().thenIdle(21).thenExecute(() -> {
             helper.assertTrue(!carboy.isFermenting(), "Filled vessels wait for explicit start so players can finish loading");
             helper.assertTrue(tank.fill(juice, EXECUTE) == 1000, "A ready carboy remains fillable after a second");
+            helper.assertTrue(carboy.installAirlock(), "Fit airlock before fermentation");
             helper.assertTrue(carboy.startFermentation(), "Explicit start freezes the ready batch with spontaneous yeast");
             helper.assertTrue(!carboy.startFermentation() && tank.fill(juice, EXECUTE) == 0, "An active batch cannot start twice or accept new liquid");
         }).thenSucceed();
@@ -89,6 +90,7 @@ public final class FermentationVesselGameTests {
         BlockPos pos = helper.absolutePos(ORIGIN);
         helper.getLevel().setBlock(pos, ModBlocks.CARBOY.get().defaultBlockState(), Block.UPDATE_CLIENTS);
         var vessel = vessel(helper, pos);
+        vessel.installAirlock();
         FluidStack juice = new FluidStack(ModFluids.JUICE_CHARDONNAY.source().get(), 1000);
         vessel.getFluidHandler(null).fill(juice, EXECUTE);
         // Loading a frozen short plan exercises the real server tick without a twenty-minute test.
@@ -126,18 +128,17 @@ public final class FermentationVesselGameTests {
         }).thenSucceed();
     }
     @GameTest(template = "barrel_space")
-    public static void fermentedMustKeepsSkinsUntilPressedWithoutLosingWine(GameTestHelper helper) {
+    public static void fermentedMustCanBeStrainedAfterDrawingWithoutLosingWine(GameTestHelper helper) {
         BlockPos pos = helper.absolutePos(ORIGIN);
         helper.getLevel().setBlock(pos, ModBlocks.FERMENTATION_VAT.get().defaultBlockState(), Block.UPDATE_CLIENTS);
         var vat = vessel(helper, pos);
         FluidStack must = new FluidStack(ModFluids.MUST_MERLOT.source().get(), 1000);
         vat.getFluidHandler(null).fill(must, EXECUTE);
-        helper.assertTrue(!vat.press(), "Raw must cannot skip fermentation by pressing");
         CompoundTag saved = vat.saveWithFullMetadata(helper.getLevel().registryAccess());
         FermentationRecipe plan = new FermentationRecipe(ProductionInputs.id("must_merlot"), ProductionInputs.id("merlot"), 40, 200, .0006, 1);
         saved.put("FermentationPlan", FermentationRecipe.CODEC.codec().encodeStart(NbtOps.INSTANCE, plan).getOrThrow());
         vat.loadWithComponents(saved, helper.getLevel().registryAccess());
-        helper.assertTrue(!vat.press(), "Pressing never changes an active fermentation");
+        helper.assertTrue(vat.getFluidHandler(null).drain(1000, SIMULATE).isEmpty(), "Active fermentation cannot be extracted for straining");
         helper.startSequence().thenWaitUntil(() -> helper.assertTrue(!vat.isFermenting(), "Must finishes its frozen fermentation plan"))
                 .thenExecute(() -> {
                     FluidStack before = vat.getFluid();
@@ -148,27 +149,26 @@ public final class FermentationVesselGameTests {
                     helper.getLevel().setBlock(carboyPos, ModBlocks.CARBOY.get().defaultBlockState(), Block.UPDATE_CLIENTS);
                     helper.assertTrue(vessel(helper, carboyPos).getFluidHandler(null).fill(before, SIMULATE) == 0,
                             "Unpressed wine cannot enter a carboy");
-                    BlockPos pressPos = pos.relative(net.minecraft.core.Direction.WEST);
-                    helper.getLevel().setBlock(pressPos, ModBlocks.WINE_PRESS.get().defaultBlockState(), Block.UPDATE_CLIENTS);
-                    var press = (io.vinum.machine.WinePressBlockEntity) helper.getLevel().getBlockEntity(pressPos);
-                    helper.assertTrue(!press.clarifyAdjacentVat(), "Unpowered press cannot clarify finished must");
-                    press.attachMotor();
-                    press.energy.generate(2000);
-                    helper.assertTrue(press.clarifyAdjacentVat(), "Select adjacent finished vat");
-                    for(int tick=0;tick<200;tick++)io.vinum.machine.WinePressBlockEntity.tick(helper.getLevel(),pressPos,press.getBlockState(),press);
-                    helper.assertTrue(press.energy.getEnergyStored()==0,"Motor separation consumes exactly the required work");
-                    press.energy.generate(2000);
-                    helper.assertTrue(!press.clarifyAdjacentVat() && press.energy.getEnergyStored() == 2000,
-                            "Already clear wine cannot consume another stroke");
-                    FluidStack after = vat.getFluid();
+                    var player = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+                    var portable = (io.vinum.item.FluidContainerItem) io.vinum.item.ModItems.JUICE_CARBOY.get();
+                    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
+                            portable.filled(vat.getFluidHandler(null).drain(1000, EXECUTE)));
+                    BlockPos strainerPos = pos.relative(net.minecraft.core.Direction.WEST);
+                    helper.getLevel().setBlockAndUpdate(strainerPos, io.vinum.straining.StrainerContent.BLOCK.get().defaultBlockState());
+                    var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(strainerPos),
+                            net.minecraft.core.Direction.UP, strainerPos, false);
+                    helper.getLevel().getBlockState(strainerPos).useItemOn(player.getMainHandItem(), helper.getLevel(), player,
+                            net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+                    FluidStack after = portable.contents(player.getMainHandItem());
+                    helper.assertTrue(vat.getFluid().isEmpty(), "Finished wine leaves the vat before straining");
                     BatchProfile pressed = BatchProfile.of(after);
                     helper.assertTrue(after.getAmount() == before.getAmount() && pressed.solidsGramsPerLitre() == 0
                                     && pressed.alcoholFraction() == profile.alcoholFraction()
                                     && pressed.ingredientProportions().equals(profile.ingredientProportions())
-                                    && pressed.history().contains(ProductionInputs.id("pressing")),
-                            "Pressing preserves liquid, alcohol, ingredients and records process history");
-                    helper.assertTrue(!vat.press() && vessel(helper, carboyPos).getFluidHandler(null).fill(after, SIMULATE) == 1000,
-                            "Pressing cannot repeat and clarified wine can enter a carboy");
+                                    && pressed.history().contains(ProductionInputs.id("straining")),
+                            "Straining preserves liquid, alcohol, ingredients and records process history");
+                    helper.assertTrue(io.vinum.straining.StrainerBlock.strain(helper.getLevel(), after).isEmpty() && vessel(helper, carboyPos).getFluidHandler(null).fill(after, SIMULATE) == 1000,
+                            "Straining cannot repeat and clear wine can enter a carboy");
                 }).thenSucceed();
     }
 

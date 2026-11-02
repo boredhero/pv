@@ -82,11 +82,14 @@ public final class WinePressRenderer implements BlockEntityRenderer<WinePressBlo
       box(metal, poses, .33F, 1.26F - down, .35F, .67F, 1.43F - down, .65F, light, overlay);
     }
     if (!press.hasCrank()) return;
+    // The screw ends at 26/16 blocks in the static model. Its drive collar stays
+    // attached to that end while only the platen travels down into the basket.
+    box(metal, poses, .445F, 1.57F, .445F, .555F, 1.66F, .555F, light, overlay);
     float angle = press.crankTurns() == 0 ? 0 : (press.crankTurns() - 1 + elapsed) * 90F;
     poses.pushPose();
-    poses.translate(.5, 1.23 - down, .5);
+    poses.translate(.5, 1.625, .5);
     poses.mulPose(Axis.YP.rotationDegrees(angle));
-    // One slim radial lever with a small grip, attached at the ratchet nut.
+    // One slim radial lever with a small grip, attached to the fixed drive collar.
     box(metal, poses, 0, 0, -.022F, .39F, .035F, .022F, light, overlay);
     // Switching render types may finish the previous buffer; reacquire it before the grip.
     box(

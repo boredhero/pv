@@ -404,91 +404,59 @@ public final class PressMachineGameTests {
     }
   }
 
-  @GameTest(template = "barrel_space", timeoutTicks = 100)
-  public static void manualClarificationRequiresEightTurnsAndPreservesBatch(GameTestHelper h) {
+  @GameTest(template = "barrel_space")
+  public static void pressMenuCannotTurnCrankOrStartVatProcessing(GameTestHelper h) {
     var press = press(h);
     press.attachCrank();
-    h.setBlock(PRESS.west(), ModBlocks.FERMENTATION_VAT.get());
-    var vat =
-        (io.vinum.production.vessel.FermentationVesselBlockEntity) h.getBlockEntity(PRESS.west());
-    var raw = ProductionInputs.fromItem(new ItemStack(ModItems.GRAPE_MUST_MERLOT.get()));
-    var recipe =
-        h
-            .getLevel()
-            .getRecipeManager()
-            .getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get())
-            .stream()
-            .map(holder -> holder.value())
-            .filter(candidate -> candidate.matches(raw))
-            .findFirst()
-            .orElseThrow();
-    var finished = FermentationEngine.finish(raw, recipe);
-    vat.getFluidHandler(null).fill(finished, FluidAction.EXECUTE);
+    press.inventory.setStackInSlot(0, new ItemStack(ModItems.GRAPES_MERLOT.get()));
+    var player = h.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+    player.setPos(
+        press.getBlockPos().getX() + .5,
+        press.getBlockPos().getY(),
+        press.getBlockPos().getZ() + .5);
+    var menu = new WinePressMenu(1, player.getInventory(), press);
+    h.assertTrue(menu.stillValid(player), "The player is close enough to operate the inventory");
     h.assertTrue(
-        press.clarifyAdjacentVat() && press.data.get(1) == 0,
-        "Selecting a neighboring finished vat does not perform free separation");
-    for (int turn = 0; turn < 8; turn++) {
-      final int number = turn + 1;
-      h.runAfterDelay(
-          1 + turn * WinePressBlockEntity.CRANK_COOLDOWN,
-          () -> {
-            h.assertTrue(press.turnCrank(), "A manual turn contributes to the selected vat");
-            h.assertTrue(press.energy.getEnergyStored() == 0, "Manual clarification uses no FE");
-            if (number < 8)
-              h.assertTrue(
-                  BatchProfile.of(vat.getFluid()).solidsGramsPerLitre() > 0,
-                  "Skins remain until all work is complete");
-            else {
-              var after = vat.getFluid();
-              var beforeProfile = BatchProfile.of(finished);
-              var afterProfile = BatchProfile.of(after);
-              h.assertTrue(
-                  after.getAmount() == finished.getAmount()
-                      && afterProfile.solidsGramsPerLitre() == 0
-                      && afterProfile.alcoholFraction() == beforeProfile.alcoholFraction()
-                      && afterProfile
-                          .ingredientProportions()
-                          .equals(beforeProfile.ingredientProportions()),
-                  "Separation preserves liquid, alcohol and grape proportions");
-              h.assertTrue(
-                  !press.clarifyAdjacentVat(), "Already clear wine cannot be selected again");
-              h.succeed();
-            }
-          });
-    }
+        !menu.clickMenuButton(player, 0) && !menu.clickMenuButton(player, 1),
+        "Removed crank and vat buttons cannot be invoked through stale or forged menu packets");
+    h.assertTrue(
+        press.data.get(1) == 0 && press.crankTurns() == 0,
+        "Inventory controls perform no mechanical work");
+    h.assertTrue(
+        press.turnCrank() && press.data.get(1) == WinePressBlockEntity.CRANK_WORK,
+        "The outside crank still advances mechanical work directly");
+    h.succeed();
   }
 
-  @GameTest(template = "barrel_space", timeoutTicks = 30)
-  public static void changingSelectedVatCancelsManualClarificationWithoutTouchingReplacement(
-      GameTestHelper h) {
+  @GameTest(template = "barrel_space")
+  public static void pressFluidNameFollowsSynchronizedTankContents(GameTestHelper h) {
     var press = press(h);
-    press.attachCrank();
-    h.setBlock(PRESS.west(), ModBlocks.FERMENTATION_VAT.get());
-    var vat =
-        (io.vinum.production.vessel.FermentationVesselBlockEntity) h.getBlockEntity(PRESS.west());
-    var raw = ProductionInputs.fromItem(new ItemStack(ModItems.GRAPE_MUST_MERLOT.get()));
-    var recipe =
-        h
-            .getLevel()
-            .getRecipeManager()
-            .getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get())
-            .stream()
-            .map(holder -> holder.value())
-            .filter(candidate -> candidate.matches(raw))
-            .findFirst()
-            .orElseThrow();
-    vat.getFluidHandler(null).fill(FermentationEngine.finish(raw, recipe), FluidAction.EXECUTE);
+    press.attachMotor();
+    var player = h.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+    var menu = new WinePressMenu(1, player.getInventory(), press);
+    var emptyName = menu.fluidName();
+    press.inventory.setStackInSlot(0, new ItemStack(ModItems.GRAPES_MERLOT.get()));
+    press.energy.generate(2000);
+    work(h, press, 200);
+    var juiceName = menu.fluidName();
     h.assertTrue(
-        press.clarifyAdjacentVat() && press.turnCrank(),
-        "Begin manual work against a particular batch");
-    vat.getFluidHandler(null).drain(1, FluidAction.EXECUTE);
-    work(h, press, 1);
+        !juiceName.equals(emptyName)
+            && juiceName.equals(
+                io.vinum.beverage.WineCatalog.name(press.fluids().getFluidInTank(0))),
+        "Fluid hover identifies the actual pressed grape variety");
+    press.fluids().drain(Integer.MAX_VALUE, FluidAction.EXECUTE);
+    press.inventory.setStackInSlot(0, new ItemStack(ModItems.COOKED_AGAVE_PULP.get()));
+    press.energy.generate(2000);
+    work(h, press, 200);
+    var replica = new WinePressBlockEntity(press.getBlockPos(), press.getBlockState());
+    replica.setLevel(h.getLevel());
+    replica.loadWithComponents(
+        press.getUpdateTag(h.getLevel().registryAccess()), h.getLevel().registryAccess());
+    var synchronizedMenu = new WinePressMenu(2, player.getInventory(), replica);
     h.assertTrue(
-        press.requiredWork() == 0
-            && press.data.get(1) == 0
-            && vat.getFluid().getAmount() == 999
-            && BatchProfile.of(vat.getFluid()).solidsGramsPerLitre() > 0,
-        "Changing the selected batch cancels work without changing its fluid");
+        !synchronizedMenu.fluidName().equals(juiceName)
+            && synchronizedMenu.fluidName().equals(menu.fluidName()),
+        "Block-entity synchronization preserves the new agave fluid identity for hover text");
     h.succeed();
   }
 }

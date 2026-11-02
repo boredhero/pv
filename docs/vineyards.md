@@ -8,8 +8,8 @@ source of fruit and seeds; cultivated seeds require a trellis.
 Craft two trellises with sticks in the four corners and any planks across the
 middle row (`S S / PPP / S S`). Place them on dirt-family blocks or farmland,
 with both occupied cells clear. A planted support can be dismantled from either
-half; Survival returns one trellis, the variety's seeds, and any remaining ripe
-fruit. Picking a ripe cultivated bunch yields one or two grape items.
+half; the planted root returns its seed, while spread branches do not create
+extra seeds. Uprooting restores connected branch supports. Picking a ripe cultivated bunch yields one or two grape items.
 
 The permanent trunk develops horizontal arms along the support. Growth advances
 through a young shoot, training, foliage, flowering, small green bunches, enlarged
@@ -25,6 +25,27 @@ Sauvignon, gray-purple Merlot, dark Pinot Noir, and rose Zinfandel. Immature fru
 starts green and transitions toward its variety's ripe color. Shared geometry
 provides the berry clusters; adding a palette does not require repainting every
 growth-stage model.
+
+## Natural spread and artwork
+
+One planted root can occupy up to five same-facing trellises in a continuous,
+level row. Only natural random ticks attempt expansion; bone meal advances
+existing growth/fruit and never creates a new section. Set
+`maxTrellisesPerVine` from 1–16 in `vinum-vineyard-server.toml` to change the
+maximum total sections per seedling, including its original support.
+
+Branches retain their original root identity across saves. Cutting a middle arm
+prunes its disconnected outer growth; uprooting the parent restores the empty
+supports. Chunk boundaries never force loads, and temporarily unavailable roots
+are not treated as destroyed. Lowering the configured cap stops further spread
+without removing existing growth.
+
+The canopy uses one shared 32×32 leaf cutout with veins and serrated lobes,
+layered at varied angles across a broader, deeper canopy. Lower leaves project
+outward from attached petioles. Stage 3 shows branching cream-green flower
+clusters; stage 4 replaces them with small green grapes. Each bunch uses the shared 64×64 neutral berry material
+and the variety's color. Spread sections carry upper canopy without another
+rooted vine trunk. Prompts and final asset paths are in `vine-art-prompts.json`.
 
 ## Research and adaptation
 

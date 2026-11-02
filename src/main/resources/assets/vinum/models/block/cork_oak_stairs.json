@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "vinum:block/cork_oak_planks",
+    "side": "vinum:block/cork_oak_planks",
+    "top": "vinum:block/cork_oak_planks"
+  }
+}

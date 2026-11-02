@@ -21,11 +21,15 @@ public final class ContainerTransfers {
         var first=a.handler(held.copy());var second=b.handler(opposite.copy());
         IFluidHandler source=player.isShiftKeyDown()?first:second, target=player.isShiftKeyDown()?second:first;
         FluidStack sample=source.drain(Integer.MAX_VALUE,FluidAction.SIMULATE);
+        ItemStack receiving = player.isShiftKeyDown() ? second.getContainer() : first.getContainer();
+        boolean corkNeeded = BottleCorks.requiresCork(receiving, sample);
+        if (!BottleCorks.prepare(receiving, sample, player)) return false;
         int amount=target.fill(sample,FluidAction.SIMULATE);
         if(amount<=0)return false;
         if(level.isClientSide)return true;
         FluidStack drained=source.drain(amount,FluidAction.EXECUTE);
         if(drained.getAmount()!=amount || target.fill(drained,FluidAction.EXECUTE)!=amount)return false;
+        if (corkNeeded) BottleCorks.consume(player);
         player.setItemInHand(hand,first.getContainer());player.setItemInHand(other,second.getContainer());
         level.playSound(null,player.blockPosition(),net.minecraft.sounds.SoundEvents.BOTTLE_FILL,net.minecraft.sounds.SoundSource.PLAYERS,.7F,1);
         return true;
@@ -38,6 +42,8 @@ public final class ContainerTransfers {
         IFluidHandler source = pouring ? container : tank;
         IFluidHandler target = pouring ? tank : container;
         FluidStack sample = source.drain(Integer.MAX_VALUE, FluidAction.SIMULATE);
+        boolean corkNeeded = !pouring && BottleCorks.requiresCork(container.getContainer(), sample);
+        if (!pouring && !BottleCorks.prepare(container.getContainer(), sample, player)) return ItemInteractionResult.FAIL;
         int amount = target.fill(sample, FluidAction.SIMULATE);
         if (amount <= 0) return ItemInteractionResult.FAIL;
         FluidStack drained = source.drain(sample.copyWithAmount(amount), FluidAction.EXECUTE);
@@ -49,6 +55,8 @@ public final class ContainerTransfers {
         if (filled != amount) {
             source.fill(drained.copyWithAmount(amount - filled), FluidAction.EXECUTE);
         }
+        if (filled <= 0) return ItemInteractionResult.FAIL;
+        if (corkNeeded) BottleCorks.consume(player);
         // These reusable vessels conserve liquid in creative too; no duplicating a partially filled vessel.
         ItemStack result = container.getContainer();
         held.shrink(1);

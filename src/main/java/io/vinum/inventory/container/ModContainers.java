@@ -13,7 +13,7 @@ public final class ModContainers {
     public static final DeferredHolder<MenuType<?>, MenuType<StillMasterContainer>> STILL_MASTER =
             CONTAINERS.register("still_master", () -> new MenuType<>(StillMasterContainer::new, FeatureFlags.DEFAULT_FLAGS));
 
-    public static final DeferredHolder<MenuType<?>, MenuType<io.vinum.machine.WinePressMenu>> WINE_PRESS = CONTAINERS.register("wine_press", () -> new MenuType<>(io.vinum.machine.WinePressMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final DeferredHolder<MenuType<?>, MenuType<io.vinum.machine.WinePressMenu>> WINE_PRESS = CONTAINERS.register("wine_press", () -> net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(io.vinum.machine.WinePressMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<io.vinum.machine.BasicGeneratorMenu>> BASIC_GENERATOR = CONTAINERS.register("basic_generator", () -> new MenuType<>(io.vinum.machine.BasicGeneratorMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
     private ModContainers() {}

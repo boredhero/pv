@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.vinum.common.Defines;
 import io.vinum.tileentity.ModTileEntities;
+import io.vinum.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -12,6 +13,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -30,6 +33,14 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
     }
     @Override public void render(FermentationVesselBlockEntity vessel, float partialTick, PoseStack poses, MultiBufferSource buffers, int light, int overlay) {
         if (!vessel.isController()) return;
+        if (!vessel.isVat() && vessel.hasAirlock()) {
+            poses.pushPose();
+            poses.translate(.5, 1.125, .5);
+            poses.scale(.45F, .45F, .45F);
+            Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(ModItems.AIRLOCK.get()),
+                    ItemDisplayContext.NONE, light, overlay, poses, buffers, vessel.getLevel(), 0);
+            poses.popPose();
+        }
         int size = vessel.getStructureSize();
         int structureHeight = vessel.getStructureHeight();
         float center = size / 2F;
@@ -101,6 +112,7 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
         var origin = vessel.getStructureOrigin();
         int size = vessel.getStructureSize();
         int structureHeight = vessel.getStructureHeight();
-        return new AABB(origin.getX(), origin.getY(), origin.getZ(), origin.getX() + size, origin.getY() + structureHeight, origin.getZ() + size);
+        return new AABB(origin.getX(), origin.getY(), origin.getZ(), origin.getX() + size,
+                origin.getY() + (vessel.isVat() ? structureHeight : 1.5), origin.getZ() + size);
     }
 }

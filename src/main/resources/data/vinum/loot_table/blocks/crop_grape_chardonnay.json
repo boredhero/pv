@@ -8,7 +8,8 @@
           "condition": "minecraft:block_state_property",
           "block": "vinum:crop_grape_chardonnay",
           "properties": {
-            "half": "lower"
+            "half": "lower",
+            "branch": "false"
           }
         }
       ],

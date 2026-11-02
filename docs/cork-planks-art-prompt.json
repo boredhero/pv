@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "asset": "src/main/resources/assets/vinum/textures/block/cork_oak_planks.png",
+  "final_size": [
+    16,
+    16
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: seamless Minecraft cork-oak plank block texture, final 32x32 pixels. Reference is the existing brick-red stripped cork-oak bark, use its warm reddish russet character as palette guidance, but draw sawn wooden PLANKS not bark. Square fully opaque tile with four horizontal boards of warm muted red-brown / terracotta-brown cork oak wood, alternating subtly varied shades, thin dark seams, elegant fine horizontal wood grain, small understated knots, softly bevel-lit plank edges. Polished handcrafted pixel-art Minecraft resource-pack style, restrained 32x32 pixel-scale detail, beautiful natural wood rather than saturated red paint. Seamlessly tileable left/right/top/bottom, no perspective, no objects, no text or frame, no white or transparent margins. Do not make an inventory block cube; output flat texture only.",
+  "processing": "Nearest-neighbor downsample to vanilla 16x16 at user's explicit request; generated source retained outside repo."
+}

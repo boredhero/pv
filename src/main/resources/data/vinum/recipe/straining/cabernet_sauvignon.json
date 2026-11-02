@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:must_cabernet_sauvignon",
+  "output_fluid": "vinum:juice_cabernet_sauvignon"
+}

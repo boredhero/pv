@@ -96,6 +96,7 @@ public final class AgavePressGameTests {
     BlockPos vesselPos = helper.absolutePos(new BlockPos(2, 1, 5));
     level.setBlockAndUpdate(vesselPos, ModBlocks.CARBOY.get().defaultBlockState());
     var vessel = (FermentationVesselBlockEntity) level.getBlockEntity(vesselPos);
+    vessel.installAirlock();
     var player = helper.makeMockPlayer(GameType.SURVIVAL);
     player.setShiftKeyDown(true);
     player.setItemInHand(InteractionHand.MAIN_HAND, filled);

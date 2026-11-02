@@ -157,7 +157,11 @@ public final class MachineBlock extends Block implements EntityBlock {
           player.displayClientMessage(
               net.minecraft.network.chat.Component.translatable("gui.vinum.crank_blocked"), true);
       } else if (level.getBlockEntity(pos) instanceof MenuProvider menu
-          && player instanceof ServerPlayer server) server.openMenu(menu);
+          && player instanceof ServerPlayer server) {
+        if (menu instanceof WinePressBlockEntity press)
+          server.openMenu(menu, buffer -> buffer.writeBlockPos(press.getBlockPos()));
+        else server.openMenu(menu);
+      }
     }
     return InteractionResult.sidedSuccess(level.isClientSide);
   }

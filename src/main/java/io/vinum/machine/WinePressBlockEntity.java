@@ -29,8 +29,6 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
       CRANK_COOLDOWN = 10;
   private PressingRecipe plan;
   private int progress;
-  private BlockPos clarificationTarget;
-  private FluidStack clarificationBatch = FluidStack.EMPTY;
   private boolean crank;
   private boolean motor;
   private long lastCrank = -CRANK_COOLDOWN;
@@ -194,7 +192,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
   }
 
   public int requiredWork() {
-    return clarificationTarget != null ? 2000 : plan == null ? 0 : plan.energy();
+    return plan == null ? 0 : plan.energy();
   }
 
   public boolean turnCrank() {
@@ -218,66 +216,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
     return true;
   }
 
-  /** Select a finished neighboring vat; manual turns or the motor then perform the separation. */
-  public boolean clarifyAdjacentVat() {
-    if (level == null
-        || level.isClientSide
-        || (!crank && !motor)
-        || progress > 0
-        || clarificationTarget != null) return false;
-    for (Direction direction : Direction.Plane.HORIZONTAL) {
-      BlockPos target = worldPosition.relative(direction);
-      if (!level.hasChunk(
-          SectionPos.blockToSectionCoord(target.getX()),
-          SectionPos.blockToSectionCoord(target.getZ()))) continue;
-      if (level.getBlockEntity(target)
-              instanceof io.vinum.production.vessel.FermentationVesselBlockEntity vat
-          && vat.isVat()
-          && !vat.isFermenting()) {
-        FluidStack batch = vat.getFluid();
-        BatchProfile profile = BatchProfile.of(batch);
-        if (batch.isEmpty()
-            || profile.solidsGramsPerLitre() <= 0
-            || !profile.history().contains(io.vinum.production.ProductionInputs.id("fermentation")))
-          continue;
-        clarificationTarget = target;
-        clarificationBatch = batch.copy();
-        plan = null;
-        progress = 0;
-        sync();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private io.vinum.production.vessel.FermentationVesselBlockEntity clarificationVat() {
-    if (clarificationTarget == null
-        || worldPosition.distManhattan(clarificationTarget) != 1
-        || level == null) return null;
-    if (!level.hasChunk(
-        SectionPos.blockToSectionCoord(clarificationTarget.getX()),
-        SectionPos.blockToSectionCoord(clarificationTarget.getZ()))) return null;
-    if (level.getBlockEntity(clarificationTarget)
-            instanceof io.vinum.production.vessel.FermentationVesselBlockEntity vat
-        && vat.isVat()
-        && !vat.isFermenting()) {
-      FluidStack current = vat.getFluid();
-      if (current.getAmount() == clarificationBatch.getAmount()
-          && FluidStack.isSameFluidSameComponents(current, clarificationBatch)) return vat;
-    }
-    return null;
-  }
-
   private boolean prepareWork() {
-    if (clarificationTarget != null) {
-      if (clarificationVat() != null) return true;
-      clarificationTarget = null;
-      clarificationBatch = FluidStack.EMPTY;
-      progress = 0;
-      sync();
-      return false;
-    }
     ItemStack input = inventory.getStackInSlot(0);
     if (plan != null && !plan.canProcess(input)) {
       plan = null;
@@ -300,16 +239,9 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
     if (work <= 0) return;
     progress += work;
     if (progress >= requiredWork()) {
-      if (clarificationTarget != null) {
-        var vat = clarificationVat();
-        if (vat != null) vat.press();
-        clarificationTarget = null;
-        clarificationBatch = FluidStack.EMPTY;
-      } else {
-        tank.fill(result(plan), IFluidHandler.FluidAction.EXECUTE);
-        inventory.extractItem(0, plan.count(), false);
-        plan = null;
-      }
+      tank.fill(result(plan), IFluidHandler.FluidAction.EXECUTE);
+      inventory.extractItem(0, plan.count(), false);
+      plan = null;
       progress = 0;
       sync();
     }
@@ -358,7 +290,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
             case 1 -> progress;
             case 2 -> requiredWork();
             case 3 -> tank.getFluidAmount();
-            case 4 -> (crank ? 1 : 0) | (motor ? 2 : 0) | (clarificationTarget != null ? 4 : 0);
+            case 4 -> (crank ? 1 : 0) | (motor ? 2 : 0);
             case 5 -> io.vinum.beverage.WineCatalog.color(tank.getFluid()) & 65535;
             case 6 -> io.vinum.beverage.WineCatalog.color(tank.getFluid()) >>> 16;
             default -> 0;
@@ -405,10 +337,6 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
     tag.put("Juice", tank.writeToNBT(registries, new CompoundTag()));
     tag.putInt("Energy", energy.getEnergyStored());
     tag.putInt("Progress", progress);
-    if (clarificationTarget != null) {
-      tag.putLong("ClarificationTarget", clarificationTarget.asLong());
-      tag.put("ClarificationBatch", clarificationBatch.save(registries));
-    }
     tag.putBoolean("Crank", crank);
     tag.putBoolean("Motor", motor);
     tag.putInt("CrankTurns", crankTurns);
@@ -433,12 +361,6 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
             .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.getCompound("Plan"))
             .result()
             .orElse(null);
-    clarificationTarget =
-        tag.contains("ClarificationTarget")
-            ? BlockPos.of(tag.getLong("ClarificationTarget"))
-            : null;
-    clarificationBatch =
-        FluidStack.parseOptional(registries, tag.getCompound("ClarificationBatch"));
     progress = Math.clamp(tag.getInt("Progress"), 0, requiredWork());
     crank = tag.getBoolean("Crank");
     motor = tag.getBoolean("Motor");

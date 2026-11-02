@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "vinum:wine_bottle_empty",
+    "vinum:fifth_bottle_empty",
+    "vinum:wine_bottle_chardonnay",
+    "vinum:wine_bottle_sauvignon_blanc",
+    "vinum:wine_bottle_cabernet_sauvignon",
+    "vinum:wine_bottle_merlot",
+    "vinum:wine_bottle_pinot_noir",
+    "vinum:wine_bottle_zinfandel",
+    "vinum:fifth_silver_tequila",
+    "vinum:fifth_golden_tequila",
+    "vinum:fifth_reposado_tequila",
+    "vinum:fifth_anejo_tequila",
+    "vinum:fifth_extra_anejo_tequila"
+  ]
+}

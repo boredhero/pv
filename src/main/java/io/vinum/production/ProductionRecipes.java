@@ -26,6 +26,7 @@ public final class ProductionRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<io.vinum.machine.PressingRecipe>> PRESSING_SERIALIZER = serializer("pressing", io.vinum.machine.PressingRecipe.CODEC);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<io.vinum.beverage.FluidCraftingRecipe>> FLUID_CRAFTING_SERIALIZER = serializer("fluid_crafting", io.vinum.beverage.FluidCraftingRecipe.CODEC);
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<io.vinum.beverage.ToolCraftingRecipe>> TOOL_CRAFTING_SERIALIZER = serializer("tool_crafting", io.vinum.beverage.ToolCraftingRecipe.CODEC);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<io.vinum.beverage.CorkBottleRecipe>> CORK_BOTTLE_SERIALIZER = serializer("cork_bottle", io.vinum.beverage.CorkBottleRecipe.CODEC);
     private ProductionRecipes() {}
     private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, RecipeType<R>> type(String name) {
         return TYPES.register(name, () -> new RecipeType<>() { @Override public String toString() { return "vinum:" + name; } });

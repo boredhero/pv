@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:must_chardonnay",
+  "output_fluid": "vinum:juice_chardonnay"
+}

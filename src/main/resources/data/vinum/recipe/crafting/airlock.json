@@ -1,16 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "pattern": [
+    " GG",
     " G ",
-    "G G",
-    "GGG"
+    " C "
   ],
   "key": {
     "G": {
       "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "vinum:wine_cork"
     }
   },
   "result": {
-    "id": "vinum:juice_carboy"
+    "id": "vinum:airlock",
+    "count": 1
   }
 }

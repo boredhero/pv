@@ -1,53 +1,16 @@
 package io.vinum.machine;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public final class WinePressScreen extends AbstractContainerScreen<WinePressMenu> {
-  private Button crank;
-  private Button clarify;
 
   public WinePressScreen(WinePressMenu menu, Inventory inventory, Component title) {
     super(menu, inventory, title);
     imageHeight = 208;
     inventoryLabelY = 115;
-  }
-
-  @Override
-  protected void init() {
-    super.init();
-    crank =
-        addRenderableWidget(
-            Button.builder(
-                    Component.translatable("gui.vinum.turn_crank"),
-                    b -> {
-                      if (minecraft != null && minecraft.gameMode != null)
-                        minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
-                    })
-                .bounds(leftPos + 8, topPos + 86, 77, 18)
-                .build());
-    clarify =
-        addRenderableWidget(
-            Button.builder(
-                    Component.translatable("gui.vinum.clarify"),
-                    b -> {
-                      if (minecraft != null && minecraft.gameMode != null)
-                        minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 1);
-                    })
-                .bounds(leftPos + 90, topPos + 86, 78, 18)
-                .build());
-  }
-
-  @Override
-  protected void containerTick() {
-    super.containerTick();
-    if (clarify != null)
-      clarify.active =
-          (menu.hasCrank() || menu.hasMotor()) && menu.progress() == 0 && !menu.clarifying();
-    if (crank != null) crank.active = menu.hasCrank() && menu.required() > 0;
   }
 
   @Override
@@ -111,10 +74,14 @@ public final class WinePressScreen extends AbstractContainerScreen<WinePressMenu
           mouseX,
           mouseY);
     if (isHovering(149, 24, 12, 56, mouseX, mouseY))
-      g.renderTooltip(
+      g.renderComponentTooltip(
           font,
-          Component.translatable(
-              "tooltip.vinum.container_capacity", menu.juice(), WinePressBlockEntity.TANK_CAPACITY),
+          java.util.List.of(
+              menu.fluidName(),
+              Component.translatable(
+                  "tooltip.vinum.container_capacity",
+                  menu.juice(),
+                  WinePressBlockEntity.TANK_CAPACITY)),
           mouseX,
           mouseY);
   }

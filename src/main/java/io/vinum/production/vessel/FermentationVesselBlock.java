@@ -44,7 +44,10 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
         };
     }
     @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel) vessel.setStructure(pos, 1);
+        if (level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel) {
+            vessel.setStructure(pos, 1);
+            if (!level.isClientSide) vessel.restoreCarboyItem(stack);
+        }
         schedule(level, pos);
     }
     private void schedule(Level level, BlockPos pos) {
@@ -83,9 +86,23 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
         }
         return super.playerWillDestroy(level, pos, state, player);
     }
+    @Override public ItemStack getCloneItemStack(BlockState state, net.minecraft.world.phys.HitResult target,
+            net.minecraft.world.level.LevelReader level, BlockPos pos, Player player) {
+        ItemStack stack = new ItemStack(asItem());
+        if (level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel)
+            vessel.saveToItem(stack, level.registryAccess());
+        return stack;
+    }
     @Override protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (held.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (held.is(ModItems.AIRLOCK.get()) && !vessel.isVat()) {
+            if (level.isClientSide) return ItemInteractionResult.SUCCESS;
+            if (!vessel.installAirlock()) return ItemInteractionResult.FAIL;
+            if (!player.hasInfiniteMaterials()) held.shrink(1);
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.vinum.airlock_installed"), true);
+            return ItemInteractionResult.CONSUME;
+        }
         if (held.is(ModItems.WINE_YEAST.get())) {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
             if (!vessel.addStarter()) return ItemInteractionResult.FAIL;
@@ -93,6 +110,9 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
             player.displayClientMessage(vessel.getStatusMessage(), true);
             return ItemInteractionResult.CONSUME;
         }
+        // Sneaking with an empty carboy places a neighbor instead of attempting an empty pour.
+        if (held.getItem() instanceof CarboyItem carboy && player.isShiftKeyDown() && carboy.contents(held).isEmpty())
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         var handler = vessel.getFluidHandler(hit.getDirection());
         ItemInteractionResult result = ProductionContainers.useItemOn(held, level, player, hand, handler);
         if (result != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return result;
@@ -107,7 +127,8 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel) {
             if (!level.isClientSide) {
-                if (player.isShiftKeyDown() && !vessel.startFermentation()) player.displayClientMessage(net.minecraft.network.chat.Component.translatable("vessel.vinum.cannot_start"), true);
+                if (player.isShiftKeyDown() && !vessel.startFermentation()) player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
+                        !vessel.isVat() && !vessel.hasAirlock() ? "vessel.vinum.airlock_required" : "vessel.vinum.cannot_start"), true);
                 else player.displayClientMessage(vessel.getStatusMessage(), true);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);

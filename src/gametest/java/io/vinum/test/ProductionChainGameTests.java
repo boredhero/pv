@@ -174,9 +174,17 @@ public final class ProductionChainGameTests {
         var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(pos), Direction.EAST, pos, false);
         helper.assertTrue(state.useItemOn(ItemStack.EMPTY, helper.getLevel(), player, InteractionHand.MAIN_HAND, hit)
                 == ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION, "Empty hand must reach the actual start interaction");
+        helper.assertTrue(!vessel.isFermenting(), "A carboy starts idle without an airlock");
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.AIRLOCK.get()));
+        state.useItemOn(player.getMainHandItem(), helper.getLevel(), player, InteractionHand.MAIN_HAND, hit);
+        helper.assertTrue(player.getMainHandItem().isEmpty() && vessel.hasAirlock(), "Install actual airlock through block interaction");
         helper.assertTrue(state.useWithoutItem(helper.getLevel(), player, hit).consumesAction() && vessel.isFermenting(), "Sneak-empty-hand must start fermentation through block dispatch");
         helper.assertTrue(state.useItemOn(new ItemStack(ModItems.CARBOY.get()), helper.getLevel(), player, InteractionHand.MAIN_HAND, hit)
-                == ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION, "A held vessel must allow adjacent item placement");
+                == ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION, "A held empty vessel must allow adjacent placement while sneaking");
+        var adjacent = new ItemStack(ModItems.CARBOY.get());
+        player.setItemInHand(InteractionHand.MAIN_HAND, adjacent);
+        helper.assertTrue(adjacent.useOn(new net.minecraft.world.item.context.UseOnContext(helper.getLevel(), player, InteractionHand.MAIN_HAND, adjacent, hit)).consumesAction()
+                && helper.getLevel().getBlockState(pos.east()).is(ModBlocks.CARBOY.get()), "Sneak-place actually creates adjacent carboy without disturbing active batch");
         helper.succeed();
     }
 

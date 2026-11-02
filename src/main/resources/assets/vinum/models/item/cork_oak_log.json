@@ -1,3 +1,11 @@
 {
-  "parent": "vinum:block/cork_oak_log"
+  "parent": "vinum:block/cork_oak_log",
+  "overrides": [
+    {
+      "predicate": {
+        "vinum:cork_harvested": 1
+      },
+      "model": "vinum:block/cork_oak_log_harvested"
+    }
+  ]
 }

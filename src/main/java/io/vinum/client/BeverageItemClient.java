@@ -29,6 +29,10 @@ public final class BeverageItemClient {
     @SubscribeEvent public static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> ModItems.ITEMS.getEntries().forEach(entry -> {
             if (entry.get() instanceof FluidContainerItem container) {
+                if (entry.get() instanceof io.vinum.production.vessel.CarboyItem)
+                    ItemProperties.register(entry.get(), ResourceLocation.fromNamespaceAndPath(Defines.MODID,"airlock"),
+                        (stack, level, entity, seed) -> stack.has(net.minecraft.core.component.DataComponents.BLOCK_ENTITY_DATA)
+                            && stack.get(net.minecraft.core.component.DataComponents.BLOCK_ENTITY_DATA).copyTag().getBoolean("Airlock") ? 1F : 0F);
                 ItemProperties.register(entry.get(), ResourceLocation.fromNamespaceAndPath(Defines.MODID,"bottle_shape"),
                     (stack,level,entity,seed)->io.vinum.beverage.BeverageAppearance.model(container.contents(stack)));
                 ItemProperties.register(entry.get(),

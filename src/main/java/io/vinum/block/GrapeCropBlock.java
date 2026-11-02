@@ -19,7 +19,7 @@ import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.*;
 
 /** Permanent trained vines; fruit ripens independently of harvesting the woody plant. */
-public final class GrapeCropBlock extends CropBlock {
+public final class GrapeCropBlock extends CropBlock implements EntityBlock {
   public static final MapCodec<GrapeCropBlock> CODEC =
       RecordCodecBuilder.mapCodec(
           instance ->
@@ -32,6 +32,7 @@ public final class GrapeCropBlock extends CropBlock {
   public static final EnumProperty<DoubleBlockHalf> HALF = GrapeTrellisBlock.HALF;
   public static final DirectionProperty FACING = GrapeTrellisBlock.FACING;
   public static final BooleanProperty TRELLISED = BooleanProperty.create("trellised");
+  public static final BooleanProperty BRANCH = BooleanProperty.create("branch");
 
   /** Bits 1 and 2 represent the two hanging clusters, seen from the model's front. */
   public static final IntegerProperty BUNCHES = IntegerProperty.create("bunches", 0, 3);
@@ -49,6 +50,7 @@ public final class GrapeCropBlock extends CropBlock {
             .setValue(HALF, DoubleBlockHalf.LOWER)
             .setValue(FACING, Direction.NORTH)
             .setValue(TRELLISED, false)
+            .setValue(BRANCH, false)
             .setValue(BUNCHES, 3));
   }
 
@@ -112,20 +114,32 @@ public final class GrapeCropBlock extends CropBlock {
 
   @Override
   public boolean isRandomlyTicking(BlockState state) {
-    return state.getValue(HALF) == DoubleBlockHalf.LOWER && !isMaxAge(state);
+    return state.getValue(HALF) == DoubleBlockHalf.LOWER
+        && (state.getValue(TRELLISED) || !isMaxAge(state));
   }
 
   @Override
   protected void randomTick(
       BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-    if (level.getRawBrightness(pos.above(), 0) >= 9 && random.nextInt(7) == 0)
+    if (state.getValue(TRELLISED)) {
+      if (!(level.getBlockEntity(pos) instanceof io.vinum.crop.GrapeVineBlockEntity vine)) return;
+      if (state.getValue(BRANCH)) {
+        if (!vine.validateBranch()) return;
+      } else vine.naturalSpread(random);
+    }
+    if (!isMaxAge(state) && level.getRawBrightness(pos.above(), 0) >= 9 && random.nextInt(7) == 0)
       growTo(level, pos, state, getAge(state) + 1);
   }
 
   @Override
   public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
     BlockState root = level.getBlockState(rootPos(state, pos));
-    return root.is(this) && !isMaxAge(root);
+    if (!root.is(this) || isMaxAge(root)) return false;
+    if (root.getValue(BRANCH) && level instanceof ServerLevel server)
+      return server.getBlockEntity(rootPos(state, pos))
+              instanceof io.vinum.crop.GrapeVineBlockEntity vine
+          && vine.ownershipReady();
+    return true;
   }
 
   @Override
@@ -139,8 +153,11 @@ public final class GrapeCropBlock extends CropBlock {
   public boolean growTo(ServerLevel level, BlockPos pos, BlockState state, int age) {
     pos = rootPos(state, pos);
     state = level.getBlockState(pos);
-    if (!state.is(this) || age <= getAge(state) || age > 7 || !complete(level, pos, state))
-      return false;
+    if (!state.is(this)
+        || age <= getAge(state)
+        || age > 7
+        || !complete(level, pos, state)
+        || !attached(level, pos, state)) return false;
     updatePair(level, pos, state.setValue(AGE, age));
     return true;
   }
@@ -176,6 +193,7 @@ public final class GrapeCropBlock extends CropBlock {
     if (!state.is(this)
         || !isMaxAge(state)
         || !complete(level, pos, state)
+        || !attached(level, pos, state)
         || !level.mayInteract(player, pos)
         || (state.getValue(TRELLISED) && !level.mayInteract(player, pos.above()))) return false;
     double x = hit.getLocation().x - pos.getX(), z = hit.getLocation().z - pos.getZ();
@@ -248,9 +266,28 @@ public final class GrapeCropBlock extends CropBlock {
   @Override
   protected void onRemove(
       BlockState state, Level level, BlockPos pos, BlockState replacement, boolean moving) {
-    if (!replacement.is(this) && state.getValue(TRELLISED))
-      GrapeTrellisBlock.removePartner(state, level, pos);
+    if (!replacement.is(this) && state.getValue(TRELLISED)) {
+      if (state.getValue(HALF) == DoubleBlockHalf.LOWER
+          && level.getBlockEntity(pos) instanceof io.vinum.crop.GrapeVineBlockEntity vine)
+        vine.removed();
+      if (!replacement.is(ModBlocks.GRAPE_TRELLIS.get()))
+        GrapeTrellisBlock.removePartner(state, level, pos);
+    }
     super.onRemove(state, level, pos, replacement, moving);
+  }
+
+  @Override
+  public net.minecraft.world.level.block.entity.BlockEntity newBlockEntity(
+      BlockPos pos, BlockState state) {
+    return state.getValue(TRELLISED) && state.getValue(HALF) == DoubleBlockHalf.LOWER
+        ? new io.vinum.crop.GrapeVineBlockEntity(pos, state)
+        : null;
+  }
+
+  private boolean attached(Level level, BlockPos pos, BlockState state) {
+    if (!state.getValue(BRANCH) || level.isClientSide) return true;
+    return level.getBlockEntity(pos) instanceof io.vinum.crop.GrapeVineBlockEntity vine
+        && vine.validateBranch();
   }
 
   @Override
@@ -265,6 +302,6 @@ public final class GrapeCropBlock extends CropBlock {
 
   @Override
   protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-    builder.add(AGE, HALF, FACING, TRELLISED, BUNCHES);
+    builder.add(AGE, HALF, FACING, TRELLISED, BUNCHES, BRANCH);
   }
 }

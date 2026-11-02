@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "vinum:block/cork_oak_slab"
+    },
+    "type=double": {
+      "model": "vinum:block/cork_oak_planks"
+    },
+    "type=top": {
+      "model": "vinum:block/cork_oak_slab_top"
+    }
+  }
+}

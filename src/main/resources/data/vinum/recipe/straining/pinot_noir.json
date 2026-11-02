@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:must_pinot_noir",
+  "output_fluid": "vinum:juice_pinot_noir"
+}

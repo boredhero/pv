@@ -10,7 +10,7 @@ playable; the regression suite exercises world interactions and machine outputs.
 | Product | Reachable path | Important conditions |
 | --- | --- | --- |
 | Wine from juice | Wild seeds → trellis → ripe grapes → powered press → juice → carboy/vat fermentation → wine | Press requires a crank or powered motor. Optional yeast accelerates fermentation. |
-| Wine from must | Grapes + juicer + bowl → must → vat fermentation → adjacent powered press clarification → wine | Skins remain until clarification. Bulk containers can carry the cloudy batch; serving glasses reject solids. |
+| Wine from must | Grapes + juicer + bowl → must → vat fermentation → separate strainer → wine | Skins remain until clarification. Bulk containers can carry the cloudy batch; serving glasses reject solids. |
 | Wine blend | Finished wines → shared container or barrel → volume-weighted blend | Mixing preserves proportions and alcohol; incompatible extra metadata prevents mixing. |
 | Aged wine | Finished wine/blend → assembled oak barrel → reusable bottle/glass | Fermentation progress and maturation age are distinct. Bottling preserves age and composition. |
 | Tequila | Mature agave → strip leaves → piña → furnace cooking → cooked pulp → powered press → mosto → fermentation → wash → still → spirit | 3 L of 10% wash produces 750 mL at 40% ABV in 1,200 heated ticks. |
@@ -31,7 +31,7 @@ ordinary bucket; it does not need its own crafting recipe.
   of the batch's variety or blend name. It now uses the shared wine naming logic.
 - **Unusable servings:** drinking glasses accepted skin-bearing must/wine but
   silently refused drinking. Serving acceptance now rejects solids; bulk
-  containers retain the ability to transport them for clarification.
+  containers retain the ability to transport them for straining.
 - **Still intake:** the UI only understood old wort items and batch buckets.
   Reusable fluid containers now load wash and retain undrained remainders.
 - **Unsafe distillation definitions:** an oversized or unsuitable output item
@@ -61,10 +61,10 @@ ordinary bucket; it does not need its own crafting recipe.
 
 These are still incomplete features, not implied to be solved by this audit.
 
-1. **Cork sealing:** bark and cork production works, but corks have no consumer in
-   bottling. A closure system needs an explicit open/sealed state, cork insertion
-   and removal, and rules for pouring and storage. Adding a cork to an unrelated
-   recipe would not implement those mechanics.
+1. **Closure depth:** wine bottling now consumes a cork on the first successful
+   fill, with prepared bottles for automation and no extra charge for top-ups.
+   Explicit uncorking, reusable closures, and seal-dependent storage remain
+   unimplemented.
 2. **Pre-fermentation blending:** finished wines blend; different juice fluids
    cannot currently co-ferment in one tank. A universal must/juice representation
    would need recipe selection based on batch composition.
@@ -95,12 +95,13 @@ Distillation outputs must be supported reusable containers and fit their capacit
 Custom recipes must preserve real tool/container remainders and reject incomplete
 inputs before consuming anything.
 
-Validation after agave extraction integration: all 129 server GameTests passed;
-527 JSON resources and 72 recipes
-passed the resource checker; the distributable build succeeded. In-client checks
-remain for the player-facing salt interaction, reusable-carboy still intake, and
-aged wine/blend tooltips. Logs are under the ignored `build/logs/` directory.
+Validation after the unified carboy, airlock, cork bottling, and cellar integration:
+all 151 server GameTests passed. The resource checker validated 688 JSON resources
+and 86 recipes. An isolated client reached the welcome screen without Vinum model
+loading errors after removing an unregistered placement helper item. In-game
+visual review remains for fuller vines, flowering clusters, shelves, and airlocks.
+Logs are under the ignored `build/logs/` directory.
 
-Future work should prioritize closures and universal pre-fermentation batches
+Future work should prioritize universal pre-fermentation batches
 before adding many more drink-specific items. That addresses the current
 expansion pressure without replacing stable storage and transaction code.

@@ -12,6 +12,14 @@ public final class CorkLogItem extends BlockItem {
     super(block, properties);
   }
 
+  /** The same saved deadline drives placement, tooltip and inventory artwork. */
+  public static boolean harvested(ItemStack stack) {
+    var data = stack.get(DataComponents.BLOCK_ENTITY_DATA);
+    return data != null
+        && data.copyTag().contains("CorkReadyAt")
+        && data.copyTag().getLong("CorkReadyAt") >= 0;
+  }
+
   @Override
   public int getMaxStackSize(ItemStack stack) {
     return stack.has(DataComponents.BLOCK_ENTITY_DATA) ? 1 : super.getMaxStackSize(stack);
@@ -23,8 +31,6 @@ public final class CorkLogItem extends BlockItem {
     super.appendHoverText(stack, context, tooltip, flag);
     tooltip.add(
         Component.translatable(
-            stack.has(DataComponents.BLOCK_ENTITY_DATA)
-                ? "tooltip.vinum.cork_log_used"
-                : "tooltip.vinum.cork_log"));
+            harvested(stack) ? "tooltip.vinum.cork_log_used" : "tooltip.vinum.cork_log"));
   }
 }

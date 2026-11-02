@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:must_merlot",
+  "output_fluid": "vinum:juice_merlot"
+}

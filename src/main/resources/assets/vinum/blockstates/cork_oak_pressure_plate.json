@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "vinum:block/cork_oak_pressure_plate"
+    },
+    "powered=true": {
+      "model": "vinum:block/cork_oak_pressure_plate_down"
+    }
+  }
+}

@@ -36,6 +36,12 @@ public final class ModTileEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<io.vinum.machine.WinePressBlockEntity>> WINE_PRESS = TILEENTITIES.register("wine_press", () -> BlockEntityType.Builder.of(io.vinum.machine.WinePressBlockEntity::new, ModBlocks.WINE_PRESS.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<io.vinum.machine.BasicGeneratorBlockEntity>> BASIC_GENERATOR = TILEENTITIES.register("basic_generator", () -> BlockEntityType.Builder.of(io.vinum.machine.BasicGeneratorBlockEntity::new, ModBlocks.BASIC_GENERATOR.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<io.vinum.crop.GrapeVineBlockEntity>> GRAPE_VINE =
+            TILEENTITIES.register("grape_vine", () -> BlockEntityType.Builder.of(io.vinum.crop.GrapeVineBlockEntity::new,
+                    ModBlocks.CROP_GRAPE_CHARDONNAY.get(), ModBlocks.CROP_GRAPE_SAUVIGNON_BLANC.get(),
+                    ModBlocks.CROP_GRAPE_CABERNET_SAUVIGNON.get(), ModBlocks.CROP_GRAPE_MERLOT.get(),
+                    ModBlocks.CROP_GRAPE_PINOT_NOIR.get(), ModBlocks.CROP_GRAPE_ZINFANDEL.get()).build(null));
+
     private ModTileEntities() {}
 
     @SubscribeEvent

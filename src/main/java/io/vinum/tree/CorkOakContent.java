@@ -87,6 +87,7 @@ public final class CorkOakContent {
   }
 
   public static void register(IEventBus bus, ModContainer container) {
+    CorkWoodContent.register(bus);
     BLOCKS.register(bus);
     ITEMS.register(bus);
     ENTITIES.register(bus);

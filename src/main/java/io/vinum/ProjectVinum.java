@@ -14,8 +14,11 @@ public final class ProjectVinum {
     public ProjectVinum(IEventBus modBus, ModContainer container) {
         RegistryHandler.registerDeferred(modBus);
         io.vinum.tree.CorkOakContent.register(modBus, container);
+        io.vinum.straining.StrainerContent.register(modBus);
+        io.vinum.shelf.ShelfContent.register(modBus);
         io.vinum.worldgen.AgaveWorldgen.register(modBus);
         modBus.addListener(NetworkLoader::register);
         container.registerConfig(ModConfig.Type.SERVER, BarrelConfig.SPEC);
+        container.registerConfig(ModConfig.Type.SERVER, io.vinum.crop.VineyardConfig.SPEC, "vinum-vineyard-server.toml");
     }
 }

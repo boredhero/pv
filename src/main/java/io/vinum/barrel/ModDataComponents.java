@@ -24,5 +24,10 @@ public final class ModDataComponents {
                     .persistent(SimpleFluidContent.CODEC)
                     .networkSynchronized(SimpleFluidContent.STREAM_CODEC).build());
 
+    /** A cork supplied for this filling; cleared when the bottle is emptied. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BOTTLE_CORK =
+            COMPONENTS.register("bottle_cork", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+
     private ModDataComponents() {}
 }

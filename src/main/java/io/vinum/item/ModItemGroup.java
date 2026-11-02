@@ -16,7 +16,7 @@ public final class ModItemGroup {
           () ->
               CreativeModeTab.builder()
                   .title(Component.translatable("itemGroup.vinum"))
-                  .icon(() -> ModItems.FIFTH_SILVER_TEQUILA.get().getDefaultInstance())
+                  .icon(() -> ModItems.FIFTH_BOTTLE_EMPTY.get().getDefaultInstance())
                   .displayItems(
                       (parameters, output) -> {
                         ModItems.ITEMS
@@ -66,6 +66,9 @@ public final class ModItemGroup {
                                   }
                                 });
                         io.vinum.tree.CorkOakContent.ITEMS
+                            .getEntries()
+                            .forEach(item -> output.accept(item.get()));
+                        io.vinum.shelf.ShelfContent.ITEMS
                             .getEntries()
                             .forEach(item -> output.accept(item.get()));
                       })

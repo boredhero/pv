@@ -14,6 +14,33 @@ public final class WinePressMenu extends AbstractContainerMenu {
     this(id, inventory, null, new ItemStackHandler(3), new SimpleContainerData(7));
   }
 
+  public WinePressMenu(
+      int id, Inventory inventory, net.minecraft.network.RegistryFriendlyByteBuf buffer) {
+    this(
+        id,
+        inventory,
+        resolvePress(inventory, buffer.readBlockPos()),
+        new ItemStackHandler(3),
+        new SimpleContainerData(7));
+  }
+
+  private static WinePressBlockEntity resolvePress(
+      Inventory inventory, net.minecraft.core.BlockPos pos) {
+    return inventory.player.level().getBlockEntity(pos) instanceof WinePressBlockEntity press
+        ? press
+        : null;
+  }
+
+  public net.minecraft.network.chat.Component fluidName() {
+    var fluid =
+        press == null
+            ? net.neoforged.neoforge.fluids.FluidStack.EMPTY
+            : press.fluids().getFluidInTank(0);
+    return fluid.isEmpty()
+        ? net.minecraft.network.chat.Component.translatable("gui.vinum.empty_tank")
+        : io.vinum.beverage.WineCatalog.name(fluid);
+  }
+
   public WinePressMenu(int id, Inventory inventory, WinePressBlockEntity press) {
     this(id, inventory, press, press.inventory, press.data);
   }
@@ -67,10 +94,6 @@ public final class WinePressMenu extends AbstractContainerMenu {
     return (data.get(4) & 2) != 0;
   }
 
-  public boolean clarifying() {
-    return (data.get(4) & 4) != 0;
-  }
-
   public int color() {
     return (data.get(5) & 65535) | ((data.get(6) & 65535) << 16);
   }
@@ -78,13 +101,6 @@ public final class WinePressMenu extends AbstractContainerMenu {
   @Override
   public boolean stillValid(Player player) {
     return press == null || press.usable(player);
-  }
-
-  @Override
-  public boolean clickMenuButton(Player player, int button) {
-    return press != null
-        && press.usable(player)
-        && (button == 0 ? press.turnCrank() : button == 1 && press.clarifyAdjacentVat());
   }
 
   @Override

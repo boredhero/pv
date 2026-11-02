@@ -20,11 +20,12 @@ public final class GrapeColors {
         (state, level, pos, tint) -> {
           if (tint < 10) {
             return switch (tint) {
-              case 1 -> 0xFF587D2F;
-              case 2 -> 0xFF74963F;
+              // The leaf artwork is already green; modest neutral tints keep its veins visible.
+              case 1 -> 0xFFDDE8D6;
+              case 2 -> 0xFFF1FFE5;
               case 3 -> 0xFF9CAC58;
               case 4 -> 0xFFE1D5A1;
-              default -> 0xFF648D35;
+              default -> 0xFFFFFFFF;
             };
           }
           GrapeCropBlock crop = (GrapeCropBlock) state.getBlock();

@@ -109,6 +109,16 @@ public final class CorkLogBlockEntity extends BlockEntity {
   }
 
   @Override
+  public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    return saveCustomOnly(registries);
+  }
+
+  @Override
+  public net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket getUpdatePacket() {
+    return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this);
+  }
+
+  @Override
   public void saveToItem(ItemStack stack, HolderLookup.Provider registries) {
     if (harvested()) BlockItem.setBlockEntityData(stack, getType(), saveCustomOnly(registries));
   }

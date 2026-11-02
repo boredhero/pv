@@ -61,8 +61,9 @@ hand to inspect the fluid, volume, capacity, age, and dimensions.
 
 `fluidContentAge` records elapsed **world game ticks**, independent of the day/night
 clock. Aging continues while a barrel's chunk is unloaded if the server world is
-running. It pauses while the world is closed and while contents are in a bottle
-or a carried barrel item. Emptying a barrel resets its batch age. Combining batches
+running. It pauses while the world is closed or contents are carried as items.
+Wine bottles placed on a loaded Wine Shelf continue aging; spirits do not gain
+barrel maturation while on a shelf. Emptying a barrel resets its batch age. Combining batches
 of the same fluid uses volume-weighted age; adding fresh liquid dilutes that age.
 
 | Beverage | Default maturation stages |
@@ -112,7 +113,13 @@ offered in the creative tab.
 ## Fermentation and preparation
 
 - Craft a **Carboy** from three glass blocks, a glass bottle, and an oak slab. It
-  holds 4 L and accepts clarified liquids. Its narrow neck rejects skin-on must.
+  is the same 4 L container used to carry liquid and ferment small batches.
+  Use it on the press to collect juice, sneak-use a filled one on a vat to pour,
+  or use it on the ground to place it. Its narrow neck rejects skin-on must.
+  Craft an **Airlock** from three glass blocks and one wine cork, then use it on
+  the placed carboy before starting fermentation. Vats do not require airlocks.
+  Breaking and replacing a carboy preserves its liquid, airlock, and paused
+  fermentation progress; changing the liquid while carried resets that progress.
 - Craft **Fermentation Vat** blocks from three oak planks and an iron ingot.
   Complete square footprints combine at widths 1, 2, and 3, independently of
   heights 1, 2, and 3, with 16 L per block (maximum 432 L). A **2×2 footprint one
@@ -122,7 +129,8 @@ offered in the creative tab.
   it with two clear blocks of height. Its wooden basket, central screw, purple
   metal hoops, feet, and catch tray occupy a 1×1×2 space.
 - Attach a **Hand Crank** by right-clicking either half. Turn it with an empty
-  hand on the upper screw, sneak-right-click, or the UI's **Turn crank** button.
+  hand on the upper screw or sneak-right-click the placed machine. The crank
+  stays fixed at the top of the screw while the plate descends; there is no GUI crank button.
   Alternatively attach a **Press Motor Upgrade**, then supply FE. A neighboring
   **Basic Generator** burns furnace fuels to supply it. An unpowered press does
   no work; the motor is required for external FE input.
@@ -134,7 +142,7 @@ offered in the creative tab.
   not an FE bar. The optional motor instead consumes 2,000 FE per batch at up to
   10 FE/tick. The output tank holds 8 L and the motor buffer holds 8,000 FE.
   Incompatible liquid or insufficient tank space pauses processing without
-  consuming ingredients or power. Add a juice carboy to the container slot, or use
+  consuming ingredients or power. Add a carboy to the container slot, or use
   one on the press to draw liquid. Side hoppers insert containers; bottom hoppers
   extract filled containers. Fluid pipes can drain liquid from either half.
 - One grape item, the reusable juicer, and a bowl still prepare 1 L of skin-on must.
@@ -148,17 +156,22 @@ offered in the creative tab.
   Optional wine yeast doubles the rate; craft it from wheat, sugar, and a brown
   mushroom. Batches pause in unloaded chunks, while the world is closed, and while
   carried as items. They do not spoil for lack of tending.
-- Finished juice becomes wine directly. Skin-on must retains its skins: place a
-  Press horizontally beside the finished vat and use **Clarify vat** in the
-  press UI. Then turn the attached crank eight times, or supply 2,000 FE through
-  the motor. The work targets a snapshot of the selected batch; changing that
-  batch cancels progress. The wine stays in the vat, preserving its volume,
-  alcohol, and composition. Raw must and active fermentation cannot be clarified.
-  Separate pomace items and sediment racking are not simulated.
+- Finished juice becomes usable wine directly in either a carboy or vat. The optional
+  skin-on must route uses a **Strainer**, never the Press after fermentation.
+  Use a filled reusable container on the placed strainer to remove skins without
+  changing volume, alcohol, age, or grape proportions. For a bowl of raw must,
+  hold a receiving carboy in the other hand; straining returns the empty bowl
+  and makes juice suitable for small-carboy fermentation. Finished cloudy wine
+  can age in a barrel first and be strained before serving. There is no vat
+  clarification button or sediment-cleanup requirement for pressed juice.
 - Craft empty wine bottles from a glass bottle and green dye, or empty wine glasses
   from a glass bottle and glass pane. Empty wine bottles draw 750 mL; glasses draw 125 mL. Ordinary empty buckets draw
   1 L into a metadata-preserving Batch Bucket, which can pour into another vessel,
   aging barrel, or the still's input slot. Partial servings never consume items.
+- Bottling wine requires one wine cork in your inventory per newly filled bottle.
+  Top-ups use the existing cork; emptying the bottle means the next filling needs
+  a fresh one. Glasses and carboys need no cork. For automated filling, craft an
+  empty bottle together with a cork first. Failed fills consume nothing.
 - Breaking a filled vessel preserves its local fluid and fermentation progress in
   the dropped item. Splitting a vat preserves each physical part's owned contents.
   Compatible inactive batches can assemble; active batches cannot join a new vat.
@@ -304,9 +317,9 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    fail without consuming anything. To accelerate a **single** test vessel after
    starting, run `/data merge block X Y Z {FermentationProgress:23980}` using its
    coordinates; it should finish on the next processing tick.
-4. Place and power a Press beside the finished vat, click **Clarify vat**,
-   then draw a wine bottle and pour it into an aging barrel. Confirm the bottle
-   retains batch metadata and separation required eight manual turns or 2,000 motor FE.
+4. Draw finished must wine into a reusable carboy and use it on a Strainer.
+   Pour the strained wine into an aging barrel or bottle it; confirm volume,
+   alcohol, age, and grape proportions remain unchanged.
 5. Press three cooked agave pulp into 3 L of mosto, ferment it, and feed the still with an
    empty fifth and coal. Confirm a blanco tequila bottle and emptied wash buffer.
 6. Assemble shallow 2×2×1 and taller vats, check the open top and liquid rendering, break/replace a
@@ -314,7 +327,8 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
 
 ## Tequila quick start
 
-1. Find fully grown agave in newly generated deserts or badlands. Craft a Jimador's
+1. Find occasional agave colonies in newly generated deserts or badlands: a mature
+   center with younger plants around it. Craft a Jimador's
    Coa from three iron ingots and two sticks, clip the leaves, then harvest the exposed
    piña with the coa. Disconnected leaf tips fall away with the cut. Replant seeds on
    sand or farmland; bone meal advances growth. Smelt the piña into cooked agave pulp.
@@ -361,7 +375,7 @@ lead powder. Lead ore smelts or blasts into ingots; nine ingots pack into a
 reversible lead block. These preparation recipes abstract the real processing.
 
 The [production architecture audit](docs/production-audit.md) records the complete
-wine/tequila paths, repaired gaps, and unfinished mechanics such as cork sealing,
+wine/tequila paths, repaired gaps, and unfinished mechanics such as explicit uncorking,
 pre-fermentation blending, and a playable mash tun.
 
 The still supports hoppers and NeoForge item handlers: inputs from above, fuel
@@ -493,7 +507,10 @@ pickup and replacement. FE cables from other mods can power the motor too.
 ### Vineyard grapes and ice gathering
 
 Grow cultivated grapes on a **Grape Trellis**, a two-block-tall wooden frame.
-Place frames in a row and use grape seeds on either half to plant them. Leave
+Place frames in a row and use grape seeds on either half to plant them. One
+seedling naturally spreads across up to five sections by default; bone meal
+never spreads it. Configure `maxTrellisesPerVine` (1–16) in
+`vinum-vineyard-server.toml`. Leave
 two blocks of clear space above suitable soil when placing a frame. The vine
 grows a permanent trunk and horizontal arms, then flowers and develops hanging
 3D bunches. Fruit progresses from small green berries through enlargement and
@@ -605,3 +622,17 @@ regenerates on a living tree after nine Minecraft days by default, configurable
 in `vinum-cork-oak-server.toml`. The deadline survives unloading and block pickup;
 detached timber cannot regrow bark. Craft cork bark into wine corks. See
 [cork oak research, world generation, and harvesting](docs/cork-oak.md).
+
+### Wine cellar storage
+
+Craft a **Wine Shelf** with six planks and two sticks. Each shelf starts empty and
+holds five wine/fifth bottles in its X-shaped compartments. Use a bottle on a slot
+to insert it; use an empty hand on that slot to retrieve it. Each occupied slot
+shows a three-dimensional bottle with its contents' bottle style and colors.
+Shelves placed alongside or above one another with the same facing join their
+outer trim into a cellar wall. Wine ages while the shelf is loaded.
+
+Cork oak logs also craft into planks, stairs, slabs, fences, fence gates, doors,
+trapdoors, buttons, and pressure plates. Their 16×16 plank texture matches the
+scale of vanilla wood. Harvested cork logs retain their red exposed surface in
+the inventory and when replaced.

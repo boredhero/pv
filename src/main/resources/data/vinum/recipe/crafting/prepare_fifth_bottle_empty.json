@@ -1,0 +1,20 @@
+{
+  "type": "vinum:cork_bottle",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "vinum:fifth_bottle_empty"
+      },
+      {
+        "item": "vinum:wine_cork"
+      }
+    ],
+    "result": {
+      "id": "vinum:fifth_bottle_empty",
+      "components": {
+        "vinum:bottle_cork": true
+      }
+    }
+  }
+}

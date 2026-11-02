@@ -54,6 +54,7 @@ public final class WineAuditGameTests {
       BarrelConfig.daysToTicks(BarrelConfig.wineReserveDays())
     };
     String[] stages = {"young", "mature", "reserve"};
+    player.getInventory().setItem(9, new ItemStack(ModItems.WINE_CORK.get(), 6));
     for (boolean mixed : new boolean[] {false, true}) {
       for (int stage = 0; stage < ages.length; stage++) {
         FluidStack source =
@@ -139,8 +140,8 @@ public final class WineAuditGameTests {
             && text.getArgs()[0] instanceof Component name
             && name.equals(WineCatalog.name(cloudy)),
         "Vat identifies the actual variety awaiting clarification");
-    helper.assertTrue(vat.press(), "Fermented wine can be clarified without losing volume");
-    FluidStack clear = vat.getFluid();
+    FluidStack clear = io.vinum.straining.StrainerBlock.strain(helper.getLevel(), vat.getFluidHandler(null).drain(1000, FluidAction.EXECUTE));
+    helper.assertTrue(clear.getAmount() == 1000 && vat.getFluid().isEmpty(), "Finished wine strains after leaving the vat without losing volume");
     var glass =
         ((FluidContainerItem) ModItems.WINE_GLASS_EMPTY.get())
             .handler(new ItemStack(ModItems.WINE_GLASS_EMPTY.get()));
