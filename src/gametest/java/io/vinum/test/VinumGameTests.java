@@ -249,7 +249,7 @@ public final class VinumGameTests {
                 if (!offset.equals(BlockPos.ZERO)) helper.getLevel().destroyBlock(pos.offset(offset), true);
             BlockState exposed = helper.getLevel().getBlockState(pos);
             helper.assertTrue(exposed.getValue(AgaveCropBlock.STRIPPED), "Cutting every leaf must expose the piña");
-            List<ItemStack> drops = Block.getDrops(exposed, helper.getLevel(), pos, null);
+            List<ItemStack> drops = Block.getDrops(exposed, helper.getLevel(), pos, null, null, new ItemStack(ModItems.COA.get()));
             helper.assertTrue(count(drops, ModItems.AGAVE_SEEDS.get()) >= 1 && count(drops, ModItems.AGAVE.get()) >= 1, "Exposed mature piña must drop seed and produce");
         }
         helper.getLevel().setBlockAndUpdate(pos.below(), Blocks.STONE.defaultBlockState());

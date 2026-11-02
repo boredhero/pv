@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "vinum:ice_pick"
+    "vinum:ice_pick",
+    "vinum:coa"
   ]
 }

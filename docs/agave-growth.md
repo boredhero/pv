@@ -8,24 +8,32 @@ Stages 0–3 fit in one block. Later stages expand into a bounded set of leaf ce
 the mature rosette spans a 3×3 footprint and three blocks of height. Its eighteen
 occupied cells leave empty corners available rather than reserving an invisible
 solid 3×3×3 cube. Plant centers should be at least three blocks apart, with room
-above them. Wild plants begin at stage 3 and grow normally after generation.
+above them. Wild plants generate fully mature at stage 7 with their complete leaf structure.
+Player-planted seeds still begin at stage 0. Generation rejects an obstructed
+footprint without replacing blocks or leaving a partial plant.
 The heart and leaves have collision following their growth-stage geometry;
 empty corners remain passable. Cutting a leaf immediately clears its collision,
 while the exposed piña stays solid until harvested.
 
 ## Cut the leaves, then harvest the piña
 
-At stage 7, mine the surrounding leaf sections, or right-click each section with
-an axe or shears. Right-click cutting costs one tool durability and respects block
-break-event cancellation. Cutting yields no piña or seeds. The plant stays rooted,
+Craft a **Jimador’s Coa** from three iron ingots and two sticks (iron at top-middle,
+top-right and middle-right; sticks at middle-middle and bottom-left). The coa has
+512 durability, accepts mining/durability enchantments, and is repaired with iron.
+It is the only survival tool that can mine agave or clip its leaves. At stage 7,
+mine surrounding leaf sections with the coa, or right-click them. Each right-click
+costs one durability and respects block break-event cancellation. Cutting yields no piña or seeds. Any leaf sections disconnected from the heart by
+that cut disappear immediately in the same interaction, at no extra durability
+cost. Connectivity follows actual shared blade geometry, not just neighboring
+block positions; attached leaves stay intact. The plant stays rooted,
 and mature cut leaves do not regrow. The missing leaf blocks persist normally in
 world saves, so partially harvesting a plant is safe across sessions.
 
 The central heart cannot be mined normally while leaves remain. After the last
 owned leaf section is cut, the root's persisted `stripped=true` state exposes its
-cream-and-green diamond-scarred piña model. Break that heart to obtain the existing
-`vinum:agave` ingredient and seeds. The produce loot requires both `age=7` and
-`stripped=true`; force-removing an unstripped root cannot bypass the harvest step.
+cream-and-green diamond-scarred piña model. Break that heart with the coa to obtain the existing
+`vinum:agave` ingredient and seeds. The produce loot requires `age=7`,
+`stripped=true`, and a coa; force-removing an unstripped root cannot bypass the harvest step.
 Creative removal of a leaf removes the whole plant without harvest drops.
 Younger plants return seeds, and removing their root or a leaf clears the plant.
 
@@ -44,11 +52,12 @@ Every leaf cell stores its root offset and stage in its block state, requiring n
 block entity, unbounded search, or forced chunk load. Leaf cells validate their
 root on random ticks, clearing orphans after a previously unloaded neighboring
 chunk becomes available. Piña exposure is deferred while a relevant neighboring
-chunk is unavailable, so unloading never counts as cutting leaves.
+chunk is unavailable, so unloading never counts as cutting leaves. Disconnected
+leaf cleanup likewise waits until the complete bounded footprint is loaded.
 
 `scripts/generate_agave_models.py` produces the native cuboid rosette and tapered
 heart models, blockstates, and `AgaveGeometry.java` from the same tapered radial
-leaf geometry. Generated sparse occupancy and selection bounds stay synchronized
+leaf geometry, including the shared-face connectivity graph. Generated sparse occupancy and selection bounds stay synchronized
 with the models. `AgaveColors` supplies waxy blue-green leaf face colors. The piña
 surface uses `textures/block/agave_pina.png`, matching the harvested item artwork.
 

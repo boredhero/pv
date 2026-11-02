@@ -193,8 +193,8 @@
   "beverage.vinum.tequila.extra_anejo": "Extra A\u00f1ejo Tequila",
   "beverage.vinum.tequila.joven": "Joven Tequila",
   "block.vinum.agave_leaves": "Blue Agave Leaves",
-  "block.vinum.agave_cut_leaves": "Cut the surrounding leaves first (%s remaining).",
-  "block.vinum.agave_pina_ready": "Pi\u00f1a exposed \u2014 harvest the heart.",
+  "block.vinum.agave_cut_leaves": "Cut the leaves with a coa first (%s sections remain)",
+  "block.vinum.agave_pina_ready": "Harvest the exposed pi\u00f1a with a coa",
   "block.vinum.cork_oak_log": "Cork Oak Log",
   "block.vinum.cork_oak_leaves": "Cork Oak Leaves",
   "block.vinum.cork_oak_sapling": "Cork Oak Sapling",
@@ -206,5 +206,6 @@
   "message.vinum.salt_needs_heat": "Put a dry steel pot above a lit brazier or campfire to evaporate water.",
   "message.vinum.salt_busy": "This pot already holds water or salt. Use an empty hand to check or collect it.",
   "message.vinum.salt_evaporating": "Water is evaporating. Keep the heat lit; use an empty hand to collect the salt when ready.",
-  "message.vinum.salt_collected": "Salt collected. The pot is ready for more water."
+  "message.vinum.salt_collected": "Salt collected. The pot is ready for more water.",
+  "item.vinum.coa": "Jimador's Coa"
 }

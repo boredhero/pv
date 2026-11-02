@@ -47,6 +47,7 @@ public final class ModItems {
 	//public static final DeferredItem<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(new Item.Properties()));
 	//Items used in crafting that must not break when used.
 	public static final DeferredItem<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<Item> COA = ITEMS.register("coa", () -> new CoaItem(new Item.Properties()));
 	public static final DeferredItem<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new IcePickItem(new Item.Properties()));
 	public static final DeferredItem<Item> COCKTAIL_SHAKER = ITEMS.register("cocktail_shaker", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));

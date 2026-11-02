@@ -9,6 +9,7 @@ import net.minecraft.world.phys.shapes.*;
 public final class AgaveGeometry {
     private static final Map<Integer,List<BlockPos>> CELLS=new HashMap<>();
     private static final Map<String,VoxelShape> SHAPES=new HashMap<>();
+    private static final Map<String,List<BlockPos>> CONNECTIONS=new HashMap<>();
     static {
         double[][] rows={
         {0,0,0,0,6.038,0.027,6.038,9.962,4.067,9.962},
@@ -72,9 +73,72 @@ public final class AgaveGeometry {
             SHAPES.put(key(age,x,y,z),Block.box(row[4],row[5],row[6],row[7],row[8],row[9]));
         }
         CELLS.replaceAll((age,cells)->List.copyOf(cells));
+        int[][] edges={{4,0,0,0,1,0,0},
+        {4,0,0,0,0,1,0},
+        {4,0,0,0,0,0,1},
+        {4,-1,0,0,0,0,0},
+        {4,0,0,-1,0,0,0},
+        {5,0,0,0,1,0,0},
+        {5,0,0,0,0,1,0},
+        {5,0,0,0,0,0,1},
+        {5,-1,0,0,0,0,0},
+        {5,0,0,-1,0,0,0},
+        {5,0,1,0,1,1,0},
+        {5,0,1,0,0,1,1},
+        {5,-1,1,0,0,1,0},
+        {5,0,1,-1,0,1,0},
+        {6,0,0,0,1,0,0},
+        {6,0,0,0,0,1,0},
+        {6,0,0,0,0,0,1},
+        {6,1,0,0,1,0,1},
+        {6,0,0,1,1,0,1},
+        {6,-1,0,1,0,0,1},
+        {6,-1,0,0,0,0,0},
+        {6,-1,0,0,-1,0,1},
+        {6,-1,0,-1,0,0,-1},
+        {6,-1,0,-1,-1,0,0},
+        {6,0,0,-1,1,0,-1},
+        {6,0,0,-1,0,0,0},
+        {6,1,0,-1,1,0,0},
+        {6,0,1,0,1,1,0},
+        {6,0,1,0,0,2,0},
+        {6,0,1,0,0,1,1},
+        {6,-1,1,0,0,1,0},
+        {6,-1,1,0,-1,1,1},
+        {6,-1,1,1,0,1,1},
+        {6,0,1,-1,0,1,0},
+        {7,0,0,0,1,0,0},
+        {7,0,0,0,0,1,0},
+        {7,0,0,0,0,0,1},
+        {7,1,0,0,1,0,1},
+        {7,0,0,1,1,0,1},
+        {7,-1,0,1,0,0,1},
+        {7,-1,0,0,0,0,0},
+        {7,-1,0,0,-1,0,1},
+        {7,-1,0,-1,0,0,-1},
+        {7,-1,0,-1,-1,0,0},
+        {7,0,0,-1,1,0,-1},
+        {7,0,0,-1,0,0,0},
+        {7,1,0,-1,1,0,0},
+        {7,0,1,0,1,1,0},
+        {7,0,1,0,0,2,0},
+        {7,0,1,0,0,1,1},
+        {7,0,1,1,1,1,1},
+        {7,-1,1,0,0,1,0},
+        {7,-1,1,0,-1,1,1},
+        {7,-1,1,1,0,1,1},
+        {7,-1,1,-1,-1,1,0},
+        {7,0,1,-1,0,1,0}};
+        for(int[] edge:edges){
+            BlockPos a=new BlockPos(edge[1],edge[2],edge[3]),b=new BlockPos(edge[4],edge[5],edge[6]);
+            CONNECTIONS.computeIfAbsent(key(edge[0],a.getX(),a.getY(),a.getZ()),k->new ArrayList<>()).add(b);
+            CONNECTIONS.computeIfAbsent(key(edge[0],b.getX(),b.getY(),b.getZ()),k->new ArrayList<>()).add(a);
+        }
+        CONNECTIONS.replaceAll((key,cells)->List.copyOf(cells));
     }
     private AgaveGeometry(){}
     private static String key(int age,int x,int y,int z){return age+":"+x+":"+y+":"+z;}
     public static List<BlockPos> cells(int age){return CELLS.getOrDefault(age,List.of());}
+    public static List<BlockPos> connections(int age,BlockPos cell){return CONNECTIONS.getOrDefault(key(age,cell.getX(),cell.getY(),cell.getZ()),List.of());}
     public static VoxelShape shape(int age,int x,int y,int z){return SHAPES.getOrDefault(key(age,x,y,z),Shapes.empty());}
 }

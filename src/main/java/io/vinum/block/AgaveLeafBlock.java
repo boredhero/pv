@@ -104,8 +104,7 @@ public final class AgaveLeafBlock extends Block {
       Player player,
       net.minecraft.world.InteractionHand hand,
       net.minecraft.world.phys.BlockHitResult hit) {
-    if (!(held.is(net.minecraft.tags.ItemTags.AXES)
-            || held.is(net.minecraft.world.item.Items.SHEARS))
+    if (!held.is(io.vinum.item.ModItems.COA.get())
         || state.getValue(AgaveCropBlock.AGE) != 7)
       return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     if (!player.mayBuild()
@@ -135,8 +134,10 @@ public final class AgaveLeafBlock extends Block {
     BlockPos root = root(state, pos);
     if (level.hasChunk(
             SectionPos.blockToSectionCoord(root.getX()),
-            SectionPos.blockToSectionCoord(root.getZ()))
-        && !ownsCell(level.getBlockState(root), pos.subtract(root))) level.removeBlock(pos, false);
+            SectionPos.blockToSectionCoord(root.getZ()))) {
+      if (!ownsCell(level.getBlockState(root), pos.subtract(root))) level.removeBlock(pos, false);
+      else AgaveHarvest.removeDetachedLeaves(level, root);
+    }
   }
 
   @Override
@@ -149,11 +150,18 @@ public final class AgaveLeafBlock extends Block {
               SectionPos.blockToSectionCoord(root.getZ()))
           && ownsCell(level.getBlockState(root), pos.subtract(root))) {
         if (level.getBlockState(root).getValue(AgaveCropBlock.AGE) == 7)
-          AgaveCropBlock.refreshStripped(level, root);
+          AgaveHarvest.removeDetachedLeaves(level, root);
         else level.destroyBlock(root, true);
       }
     }
     super.onRemove(state, level, pos, replacement, moving);
+  }
+
+  @Override
+  public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+    if (!player.hasInfiniteMaterials() && !player.getMainHandItem().is(io.vinum.item.ModItems.COA.get()))
+      return 0;
+    return super.getDestroyProgress(state, player, level, pos);
   }
 
   @Override

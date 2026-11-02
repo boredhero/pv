@@ -38,6 +38,12 @@
             "age": "7",
             "stripped": "true"
           }
+        },
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": "vinum:coa"
+          }
         }
       ],
       "bonus_rolls": 0

@@ -73,6 +73,12 @@ public final class AgaveGrowthGameTests {
       h.assertTrue(!shape.isEmpty(), "The mature heart and every leaf section must have collision");
       AABB inside = shape.toAabbs().getFirst().deflate(0.0001).move(pos);
       h.assertTrue(!h.getLevel().noCollision(inside), "World movement must collide with the plant geometry");
+    }
+    for (BlockPos offset : AgaveGeometry.cells(7)) {
+      BlockPos pos = root.offset(offset);
+      var shape = h.getLevel().getBlockState(pos).getCollisionShape(h.getLevel(), pos);
+      if (shape.isEmpty()) continue; // A previous cut also removed this disconnected tip.
+      AABB inside = shape.toAabbs().getFirst().deflate(0.0001).move(pos);
       if (!offset.equals(BlockPos.ZERO)) {
         h.getLevel().removeBlock(pos, false);
         h.assertTrue(h.getLevel().noCollision(inside), "Cut leaves must immediately clear their occupied space");
@@ -136,7 +142,7 @@ public final class AgaveGrowthGameTests {
         "Even forced removal cannot bypass leaf stripping to produce piña");
     var leaves = AgaveGeometry.cells(7).stream().filter(p -> !p.equals(BlockPos.ZERO)).toList();
     BlockPos first = root.offset(leaves.getFirst());
-    var axe = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_AXE);
+    var axe = new net.minecraft.world.item.ItemStack(ModItems.COA.get());
     player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, axe);
     var cut =
         h.getLevel()
@@ -155,7 +161,7 @@ public final class AgaveGrowthGameTests {
         cut == net.minecraft.world.ItemInteractionResult.CONSUME
             && axe.getDamageValue() == 1
             && h.getLevel().getBlockState(first).isAir(),
-        "Axe right-click cuts one leaf cell and uses one durability");
+        "Coa right-click cuts one leaf cell and uses one durability");
     h.assertTrue(
         h.getLevel().getBlockState(root).is(crop())
             && !h.getLevel().getBlockState(root).getValue(AgaveCropBlock.STRIPPED),
@@ -185,7 +191,8 @@ public final class AgaveGrowthGameTests {
             .getOrThrow()
             .getValue(AgaveCropBlock.STRIPPED),
         "Exposed-heart state survives block-state serialization");
-    h.getLevel().destroyBlock(root, true);
+    h.getLevel().removeBlock(root, false);
+    crop().playerDestroy(h.getLevel(), player, root, exposed, null, axe);
     var drops =
         h.getLevel().getEntitiesOfClass(ItemEntity.class, new AABB(root).inflate(3)).stream()
             .map(ItemEntity::getItem)
@@ -204,6 +211,43 @@ public final class AgaveGrowthGameTests {
                 .sum()
             >= 1,
         "The exposed heart yields the existing agave processing ingredient");
+    h.succeed();
+  }
+
+  @GameTest(template = "barrel_space")
+  public static void severedUpperLeavesDisappearImmediatelyAndCoaIsRequired(GameTestHelper h) {
+    BlockPos root = plant(h, 0);
+    crop().growTo(h.getLevel(), root, h.getLevel().getBlockState(root), 7);
+    var player = h.makeMockPlayer(GameType.SURVIVAL);
+    BlockPos neck = root.above(), tip = root.above(2);
+    var leaf = h.getLevel().getBlockState(neck);
+    var axe = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_AXE);
+    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, axe);
+    h.assertTrue(leaf.getDestroyProgress(player, h.getLevel(), neck) == 0,
+        "An axe cannot mine agave foliage");
+    var hit = new net.minecraft.world.phys.BlockHitResult(
+        net.minecraft.world.phys.Vec3.atCenterOf(neck), net.minecraft.core.Direction.UP, neck, false);
+    leaf.useItemOn(axe, h.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+    h.assertTrue(h.getLevel().getBlockState(neck).equals(leaf), "An axe cannot clip agave foliage");
+    var coa = new net.minecraft.world.item.ItemStack(ModItems.COA.get());
+    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, coa);
+    h.assertTrue(!h.getLevel().getBlockState(tip).isAir(), "The tall spear starts intact");
+    leaf.useItemOn(coa, h.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+    h.assertTrue(h.getLevel().getBlockState(neck).isAir()
+        && h.getLevel().getBlockState(tip).isAir(),
+        "Cutting the spear base removes its floating upper tip in the same interaction");
+    h.assertTrue(coa.getDamageValue() == 1, "A cascading cut costs one durability, not one per fragment");
+    h.assertTrue(h.getLevel().getBlockState(root.east()).getBlock() instanceof AgaveLeafBlock,
+        "Other attached outward leaves survive the upper cut");
+    for (var cell : AgaveGeometry.cells(7))
+      if (!cell.equals(BlockPos.ZERO)) h.getLevel().removeBlock(root.offset(cell), false);
+    var exposed = h.getLevel().getBlockState(root);
+    player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, axe);
+    h.assertTrue(exposed.getDestroyProgress(player, h.getLevel(), root) == 0,
+        "The exposed piña also requires the coa");
+    h.assertTrue(Block.getDrops(exposed, h.getLevel(), root, null, player, axe).stream()
+        .noneMatch(stack -> stack.is(ModItems.AGAVE.get())),
+        "Forced wrong-tool harvesting cannot yield piña");
     h.succeed();
   }
 

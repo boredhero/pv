@@ -87,7 +87,7 @@ public final class AgaveCropBlock extends CropBlock {
   protected void randomTick(
       BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
     if (isMaxAge(state)) {
-      refreshStripped(level, pos);
+      AgaveHarvest.removeDetachedLeaves(level, pos);
       return;
     }
     if (level.getRawBrightness(pos, 0) >= 9 && random.nextInt(7) == 0)
@@ -184,7 +184,9 @@ public final class AgaveCropBlock extends CropBlock {
       net.minecraft.world.entity.player.Player player,
       BlockGetter level,
       BlockPos pos) {
-    if (isMaxAge(state) && !state.getValue(STRIPPED) && !player.hasInfiniteMaterials()) return 0;
+    if (!player.hasInfiniteMaterials()
+        && (!player.getMainHandItem().is(ModItems.COA.get())
+            || (isMaxAge(state) && !state.getValue(STRIPPED)))) return 0;
     return super.getDestroyProgress(state, player, level, pos);
   }
 

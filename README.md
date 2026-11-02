@@ -314,8 +314,10 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
 
 ## Tequila quick start
 
-1. Find mature agave in deserts or badlands. Harvest it and replant seeds on sand
-   or farmland; bone meal also works. Smelt agave into cooked agave pulp.
+1. Find fully grown agave in newly generated deserts or badlands. Craft a Jimador's
+   Coa from three iron ingots and two sticks, clip the leaves, then harvest the exposed
+   piña with the coa. Disconnected leaf tips fall away with the cut. Replant seeds on
+   sand or farmland; bone meal advances growth. Smelt the piña into cooked agave pulp.
 2. Blast iron ingots or nuggets into steel. Craft a steel brazier, two steel pots,
    and a steel coil. Place them in a two-by-two vertical arrangement, facing the
    same direction: pot above brazier on the left, coil above pot on the right.
