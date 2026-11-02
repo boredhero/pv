@@ -462,7 +462,20 @@ pushes at most 80 FE/tick total into its loaded neighbors. Coal therefore provid
 bottom extracts remainders. Its inventory, charge, and remaining burn time survive
 pickup and replacement. FE cables from other mods can power the motor too.
 
-### Seeds and ice gathering
+### Vineyard grapes and ice gathering
+
+Grow cultivated grapes on a **Grape Trellis**, a two-block-tall wooden frame.
+Place frames in a row and use grape seeds on either half to plant them. Leave
+two blocks of clear space above suitable soil when placing a frame. The vine
+grows a permanent trunk and horizontal arms, then flowers and develops hanging
+3D bunches. Fruit progresses from small green berries through enlargement and
+color change to its variety's ripe color.
+
+Right-click each ripe bunch to harvest it separately. Picking grapes leaves the
+trellis and plant standing; after both bunches are picked, the established vine
+starts another flowering and fruiting cycle. Bone meal advances growth. Wild
+bushes still provide seeds and fruit, but seeds planted by players need a
+trellis. See [vineyard design and research](docs/vineyards.md).
 
 All grapes use one `vinum:grape_seeds` item with a persistent, synchronized
 `vinum:grape_variety` resource-location component. Crop loot, planting, pick-block,
@@ -483,7 +496,9 @@ fail), attach the crank through its upper half, and confirm it appears and turns
 Load grapes with no power (no progress), then crank or install the motor and fuel
 an adjacent generator. Check the two-block basket model and purple bands, tank
 and energy tooltips, hopper input, and a filled carboy output. Replant each colored
-grape seed and confirm its crop variety. Try Fortune on an ice pick. The new
+grape seed on a trellis and confirm its variety. Grow all six varieties with
+bone meal; check the green, coloring, and ripe bunches, pick each side separately,
+and confirm the plant remains and fruits again. Try Fortune on an ice pick. The new
 texture files are installed in `assets/vinum/textures/item/`; restart the dev
 client to load the Java changes and updated assets together.
 

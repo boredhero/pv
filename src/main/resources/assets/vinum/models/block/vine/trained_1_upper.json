@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "wood": "minecraft:block/oak_log",
+    "stem": "minecraft:block/stripped_oak_log",
+    "wire": "minecraft:block/gray_concrete",
+    "leaf": "minecraft:block/white_concrete",
+    "berry": "minecraft:block/white_concrete",
+    "particle": "minecraft:block/oak_log"
+  },
+  "elements": []
+}

@@ -1,16 +1,2076 @@
 {
-  "variants": {
-    "age=0": {
-      "model": "vinum:block/crop_grape_merlot_stage0"
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_lower",
+        "y": 0
+      }
     },
-    "age=1": {
-      "model": "vinum:block/crop_grape_merlot_stage1"
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_lower",
+        "y": 0
+      }
     },
-    "age=2": {
-      "model": "vinum:block/crop_grape_merlot_stage2"
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "0",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_0_lower",
+        "y": 0
+      }
     },
-    "age=3": {
-      "model": "vinum:block/crop_grape_merlot_stage3"
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "1",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_1_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "2",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_2_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "3",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_3_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_4_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_5_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_6_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_7_lower",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_upper",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_left",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_right",
+        "y": 0
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "0",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_0_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "1",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_1_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "2",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_2_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "3",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_3_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_4_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_5_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_6_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_7_lower",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_upper",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "0",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_0_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "1",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_1_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "2",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_2_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "3",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_3_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_4_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_5_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_6_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_7_lower",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_upper",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "0",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_0_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "1",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_1_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "2",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_2_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "3",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_3_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_4_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "4",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_4_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_5_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "5",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_5_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_6_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "6",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_6_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_7_lower",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "lower",
+        "age": "7",
+        "trellised": "false",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/wild_bunch_7_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trellis_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "0",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_0_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "1",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_1_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "2",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_2_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "3",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_3_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_4_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "4",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_4_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_5_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "5",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_5_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_6_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "6",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_6_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_7_upper",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "1|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "half": "upper",
+        "age": "7",
+        "trellised": "true",
+        "bunches": "2|3"
+      },
+      "apply": {
+        "model": "vinum:block/vine/trained_bunch_7_right",
+        "y": 270
+      }
     }
-  }
+  ]
 }

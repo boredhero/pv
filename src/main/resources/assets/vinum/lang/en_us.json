@@ -200,5 +200,7 @@
   "block.vinum.cork_oak_sapling": "Cork Oak Sapling",
   "message.vinum.cork_regrowing": "The cork is regrowing. Leave the living trunk intact.",
   "tooltip.vinum.cork_log": "Use an axe to peel cork without felling the tree.",
-  "tooltip.vinum.cork_log_used": "Harvested bark: regrowth deadline is preserved. Reattach to a living tree."
+  "tooltip.vinum.cork_log_used": "Harvested bark: regrowth deadline is preserved. Reattach to a living tree.",
+  "block.vinum.grape_trellis": "Grape Trellis",
+  "item.vinum.grape_trellis": "Grape Trellis"
 }

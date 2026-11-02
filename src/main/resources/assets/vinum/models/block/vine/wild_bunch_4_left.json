@@ -1,0 +1,1001 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "wood": "minecraft:block/oak_log",
+    "stem": "minecraft:block/stripped_oak_log",
+    "wire": "minecraft:block/gray_concrete",
+    "leaf": "minecraft:block/white_concrete",
+    "berry": "minecraft:block/white_concrete",
+    "particle": "minecraft:block/oak_log"
+  },
+  "elements": [
+    {
+      "from": [
+        3.44,
+        10.4,
+        4.9
+      ],
+      "to": [
+        3.7600000000000002,
+        13.9,
+        5.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 3
+        }
+      }
+    },
+    {
+      "from": [
+        3.44,
+        13.6,
+        4.9
+      ],
+      "to": [
+        3.7600000000000002,
+        14.0,
+        6.8
+      ],
+      "faces": {
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 3
+        }
+      }
+    },
+    {
+      "from": [
+        2.667024,
+        11.523320000000002,
+        3.7692
+      ],
+      "to": [
+        3.4169759999999996,
+        12.40868,
+        4.8108
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        2.5212,
+        11.523320000000002,
+        3.9150240000000003
+      ],
+      "to": [
+        3.5627999999999997,
+        12.40868,
+        4.664976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        3.7830240000000006,
+        11.399320000000001,
+        3.8002
+      ],
+      "to": [
+        4.532976000000001,
+        12.28468,
+        4.841799999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    },
+    {
+      "from": [
+        3.6372000000000004,
+        11.399320000000001,
+        3.946024
+      ],
+      "to": [
+        4.678800000000001,
+        12.28468,
+        4.695976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    },
+    {
+      "from": [
+        3.2250240000000003,
+        11.83332,
+        4.513199999999999
+      ],
+      "to": [
+        3.974976,
+        12.718679999999999,
+        5.5548
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 12
+        }
+      }
+    },
+    {
+      "from": [
+        3.0792,
+        11.83332,
+        4.659024
+      ],
+      "to": [
+        4.1208,
+        12.718679999999999,
+        5.408976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 12
+        }
+      }
+    },
+    {
+      "from": [
+        2.5120240000000003,
+        10.655320000000001,
+        4.1411999999999995
+      ],
+      "to": [
+        3.2619759999999998,
+        11.54068,
+        5.1828
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 13
+        }
+      }
+    },
+    {
+      "from": [
+        2.3662,
+        10.655320000000001,
+        4.287024
+      ],
+      "to": [
+        3.4078,
+        11.54068,
+        5.036976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 13
+        }
+      }
+    },
+    {
+      "from": [
+        3.7830240000000006,
+        10.562320000000001,
+        4.513199999999999
+      ],
+      "to": [
+        4.532976000000001,
+        11.44768,
+        5.5548
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 14
+        }
+      }
+    },
+    {
+      "from": [
+        3.6372000000000004,
+        10.562320000000001,
+        4.659024
+      ],
+      "to": [
+        4.678800000000001,
+        11.44768,
+        5.408976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 14
+        }
+      }
+    },
+    {
+      "from": [
+        3.287024,
+        10.71732,
+        3.4591999999999996
+      ],
+      "to": [
+        4.036976,
+        11.60268,
+        4.5008
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        3.1412,
+        10.71732,
+        3.605024
+      ],
+      "to": [
+        4.1828,
+        11.60268,
+        4.354976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        2.7290240000000003,
+        9.81832,
+        3.7072
+      ],
+      "to": [
+        3.478976,
+        10.703679999999999,
+        4.748799999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    },
+    {
+      "from": [
+        2.5832,
+        9.81832,
+        3.853024
+      ],
+      "to": [
+        3.6248,
+        10.703679999999999,
+        4.602976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    },
+    {
+      "from": [
+        3.752024,
+        9.787320000000001,
+        3.8002
+      ],
+      "to": [
+        4.501976,
+        10.67268,
+        4.841799999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 12
+        }
+      }
+    },
+    {
+      "from": [
+        3.6062,
+        9.787320000000001,
+        3.946024
+      ],
+      "to": [
+        4.6478,
+        10.67268,
+        4.695976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 12
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 12
+        }
+      }
+    },
+    {
+      "from": [
+        3.2250240000000003,
+        9.694320000000001,
+        4.575200000000001
+      ],
+      "to": [
+        3.974976,
+        10.57968,
+        5.6168
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 13
+        }
+      }
+    },
+    {
+      "from": [
+        3.0792,
+        9.694320000000001,
+        4.721024
+      ],
+      "to": [
+        4.1208,
+        10.57968,
+        5.470976
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 13
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 13
+        }
+      }
+    },
+    {
+      "from": [
+        3.061592,
+        9.044559999999999,
+        3.9985999999999993
+      ],
+      "to": [
+        3.704408,
+        9.80344,
+        4.891399999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 14
+        }
+      }
+    },
+    {
+      "from": [
+        2.9366,
+        9.044559999999999,
+        4.1235919999999995
+      ],
+      "to": [
+        3.8294,
+        9.80344,
+        4.766407999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 14
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 14
+        }
+      }
+    },
+    {
+      "from": [
+        3.526592,
+        9.07556,
+        4.4016
+      ],
+      "to": [
+        4.169408,
+        9.83444,
+        5.2943999999999996
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        3.4015999999999997,
+        9.07556,
+        4.526592
+      ],
+      "to": [
+        4.2943999999999996,
+        9.83444,
+        5.169408
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 10
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 10
+        }
+      }
+    },
+    {
+      "from": [
+        3.3095920000000003,
+        8.36256,
+        4.0916
+      ],
+      "to": [
+        3.952408,
+        9.121440000000002,
+        4.984399999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    },
+    {
+      "from": [
+        3.1846,
+        8.36256,
+        4.2165919999999995
+      ],
+      "to": [
+        4.0774,
+        9.121440000000002,
+        4.859407999999999
+      ],
+      "faces": {
+        "north": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "south": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "east": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "west": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "up": {
+          "texture": "#berry",
+          "tintindex": 11
+        },
+        "down": {
+          "texture": "#berry",
+          "tintindex": 11
+        }
+      }
+    }
+  ]
+}

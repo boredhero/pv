@@ -113,29 +113,36 @@ public final class ProductionChainGameTests {
 
     @GameTest(template = "barrel_space")
     public static void allGrapesRetainSeedVarietyThroughLootPlantingAndPressing(GameTestHelper helper) {
-        BlockPos ground = helper.absolutePos(new BlockPos(2, 0, 2));
+        BlockPos root = helper.absolutePos(new BlockPos(2, 1, 2));
         for (GrapeVariety variety : GrapeVariety.values()) {
             var block = (GrapeCropBlock) BuiltInRegistries.BLOCK.get(ProductionInputs.id("crop_grape_" + variety.getSerializedName()));
-            helper.getLevel().setBlock(ground, Blocks.FARMLAND.defaultBlockState(), Block.UPDATE_CLIENTS);
-            var mature = block.defaultBlockState().setValue(GrapeCropBlock.AGE, 3);
-            helper.getLevel().setBlock(ground.above(), mature, Block.UPDATE_CLIENTS);
-            var drops = Block.getDrops(mature, helper.getLevel(), ground.above(), null);
+            var mature = block.defaultBlockState().setValue(GrapeCropBlock.AGE, 7).setValue(GrapeCropBlock.TRELLISED, true);
+            var drops = Block.getDrops(mature, helper.getLevel(), root, null);
             helper.assertTrue(drops.stream().anyMatch(stack -> stack.is(variety.seedItem()) && io.vinum.item.GrapeSeedItem.variety(stack).equals(ProductionInputs.id(variety.getSerializedName())))
-                    && drops.stream().anyMatch(stack -> stack.is(variety.grapeItem())), "Mature " + variety + " must yield plantable seeds and fruit");
+                    && drops.stream().anyMatch(stack -> stack.is(variety.grapeItem())), "Mature " + variety + " must yield plantable seeds and remaining fruit");
             var seed = drops.stream().filter(stack -> stack.is(variety.seedItem())).findFirst().orElseThrow().copy();
-            helper.getLevel().removeBlock(ground.above(), false);
-            var player = helper.makeMockPlayer(GameType.SURVIVAL);
+            var player = GrapeVineGameTests.placeTrellis(helper, root);
             player.setItemInHand(InteractionHand.MAIN_HAND, seed);
-            var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(ground).add(0,.5,0), Direction.UP, ground, false);
+            var hit = GrapeVineGameTests.hit(root.above(), .25);
             var use = new net.minecraft.world.item.context.UseOnContext(helper.getLevel(), player, InteractionHand.MAIN_HAND, seed, hit);
-            helper.assertTrue(seed.useOn(use).consumesAction() && helper.getLevel().getBlockState(ground.above()).is(block),
-                    "Harvested seed plants its own variety: " + variety);
-            helper.assertTrue(io.vinum.item.GrapeSeedItem.variety(block.getCloneItemStack(block.defaultBlockState(),hit,helper.getLevel(),ground.above(),player))
+            helper.assertTrue(seed.useOn(use).consumesAction()
+                    && helper.getLevel().getBlockState(root).is(block)
+                    && helper.getLevel().getBlockState(root.above()).is(block),
+                    "Harvested seed plants its own variety through the upper trellis: " + variety);
+            helper.assertTrue(io.vinum.item.GrapeSeedItem.variety(block.getCloneItemStack(helper.getLevel().getBlockState(root),hit,helper.getLevel(),root,player))
                     .equals(ProductionInputs.id(variety.getSerializedName())), "Pick-block retains variety");
+            helper.assertTrue(block.growTo(helper.getLevel(), root, helper.getLevel().getBlockState(root), 7), "Supported vine ripens");
+            player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            int before = GrapeVineGameTests.countDrops(helper, root, variety.grapeItem());
+            helper.getLevel().getBlockState(root.above()).useWithoutItem(helper.getLevel(), player, hit);
+            int harvested = GrapeVineGameTests.countDrops(helper, root, variety.grapeItem()) - before;
+            helper.assertTrue(harvested >= 1 && harvested <= 2
+                    && helper.getLevel().getBlockState(root).is(block)
+                    && helper.getLevel().getBlockState(root.above()).is(block),
+                    "Picking a ripe bunch yields the matching fruit while preserving both vine halves");
             var pressing = helper.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.PRESSING_TYPE.get()).stream()
                     .map(holder -> holder.value()).filter(recipe -> recipe.canProcess(new ItemStack(variety.grapeItem()))).findFirst().orElseThrow();
             helper.assertTrue(pressing.output().getAmount() == 1000 && pressing.energy() > 0, "Each grape has an exact-volume powered pressing recipe");
-
         }
         helper.succeed();
     }

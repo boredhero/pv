@@ -1,0 +1,22 @@
+{
+  "parent": "vinum:block/vine/trellis_item",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        -0.0,
+        -2.9729,
+        0
+      ],
+      "scale": [
+        0.4291,
+        0.4291,
+        0.4291
+      ]
+    }
+  }
+}

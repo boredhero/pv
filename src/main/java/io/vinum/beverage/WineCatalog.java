@@ -12,7 +12,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 /** Wine varieties are ingredient metadata, not fluid identities. Legacy fluids are read adapters only. */
 public final class WineCatalog {
-    public record Variety(ResourceLocation ingredient, ResourceLocation legacyFluid, int color, int juiceColor, int mustColor, double defaultAlcohol) {}
+    public record Variety(ResourceLocation ingredient, ResourceLocation legacyFluid, int color, int juiceColor, int mustColor, int grapeColor, double defaultAlcohol) {
+        public Variety(ResourceLocation ingredient, ResourceLocation legacyFluid, int color, int juiceColor, int mustColor, double defaultAlcohol) {
+            this(ingredient, legacyFluid, color, juiceColor, mustColor, mustColor, defaultAlcohol);
+        }
+    }
     private static final Map<ResourceLocation, Variety> VARIETIES = new LinkedHashMap<>();
     static {
         try (var input = WineCatalog.class.getResourceAsStream("/vinum/wines.json")) {
@@ -22,7 +26,7 @@ public final class WineCatalog {
                 var data = entry.getAsJsonObject();
                 register(new Variety(ResourceLocation.parse(data.get("ingredient").getAsString()),
                         ProductionInputs.id(data.get("id").getAsString()), hex(data, "wine_color"), hex(data, "juice_color"),
-                        hex(data, "must_color"), data.get("default_alcohol").getAsDouble()));
+                        hex(data, "must_color"), hex(data, data.has("grape_color") ? "grape_color" : "must_color"), data.get("default_alcohol").getAsDouble()));
             }
         } catch (java.io.IOException e) { throw new ExceptionInInitializerError(e); }
     }

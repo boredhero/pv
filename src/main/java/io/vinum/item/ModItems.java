@@ -29,6 +29,7 @@ public final class ModItems {
 	//Agave Products
 	public static final DeferredItem<Item> UNFERMENTED_AGAVE_WORT = ITEMS.register("unfermented_agave_wort", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> FERMENTED_AGAVE_WORT = ITEMS.register("fermented_agave_wort", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<BlockItem> GRAPE_TRELLIS = ITEMS.register("grape_trellis", () -> new BlockItem(ModBlocks.GRAPE_TRELLIS.get(), new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_SEEDS = ITEMS.register("grape_seeds", () -> new GrapeSeedItem(new Item.Properties()));
 	public static final DeferredItem<Item> AGAVE_SEEDS = ITEMS.register("agave_seeds", () -> new ItemNameBlockItem(ModBlocks.CROP_AGAVE.get(), (new Item.Properties())));
 	public static final DeferredItem<Item> AGAVE = ITEMS.register("agave", () -> new Item(new Item.Properties()));

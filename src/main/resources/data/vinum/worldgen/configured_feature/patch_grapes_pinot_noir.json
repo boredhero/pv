@@ -13,7 +13,11 @@
             "state": {
               "Name": "vinum:crop_grape_pinot_noir",
               "Properties": {
-                "age": "3"
+                "age": "7",
+                "half": "lower",
+                "facing": "north",
+                "trellised": "false",
+                "bunches": "3"
               }
             }
           }
@@ -34,7 +38,11 @@
                 "state": {
                   "Name": "vinum:crop_grape_pinot_noir",
                   "Properties": {
-                    "age": "3"
+                    "age": "7",
+                    "half": "lower",
+                    "facing": "north",
+                    "trellised": "false",
+                    "bunches": "3"
                   }
                 }
               }

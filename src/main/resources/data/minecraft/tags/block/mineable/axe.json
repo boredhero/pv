@@ -10,6 +10,13 @@
     "vinum:block_wine_barrel_zinfandel",
     "vinum:barrel",
     "vinum:wine_press",
-    "vinum:cork_oak_log"
+    "vinum:cork_oak_log",
+    "vinum:grape_trellis",
+    "vinum:crop_grape_cabernet_sauvignon",
+    "vinum:crop_grape_zinfandel",
+    "vinum:crop_grape_pinot_noir",
+    "vinum:crop_grape_chardonnay",
+    "vinum:crop_grape_merlot",
+    "vinum:crop_grape_sauvignon_blanc"
   ]
 }

@@ -33,6 +33,18 @@ public final class GrapeSeedItem extends BlockItem {
   }
 
   @Override
+  public BlockPlaceContext updatePlacementContext(BlockPlaceContext context) {
+    var state = context.getLevel().getBlockState(context.getClickedPos());
+    if (!state.is(ModBlocks.GRAPE_TRELLIS.get())) return null;
+    var root =
+        state.getValue(io.vinum.block.GrapeTrellisBlock.HALF)
+                == net.minecraft.world.level.block.state.properties.DoubleBlockHalf.UPPER
+            ? context.getClickedPos().below()
+            : context.getClickedPos();
+    return BlockPlaceContext.at(context, root, net.minecraft.core.Direction.UP);
+  }
+
+  @Override
   protected BlockState getPlacementState(BlockPlaceContext context) {
     ResourceLocation variety = variety(context.getItemInHand());
     var block =
@@ -40,8 +52,31 @@ public final class GrapeSeedItem extends BlockItem {
             ResourceLocation.fromNamespaceAndPath(
                 variety.getNamespace(), "crop_grape_" + variety.getPath()));
     if (!(block instanceof io.vinum.block.GrapeCropBlock)) return null;
-    BlockState state = block.getStateForPlacement(context);
-    return state != null && canPlace(context, state) ? state : null;
+    var level = context.getLevel();
+    var pos = context.getClickedPos();
+    BlockState support = level.getBlockState(pos), upper = level.getBlockState(pos.above());
+    if (!support.is(ModBlocks.GRAPE_TRELLIS.get())
+        || support.getValue(io.vinum.block.GrapeTrellisBlock.HALF)
+            != net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER
+        || !upper.is(ModBlocks.GRAPE_TRELLIS.get())
+        || upper.getValue(io.vinum.block.GrapeTrellisBlock.HALF)
+            != net.minecraft.world.level.block.state.properties.DoubleBlockHalf.UPPER
+        || upper.getValue(io.vinum.block.GrapeTrellisBlock.FACING)
+            != support.getValue(io.vinum.block.GrapeTrellisBlock.FACING)) return null;
+    if (context.getPlayer() != null
+        && (!level.mayInteract(context.getPlayer(), pos.above())
+            || !context
+                .getPlayer()
+                .mayUseItemAt(pos.above(), context.getClickedFace(), context.getItemInHand())))
+      return null;
+    BlockState state =
+        block
+            .defaultBlockState()
+            .setValue(io.vinum.block.GrapeCropBlock.TRELLISED, true)
+            .setValue(
+                io.vinum.block.GrapeCropBlock.FACING,
+                support.getValue(io.vinum.block.GrapeTrellisBlock.FACING));
+    return canPlace(context, state) ? state : null;
   }
 
   @Override
