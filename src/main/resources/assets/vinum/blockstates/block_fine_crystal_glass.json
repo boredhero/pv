@@ -1,0 +1,7 @@
+{
+        "variants": {
+                "": [
+                        { "model": "vinum:block/block_fine_crystal_glass" }
+                ]
+        }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "vinum:fermentation",
+  "input_fluid": "vinum:agave_mosto",
+  "output_fluid": "vinum:agave_wash",
+  "duration_ticks": 24000,
+  "sugar_consumed_g_per_litre": 166.66666666666666,
+  "alcohol_yield_fraction": 0.0006,
+  "solids_remaining_fraction": 0.0
+}

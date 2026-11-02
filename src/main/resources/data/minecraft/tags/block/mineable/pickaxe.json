@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "vinum:steel_brazier",
+    "vinum:steel_pot",
+    "vinum:steel_coil",
+    "vinum:still_multiblock_part_1",
+    "vinum:still_multiblock_part_2",
+    "vinum:still_multiblock_part_3",
+    "vinum:still_multiblock_part_4",
+    "vinum:block_lead",
+    "vinum:block_lead_ore"
+  ]
+}

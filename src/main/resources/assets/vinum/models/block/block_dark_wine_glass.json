@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "vinum:block/block_dark_wine_glass"
+  },
+  "render_type": "minecraft:translucent"
+}

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "vinum:block/block_wine_barrel_cabernet_sauvignon"},
+    "facing=south": {"model": "vinum:block/block_wine_barrel_cabernet_sauvignon", "y": 180 },
+    "facing=west": {"model": "vinum:block/block_wine_barrel_cabernet_sauvignon", "y": 270},
+    "facing=east": {"model": "vinum:block/block_wine_barrel_cabernet_sauvignon", "y": 90}
+  }
+}

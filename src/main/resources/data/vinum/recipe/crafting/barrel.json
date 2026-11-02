@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NPN",
+    "P P",
+    "NPN"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/steel"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "vinum:barrel"
+  }
+}

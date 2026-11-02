@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "III",
+    "N N"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/steel"
+    },
+    "I": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "vinum:steel_pot"
+  }
+}

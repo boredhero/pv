@@ -1,0 +1,15 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="GPL-3.0"
+
+[[mods]]
+modId="vinum_tests"
+version="1.0.0"
+displayName="Project Vinum Integration Tests"
+
+[[dependencies.vinum_tests]]
+modId="vinum"
+type="required"
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"
