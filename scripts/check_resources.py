@@ -54,6 +54,11 @@ def main():
     recipes = 0
     translations = documents.get("assets/vinum/lang/en_us.json", {})
     for source, doc in documents.items():
+        if "/recipe/" in source and doc.get("type") == "vinum:fluid_crafting":
+            if not isinstance(doc.get("amount"), int) or not 1 <= doc["amount"] <= 16000:
+                errors.append(f"{source}: fluid crafting requires a positive bounded volume")
+            check_ref(source, doc.get("fluid_tag", "vinum:missing"), "data/{namespace}/tags/fluid")
+            doc = dict(doc.get("recipe", {}), type="minecraft:crafting_shaped")
         parts = Path(source).parts
         if (len(parts) > 2 and parts[0] == "data" and parts[2] in {"recipes", "loot_tables"}) or "/tags/items/" in source:
             errors.append(f"{source}: legacy plural data directory")
@@ -84,6 +89,18 @@ def main():
             kind = "block" if f"assets/vinum/blockstates/{name}.json" in documents else "item"
             if f"{kind}.vinum.{name}" not in translations:
                 errors.append(f"{source}: missing item display name")
+        if "/recipe/" in source and doc.get("type") == "vinum:pressing":
+            recipes += 1
+            if not isinstance(doc.get("energy"), int) or not 1 <= doc["energy"] <= 32000:
+                errors.append(f"{source}: pressing energy must be 1–32000 FE")
+            if not isinstance(doc.get("count"), int) or not 1 <= doc["count"] <= 64:
+                errors.append(f"{source}: pressing input count must be 1–64")
+            output = doc.get("output", {})
+            if not isinstance(output.get("amount"), int) or not 1 <= output["amount"] <= 8000 or ":" not in output.get("id", ""):
+                errors.append(f"{source}: pressing yield must name a fluid and fit the 8000 mB tank")
+            ingredient = doc.get("ingredient", {})
+            if not ("item" in ingredient or "tag" in ingredient):
+                errors.append(f"{source}: pressing requires an ingredient")
         if "/recipe/" in source and doc.get("type") in {"vinum:fermentation", "vinum:mashing", "vinum:distillation"}:
             recipes += 1
             if not isinstance(doc.get("duration_ticks"), int) or doc["duration_ticks"] <= 0:

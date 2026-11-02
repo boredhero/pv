@@ -56,7 +56,7 @@ public final class ProductionChainGameTests {
         still.loadWithComponents(saved, helper.getLevel().registryAccess());
         tick(helper, still, 1);
         ItemStack output = still.getItem(3);
-        helper.assertTrue(output.is(ModItems.FIFTH_SILVER_TEQUILA.get()), "Agave wash must distill into blanco tequila");
+        helper.assertTrue(output.is(ModItems.FIFTH_BOTTLE_EMPTY.get()), "Agave wash must distill into blanco tequila");
         helper.assertTrue(still.getFluidHandler(null).getFluidInTank(0).getAmount() == 500, "Exactly3000mB wash produces750mB40percent tequila");
         FluidStack bottled = output.get(ModDataComponents.CONTAINED_FLUID.get()).copy();
         var profile = BatchProfile.of(bottled);
@@ -112,7 +112,7 @@ public final class ProductionChainGameTests {
     }
 
     @GameTest(template = "barrel_space")
-    public static void allGrapesHaveMatureSurvivalLootAndReusablePreparation(GameTestHelper helper) {
+    public static void allGrapesRetainSeedVarietyThroughLootPlantingAndPressing(GameTestHelper helper) {
         BlockPos ground = helper.absolutePos(new BlockPos(2, 0, 2));
         for (GrapeVariety variety : GrapeVariety.values()) {
             var block = (GrapeCropBlock) BuiltInRegistries.BLOCK.get(ProductionInputs.id("crop_grape_" + variety.getSerializedName()));
@@ -120,12 +120,22 @@ public final class ProductionChainGameTests {
             var mature = block.defaultBlockState().setValue(GrapeCropBlock.AGE, 3);
             helper.getLevel().setBlock(ground.above(), mature, Block.UPDATE_CLIENTS);
             var drops = Block.getDrops(mature, helper.getLevel(), ground.above(), null);
-            helper.assertTrue(drops.stream().anyMatch(stack -> stack.is(variety.seedItem()))
+            helper.assertTrue(drops.stream().anyMatch(stack -> stack.is(variety.seedItem()) && io.vinum.item.GrapeSeedItem.variety(stack).equals(ProductionInputs.id(variety.getSerializedName())))
                     && drops.stream().anyMatch(stack -> stack.is(variety.grapeItem())), "Mature " + variety + " must yield plantable seeds and fruit");
-            CraftingInput input = CraftingInput.of(3, 1, List.of(new ItemStack(variety.grapeItem()), new ItemStack(ModItems.WINE_PRESS.get()), new ItemStack(ModItems.JUICE_CARBOY.get())));
-            var crafting = helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, helper.getLevel()).orElseThrow().value();
-            helper.assertTrue(!((io.vinum.item.FluidContainerItem)ModItems.JUICE_CARBOY.get()).contents(crafting.assemble(input, helper.getLevel().registryAccess())).isEmpty(), "Each grape must produce fermentable juice");
-            helper.assertTrue(crafting.getRemainingItems(input).stream().anyMatch(stack -> stack.is(ModItems.WINE_PRESS.get())), "Preparing juice must preserve the press");
+            var seed = drops.stream().filter(stack -> stack.is(variety.seedItem())).findFirst().orElseThrow().copy();
+            helper.getLevel().removeBlock(ground.above(), false);
+            var player = helper.makeMockPlayer(GameType.SURVIVAL);
+            player.setItemInHand(InteractionHand.MAIN_HAND, seed);
+            var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(ground).add(0,.5,0), Direction.UP, ground, false);
+            var use = new net.minecraft.world.item.context.UseOnContext(helper.getLevel(), player, InteractionHand.MAIN_HAND, seed, hit);
+            helper.assertTrue(seed.useOn(use).consumesAction() && helper.getLevel().getBlockState(ground.above()).is(block),
+                    "Harvested seed plants its own variety: " + variety);
+            helper.assertTrue(io.vinum.item.GrapeSeedItem.variety(block.getCloneItemStack(block.defaultBlockState(),hit,helper.getLevel(),ground.above(),player))
+                    .equals(ProductionInputs.id(variety.getSerializedName())), "Pick-block retains variety");
+            var pressing = helper.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.PRESSING_TYPE.get()).stream()
+                    .map(holder -> holder.value()).filter(recipe -> recipe.canProcess(new ItemStack(variety.grapeItem()))).findFirst().orElseThrow();
+            helper.assertTrue(pressing.output().getAmount() == 1000 && pressing.energy() > 0, "Each grape has an exact-volume powered pressing recipe");
+
         }
         helper.succeed();
     }

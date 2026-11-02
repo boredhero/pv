@@ -45,6 +45,11 @@ public final class GrapeCropBlock extends CropBlock {
     protected ItemLike getBaseSeedId() { return variety.seedItem(); }
 
     @Override
+    public net.minecraft.world.item.ItemStack getCloneItemStack(BlockState state, net.minecraft.world.phys.HitResult target,
+            net.minecraft.world.level.LevelReader level, BlockPos pos, net.minecraft.world.entity.player.Player player) {
+        return variety.seeds();
+    }
+    @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
         return state.is(BlockTags.DIRT) || super.mayPlaceOn(state, level, pos);
     }

@@ -1,37 +1,42 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "TTA",
-    "SCH",
-    "IGZ"
-  ],
-  "key": {
-    "T": {
-      "item": "vinum:shot_golden_tequila"
+  "type": "vinum:fluid_crafting",
+  "recipe": {
+    "pattern": [
+      "TTA",
+      "SCH",
+      "IGZ"
+    ],
+    "key": {
+      "T": {
+        "item": "vinum:shot_glass"
+      },
+      "G": {
+        "item": "vinum:margarita_glass"
+      },
+      "H": {
+        "item": "minecraft:honey_bottle"
+      },
+      "C": {
+        "item": "vinum:cinnamon"
+      },
+      "S": {
+        "item": "vinum:sea_salt"
+      },
+      "A": {
+        "item": "vinum:apple_juice"
+      },
+      "I": {
+        "item": "vinum:ice_cubes"
+      },
+      "Z": {
+        "item": "vinum:cocktail_shaker"
+      }
     },
-    "G": {
-      "item": "vinum:margarita_glass"
-    },
-    "H": {
-      "item": "minecraft:honey_bottle"
-    },
-    "C": {
-      "item": "vinum:cinnamon"
-    },
-    "S": {
-      "item": "vinum:sea_salt"
-    },
-    "A": {
-      "item": "vinum:apple_juice"
-    },
-    "I": {
-      "item": "vinum:ice_cubes"
-    },
-    "Z": {
-      "item": "vinum:cocktail_shaker"
+    "result": {
+      "id": "vinum:spiced_apple_margarita"
     }
   },
-  "result": {
-    "id": "vinum:spiced_apple_margarita"
-  }
+  "container_item": "vinum:shot_glass",
+  "fluid_tag": "vinum:tequila",
+  "amount": 50
 }

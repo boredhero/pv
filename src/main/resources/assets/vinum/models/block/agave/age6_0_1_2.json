@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "leaf": "minecraft:block/white_concrete",
+    "pina": "vinum:block/agave_pina",
+    "pina_top": "minecraft:block/birch_log_top",
+    "particle": "vinum:block/agave_pina"
+  },
+  "elements": [
+    {
+      "from": [
+        15.407,
+        5.929,
+        0
+      ],
+      "to": [
+        16,
+        7.386,
+        0.289
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 4
+        },
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}

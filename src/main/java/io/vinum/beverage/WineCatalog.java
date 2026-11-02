@@ -65,7 +65,7 @@ public final class WineCatalog {
                 .applyTo(new FluidStack(ModFluids.WINE.source().get(), amount));
     }
     public static Component name(FluidStack fluid) {
-        if (!isWine(fluid)) return fluid.getHoverName();
+        if (!isWine(fluid)) return BeverageAppearance.find(fluid).<Component>map(style -> style.name().isBlank() ? fluid.getHoverName() : Component.translatable(style.name())).orElseGet(fluid::getHoverName);
         var ingredients = BatchProfile.of(normalize(fluid)).ingredientProportions();
         if (ingredients.size() == 1) {
             var variety = VARIETIES.get(ingredients.keySet().iterator().next());
@@ -75,6 +75,8 @@ public final class WineCatalog {
     }
     public static int color(FluidStack fluid) {
         if (fluid.isEmpty()) return 0xFFFFFFFF;
+        var appearance=BeverageAppearance.find(fluid);
+        if(appearance.isPresent())return appearance.get().liquidColor();
         var ingredients = BatchProfile.of(normalize(fluid)).ingredientProportions();
         boolean wine = isWine(fluid);
         boolean must = BatchProfile.of(fluid).solidsGramsPerLitre() > 0;

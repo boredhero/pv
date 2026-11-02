@@ -1,0 +1,126 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "leaf": "minecraft:block/white_concrete",
+    "pina": "vinum:block/agave_pina",
+    "pina_top": "minecraft:block/birch_log_top",
+    "particle": "vinum:block/agave_pina"
+  },
+  "elements": [
+    {
+      "from": [
+        5.741,
+        0.337,
+        15.64
+      ],
+      "to": [
+        6.448,
+        1.526,
+        16
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 4
+        },
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        5.689,
+        1.383,
+        14.844
+      ],
+      "to": [
+        6.128,
+        2.538,
+        15.736
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 4
+        },
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        11.581,
+        1.383,
+        15.515
+      ],
+      "to": [
+        12.173,
+        2.538,
+        16
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf",
+          "tintindex": 3
+        },
+        "down": {
+          "texture": "#leaf",
+          "tintindex": 4
+        },
+        "north": {
+          "texture": "#leaf",
+          "tintindex": 1
+        },
+        "south": {
+          "texture": "#leaf",
+          "tintindex": 1
+        },
+        "east": {
+          "texture": "#leaf",
+          "tintindex": 1
+        },
+        "west": {
+          "texture": "#leaf",
+          "tintindex": 1
+        }
+      }
+    }
+  ]
+}

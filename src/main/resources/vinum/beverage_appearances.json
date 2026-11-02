@@ -1,0 +1,23 @@
+[
+  {
+    "fluids": ["vinum:tequila"],
+    "bottleBaseType": "tequila",
+    "liquidColor": "F9F9F9",
+    "bottleLabelPrimaryColor": "969696",
+    "bottleLabelSecondaryColor": "999999",
+    "name": "beverage.vinum.tequila.blanco",
+    "stages": [
+      {"agingStage": "tooltip.vinum.maturation.reposado", "name": "beverage.vinum.tequila.reposado", "liquidColor": "D8C34B", "bottleLabelPrimaryColor": "D8B658", "bottleLabelSecondaryColor": "B88D43"},
+      {"agingStage": "tooltip.vinum.maturation.anejo", "name": "beverage.vinum.tequila.anejo", "liquidColor": "BD8438", "bottleLabelPrimaryColor": "9A542C", "bottleLabelSecondaryColor": "D2B075"},
+      {"agingStage": "tooltip.vinum.maturation.extra_anejo", "name": "beverage.vinum.tequila.extra_anejo", "liquidColor": "8F4E24", "bottleLabelPrimaryColor": "342A24", "bottleLabelSecondaryColor": "D9B45D"}
+    ]
+  },
+  {
+    "fluids": ["vinum:golden_tequila"],
+    "bottleBaseType": "tequila",
+    "liquidColor": "D8C34B",
+    "bottleLabelPrimaryColor": "D8B658",
+    "bottleLabelSecondaryColor": "999999",
+    "name": "beverage.vinum.tequila.joven"
+  }
+]

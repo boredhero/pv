@@ -2,7 +2,7 @@
   "type": "vinum:distillation",
   "input_fluid": "vinum:agave_wash",
   "output_fluid": "vinum:tequila",
-  "output_item": "vinum:fifth_silver_tequila",
+  "output_item": "vinum:fifth_bottle_empty",
   "duration_ticks": 1200,
   "target_alcohol_fraction": 0.4,
   "output_millibuckets": 750

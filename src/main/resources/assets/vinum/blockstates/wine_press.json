@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=north,lit=false,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 0
+    },
+    "facing=north,lit=false,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 0
+    },
+    "facing=north,lit=true,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 0
+    },
+    "facing=north,lit=true,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 0
+    },
+    "facing=east,lit=false,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 90
+    },
+    "facing=east,lit=false,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 90
+    },
+    "facing=east,lit=true,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 90
+    },
+    "facing=east,lit=true,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 90
+    },
+    "facing=south,lit=false,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 180
+    },
+    "facing=south,lit=false,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 180
+    },
+    "facing=south,lit=true,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 180
+    },
+    "facing=south,lit=true,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 180
+    },
+    "facing=west,lit=false,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 270
+    },
+    "facing=west,lit=false,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 270
+    },
+    "facing=west,lit=true,half=lower": {
+      "model": "vinum:block/wine_press_lower",
+      "y": 270
+    },
+    "facing=west,lit=true,half=upper": {
+      "model": "vinum:block/wine_press_upper",
+      "y": 270
+    }
+  }
+}

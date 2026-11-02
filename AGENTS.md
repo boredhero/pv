@@ -26,5 +26,5 @@ Preserve unrelated and partially completed working-tree changes.
 - Resource changes: run `python scripts/check_resources.py` and relevant behavioral checks.
 - Package: `./gradlew build`. Server integration: `./gradlew runGameTestServer --console=plain`. `build` alone does not run the GameTests.
 - Keep full logs under ignored `build/`; return the result, failing test names, and relevant error excerpts. Avoid repeated successful builds and full log dumps.
-- Do not modify classes/resources underneath Noah's running client. Ask him to close/restart it before builds when necessary.
+- Noah authorizes editing classes/resources and building while his dev client is running. Do not ask him to close it first; tell him to restart after changes are ready.
 - Before a requested push, check the staged diff and whitespace; report the commit, branch, checks, and manual testing still needed. Do not stage unrelated work.

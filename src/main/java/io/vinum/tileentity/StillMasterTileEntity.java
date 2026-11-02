@@ -51,7 +51,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
     private static final int[] BOTTOM_SLOTS = {OUTPUT_SLOT, FUEL_SLOT, WORT_SLOT};
 
     private NonNullList<ItemStack> items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
-    private final ItemStack resultTemplate = new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get());
+    private final ItemStack resultTemplate = ((io.vinum.item.FluidContainerItem)ModItems.FIFTH_BOTTLE_EMPTY.get()).filled(ModItems.spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(),750));
     private final IItemHandler unsidedHandler = new InvWrapper(this);
     private final Map<Direction, IItemHandler> sidedHandlers = new EnumMap<>(Direction.class);
     public static final int WASH_CAPACITY = 16_000;
@@ -235,7 +235,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
     private ItemStack outputForBatch() { return activeRecipe == null ? resultTemplate.copy() : activeRecipe.output(wash); }
 
     public boolean canStill() {
-        if (!items.get(BOTTLE_SLOT).is(ModItems.FIFTH_BOTTLE_EMPTY.get())) return false;
+        if (!isEmptyBottle(items.get(BOTTLE_SLOT))) return false;
         if (activeRecipe == null) activeRecipe = findRecipe().orElse(null);
         if (activeRecipe != null && !activeRecipe.matches(wash)) return false;
         if (activeRecipe == null && !items.get(WORT_SLOT).is(ModItems.FERMENTED_AGAVE_WORT.get())) return false;
@@ -260,10 +260,13 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
         setChanged();
     }
 
+    private static boolean isEmptyBottle(ItemStack stack){
+        return stack.is(ModItems.FIFTH_BOTTLE_EMPTY.get()) && ((io.vinum.item.FluidContainerItem)stack.getItem()).contents(stack).isEmpty();
+    }
     public static boolean isValidInput(int slot, ItemStack stack) {
         return switch (slot) {
             case WORT_SLOT -> stack.is(ModItems.FERMENTED_AGAVE_WORT.get()) || stack.is(ModItems.BATCH_BUCKET.get());
-            case BOTTLE_SLOT -> stack.is(ModItems.FIFTH_BOTTLE_EMPTY.get());
+            case BOTTLE_SLOT -> isEmptyBottle(stack);
             case FUEL_SLOT -> stack.getBurnTime(RecipeType.SMELTING) > 0;
             default -> false;
         };

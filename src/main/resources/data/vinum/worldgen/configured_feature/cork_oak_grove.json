@@ -1,0 +1,8 @@
+{
+  "type": "vinum:cork_oak",
+  "config": {
+    "grove": true,
+    "min_height": 8,
+    "max_height": 10
+  }
+}

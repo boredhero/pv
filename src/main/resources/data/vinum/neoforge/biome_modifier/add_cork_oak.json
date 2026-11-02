@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#vinum:has_cork_oak",
+  "features": "vinum:cork_oak_grove",
+  "step": "vegetal_decoration"
+}

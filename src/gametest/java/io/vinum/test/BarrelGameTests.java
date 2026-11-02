@@ -353,17 +353,22 @@ public final class BarrelGameTests {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         long day = 24_000L;
         long[] ages = {0, 60 * day - 1, 60 * day, 365 * day - 1, 365 * day, 1095 * day - 1, 1095 * day};
-        Item[] expected = {ModItems.FIFTH_SILVER_TEQUILA.get(), ModItems.FIFTH_SILVER_TEQUILA.get(), ModItems.FIFTH_REPOSADO_TEQUILA.get(),
-                ModItems.FIFTH_REPOSADO_TEQUILA.get(), ModItems.FIFTH_ANEJO_TEQUILA.get(), ModItems.FIFTH_ANEJO_TEQUILA.get(), ModItems.FIFTH_EXTRA_ANEJO_TEQUILA.get()};
+        String[] expected = {"blanco", "blanco", "reposado", "reposado", "anejo", "anejo", "extra_anejo"};
+        var bottleItem = (io.vinum.item.FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get();
         for (int index = 0; index < ages.length; index++) {
             tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
             tank.fill(BarrelFluidData.withAge(new FluidStack(ModFluids.TEQUILA.source().get(), 750), ages[index]), IFluidHandler.FluidAction.EXECUTE);
+            player.setShiftKeyDown(false);
             player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()));
             bottle(helper, player, tank);
-            helper.assertTrue(player.getMainHandItem().is(expected[index]) && player.getMainHandItem().getCount() == 1,
-                    "Tequila age " + ages[index] + " must bottle as " + expected[index]);
+            FluidStack bottled = bottleItem.contents(player.getMainHandItem());
+            helper.assertTrue(player.getMainHandItem().is(ModItems.FIFTH_BOTTLE_EMPTY.get()) && player.getMainHandItem().getCount() == 1
+                    && bottled.getAmount() == 750, "Each age uses the same reusable exact-volume bottle");
+            helper.assertTrue(io.vinum.beverage.BeverageAppearance.find(bottled).orElseThrow().name().equals("beverage.vinum.tequila." + expected[index]),
+                    "Tequila age " + ages[index] + " must present as " + expected[index]);
             helper.assertTrue(tank.getFluidInTank(0).isEmpty(), "Bottling must remove exactly 750 mB");
-            helper.assertTrue(player.getMainHandItem().getOrDefault(ModDataComponents.FLUID_AGE.get(), 0L) == ages[index], "Bottled item must retain exact age snapshot");
+            helper.assertTrue(BarrelFluidData.getAge(bottled) == ages[index], "Contained fluid must retain exact age snapshot");
+            player.setShiftKeyDown(true);
             bottle(helper, player, tank);
             helper.assertTrue(player.getMainHandItem().is(ModItems.FIFTH_BOTTLE_EMPTY.get()), "Pouring bottle back must return empty glass");
             helper.assertTrue(tank.getFluidInTank(0).getAmount() == 750 && BarrelFluidData.getAge(tank.getFluidInTank(0)) == ages[index],
@@ -394,31 +399,48 @@ public final class BarrelGameTests {
         placeCube(helper, 1, Direction.NORTH);
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        var bottleItem = (io.vinum.item.FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get();
         tank.fill(new FluidStack(ModFluids.TEQUILA.source().get(), 749), IFluidHandler.FluidAction.EXECUTE);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()));
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(bottleItem));
         bottle(helper, player, tank);
-        helper.assertTrue(player.getMainHandItem().is(ModItems.FIFTH_BOTTLE_EMPTY.get()) && player.getMainHandItem().getCount() == 1
-                && tank.getFluidInTank(0).getAmount() == 749, "Short serving must preserve empty bottle and all remaining fluid");
-        tank.fill(new FluidStack(ModFluids.TEQUILA.source().get(), 224_000), IFluidHandler.FluidAction.EXECUTE);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()));
+        helper.assertTrue(player.getMainHandItem().is(bottleItem) && player.getMainHandItem().getCount() == 1
+                && bottleItem.contents(player.getMainHandItem()).getAmount() == 749 && tank.getFluidInTank(0).isEmpty(),
+                "A partial serving moves exactly 749 mB and preserves the reusable bottle");
+        player.setShiftKeyDown(true);
         bottle(helper, player, tank);
-        helper.assertTrue(player.getMainHandItem().is(ModItems.FIFTH_SILVER_TEQUILA.get()) && tank.getFluidInTank(0).getAmount() == 224_749,
-                "Insufficient capacity must preserve filled bottle and existing fluid");
+        helper.assertTrue(bottleItem.contents(player.getMainHandItem()).isEmpty() && tank.getFluidInTank(0).getAmount() == 749,
+                "The partial serving can be poured back without loss");
+        int capacity = tank.getTankCapacity(0);
+        tank.fill(new FluidStack(ModFluids.TEQUILA.source().get(), capacity - 1000), IFluidHandler.FluidAction.EXECUTE);
+        player.setItemInHand(InteractionHand.MAIN_HAND, bottleItem.filled(new FluidStack(ModFluids.TEQUILA.source().get(), 750)));
+        bottle(helper, player, tank);
+        helper.assertTrue(bottleItem.contents(player.getMainHandItem()).getAmount() == 499
+                && tank.getFluidInTank(0).getAmount() == capacity,
+                "A nearly full tank accepts only 251 mB and leaves 499 mB in the same bottle");
+        bottle(helper, player, tank);
+        helper.assertTrue(bottleItem.contents(player.getMainHandItem()).getAmount() == 499
+                && tank.getFluidInTank(0).getAmount() == capacity,
+                "A completely full tank cannot consume the bottle's remainder");
         helper.succeed();
     }
 
     @GameTest(template = "barrel_space")
-    public static void stackedBottleInteractionReturnsExactlyOneFilledContainer(GameTestHelper helper) {
+    public static void separateBottleInteractionFillsExactlyOneContainer(GameTestHelper helper) {
         placeCube(helper, 1, Direction.NORTH);
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        var bottleItem = (io.vinum.item.FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get();
         tank.fill(new FluidStack(ModFluids.TEQUILA.source().get(), 750), IFluidHandler.FluidAction.EXECUTE);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get(), 2));
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(bottleItem));
+        ItemStack spare = new ItemStack(bottleItem);
+        player.getInventory().setItem(10, spare);
         bottle(helper, player, tank);
-        helper.assertTrue(player.getMainHandItem().is(ModItems.FIFTH_BOTTLE_EMPTY.get()) && player.getMainHandItem().getCount() == 1,
-                "Bottling from a stack must consume only one empty container");
-        helper.assertTrue(player.getInventory().countItem(ModItems.FIFTH_SILVER_TEQUILA.get()) == 1 && tank.getFluidInTank(0).isEmpty(),
-                "Bottling must deliver one filled container without fluid duplication");
+        helper.assertTrue(player.getMainHandItem().getMaxStackSize() == 1
+                && player.getMainHandItem().getCount() == 1
+                && bottleItem.contents(player.getMainHandItem()).getAmount() == 750,
+                "Only the held, unstackable bottle receives the serving");
+        helper.assertTrue(player.getInventory().getItem(10) == spare && bottleItem.contents(spare).isEmpty()
+                && tank.getFluidInTank(0).isEmpty(), "The spare bottle stays empty and no fluid is duplicated");
         helper.succeed();
     }
 
@@ -446,14 +468,10 @@ public final class BarrelGameTests {
         tank(helper, barrel.getBlockPos()).fill(BarrelFluidData.withAge(new FluidStack(Fluids.WATER, 4_000), 1_234), IFluidHandler.FluidAction.EXECUTE);
         ItemStack storedBarrel = new ItemStack(ModItems.BARREL.get());
         barrel.saveToItem(storedBarrel, helper.getLevel().registryAccess());
-        CraftingInput input = CraftingInput.of(2, 1, java.util.List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), storedBarrel));
-        var recipe = helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, helper.getLevel()).orElseThrow().value();
-        var result = recipe.assemble(input, helper.getLevel().registryAccess());
-        helper.assertTrue(result.is(ModItems.FIFTH_GOLDEN_TEQUILA.get()) && result.getCount() == 1, "Filled barrel must remain usable in the retained legacy golden-blend recipe");
-        var remainders = recipe.getRemainingItems(input);
-        int barrels = remainders.stream().filter(stack -> stack.is(ModItems.BARREL.get())).mapToInt(ItemStack::getCount).sum();
-        helper.assertTrue(barrels == 1, "Crafting must return exactly one filled barrel, without duplicating stored contents");
-        ItemStack remainder = remainders.stream().filter(stack -> stack.is(ModItems.BARREL.get())).findFirst().orElseThrow();
+        helper.assertTrue(storedBarrel.hasCraftingRemainingItem(), "Stored barrels expose a reusable crafting remainder");
+        ItemStack remainder = storedBarrel.getCraftingRemainingItem();
+        helper.assertTrue(remainder.is(ModItems.BARREL.get()) && remainder.getCount() == 1,
+                "The crafting remainder returns exactly one filled barrel without multiplying its contents");
         helper.assertTrue(ItemStack.isSameItemSameComponents(storedBarrel, remainder), "Craft remainder must retain fluid, age and item metadata exactly");
         remainder.shrink(1);
         helper.assertTrue(storedBarrel.getCount() == 1, "Craft remainder must be a separate stack, not alias the ingredient");
@@ -608,7 +626,7 @@ public final class BarrelGameTests {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         Fluid[] fluids = {ModFluids.TEQUILA.source().get(), ModFluids.CHARDONNAY.source().get(), ModFluids.CHARDONNAY.source().get(), Fluids.WATER};
         Item[] empty = {ModItems.FIFTH_BOTTLE_EMPTY.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.BUCKET};
-        Item[] filled = {ModItems.FIFTH_SILVER_TEQUILA.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.WATER_BUCKET};
+        Item[] filled = {ModItems.FIFTH_BOTTLE_EMPTY.get(), ModItems.WINE_BOTTLE_EMPTY.get(), ModItems.WINE_GLASS_EMPTY.get(), Items.WATER_BUCKET};
         int[] volumes = {750, 750, 125, 1_000};
         for (int index = 0; index < fluids.length; index++) {
             tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);

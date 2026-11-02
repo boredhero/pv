@@ -1,0 +1,27 @@
+{
+  "mode": "Built-in image_gen reference edits",
+  "reference": "/home/noah/Desktop/MariCarmen-coa.jpg",
+  "processing": "Nearest-neighbor downsample32x32, inspect and install immediately.",
+  "assets": [
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/agave.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "description": "Stripped harvested piña; cream cut leaf scars, dark green seams; no leafy crown.",
+      "prompt": "Use case: precise-object-edit. Input image1 is the existing Minecraft agave item sprite to replace; image2 is botanical reference, specifically the large stripped harvested agave piñas in foreground, NOT the woman/tools/background. Correct item identity to a harvested fully stripped agave PIÑA: solid plump oval heart, broad cream/pale yellow-green diamond-shaped cut leaf scars wrapping in offset rows around curved surface, dark forest-green seams outlining each scar, short small brown root stump at lower end. NO leafy crown, no spiky leaves, no pineapple fruit, no stem on top. Preserve original item's muted green/cream palette and approximate inventory occupancy. Single oval heart tilted slightly diagonally lower-left to upper-right, fully contained centered occupying about26x27 cells on a32x32 logical canvas with transparent margin. Strict Minecraft pixel art, chunky square pixels on32x32 grid, restrained8-color palette, dark outline, light from upperleft, clear broad diamond facets readable at16px inventory size. No antialiasing or detailed photographic textures, no extra objects, no groundshadow, no text. Genuinely transparent background. Will be reduced nearest-neighbor to32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-a0afa79b-6ac1-4942-b1a5-f8c4f2ce65f6.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/block/agave_pina.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "description": "Opaque repeating cut-leaf-scar side surface for tapered block model; requested/authorized by agave_growth agent.",
+      "prompt": "Use case: precise-object-edit. Reference photo shows harvested stripped agave piñas in foreground. Create ONE FULL-BLEED OPAQUE SEAMLESS Minecraft block texture tile for the SURFACE ONLY of that peeled agave heart. Repeating staggered diagonal rows of broad creamy ivory/pale yellow-green diamond/rhombus cut leaf-base scars separated by narrow dark forest green seams. Like photo's pale cut faces with dark green outlines, NOT pineapple fruit. Each cut scar about6-9 logical pixels across on32x32 grid, alternating offset rows, subtly irregular natural diamonds. Limited palette8 colors in ivory/pale muted yellow-green highlights with forestgreen seams. Uniform illumination, no spherical shading or vignette, no borders, no background, NO whole object or piña silhouette, NO leaves. Strict chunky Minecraft pixel art on32x32 logical pixel grid, no antialiasing/smooth noise. Texture will wrap the side surfaces of a tapered voxel oval; seamless repetition across every edge; opaque pixels fill whole square.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-25eb1c7d-1bba-466a-92af-e94fb745d2a7.png"
+    }
+  ]
+}

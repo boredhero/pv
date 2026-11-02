@@ -20,28 +20,33 @@ public final class ModItems {
 
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Defines.MODID);
 
+	public static final DeferredItem<Item> PRESS_MOTOR = ITEMS.register("press_motor", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> HAND_CRANK = ITEMS.register("hand_crank", () -> new Item(new Item.Properties().stacksTo(16)));
+	public static final DeferredItem<Item> BASIC_GENERATOR = ITEMS.register("basic_generator", () -> new io.vinum.machine.MachineBlockItem(ModBlocks.BASIC_GENERATOR.get(), new Item.Properties()));
 	//Metals
 	public static final DeferredItem<Item> STEEL_INGOT = ITEMS.register("steel_ingot", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> STEEL_NUGGET = ITEMS.register("steel_nugget", () -> new Item(new Item.Properties()));
 	//Agave Products
 	public static final DeferredItem<Item> UNFERMENTED_AGAVE_WORT = ITEMS.register("unfermented_agave_wort", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> FERMENTED_AGAVE_WORT = ITEMS.register("fermented_agave_wort", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> GRAPE_SEEDS = ITEMS.register("grape_seeds", () -> new GrapeSeedItem(new Item.Properties()));
 	public static final DeferredItem<Item> AGAVE_SEEDS = ITEMS.register("agave_seeds", () -> new ItemNameBlockItem(ModBlocks.CROP_AGAVE.get(), (new Item.Properties())));
 	public static final DeferredItem<Item> AGAVE = ITEMS.register("agave", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> COOKED_AGAVE_PULP = ITEMS.register("cooked_agave_pulp", () -> new Item(new Item.Properties().food(Foods.DRIED_KELP)));
 	//Glassware and glass crafting
 	public static final DeferredItem<Item> JUICE_CARBOY = ITEMS.register("juice_carboy", () -> new FluidContainerItem(new Item.Properties(), io.vinum.production.vessel.FermentationVesselBlockEntity.CARBOY_CAPACITY, false));
 	public static final DeferredItem<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> FIFTH_BOTTLE_EMPTY = ITEMS.register("fifth_bottle_empty", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_BOTTLE_EMPTY = ITEMS.register("fifth_bottle_empty", () -> new FluidContainerItem(new Item.Properties(), 750, false));
+	public static final DeferredItem<Item> SHOT_GLASS = ITEMS.register("shot_glass", () -> new FluidContainerItem(new Item.Properties(), 50, true));
+	public static final DeferredItem<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new ShotGlassPackItem(new Item.Properties()));
 	public static final DeferredItem<Item> MARGARITA_GLASS = ITEMS.register("margarita_glass", () -> new Item(new Item.Properties()));
 	//Fifths of Booze
-	public static final DeferredItem<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new AgedBeverageItem(new Item.Properties()));
-	public static final DeferredItem<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_SILVER_TEQUILA = ITEMS.register("fifth_silver_tequila", () -> new FluidContainerItem(new Item.Properties(), 750, false, () -> spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(), 750), FIFTH_BOTTLE_EMPTY));
+	public static final DeferredItem<Item> FIFTH_GOLDEN_TEQUILA = ITEMS.register("fifth_golden_tequila", () -> new FluidContainerItem(new Item.Properties(), 750, false, () -> spirit(io.vinum.fluid.ModFluids.GOLDEN_TEQUILA.source().get(), 750), FIFTH_BOTTLE_EMPTY));
 	//public static final DeferredItem<Item> FIFTH_RECTIFIED_SPIRIT = ITEMS.register("fifth_rectified_spirits", () -> new Item(new Item.Properties()));
 	//Items used in crafting that must not break when used.
 	public static final DeferredItem<Item> JUICER = ITEMS.register("juicer", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
-	public static final DeferredItem<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<Item> ICE_PICK = ITEMS.register("ice_pick", () -> new IcePickItem(new Item.Properties()));
 	public static final DeferredItem<Item> COCKTAIL_SHAKER = ITEMS.register("cocktail_shaker", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<Item> MARGARITA_GLASS_MOLD = ITEMS.register("margarita_glass_mold", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
 	//Misc Cocktail Ingredients
@@ -50,8 +55,8 @@ public final class ModItems {
 	public static final DeferredItem<Item> CINNAMON = ITEMS.register("cinnamon", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> SEA_SALT = ITEMS.register("sea_salt", () -> new Item(new Item.Properties()));
 	//ALL DRINKABLE THINGS ARE BELOW
-	public static final DeferredItem<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(Items.GLASS_BOTTLE)));
-	public static final DeferredItem<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new DrinkItem(new Item.Properties(), 32, 1, new ItemStack(Items.GLASS_BOTTLE)));
+	public static final DeferredItem<Item> SHOT_SILVER_TEQUILA = ITEMS.register("shot_silver_tequila", () -> new FluidContainerItem(new Item.Properties(), 50, true, () -> spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(), 50), SHOT_GLASS));
+	public static final DeferredItem<Item> SHOT_GOLDEN_TEQUILA = ITEMS.register("shot_golden_tequila", () -> new FluidContainerItem(new Item.Properties(), 50, true, () -> spirit(io.vinum.fluid.ModFluids.GOLDEN_TEQUILA.source().get(), 50), SHOT_GLASS));
 	public static final DeferredItem<Item> SPICED_APPLE_MARGARITA = ITEMS.register("spiced_apple_margarita", () -> new DrinkItem(new Item.Properties(), 32, 2, new ItemStack(ModItems.MARGARITA_GLASS.get()), new MobEffectInstance(MobEffects.LUCK, 18000), new MobEffectInstance(MobEffects.JUMP, 12000), new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 12000)));
 	//BIG SHIM ENERGY
 	public static final DeferredItem<BarrelItem> BARREL = ITEMS.register("barrel", () -> new BarrelItem(ModBlocks.BARREL.get(), new Item.Properties()));
@@ -60,7 +65,7 @@ public final class ModItems {
 	// Wine content unified from the original project-vinum prototype.
 	public static final DeferredItem<Item> CORK_BARK = ITEMS.register("cork_bark", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> WINE_CORK = ITEMS.register("wine_cork", () -> new Item(new Item.Properties()));
-	public static final DeferredItem<Item> WINE_PRESS = ITEMS.register("wine_press", () -> new DontBreakOnCraftItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<Item> WINE_PRESS = ITEMS.register("wine_press", () -> new io.vinum.machine.MachineBlockItem(ModBlocks.WINE_PRESS.get(), new Item.Properties()));
 	public static final DeferredItem<Item> WINE_YEAST = ITEMS.register("wine_yeast", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> LEAD_INGOT = ITEMS.register("lead_ingot", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> LEAD_POWDER = ITEMS.register("lead_powder", () -> new Item(new Item.Properties()));
@@ -91,12 +96,6 @@ public final class ModItems {
 	public static final DeferredItem<Item> GRAPE_JUICE_MERLOT = ITEMS.register("grape_juice_merlot", () -> new FluidContainerItem(new Item.Properties(), 4000, false, () -> new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.core.registries.BuiltInRegistries.FLUID.get(io.vinum.production.ProductionInputs.id("juice_merlot")), 1000), JUICE_CARBOY));
 	public static final DeferredItem<Item> GRAPE_JUICE_PINOT_NOIR = ITEMS.register("grape_juice_pinot_noir", () -> new FluidContainerItem(new Item.Properties(), 4000, false, () -> new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.core.registries.BuiltInRegistries.FLUID.get(io.vinum.production.ProductionInputs.id("juice_pinot_noir")), 1000), JUICE_CARBOY));
 	public static final DeferredItem<Item> GRAPE_JUICE_ZINFANDEL = ITEMS.register("grape_juice_zinfandel", () -> new FluidContainerItem(new Item.Properties(), 4000, false, () -> new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.core.registries.BuiltInRegistries.FLUID.get(io.vinum.production.ProductionInputs.id("juice_zinfandel")), 1000), JUICE_CARBOY));
-	public static final DeferredItem<Item> GRAPE_SEEDS_CHARDONNAY = ITEMS.register("grape_seeds_chardonnay", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_CHARDONNAY.get(), new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_SAUVIGNON_BLANC = ITEMS.register("grape_seeds_sauvignon_blanc", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_SAUVIGNON_BLANC.get(), new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_CABERNET_SAUVIGNON = ITEMS.register("grape_seeds_cabernet_sauvignon", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_CABERNET_SAUVIGNON.get(), new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_MERLOT = ITEMS.register("grape_seeds_merlot", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_MERLOT.get(), new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_PINOT_NOIR = ITEMS.register("grape_seeds_pinot_noir", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_PINOT_NOIR.get(), new Item.Properties()));
-	public static final DeferredItem<Item> GRAPE_SEEDS_ZINFANDEL = ITEMS.register("grape_seeds_zinfandel", () -> new ItemNameBlockItem(ModBlocks.CROP_GRAPE_ZINFANDEL.get(), new Item.Properties()));
 
 	// Only placed blocks with inventory forms receive block items.
 	public static final DeferredItem<BlockItem> STEEL_BRAZIER = ITEMS.register("steel_brazier", () -> new BlockItem(ModBlocks.STEEL_BRAZIER.get(), new Item.Properties()));
@@ -118,9 +117,9 @@ public final class ModItems {
 	public static final DeferredItem<BlockItem> BLOCK_FINE_CRYSTAL_GLASS = ITEMS.register("block_fine_crystal_glass", () -> new BlockItem(ModBlocks.BLOCK_FINE_CRYSTAL_GLASS.get(), new Item.Properties()));
 
 	// Oak-matured tequila stages share the same fluid and retain their batch age.
-	public static final DeferredItem<Item> FIFTH_REPOSADO_TEQUILA = ITEMS.register("fifth_reposado_tequila", () -> new AgedBeverageItem(new Item.Properties()));
-	public static final DeferredItem<Item> FIFTH_ANEJO_TEQUILA = ITEMS.register("fifth_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
-	public static final DeferredItem<Item> FIFTH_EXTRA_ANEJO_TEQUILA = ITEMS.register("fifth_extra_anejo_tequila", () -> new AgedBeverageItem(new Item.Properties()));
+	public static final DeferredItem<Item> FIFTH_REPOSADO_TEQUILA = ITEMS.register("fifth_reposado_tequila", () -> new FluidContainerItem(new Item.Properties(), 750, false, () -> io.vinum.barrel.BarrelFluidData.withAge(spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(),750),io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.tequilaReposadoDays())), FIFTH_BOTTLE_EMPTY));
+	public static final DeferredItem<Item> FIFTH_ANEJO_TEQUILA = ITEMS.register("fifth_anejo_tequila", () -> new FluidContainerItem(new Item.Properties(), 750, false, () -> io.vinum.barrel.BarrelFluidData.withAge(spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(),750),io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.tequilaAnejoDays())), FIFTH_BOTTLE_EMPTY));
+	public static final DeferredItem<Item> FIFTH_EXTRA_ANEJO_TEQUILA = ITEMS.register("fifth_extra_anejo_tequila", () -> new FluidContainerItem(new Item.Properties(), 750, false, () -> io.vinum.barrel.BarrelFluidData.withAge(spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(),750),io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.tequilaExtraAnejoDays())), FIFTH_BOTTLE_EMPTY));
 
 	// Production containers and vessels share generic batch metadata.
 	public static final DeferredItem<Item> BATCH_BUCKET = ITEMS.register("batch_bucket", () -> new ProductionContainerItem(new Item.Properties().stacksTo(1)));
@@ -132,4 +131,8 @@ public final class ModItems {
 	public static final DeferredItem<Item> GRAPE_MUST_MERLOT = ITEMS.register("grape_must_merlot", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_MUST_PINOT_NOIR = ITEMS.register("grape_must_pinot_noir", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> GRAPE_MUST_ZINFANDEL = ITEMS.register("grape_must_zinfandel", () -> new Item(new Item.Properties()));
+    public static net.neoforged.neoforge.fluids.FluidStack spirit(net.minecraft.world.level.material.Fluid fluid, int amount) {
+        return new io.vinum.production.BatchProfile(0,0,0,.4,java.util.Map.of(io.vinum.production.ProductionInputs.id("agave"),1D),java.util.Optional.empty(),java.util.List.of())
+            .applyTo(new net.neoforged.neoforge.fluids.FluidStack(fluid,amount));
+    }
 }

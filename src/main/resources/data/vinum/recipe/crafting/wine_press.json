@@ -1,16 +1,24 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:piston"
-    },
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "PBP",
+    "SSS"
+  ],
+  "key": {
+    "I": {
       "item": "minecraft:iron_ingot"
     },
-    {
+    "P": {
       "item": "minecraft:oak_planks"
+    },
+    "B": {
+      "item": "minecraft:barrel"
+    },
+    "S": {
+      "item": "minecraft:stone_slab"
     }
-  ],
+  },
   "result": {
     "id": "vinum:wine_press"
   }

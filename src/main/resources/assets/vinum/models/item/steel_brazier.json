@@ -1,3 +1,22 @@
 {
-    "parent": "vinum:block/steel_brazier"
+  "parent": "vinum:block/steel_brazier",
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        -0.0,
+        -0.0238,
+        0
+      ],
+      "scale": [
+        0.5697,
+        0.5697,
+        0.5697
+      ]
+    }
+  }
 }

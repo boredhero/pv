@@ -68,6 +68,11 @@ public class FluidContainerItem extends Item {
         FluidStack fluid = contents(stack);
         tooltip.add(Component.translatable("tooltip.vinum.container_capacity", fluid.getAmount(), capacity).withStyle(ChatFormatting.GRAY));
         if (fluid.isEmpty()) return;
+        io.vinum.barrel.BeverageCatalog.lookupFluid(fluid.getFluid()).ifPresent(beverage -> {
+            long age=BarrelFluidData.getAge(fluid);
+            tooltip.add(Component.translatable("tooltip.vinum.barrel_age",age/io.vinum.config.BarrelConfig.ticksPerDay()).withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("tooltip.vinum.maturation",Component.translatable(beverage.aging().stage(age))).withStyle(ChatFormatting.GOLD));
+        });
         BatchProfile profile = BatchProfile.of(fluid);
         tooltip.add(Component.translatable("tooltip.vinum.alcohol", String.format(java.util.Locale.ROOT, "%.1f", profile.alcoholFraction() * 100)).withStyle(ChatFormatting.GRAY));
         profile.ingredientProportions().entrySet().stream().sorted(java.util.Map.Entry.comparingByKey()).forEach(entry ->
@@ -80,6 +85,7 @@ public class FluidContainerItem extends Item {
         return drinking && !fluid.isEmpty() && fluid.is(DRINKABLE) && BatchProfile.of(fluid).solidsGramsPerLitre() == 0;
     }
     @Override public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if(io.vinum.beverage.ContainerTransfers.betweenHands(level,player,hand))return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand),level.isClientSide);
         return canDrink(player.getItemInHand(hand)) ? ItemUtils.startUsingInstantly(level, player, hand) : InteractionResultHolder.pass(player.getItemInHand(hand));
     }
     @Override public int getUseDuration(ItemStack stack, LivingEntity entity) { return 32; }

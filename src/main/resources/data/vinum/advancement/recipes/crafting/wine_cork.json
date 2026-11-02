@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bark": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "vinum:cork_bark"
+          }
+        ]
+      }
+    },
+    "has_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "vinum:crafting/wine_cork"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bark",
+      "has_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "vinum:crafting/wine_cork"
+    ]
+  }
+}

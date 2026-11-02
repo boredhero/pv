@@ -1,7 +1,52 @@
 {
-    "variants": {
-        "age=0": { "model": "vinum:block/crop_agave_stage0" },
-        "age=1": { "model": "vinum:block/crop_agave_stage1" },
-        "age=2": { "model": "vinum:block/crop_agave_stage2" }
+  "variants": {
+    "age=0,stripped=false": {
+      "model": "vinum:block/crop_agave_stage0"
+    },
+    "age=0,stripped=true": {
+      "model": "vinum:block/crop_agave_stage0"
+    },
+    "age=1,stripped=false": {
+      "model": "vinum:block/crop_agave_stage1"
+    },
+    "age=1,stripped=true": {
+      "model": "vinum:block/crop_agave_stage1"
+    },
+    "age=2,stripped=false": {
+      "model": "vinum:block/crop_agave_stage2"
+    },
+    "age=2,stripped=true": {
+      "model": "vinum:block/crop_agave_stage2"
+    },
+    "age=3,stripped=false": {
+      "model": "vinum:block/crop_agave_stage3"
+    },
+    "age=3,stripped=true": {
+      "model": "vinum:block/crop_agave_stage3"
+    },
+    "age=4,stripped=false": {
+      "model": "vinum:block/crop_agave_stage4"
+    },
+    "age=4,stripped=true": {
+      "model": "vinum:block/crop_agave_stage4"
+    },
+    "age=5,stripped=false": {
+      "model": "vinum:block/crop_agave_stage5"
+    },
+    "age=5,stripped=true": {
+      "model": "vinum:block/crop_agave_stage5"
+    },
+    "age=6,stripped=false": {
+      "model": "vinum:block/crop_agave_stage6"
+    },
+    "age=6,stripped=true": {
+      "model": "vinum:block/crop_agave_stage6"
+    },
+    "age=7,stripped=false": {
+      "model": "vinum:block/crop_agave_stage7"
+    },
+    "age=7,stripped=true": {
+      "model": "vinum:block/agave/pina"
     }
+  }
 }

@@ -1,0 +1,45 @@
+{
+  "mode": "Built-in image_gen edit",
+  "processing": "Nearest-neighbor downsample retaining original16x16 resolution and fully opaque tile.",
+  "assets": [
+    {
+      "file": "src/main/resources/assets/vinum/textures/block/block_ferrous_sand.png",
+      "dimensions_before": [
+        16,
+        16
+      ],
+      "dimensions_after": [
+        16,
+        16
+      ],
+      "prompt": "Use case: precise-object-edit. Edit the supplied existing 16x16 Minecraft block texture: dark muted gray-green iron-rich sand with dispersed darker charcoal mineral grains and a few subdued gray-green lighter grains; keep original dark green-gray palette. Subtly improve grain clarity and organic clustering while preserving its authorial intent and overall brightness. Exactly16x16 logical pixel art; vanilla Minecraft sand appearance, small restrained 1-2 pixel clusters, low contrast natural granular texture. FULL-BLEED OPAQUE seamless repeating square tile, no border, no silhouette, no light source shading gradient, no transparent pixels, no ore chunks, no stones or objects. Palette limited to5-7 related colors. This tile covers each entire face of a sand block, NOT an inventory illustration. Preserve original resolution, will be nearest-neighbor reduced to16x16. Balanced grains continuing across opposite edges.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-99dd0de0-13c9-4c6c-9cec-601ab0e75577.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/block/block_refined_sand.png",
+      "dimensions_before": [
+        16,
+        16
+      ],
+      "dimensions_after": [
+        16,
+        16
+      ],
+      "prompt": "Use case: precise-object-edit. Edit the supplied existing 16x16 Minecraft block texture: fine refined silica sand, off-white very light neutral gray with subtle ivory and soft gray grain variations, clean fine grains; retain original near-white palette. Subtly improve grain clarity and organic clustering while preserving its authorial intent and overall brightness. Exactly16x16 logical pixel art; vanilla Minecraft sand appearance, small restrained 1-2 pixel clusters, low contrast natural granular texture. FULL-BLEED OPAQUE seamless repeating square tile, no border, no silhouette, no light source shading gradient, no transparent pixels, no ore chunks, no stones or objects. Palette limited to5-7 related colors. This tile covers each entire face of a sand block, NOT an inventory illustration. Preserve original resolution, will be nearest-neighbor reduced to16x16. Balanced grains continuing across opposite edges.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-8111a933-817c-4450-917a-4a0254e7e1ef.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/block/block_leaded_sand.png",
+      "dimensions_before": [
+        16,
+        16
+      ],
+      "dimensions_after": [
+        16,
+        16
+      ],
+      "prompt": "Use case: precise-object-edit. Edit the supplied existing 16x16 Minecraft block texture: lead-bearing sand, medium neutral gray base with dispersed dark graphite mineral grains and a few lighter silver-gray grains; preserve original medium gray palette, do not turn green. Subtly improve grain clarity and organic clustering while preserving its authorial intent and overall brightness. Exactly16x16 logical pixel art; vanilla Minecraft sand appearance, small restrained 1-2 pixel clusters, low contrast natural granular texture. FULL-BLEED OPAQUE seamless repeating square tile, no border, no silhouette, no light source shading gradient, no transparent pixels, no ore chunks, no stones or objects. Palette limited to5-7 related colors. This tile covers each entire face of a sand block, NOT an inventory illustration. Preserve original resolution, will be nearest-neighbor reduced to16x16. Balanced grains continuing across opposite edges.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-27a00bf7-32a1-4b92-9fe0-ce406bd7e308.png"
+    }
+  ]
+}

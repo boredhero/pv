@@ -15,5 +15,7 @@ public final class GuiHandler {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModContainers.STILL_MASTER.get(), StillMasterScreen::new);
+        event.register(ModContainers.WINE_PRESS.get(), io.vinum.machine.WinePressScreen::new);
+        event.register(ModContainers.BASIC_GENERATOR.get(), io.vinum.machine.BasicGeneratorScreen::new);
     }
 }

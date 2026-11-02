@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "axis=x,harvested=false": {
+      "model": "vinum:block/cork_oak_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,harvested=true": {
+      "model": "vinum:block/cork_oak_log_harvested",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,harvested=false": {
+      "model": "vinum:block/cork_oak_log"
+    },
+    "axis=y,harvested=true": {
+      "model": "vinum:block/cork_oak_log_harvested"
+    },
+    "axis=z,harvested=false": {
+      "model": "vinum:block/cork_oak_log",
+      "x": 90,
+      "y": 0
+    },
+    "axis=z,harvested=true": {
+      "model": "vinum:block/cork_oak_log_harvested",
+      "x": 90,
+      "y": 0
+    }
+  }
+}

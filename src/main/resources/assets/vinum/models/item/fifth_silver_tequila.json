@@ -1,6 +1,64 @@
 {
-    "parent": "item/generated",
-    "textures": {
-            "layer0": "vinum:item/fifth_silver_tequila"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "vinum:item/fifth_bottle_empty"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/default_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/default_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/default_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/default_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/tequila_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/tequila_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/tequila_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/tequila_4"
     }
+  ]
 }

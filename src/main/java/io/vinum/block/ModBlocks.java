@@ -27,6 +27,8 @@ public final class ModBlocks {
     public static final DeferredHolder<Block, StillMultiblockPart2Block> STILL_MULTIBLOCK_PART_2 = BLOCKS.register("still_multiblock_part_2", () -> new StillMultiblockPart2Block(still()));
     public static final DeferredHolder<Block, StillMultiblockPart3Block> STILL_MULTIBLOCK_PART_3 = BLOCKS.register("still_multiblock_part_3", () -> new StillMultiblockPart3Block(still()));
     public static final DeferredHolder<Block, StillMultiblockPart4Block> STILL_MULTIBLOCK_PART_4 = BLOCKS.register("still_multiblock_part_4", () -> new StillMultiblockPart4Block(still()));
+    public static final DeferredHolder<Block, AgaveLeafBlock> AGAVE_LEAVES = BLOCKS.register("agave_leaves", () -> new AgaveLeafBlock(
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
     public static final DeferredHolder<Block, AgaveCropBlock> CROP_AGAVE = BLOCKS.register("crop_agave", () -> new AgaveCropBlock(
         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
@@ -56,6 +58,9 @@ public final class ModBlocks {
     public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_PINOT_NOIR = BLOCKS.register("crop_grape_pinot_noir", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.PINOT_NOIR));
     public static final DeferredHolder<Block, GrapeCropBlock> CROP_GRAPE_ZINFANDEL = BLOCKS.register("crop_grape_zinfandel", () -> new GrapeCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY), GrapeVariety.ZINFANDEL));
 
+    public static final DeferredHolder<Block, io.vinum.machine.MachineBlock> WINE_PRESS = BLOCKS.register("wine_press", () -> new io.vinum.machine.MachineBlock(barrel(), false));
+    public static final DeferredHolder<Block, io.vinum.machine.MachineBlock> BASIC_GENERATOR = BLOCKS.register("basic_generator", () -> new io.vinum.machine.MachineBlock(steel().strength(3).lightLevel(state -> state.getValue(io.vinum.machine.MachineBlock.LIT) ? 10 : 0), true));
+
     private ModBlocks() {}
 
     private static BlockBehaviour.Properties barrel() {
@@ -84,6 +89,6 @@ public final class ModBlocks {
     }
 
     public static boolean needsItemBlock(Block block) {
-        return !(block instanceof StillPartBlock) && block != CROP_AGAVE.get() && !(block instanceof GrapeCropBlock);
+        return !(block instanceof AgaveLeafBlock) && !(block instanceof StillPartBlock) && block != CROP_AGAVE.get() && !(block instanceof GrapeCropBlock);
     }
 }

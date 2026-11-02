@@ -70,7 +70,7 @@ public final class VinumGameTests {
         StillMasterTileEntity still = assemble(helper, ORIGIN, Direction.NORTH);
         fill(still, Items.COAL);
         helper.runAfterDelay(241, () -> {
-            assertStack(helper, still.getItem(3), ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+            assertTequilaBottle(helper, still.getItem(3));
             helper.assertTrue(still.getItem(0).isEmpty(), "Distillation must consume one wort");
             helper.assertTrue(still.getItem(1).isEmpty(), "Distillation must consume one bottle");
             helper.succeed();
@@ -85,7 +85,7 @@ public final class VinumGameTests {
         helper.assertTrue(still.getItem(3).isEmpty(), "Still must not finish before 240 ticks");
         assertStack(helper, still.getItem(0), ModItems.FERMENTED_AGAVE_WORT.get(), 1);
         tick(helper, still, 1);
-        assertStack(helper, still.getItem(3), ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+        assertTequilaBottle(helper, still.getItem(3));
         helper.assertTrue(still.progressTime == 0, "Completed batch must reset progress");
         helper.succeed();
     }
@@ -112,9 +112,11 @@ public final class VinumGameTests {
         assertStack(helper, still.getItem(0), ModItems.FERMENTED_AGAVE_WORT.get(), 1);
         assertStack(helper, still.getItem(1), ModItems.FIFTH_BOTTLE_EMPTY.get(), 1);
         assertStack(helper, still.getItem(2), Items.COAL, 1);
-        still.setItem(3, new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get(), 64));
+        still.setItem(3, ((io.vinum.item.FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get()).filled(
+                ModItems.spirit(io.vinum.fluid.ModFluids.TEQUILA.source().get(), 750)));
         tick(helper, still, 300);
-        assertStack(helper, still.getItem(3), ModItems.FIFTH_SILVER_TEQUILA.get(), 64);
+        assertTequilaBottle(helper, still.getItem(3));
+        helper.assertTrue(((io.vinum.item.FluidContainerItem) still.getItem(3).getItem()).contents(still.getItem(3)).getAmount() == 750, "Blocked output retains the complete existing serving");
         assertStack(helper, still.getItem(2), Items.COAL, 1);
         helper.succeed();
     }
@@ -143,7 +145,7 @@ public final class VinumGameTests {
         fill(still, Items.LAVA_BUCKET);
         tick(helper, still, 240);
         assertStack(helper, still.getItem(2), Items.BUCKET, 1);
-        assertStack(helper, still.getItem(3), ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+        assertTequilaBottle(helper, still.getItem(3));
         helper.succeed();
     }
 
@@ -161,7 +163,7 @@ public final class VinumGameTests {
         helper.assertTrue(top.extractItem(0, 1, false).isEmpty(), "Automation must not steal unprocessed wort");
         helper.assertTrue(side.extractItem(0, 1, false).isEmpty(), "Automation must not steal unused fuel");
         tick(helper, still, 240);
-        assertStack(helper, bottom.extractItem(0, 64, false), ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+        assertTequilaBottle(helper, bottom.extractItem(0, 64, false));
         assertStack(helper, bottom.extractItem(1, 64, false), Items.BUCKET, 1);
         helper.assertTrue(still.isEmpty(), "Automated batch must leave no duplicate items");
         helper.succeed();
@@ -179,7 +181,7 @@ public final class VinumGameTests {
         helper.assertTrue(restored.progressTime == original.progressTime, "Progress must survive save/load");
         helper.assertTrue(restored.fuelTime == original.fuelTime, "Fuel must survive save/load");
         tick(helper, restored, 123);
-        assertStack(helper, restored.getItem(3), ModItems.FIFTH_SILVER_TEQUILA.get(), 1);
+        assertTequilaBottle(helper, restored.getItem(3));
         helper.assertTrue(restored.getItem(0).isEmpty() && restored.getItem(1).isEmpty(), "Restored batch consumes each input once");
         helper.succeed();
     }
@@ -205,7 +207,7 @@ public final class VinumGameTests {
         for (int broken = 0; broken < 4; broken++) {
             StillMasterTileEntity still = assemble(helper, origins[broken], Direction.NORTH);
             still.setItem(0, new ItemStack(ModItems.FERMENTED_AGAVE_WORT.get(), 3));
-            still.setItem(1, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get(), 5));
+            still.setItem(1, new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get()));
             BlockPos[] positions = parts(still.getBlockPos(), Direction.NORTH);
             helper.getLevel().destroyBlock(positions[broken], true);
             for (int index = 0; index < 4; index++) {
@@ -215,7 +217,7 @@ public final class VinumGameTests {
             AABB area = new AABB(still.getBlockPos()).inflate(2);
             List<ItemStack> drops = helper.getLevel().getEntitiesOfClass(ItemEntity.class, area).stream().map(ItemEntity::getItem).toList();
             helper.assertTrue(count(drops, ModItems.FERMENTED_AGAVE_WORT.get()) == 3, "Wort inventory must drop exactly once");
-            helper.assertTrue(count(drops, ModItems.FIFTH_BOTTLE_EMPTY.get()) == 5, "Bottle inventory must drop exactly once");
+            helper.assertTrue(count(drops, ModItems.FIFTH_BOTTLE_EMPTY.get()) == 1, "Bottle inventory must drop exactly once");
             helper.assertTrue(count(drops, raw[broken].asItem()) == 1, "Broken component must drop once");
         }
         helper.succeed();
@@ -226,17 +228,27 @@ public final class VinumGameTests {
         AgaveCropBlock crop = (AgaveCropBlock) ModBlocks.CROP_AGAVE.get();
         BlockPos pos = helper.absolutePos(ORIGIN);
         for (Block substrate : List.of(Blocks.SAND, Blocks.RED_SAND, Blocks.FARMLAND)) {
+            helper.getLevel().removeBlock(pos, false);
+            for (BlockPos part : BlockPos.betweenClosed(pos.offset(-1,0,-1), pos.offset(1,2,1)))
+                helper.getLevel().removeBlock(part, false);
             helper.getLevel().setBlockAndUpdate(pos.below(), substrate.defaultBlockState());
             helper.getLevel().setBlockAndUpdate(pos, crop.getStateForAge(0));
             helper.assertTrue(crop.getStateForAge(0).canSurvive(helper.getLevel(), pos), "Agave must survive on " + substrate);
             List<ItemStack> youngDrops = Block.getDrops(crop.getStateForAge(0), helper.getLevel(), pos, null);
             helper.assertTrue(count(youngDrops, ModItems.AGAVE_SEEDS.get()) >= 1, "Young agave must return seed");
             helper.assertTrue(count(youngDrops, ModItems.AGAVE.get()) == 0, "Young agave must not drop mature produce");
-            crop.performBonemeal(helper.getLevel(), helper.getLevel().random, pos, helper.getLevel().getBlockState(pos));
+            for (int stage = 0; stage < crop.getMaxAge(); stage++)
+                crop.performBonemeal(helper.getLevel(), helper.getLevel().random, pos, helper.getLevel().getBlockState(pos));
             BlockState mature = helper.getLevel().getBlockState(pos);
-            helper.assertTrue(mature.getValue(crop.getAgeProperty()) == 2, "Bonemeal must mature agave");
-            List<ItemStack> drops = Block.getDrops(mature, helper.getLevel(), pos, null);
-            helper.assertTrue(count(drops, ModItems.AGAVE_SEEDS.get()) >= 1 && count(drops, ModItems.AGAVE.get()) >= 1, "Mature agave must drop seed and produce");
+            helper.assertTrue(mature.getValue(crop.getAgeProperty()) == crop.getMaxAge(), "Successive growth stages must mature agave");
+            helper.assertTrue(count(Block.getDrops(mature, helper.getLevel(), pos, null), ModItems.AGAVE.get()) == 0,
+                    "Mature leaves must be cut before the piña can produce agave");
+            for (BlockPos offset : io.vinum.block.AgaveGeometry.cells(crop.getMaxAge()))
+                if (!offset.equals(BlockPos.ZERO)) helper.getLevel().destroyBlock(pos.offset(offset), true);
+            BlockState exposed = helper.getLevel().getBlockState(pos);
+            helper.assertTrue(exposed.getValue(AgaveCropBlock.STRIPPED), "Cutting every leaf must expose the piña");
+            List<ItemStack> drops = Block.getDrops(exposed, helper.getLevel(), pos, null);
+            helper.assertTrue(count(drops, ModItems.AGAVE_SEEDS.get()) >= 1 && count(drops, ModItems.AGAVE.get()) >= 1, "Exposed mature piña must drop seed and produce");
         }
         helper.getLevel().setBlockAndUpdate(pos.below(), Blocks.STONE.defaultBlockState());
         helper.assertTrue(!crop.getStateForAge(0).canSurvive(helper.getLevel(), pos), "Agave must reject stone");
@@ -249,9 +261,8 @@ public final class VinumGameTests {
         CraftingInput instantFerment = CraftingInput.of(2, 1, List.of(new ItemStack(ModItems.UNFERMENTED_AGAVE_WORT.get()), new ItemStack(ModItems.BARREL.get())));
         helper.assertTrue(helper.getLevel().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, instantFerment, helper.getLevel()).isEmpty(),
                 "Wort must ferment over time in a production vessel, not bypass fermentation through a crafting shortcut");
-        assertCraft(helper, List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), new ItemStack(ModItems.BARREL.get())), ModItems.FIFTH_GOLDEN_TEQUILA.get(), 1, ModItems.BARREL.get());
         assertCraft(helper, List.of(new ItemStack(Items.APPLE), new ItemStack(ModItems.JUICER.get()), new ItemStack(Items.GLASS_BOTTLE)), ModItems.APPLE_JUICE.get(), 1, ModItems.JUICER.get());
-        assertCraft(helper, List.of(new ItemStack(ModItems.FIFTH_SILVER_TEQUILA.get()), new ItemStack(ModItems.PACK_OF_SHOT_GLASSES.get())), ModItems.SHOT_SILVER_TEQUILA.get(), 25, null);
+
         helper.succeed();
     }
 
@@ -259,10 +270,10 @@ public final class VinumGameTests {
     public static void drinkingReturnsContainerForSingleAndStackedShots(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         ItemStack single = new ItemStack(ModItems.SHOT_SILVER_TEQUILA.get());
-        assertStack(helper, single.finishUsingItem(helper.getLevel(), player), Items.GLASS_BOTTLE, 1);
+        assertStack(helper, single.finishUsingItem(helper.getLevel(), player), ModItems.SHOT_GLASS.get(), 1);
         ItemStack stacked = new ItemStack(ModItems.SHOT_SILVER_TEQUILA.get(), 2);
         assertStack(helper, stacked.finishUsingItem(helper.getLevel(), player), ModItems.SHOT_SILVER_TEQUILA.get(), 1);
-        helper.assertTrue(player.getInventory().countItem(Items.GLASS_BOTTLE) == 1, "Stacked drinks must put empty container in inventory");
+        helper.assertTrue(player.getInventory().countItem(ModItems.SHOT_GLASS.get()) == 1, "Stacked drinks must put empty container in inventory");
         helper.succeed();
     }
 
@@ -337,7 +348,7 @@ public final class VinumGameTests {
         for (var recipe : helper.getLevel().getRecipeManager().getRecipes()) {
             if (recipe.id().getNamespace().equals("vinum") && !(recipe.value() instanceof io.vinum.production.FluidProcessRecipe)) {
                 ResourceLocation unlock = ResourceLocation.fromNamespaceAndPath("vinum", "recipes/" + recipe.id().getPath());
-                helper.assertTrue(server.getAdvancements().get(unlock) != null, "Vinum recipe must be discoverable through an unlock advancement: " + recipe.id());
+                helper.assertTrue(recipe.value().isSpecial() || server.getAdvancements().get(unlock) != null, "Vinum recipe must be discoverable through an unlock advancement: " + recipe.id());
             }
         }
         ServerPlayer player = serverPlayer(helper);
@@ -354,7 +365,7 @@ public final class VinumGameTests {
     public static void serverDrinkingChangesBacAndPersistsWholeBottleDose(GameTestHelper helper) {
         ServerPlayer player = serverPlayer(helper);
         ItemStack shot = new ItemStack(ModItems.SHOT_SILVER_TEQUILA.get());
-        assertStack(helper, shot.finishUsingItem(helper.getLevel(), player), Items.GLASS_BOTTLE, 1);
+        assertStack(helper, shot.finishUsingItem(helper.getLevel(), player), ModItems.SHOT_GLASS.get(), 1);
         helper.assertTrue(player.getData(BACCapability.BAC_STATE).getBACLevel() == 1, "Server drink must increment player BAC");
         helper.assertTrue(player.hasEffect(MobEffects.REGENERATION), "First shot must apply regeneration");
         BAC state = player.getData(BACCapability.BAC_STATE);
@@ -369,7 +380,7 @@ public final class VinumGameTests {
     public static void fakePlayerDrinksWithoutRequiringNetworkConnection(GameTestHelper helper) {
         FakePlayer player = new FakePlayer(helper.getLevel(), new GameProfile(UUID.randomUUID(), "vinum-automation"));
         ItemStack shot = new ItemStack(ModItems.SHOT_SILVER_TEQUILA.get());
-        assertStack(helper, shot.finishUsingItem(helper.getLevel(), player), Items.GLASS_BOTTLE, 1);
+        assertStack(helper, shot.finishUsingItem(helper.getLevel(), player), ModItems.SHOT_GLASS.get(), 1);
         helper.assertTrue(player.getData(BACCapability.BAC_STATE).getBACLevel() == 1, "Automated drink use must update fake player BAC without transport");
         helper.succeed();
     }
@@ -508,5 +519,12 @@ public final class VinumGameTests {
 
     private static void assertStack(GameTestHelper helper, ItemStack actual, Item expected, int count) {
         helper.assertTrue(actual.is(expected) && actual.getCount() == count, "Expected " + count + " " + expected + ", got " + actual);
+    }
+    private static void assertTequilaBottle(GameTestHelper helper, ItemStack stack) {
+        assertStack(helper, stack, ModItems.FIFTH_BOTTLE_EMPTY.get(), 1);
+        var contents = ((io.vinum.item.FluidContainerItem) stack.getItem()).contents(stack);
+        helper.assertTrue(contents.getAmount() == 750
+                && contents.getFluid().isSame(io.vinum.fluid.ModFluids.TEQUILA.source().get()),
+                "Distillation returns exactly 750 mB of tequila in the reusable bottle");
     }
 }

@@ -33,10 +33,27 @@ public final class ModTileEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FermentationVesselBlockEntity>> FERMENTATION_VAT =
             TILEENTITIES.register("fermentation_vat", () -> BlockEntityType.Builder.of(FermentationVesselBlockEntity::new, ModBlocks.FERMENTATION_VAT.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<io.vinum.machine.WinePressBlockEntity>> WINE_PRESS = TILEENTITIES.register("wine_press", () -> BlockEntityType.Builder.of(io.vinum.machine.WinePressBlockEntity::new, ModBlocks.WINE_PRESS.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<io.vinum.machine.BasicGeneratorBlockEntity>> BASIC_GENERATOR = TILEENTITIES.register("basic_generator", () -> BlockEntityType.Builder.of(io.vinum.machine.BasicGeneratorBlockEntity::new, ModBlocks.BASIC_GENERATOR.get()).build(null));
+
     private ModTileEntities() {}
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlock(Capabilities.ItemHandler.BLOCK, (level,pos,state,entity,side) -> {
+            var base=io.vinum.machine.MachineBlock.base(state,pos);
+            return level.getBlockEntity(base) instanceof io.vinum.machine.WinePressBlockEntity press ? press.items(side) : null;
+        }, ModBlocks.WINE_PRESS.get());
+        event.registerBlock(Capabilities.FluidHandler.BLOCK, (level,pos,state,entity,side) -> {
+            var base=io.vinum.machine.MachineBlock.base(state,pos);
+            return level.getBlockEntity(base) instanceof io.vinum.machine.WinePressBlockEntity press ? press.fluids() : null;
+        }, ModBlocks.WINE_PRESS.get());
+        event.registerBlock(Capabilities.EnergyStorage.BLOCK, (level,pos,state,entity,side) -> {
+            var base=io.vinum.machine.MachineBlock.base(state,pos);
+            return level.getBlockEntity(base) instanceof io.vinum.machine.WinePressBlockEntity press && press.hasMotor() ? press.energy : null;
+        }, ModBlocks.WINE_PRESS.get());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BASIC_GENERATOR.get(), io.vinum.machine.BasicGeneratorBlockEntity::items);
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BASIC_GENERATOR.get(), (generator, side) -> generator.energy);
         io.vinum.item.ModItems.ITEMS.getEntries().forEach(entry -> {
             if (entry.get() instanceof io.vinum.item.FluidContainerItem container)
                 event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> container.handler(stack), entry.get());

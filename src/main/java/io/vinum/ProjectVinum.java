@@ -13,6 +13,7 @@ import net.neoforged.fml.config.ModConfig;
 public final class ProjectVinum {
     public ProjectVinum(IEventBus modBus, ModContainer container) {
         RegistryHandler.registerDeferred(modBus);
+        io.vinum.tree.CorkOakContent.register(modBus, container);
         modBus.addListener(NetworkLoader::register);
         container.registerConfig(ModConfig.Type.SERVER, BarrelConfig.SPEC);
     }

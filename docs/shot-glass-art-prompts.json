@@ -1,0 +1,11 @@
+{
+  "mode": "Built-in image_gen edit/reference",
+  "file": "src/main/resources/assets/vinum/textures/item/shot_glass.png",
+  "dimensions": [
+    32,
+    32
+  ],
+  "prompt": "Use case: precise-object-edit. Supplied references: first is improved grouped shot glass sprite, second is legacy single tequila shot sprite. Produce ONE EMPTY SHOT GLASS matching the group's pale blue-white glass material and chunky Minecraft pixel style. No liquid baked in, no tint mask, no contents. Single squat tapered tumbler with broad oval rim, thick base, strong pale blue and white glass edges, simple symmetric front-facing slight top-down view. Exactly32x32 logical grid chunky pixel art; centered occupying x6..25 y4..28, bowl interior approx x9..22 y10..24. Entire central bowl interior must be truly transparent, with edge reflections confined to side walls so another texture can show liquid underneath. Transparent background. Readable at16px inventory scale. Limit palette to4 light blues/white; no black fill, no shaded full interior, no antialiasing, text, hands or extra glasses. Thick clean pixel silhouette not delicate photorealism. Output reduced to32x32 nearest-neighbor.",
+  "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-42fb5ccb-443f-41dd-8b44-9a6a2a74b51f.png",
+  "integration": "Neutral empty glass shell; liquid layer renders underneath. Body central transparent region x11..20,y14..21; y22 narrows to x12..19. Safe liquid underlay bounds x10..21,y14..23 inclusive, concealed beneath shell walls/base. Top rim transparent center is x12..19,y9 and x10..21,y10..11, x12..19,y12. No baked liquid."
+}

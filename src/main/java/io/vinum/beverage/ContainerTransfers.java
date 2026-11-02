@@ -12,6 +12,24 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 /** Normal use draws into the held container; sneak-use pours it. Partial transfers conserve remainders. */
 public final class ContainerTransfers {
     private ContainerTransfers() {}
+    /** Transfer between copies and commit both hands together, preserving partial volumes and metadata. */
+    public static boolean betweenHands(Level level,Player player,InteractionHand hand){
+        InteractionHand other=hand==InteractionHand.MAIN_HAND?InteractionHand.OFF_HAND:InteractionHand.MAIN_HAND;
+        ItemStack held=player.getItemInHand(hand), opposite=player.getItemInHand(other);
+        if(!(held.getItem() instanceof FluidContainerItem a) || !(opposite.getItem() instanceof FluidContainerItem b)
+            || held.getCount()!=1 || opposite.getCount()!=1)return false;
+        var first=a.handler(held.copy());var second=b.handler(opposite.copy());
+        IFluidHandler source=player.isShiftKeyDown()?first:second, target=player.isShiftKeyDown()?second:first;
+        FluidStack sample=source.drain(Integer.MAX_VALUE,FluidAction.SIMULATE);
+        int amount=target.fill(sample,FluidAction.SIMULATE);
+        if(amount<=0)return false;
+        if(level.isClientSide)return true;
+        FluidStack drained=source.drain(amount,FluidAction.EXECUTE);
+        if(drained.getAmount()!=amount || target.fill(drained,FluidAction.EXECUTE)!=amount)return false;
+        player.setItemInHand(hand,first.getContainer());player.setItemInHand(other,second.getContainer());
+        level.playSound(null,player.blockPosition(),net.minecraft.sounds.SoundEvents.BOTTLE_FILL,net.minecraft.sounds.SoundSource.PLAYERS,.7F,1);
+        return true;
+    }
     public static ItemInteractionResult use(ItemStack held, Level level, Player player, InteractionHand hand, IFluidHandler tank) {
         if (!(held.getItem() instanceof FluidContainerItem item)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (level.isClientSide) return ItemInteractionResult.SUCCESS;

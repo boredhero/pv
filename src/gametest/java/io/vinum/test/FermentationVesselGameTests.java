@@ -148,7 +148,18 @@ public final class FermentationVesselGameTests {
                     helper.getLevel().setBlock(carboyPos, ModBlocks.CARBOY.get().defaultBlockState(), Block.UPDATE_CLIENTS);
                     helper.assertTrue(vessel(helper, carboyPos).getFluidHandler(null).fill(before, SIMULATE) == 0,
                             "Unpressed wine cannot enter a carboy");
-                    helper.assertTrue(vat.press(), "Wine Press removes skins after fermentation");
+                    BlockPos pressPos = pos.relative(net.minecraft.core.Direction.WEST);
+                    helper.getLevel().setBlock(pressPos, ModBlocks.WINE_PRESS.get().defaultBlockState(), Block.UPDATE_CLIENTS);
+                    var press = (io.vinum.machine.WinePressBlockEntity) helper.getLevel().getBlockEntity(pressPos);
+                    helper.assertTrue(!press.clarifyAdjacentVat(), "Unpowered press cannot clarify finished must");
+                    press.attachMotor();
+                    press.energy.generate(2000);
+                    helper.assertTrue(press.clarifyAdjacentVat(), "Select adjacent finished vat");
+                    for(int tick=0;tick<200;tick++)io.vinum.machine.WinePressBlockEntity.tick(helper.getLevel(),pressPos,press.getBlockState(),press);
+                    helper.assertTrue(press.energy.getEnergyStored()==0,"Motor separation consumes exactly the required work");
+                    press.energy.generate(2000);
+                    helper.assertTrue(!press.clarifyAdjacentVat() && press.energy.getEnergyStored() == 2000,
+                            "Already clear wine cannot consume another stroke");
                     FluidStack after = vat.getFluid();
                     BatchProfile pressed = BatchProfile.of(after);
                     helper.assertTrue(after.getAmount() == before.getAmount() && pressed.solidsGramsPerLitre() == 0

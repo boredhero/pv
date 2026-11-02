@@ -13,6 +13,10 @@ public final class ProductionDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BatchProfile>> BATCH_PROFILE =
             COMPONENTS.register("batch_profile", () -> DataComponentType.<BatchProfile>builder()
                     .persistent(BatchProfile.CODEC).networkSynchronized(BatchProfile.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.minecraft.resources.ResourceLocation>> GRAPE_VARIETY =
+            COMPONENTS.register("grape_variety", () -> DataComponentType.<net.minecraft.resources.ResourceLocation>builder()
+                    .persistent(net.minecraft.resources.ResourceLocation.CODEC)
+                    .networkSynchronized(net.minecraft.resources.ResourceLocation.STREAM_CODEC).build());
     private ProductionDataComponents() {}
     public static void register(IEventBus bus) { COMPONENTS.register(bus); }
 }

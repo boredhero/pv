@@ -1,0 +1,70 @@
+{
+  "mode": "Built-in image_gen edit",
+  "date": "2026-11-02",
+  "processing": "Nearest-neighbor downscale using ImageMagick; generated transparency preserved. Each reduced image inspected then installed immediately.",
+  "mold_note": "Only margarita_glass_mold exists; retained its coupe cavity rather than creating a shot-glass mold item.",
+  "assets": [
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/cinnamon.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft item sprite. Improve two parallel diagonal cinnamon quills, warm ochre brown rolled bark, retain original diagonal silhouette and colors; clarify rolled hollow ends and longitudinal ridges. Preserve the author's object identity and palette. Single centered inventory icon for Minecraft on genuinely transparent background, filling 88% of square. Strict chunky pixel art with a 32 by 32 logical pixel grid, crisp square pixels, restrained 8-12 colors, no antialiasing, no realistic rendering, no text or extra objects. Output will be nearest-neighbor reduced to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-64d04d23-8ae9-4270-9cfc-04361b215c33.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/sea_salt.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft item sprite. Improve small loose pile of white sea salt, Maldon-like thin hollow pyramidal flakes, icy pale lavender shadows and white angular highlights, no bowl or packaging. Preserve the author's object identity and palette. Single centered inventory icon for Minecraft on genuinely transparent background, filling 88% of square. Strict chunky pixel art with a 32 by 32 logical pixel grid, crisp square pixels, restrained 8-12 colors, no antialiasing, no realistic rendering, no text or extra objects. Output will be nearest-neighbor reduced to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-de96bb4a-6aed-4334-8eaf-43762cc3efe7.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/margarita_glass.png",
+      "dimensions": 64,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original Minecraft item sprite. Overhaul an EMPTY classic broad shallow margarita coupe, narrow stem and round foot. Preserve clear white/pale-blue glass outline, wide bowl proportions; improve rim ellipse and a few glass reflections, transparent empty interior. Preserve authorial intent. Single centered inventory sprite on genuinely transparent background, fill 88% of square. Minecraft pixel art, crisp square pixel clusters on a 32 by 32 logical grid, limited palette, no antialiasing or photorealism, no text, no background or cast shadow. Designed to remain legible reduced to 64x64.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-e0801d29-74a2-4fca-8e6d-4f2650c06235.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/spiced_apple_margarita.png",
+      "dimensions": 64,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original Minecraft item sprite. Overhaul a spiced apple margarita in a broad stemmed margarita glass, amber orange apple cocktail with pale salted rim and red-green apple garnish at upper right. Preserve original warm drink palette and garnish placement; distinct stem and foot. Preserve authorial intent. Single centered inventory sprite on genuinely transparent background, fill 88% of square. Minecraft pixel art, crisp square pixel clusters on a 32 by 32 logical grid, limited palette, no antialiasing or photorealism, no text, no background or cast shadow. Designed to remain legible reduced to 64x64.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-a72751c3-7d38-4aaf-b74b-ac9267bd2b06.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/pack_of_shot_glasses.png",
+      "dimensions": 64,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied original Minecraft item sprite. Overhaul a compact group of small empty clear shot glasses, keeping original grouped glass silhouettes and pale blue/white palette. Improve distinct rims, thick bases and overlapping glass outlines. No cardboard box or wrapper. Preserve authorial intent. Single centered inventory sprite on genuinely transparent background, fill 88% of square. Minecraft pixel art, crisp square pixel clusters on a 32 by 32 logical grid, limited palette, no antialiasing or photorealism, no text, no background or cast shadow. Designed to remain legible reduced to 64x64.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-bdc4a7ca-1d29-4520-b72c-63d645b26f09.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/molten_glass.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft inventory icon. Improve the original compact glowing amber-orange glob of molten glass, preserve the orange outer silhouette and hot yellow core, clarify viscous rounded lump with bright hot center and darker orange cooled edges. No container or blowing rod. Preserve authorial intent and palette. One centered item on genuinely transparent background, fill 85% of square. Strict Minecraft pixel art with 32 by 32 logical grid, chunky crisp square pixels and limited 8-12 shade palette. No antialiasing, smooth gradients, realistic rendering, lettering, background or cast shadow. Image will be reduced by nearest neighbor to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-e1b3d248-1655-4a53-86c4-dbd87894427a.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/margarita_glass_mold.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft inventory icon. Improve the original square dark charcoal-grey metal glass mold with a recessed white/light grey margarita coupe shaped cavity including broad bowl, narrow stem and foot. Keep this object identity, show thickness via subtle bevels, cavity readable. Preserve authorial intent and palette. One centered item on genuinely transparent background, fill 85% of square. Strict Minecraft pixel art with 32 by 32 logical grid, chunky crisp square pixels and limited 8-12 shade palette. No antialiasing, smooth gradients, realistic rendering, lettering, background or cast shadow. Image will be reduced by nearest neighbor to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-ef06cef3-ac13-4f0a-ba6e-49d68025a1bd.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/agave_seeds.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft inventory icon. Improve a small loose scattering of agave seeds, retain original dark green-brown palette and handful silhouette; clarify individual oval/teardrop seeds using dark hulls and tiny warm pale highlights. No sprouts or plant. Preserve authorial intent and palette. One centered item on genuinely transparent background, fill 85% of square. Strict Minecraft pixel art with 32 by 32 logical grid, chunky crisp square pixels and limited 8-12 shade palette. No antialiasing, smooth gradients, realistic rendering, lettering, background or cast shadow. Image will be reduced by nearest neighbor to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-5b11285a-d008-4a8a-a442-f6ffbfa507d1.png",
+      "superseded_by": "docs/seed-art-prompts.json"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/agave.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft item sprite. Improve harvested green agave pi\u00f1a with cut pointed leaf stubs, retain original diagonal green harvested plant silhouette, make overlapping diamond leaf bases and pale cut core clear. Preserve the author's object identity and palette. Single centered inventory icon for Minecraft on genuinely transparent background, filling 88% of square. Strict chunky pixel art with a 32 by 32 logical pixel grid, crisp square pixels, restrained 8-12 colors, no antialiasing, no realistic rendering, no text or extra objects. Output will be nearest-neighbor reduced to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-60a16371-c7aa-4ea2-a866-0bfc222d3290.png",
+      "superseded_by": "docs/agave-pina-art-prompts.json"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/cooked_agave_pulp.png",
+      "dimensions": 32,
+      "prompt": "Use case: precise-object-edit. Edit target: supplied existing Minecraft inventory icon. Improve a small irregular mound of cooked agave pulp, preserve original ochre yellow-brown colors, make coarse roasted fibrous chunks readable with caramel highlights and darker toasted grooves. No plate or packaging. Preserve authorial intent and palette. One centered item on genuinely transparent background, fill 85% of square. Strict Minecraft pixel art with 32 by 32 logical grid, chunky crisp square pixels and limited 8-12 shade palette. No antialiasing, smooth gradients, realistic rendering, lettering, background or cast shadow. Image will be reduced by nearest neighbor to 32x32.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-9a8f2e6f-c366-4629-a1b4-5d25c467385b.png"
+    }
+  ]
+}

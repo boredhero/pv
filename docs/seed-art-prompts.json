@@ -1,0 +1,26 @@
+{
+  "mode": "Built-in image_gen edits",
+  "date": "2026-11-02",
+  "processing": "Nearest neighbor reduction to32x32; generated transparency preserved.",
+  "integration": "grape_seeds.png is one neutral grayscale sprite for runtime tinting; no separate tint mask required.",
+  "assets": [
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/agave_seeds.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "prompt": "Use case: precise-object-edit. Input is the existing Minecraft seed inventory sprite to improve. Replace the tiny rounded shiny green seeds with a loose compact cluster of 6 recognizable flat black agave seeds: irregular flattened oval/teardrop wafer shapes, dark charcoal and muted earthy brown edges, one restrained warm gray pixel highlight per seed. Agave seeds should be visibly flat, broad and matte, NOT round olive beads. Preserve inventory seed-cluster identity and transparent gaps. Each seed approximately 5-7 logical pixels long. Strict low resolution Minecraft pixel art composed on exactly a 32x32 logical pixel grid, chunky uniform square pixel cells, clean silhouettes, no subpixel details, no smooth gradients or antialiasing, no realistic rendering. Palette: charcoal, dark brown and muted gray, only 5 colors. Single cluster centered with 2-pixel margin on genuinely transparent background, no ground shadow, no text. Output will be nearest-neighbor reduced to32x32; prioritize clear seed shapes at that size.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-b0cc3f09-ca0b-4183-a29a-f3056d9b9b04.png"
+    },
+    {
+      "file": "src/main/resources/assets/vinum/textures/item/grape_seeds.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "prompt": "Use case: precise-object-edit. Input is the existing Minecraft seed inventory sprite to improve. Edit the existing grape seed cluster into a compact loose cluster of 5 clearly separated grape pips, plump pear-shaped teardrops with short pointed tips and a central longitudinal groove. Seed shapes approximately 7-9 logical pixels long; arranged in varied angles. Preserve original loose inventory seed cluster identity. This is a NEW SHARED TINTABLE texture used for all grape varieties, so remove purple and green coloration and use ONLY neutral grayscale. No leaves or sprouts. Strict low resolution Minecraft pixel art composed on exactly a 32x32 logical pixel grid, chunky uniform square pixel cells, clean silhouettes, no subpixel details, no smooth gradients or antialiasing, no realistic rendering. Palette: ONLY achromatic grayscale, light gray highlights, medium gray seed bodies, charcoal grooves and outline; 5 shades, no colored pixels. Single cluster centered with 2-pixel margin on genuinely transparent background, no ground shadow, no text. Output will be nearest-neighbor reduced to32x32; prioritize clear seed shapes at that size.",
+      "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-efc31372-5129-4bc8-b004-c27c8dbee2f3.png"
+    }
+  ]
+}

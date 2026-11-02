@@ -86,12 +86,6 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
     @Override protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (held.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (held.is(ModItems.WINE_PRESS.get())) {
-            if (level.isClientSide) return ItemInteractionResult.SUCCESS;
-            if (!vessel.press()) return ItemInteractionResult.FAIL;
-            player.displayClientMessage(vessel.getStatusMessage(), true);
-            return ItemInteractionResult.CONSUME;
-        }
         if (held.is(ModItems.WINE_YEAST.get())) {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
             if (!vessel.addStarter()) return ItemInteractionResult.FAIL;

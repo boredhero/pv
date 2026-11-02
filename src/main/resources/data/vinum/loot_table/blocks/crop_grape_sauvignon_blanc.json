@@ -6,7 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "vinum:grape_seeds_sauvignon_blanc"
+          "name": "vinum:grape_seeds",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "vinum:grape_variety": "vinum:sauvignon_blanc"
+              }
+            }
+          ]
         }
       ]
     },

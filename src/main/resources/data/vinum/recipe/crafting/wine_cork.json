@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "vinum:cork_bark"
+    }
+  ],
+  "result": {
+    "id": "vinum:wine_cork",
+    "count": 4
+  }
+}

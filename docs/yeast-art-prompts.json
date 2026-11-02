@@ -1,0 +1,32 @@
+{
+  "mode": "Built-in image_gen edit",
+  "file": "src/main/resources/assets/vinum/textures/item/wine_yeast.png",
+  "dimensions_before": [
+    16,
+    16
+  ],
+  "dimensions_after": [
+    16,
+    16
+  ],
+  "footprint": [
+    3,
+    2,
+    16,
+    16
+  ],
+  "processing": "Nearest-neighbor reduction to original16x16; copy original alpha mask back using ImageMagick CopyOpacity to preserve exact original silhouette/subject occupancy. Verified alpha pixel equality before install.",
+  "prompt": "Use case: precise-object-edit. Edit target: supplied existing 16x16 Minecraft wine yeast inventory icon (also supplied nearest-neighbor enlarged inspection). Make only very subtle pixel-art polish while retaining exact 16x16 logical pixel grid and exact original composition, subject size and placement. Subject is a dark gray scoop holding beige wine yeast, with handle extending out to right edge and scattered beige yeast granules below-left. Keep existing occupied footprint x=3..15 y=2..15 in the 16x16 grid; do NOT center, enlarge, shrink, rotate or redesign. Preserve dark gray scoop silhouette, handle at right edge, and every loose yeast granule position. Improve ONLY beige yeast shading and scoop rim separation with 1-2 restrained shade adjustments so contents read clearly. Preserve palette, rough chunky vanilla Minecraft style. Transparent background. No extra objects or text; no detail finer than original16 pixel grid. Output will be reduced back to16x16 nearest neighbor.",
+  "generated_source": "/home/noah/.codex/generated_images/01a19e04-5858-7133-9450-4ed567e8f446/exec-470c7312-b02a-4f39-9c68-8bab6631ad69.png",
+  "wine_cork": {
+    "dimensions_before": [
+      64,
+      64
+    ],
+    "dimensions_after": [
+      32,
+      32
+    ],
+    "processing": "Nearest-neighbor downscale, inspected and installed; no redesign."
+  }
+}

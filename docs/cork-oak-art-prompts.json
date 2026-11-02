@@ -1,0 +1,67 @@
+[
+  {
+    "asset": "src/main/resources/assets/vinum/textures/block/cork_oak_log.png",
+    "resolution": [
+      16,
+      16
+    ],
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: Minecraft block texture. Create one square, seamless, edge-to-edge cork oak (Quercus suber) bark tile designed as a strict 16 by 16 logical-pixel texture enlarged without smoothing. Rough deeply fissured chunky cork bark in muted grey-brown, charcoal crevices, subtle warm brown high spots. Vertical irregular furrows and small cracked plates, no distinctive central feature. Vanilla Minecraft scale and restrained palette. Entire square opaque, no borders, no tree silhouette, no perspective, no text, no lighting gradient, no frame. The tile must repeat naturally across tall block trunks.",
+    "transparent_background": false,
+    "source": "/home/noah/.codex/generated_images/01a19e2e-d51b-7970-884e-111e49bddb9b/exec-bf5bfab8-c66d-4986-bcb7-07db4496dfd0.png",
+    "source_notes": "Cork oak appearance informed by RHS Quercus suber profile: fissured gray bark, brick-red freshly exposed surface, dark evergreen foliage.",
+    "reference": "https://www.rhs.org.uk/plants/14309/quercus-suber/details"
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/block/cork_oak_log_stripped.png",
+    "resolution": [
+      16,
+      16
+    ],
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: Minecraft block texture. Create one square seamless edge-to-edge tile of freshly harvested cork oak trunk underneath its peeled cork bark. Strict 16 by 16 logical pixel art enlarged without smoothing, vanilla Minecraft scale. Muted brick-red rusty cinnamon reddish-brown surface, subtly vertical smooth living cambium grain and occasional narrow darker reddish seams. Clearly smoother and redder than rugged gray-brown cork bark. Entire square opaque, no border, no tree silhouette, no perspective, no lettering or painted numbers, no directional lighting gradient. Natural restrained colors.",
+    "transparent_background": false,
+    "source": "/home/noah/.codex/generated_images/01a19e2e-d51b-7970-884e-111e49bddb9b/exec-62bfcf15-5af2-441b-8132-8072b420cc78.png",
+    "source_notes": "Cork oak appearance informed by RHS Quercus suber profile: fissured gray bark, brick-red freshly exposed surface, dark evergreen foliage.",
+    "reference": "https://www.rhs.org.uk/plants/14309/quercus-suber/details"
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/block/cork_oak_log_top.png",
+    "resolution": [
+      16,
+      16
+    ],
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: Minecraft log end texture. Create a square 16 by 16 logical-pixel Minecraft cork oak log end-grain tile enlarged without smoothing. Vanilla Minecraft pixel art: pale warm tan oak heartwood with subtle irregular concentric square-ish growth rings and a narrow rugged gray-brown bark edge around all four edges. Not a round log on background: the entire square is wood, fully opaque. Keep texture readable at 16 pixels, muted palette, no heavy black outline, no text, no perspective.",
+    "transparent_background": false,
+    "source": "/home/noah/.codex/generated_images/01a19e2e-d51b-7970-884e-111e49bddb9b/exec-42cfde38-9f9f-40e0-b87e-4524b295d3a1.png",
+    "source_notes": "Cork oak appearance informed by RHS Quercus suber profile: fissured gray bark, brick-red freshly exposed surface, dark evergreen foliage.",
+    "reference": "https://www.rhs.org.uk/plants/14309/quercus-suber/details"
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/block/cork_oak_leaves.png",
+    "resolution": [
+      16,
+      16
+    ],
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: Minecraft cutout leaves block texture. Create one seamless square tile of cork oak evergreen foliage, a strict 16 by 16 logical pixel pattern enlarged without smoothing. Small dark olive-green leathery oval oak leaves in overlapping clusters, muted gray-green highlights, shadows dark green. Vanilla Minecraft leaf tile scale; no large individual detailed leaves. Approximately 15 percent small irregular truly transparent gaps scattered through tile, otherwise leaves fill to all four edges and repeat naturally. No trunk, no branches, no border, no perspective, no text. Actual alpha transparency in gaps, not a checkered backdrop.",
+    "transparent_background": true,
+    "source": "/home/noah/.codex/generated_images/01a19e2e-d51b-7970-884e-111e49bddb9b/exec-ad269d8a-fec0-4ec7-b897-449efe6c3f12.png",
+    "source_notes": "Cork oak appearance informed by RHS Quercus suber profile: fissured gray bark, brick-red freshly exposed surface, dark evergreen foliage.",
+    "reference": "https://www.rhs.org.uk/plants/14309/quercus-suber/details"
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/cork_oak_sapling.png",
+    "resolution": [
+      16,
+      16
+    ],
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: Minecraft sapling item/block sprite. Create a small young cork oak sapling as strict 16 by 16 logical pixel art enlarged without smoothing. Thin warm gray-brown trunk with two gently spreading forked twigs, three small irregular clusters of dark olive evergreen oval leaves with restrained gray-green highlights. Full sapling centered upright, trunk meets lower edge with one pixel margin, foliage occupies upper and middle region. Clear natural Minecraft vanilla silhouette, no pot, no soil mound, no large roots, no text, no border. Background completely transparent. Fit readable silhouette in roughly 12 pixels width by 15 pixels height.",
+    "transparent_background": true,
+    "source": "/home/noah/.codex/generated_images/01a19e2e-d51b-7970-884e-111e49bddb9b/exec-031a1dc8-be91-4610-826e-a1cb2622d2fc.png",
+    "source_notes": "Cork oak appearance informed by RHS Quercus suber profile: fissured gray bark, brick-red freshly exposed surface, dark evergreen foliage.",
+    "reference": "https://www.rhs.org.uk/plants/14309/quercus-suber/details"
+  }
+]

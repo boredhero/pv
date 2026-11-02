@@ -8,6 +8,8 @@
     "vinum:block_wine_barrel_pinot_noir",
     "vinum:block_wine_barrel_sauvignon_blanc",
     "vinum:block_wine_barrel_zinfandel",
-    "vinum:barrel"
+    "vinum:barrel",
+    "vinum:wine_press",
+    "vinum:cork_oak_log"
   ]
 }

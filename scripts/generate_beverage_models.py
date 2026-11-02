@@ -21,7 +21,7 @@ def model(texture,elements):
     return {'display':{'gui':{'rotation':[0,0,0],'translation':[0,0,0],'scale':[1,1,1]},'ground':{'translation':[0,2,0],'scale':[.5,.5,.5]},'firstperson_righthand':{'rotation':[0,-90,25],'translation':[1.13,3.2,1.13],'scale':[.68,.68,.68]},'thirdperson_righthand':{'rotation':[0,-90,55],'translation':[0,4,.5],'scale':[.85,.85,.85]}},'textures':{'particle':texture,'frame':texture,'liquid':'minecraft:block/white_concrete'},
             'gui_light':'front','elements':elements}
 
-for name,top,bottom in [('wine_glass_empty',14,35),('juice_carboy',23,57),('wine_bottle_empty',17,29)]:
+for name,top,bottom in [('wine_glass_empty',14,35),('juice_carboy',23,57),('wine_bottle_empty',17,29),('shot_glass',28,46)]:
     # Bottle retains its existing art; rendered volume is also shown by its capacity bar.
     im=Image.open(ROOT/f'textures/item/{name}.png').convert('RGBA')
     # Use native coordinate scale for the existing 32px bottle.
@@ -37,7 +37,7 @@ for name,top,bottom in [('wine_glass_empty',14,35),('juice_carboy',23,57),('wine
         for y in range(start,bottom):
             xs=[x for x in range(64) if im.getpixel((x,y))[3]>150]
             if not xs: continue
-            lo,hi=min(xs)+2,max(xs)-1
+            lo,hi=(20,44) if name=="shot_glass" else (min(xs)+2,max(xs)-1)
             if hi>lo: liquid.append(plane(lo,y,hi,y+1,8.0,'#liquid',0))
         path=f'container/{name}_{level}'
         write(ROOT/f'models/{path}.json',model(texture,liquid+frame))
@@ -60,3 +60,6 @@ for definition in json.loads((ROOT.parents[1]/'vinum/wines.json').read_text()):
     write(ROOT/f'models/item/grape_must_{name}.json',{'parent':'vinum:container/grape_must'})
     for prefix,parent in [('grape_juice','juice_carboy'),('wine_glass','wine_glass_empty'),('wine_bottle','wine_bottle_empty')]:
         write(ROOT/f'models/item/{prefix}_{name}.json',json.loads((ROOT/f'models/item/{parent}.json').read_text()))
+
+for legacy in ['shot_silver_tequila','shot_golden_tequila']:
+    write(ROOT/f'models/item/{legacy}.json',json.loads((ROOT/'models/item/shot_glass.json').read_text()))

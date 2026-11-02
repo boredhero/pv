@@ -17,7 +17,7 @@ for this port; migration of saves from the old Minecraft releases is not provide
 ## Included content
 
 The tequila production chain includes wild agave, plantable seeds, cooked agave,
-timed wort fermentation, the four-part steel pot still, silver and golden tequila,
+timed wort fermentation, the four-part steel pot still, age-classified tequila,
 shots, and the spiced apple margarita. Reusable tools and barrels survive crafting.
 Drinks affect blood alcohol content (BAC), with the original progression of
 benefits and penalties, a client HUD, and gradual recovery.
@@ -72,8 +72,9 @@ of the same fluid uses volume-weighted age; adding fresh liquid dilutes that age
 
 Tapping tequila selects the appropriate bottle. Wine retains its variety and shows
 its age and maturation stage in the bottle/glass tooltip. Aging does not increase
-the drink's alcohol dose. The original golden-tequila recipe remains a separate
-legacy pathway, distinct from this age-based system.
+the drink's alcohol dose. The old instant golden-tequila crafting shortcut is
+removed: maturation happens in the barrel. Bottles and shots display blanco,
+reposado, añejo, or extra añejo from their preserved fluid age.
 
 Capacity, maturation-day duration, and thresholds are configurable in each world's
 `serverconfig/vinum-server.toml`. One maturation day defaults to 24,000 ticks
@@ -117,11 +118,28 @@ offered in the creative tab.
   heights 1, 2, and 3, with 16 L per block (maximum 432 L). A **2×2 footprint one
   block high holds 64 L**; 3×3 one high holds 144 L. Place every segment in the
   footprint and height; empty space inside the rendered vat is intentional.
-- Craft a reusable **Wine Press** from a piston, iron ingot, and oak planks. One
-  grape item, the press, and a glass bottle prepare 1 L of juice. One grape item,
-  the reusable juicer, and a bowl prepare 1 L of skin-on must.
+- Craft a **Wine Press** from oak planks, iron, a barrel, and a stone slab. Place
+  it with two clear blocks of height. Its wooden basket, central screw, purple
+  metal hoops, feet, and catch tray occupy a 1×1×2 space.
+- Attach a **Hand Crank** by right-clicking either half. Turn it with an empty
+  hand on the upper screw, sneak-right-click, or the UI's **Turn crank** button.
+  Alternatively attach a **Press Motor Upgrade**, then supply FE. A neighboring
+  **Basic Generator** burns furnace fuels to supply it. An unpowered press does
+  no work; the motor is required for external FE input.
+- Put grapes in the press UI or feed them with a hopper above its upper half.
+  Each grape produces 1 L of juice after eight manual turns. Each turn directly
+  advances progress by one eighth, with a half-second cooldown; manual work never
+  creates or requires FE and stops between turns. The manual UI shows progress,
+  not an FE bar. The optional motor instead consumes 2,000 FE per batch at up to
+  10 FE/tick. The output tank holds 8 L and the motor buffer holds 8,000 FE.
+  Incompatible juice or insufficient tank space pauses processing without
+  consuming grapes or power. Add a juice carboy to the container slot, or use
+  one on the press to draw juice. Side hoppers insert containers; bottom hoppers
+  extract filled containers. Fluid pipes can drain juice from either half.
+- One grape item, the reusable juicer, and a bowl still prepare 1 L of skin-on must.
 - Right-click a vessel with prepared juice, must, or unfermented agave wort to
-  pour it. Juice returns a glass bottle; must returns a bowl. Fill the batch first,
+  pour it (sneak-use a portable juice carboy). Juice stays in its reusable
+  container when partially poured; must returns a bowl. Fill the batch first,
   then **sneak-right-click with an empty hand to start**. Ordinary empty-hand use
   reports contents and progress. Active batches reject transfers to protect their
   composition and processing clock.
@@ -129,10 +147,13 @@ offered in the creative tab.
   Optional wine yeast doubles the rate; craft it from wheat, sugar, and a brown
   mushroom. Batches pause in unloaded chunks, while the world is closed, and while
   carried as items. They do not spoil for lack of tending.
-- Finished juice becomes wine directly. Skin-on must retains its skins: right-click
-  the finished vat with the reusable Wine Press to separate them before bottling
-  or transferring into a carboy. Pressing is a simplified separation step with no
-  liquid loss; separate pomace items and sediment racking are not simulated.
+- Finished juice becomes wine directly. Skin-on must retains its skins: place a
+  Wine Press horizontally beside the finished vat and use **Clarify vat** in the
+  press UI. Then turn the attached crank eight times, or supply 2,000 FE through
+  the motor. The work targets a snapshot of the selected batch; changing that
+  batch cancels progress. The wine stays in the vat, preserving its volume,
+  alcohol, and composition. Raw must and active fermentation cannot be clarified.
+  Separate pomace items and sediment racking are not simulated.
 - Craft empty wine bottles from a glass bottle and green dye, or empty wine glasses
   from a glass bottle and glass pane. Empty wine bottles draw 750 mL; glasses draw 125 mL. Ordinary empty buckets draw
   1 L into a metadata-preserving Batch Bucket, which can pour into another vessel,
@@ -273,18 +294,19 @@ Gradle profile to get matching classes, test registration, flags, and assets.
 Automated server tests verify processing and persistence; visual/client behavior
 requires manual testing. Use a disposable Creative world with cheats enabled:
 
-1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Wine Press, empty wine
-   bottles, and ordinary buckets from the Vinum/vanilla tabs.
+1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Wine Press, Hand Crank,
+   Press Motor Upgrade, Basic Generator, empty wine bottles, and buckets.
 2. Confirm juice enters a carboy, while must is rejected unchanged. Fill a vat
    with must and confirm an ordinary empty-hand click shows its contents.
 3. Add optional yeast and sneak-empty-hand click to start. Active transfers must
    fail without consuming anything. To accelerate a **single** test vessel after
    starting, run `/data merge block X Y Z {FermentationProgress:23980}` using its
    coordinates; it should finish on the next processing tick.
-4. Press finished must, then draw a wine bottle and pour it into an aging barrel.
-   Confirm the press is reusable and the bottle retains batch metadata.
+4. Place and power a Wine Press beside the finished vat, click **Clarify vat**,
+   then draw a wine bottle and pour it into an aging barrel. Confirm the bottle
+   retains batch metadata and separation required eight manual turns or 2,000 motor FE.
 5. Ferment three wort items, draw three wash buckets, and feed the still with an
-   empty fifth and coal. Confirm a silver tequila bottle and emptied wash buffer.
+   empty fifth and coal. Confirm a blanco tequila bottle and emptied wash buffer.
 6. Assemble shallow 2×2×1 and taller vats, check the open top and liquid rendering, break/replace a
    filled segment, and save/reopen the world to check contents and progress.
 
@@ -306,10 +328,13 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
    stillage is discarded; evaporation and distillation cuts are not simulated.
    Existing fermented-wort items remain accepted through a 240-tick legacy path,
    but the instant barrel-crafting fermentation recipe has been removed.
-5. Craft silver tequila with a reusable barrel to make golden tequila. Combine a
-   fifth with a pack of shot glasses for drinkable shots. Craft the margarita with
-   two golden tequila shots, apple juice, salt, cinnamon, honey, ice, a margarita
-   glass, and a reusable shaker.
+5. Age tequila in a barrel to obtain reposado, añejo, and extra añejo. Open a pack
+   to receive eight reusable shot glasses. A shot holds 50 mB: draw from a barrel,
+   or hold a bottle in the offhand and use the shot glass in the main hand. Craft
+   a margarita with two full tequila shots, apple juice, salt, cinnamon, honey,
+   ice, a margarita glass, and a reusable shaker. The two empty shot glasses and
+   shaker return as crafting remainders. Empty glasses or water do not satisfy
+   the tequila requirement.
 
 The still supports hoppers and NeoForge item handlers: inputs from above, fuel
 from the sides, and finished bottles/spent fuel containers from below. Breaking
@@ -385,9 +410,10 @@ item bar and liquid surface indicate fullness. Use a filled wine glass in the ai
 to drink it. Container acceptance and drinkability are separate fluid tags:
 `data/vinum/tags/fluid/container_contents.json` and `drinkable.json`.
 
-Press grapes with an **empty juice carboy** and the wine press to produce 1,000 mB
-of juice; craft the carboy with glass in a ` G / G G / GGG` pattern. Must remains
-a bowl of crushed grapes. Juice carboys and must share artwork across varieties.
+Process grapes in the placed, powered **Wine Press** to produce 1,000 mB of juice
+per grape. Fill an **empty juice carboy** from its tank; craft the carboy with glass
+in a ` G / G G / GGG` pattern. Must remains a bowl of crushed grapes. Juice carboys
+and must share artwork across varieties.
 
 `src/main/resources/vinum/wines.json` defines ingredient IDs, wine/juice/must RGB
 colors (six hexadecimal digits), and default alcohol fractions for wine samples.
@@ -402,5 +428,137 @@ The grape, carboy, wine-glass, and must art is 64×64. Shared container models t
 only the liquid or pulp, leaving glass highlights and wooden bowls unchanged.
 `python scripts/generate_beverage_models.py` regenerates the shared fill geometry
 from the artwork (requires Pillow). In-game visual verification is still needed:
-check grapes/must in Creative, craft juice, pour into a placed carboy, ferment,
+check grapes/must in Creative, press juice, pour into a placed carboy, ferment,
 draw into a wine glass, inspect capacity/color, and drink to recover the empty glass.
+
+
+### Press recipes, upgrades, and generator
+
+Add a datapack recipe under `data/<namespace>/recipe/pressing/` to extend the
+press. Quantities are item counts, mB of fluid, and work units. The `energy` field
+is the motor FE cost; manual turns contribute 250 work units directly without
+using the FE buffer. For example:
+
+```json
+{
+  "type": "vinum:pressing",
+  "ingredient": {"item": "vinum:grapes_merlot"},
+  "count": 1,
+  "output": {"id": "vinum:juice_merlot", "amount": 1000},
+  "energy": 2000
+}
+```
+
+Recipes must fit the 8,000 mB tank. A running recipe is saved as a snapshot with
+its progress; changing or removing the required input cancels that work. Output
+keeps its batch components. The press persists its inventory, fluid, energy,
+recipe progress, crank, and motor in the dropped block item. Breaking either half
+in Survival removes both halves and drops exactly one stored machine.
+
+The Basic Generator produces 20 FE per furnace fuel tick, stores 32,000 FE, and
+pushes at most 80 FE/tick total into its loaded neighbors. Coal therefore provides
+32,000 FE. It pauses burning when full and preserves fuel-container remainders
+(such as a lava bucket's empty bucket). Top/side automation inserts fuel and the
+bottom extracts remainders. Its inventory, charge, and remaining burn time survive
+pickup and replacement. FE cables from other mods can power the motor too.
+
+### Seeds and ice gathering
+
+All grapes use one `vinum:grape_seeds` item with a persistent, synchronized
+`vinum:grape_variety` resource-location component. Crop loot, planting, pick-block,
+and creative samples retain that variety. The shared 32×32 seed sprite is tinted
+from the variety's `must_color` in `vinum/wines.json`; it needs no separate artwork
+for each grape. The component points to the corresponding `crop_grape_<variety>`
+block. The six old seed item IDs are removed; pre-1.0 saves are not migrated.
+
+Use an **Ice Pick** on ice, packed ice, or blue ice to harvest **1–3 ice cubes**
+and consume the ice block. Fortune applies the vanilla ore-style multiplier;
+Silk Touch, if present, recovers the block instead. The pick lasts **512 uses**,
+accepts Unbreaking/Mending, and can be repaired with steel. Creative use produces
+no drops or wear. Ice cubes no longer have a crafting recipe. The harvestable
+blocks are controlled by `data/vinum/tags/block/chippable_ice.json`.
+
+Additional client checks: place a press with obstructed headroom (placement must
+fail), attach the crank through its upper half, and confirm it appears and turns.
+Load grapes with no power (no progress), then crank or install the motor and fuel
+an adjacent generator. Check the two-block basket model and purple bands, tank
+and energy tooltips, hopper input, and a filled carboy output. Replant each colored
+grape seed and confirm its crop variety. Try Fortune on an ice pick. The new
+texture files are installed in `assets/vinum/textures/item/`; restart the dev
+client to load the Java changes and updated assets together.
+
+
+### Reusable shots and bottle presentation
+
+`vinum:shot_glass` is the single reusable 50 mB shot item. `fifth_bottle_empty`
+is the canonical 750 mB liquor bottle despite its historical registry name.
+Both show capacity and batch metadata and preserve partial contents. Normal use
+on a vessel draws liquid; sneak-use pours it. With two reusable containers in your
+hands, normal use draws from the other hand and sneak-use pours into it. Drinking
+a shot consumes its actual fluid/alcohol dose and leaves the same empty glass.
+Opening a shot-glass pack produces eight glasses, including when the final pack
+vacates your hand slot. Old filled-shot/fifth IDs are hidden adapters; they no
+longer represent separately crafted drink types. Creative samples expose the
+canonical bottle and glass at the four tequila maturation stages.
+
+Bottle appearance is defined independently of fluid storage and container items:
+
+- `src/main/resources/vinum/bottle_shapes.json` defines each named silhouette,
+  a unique nonnegative `modelValue`, its source `texture`, liquid interior, and
+  optional primary/secondary label regions. Coordinates use the texture's native
+  pixel grid, with exclusive right/bottom bounds. The default shape uses the
+  original empty Johnnie Walker-inspired sprite; tequila uses the original
+  1800-inspired sprite. These source PNGs are preserved unchanged.
+- `src/main/resources/vinum/beverage_appearances.json` maps registered fluid IDs to
+  `bottleBaseType`, `liquidColor`, `bottleLabelPrimaryColor`,
+  `bottleLabelSecondaryColor`, and a translated `name`. Colors are six-digit RGB.
+  Optional `stages` override any of those attributes, including the shape, using
+  an existing `agingStage` translation key or `minimumAgeDays`. Last matching
+  stage wins. Tequila's configured maturation thresholds therefore control its
+  names, amber liquid tones, and silver/gold/dark label palettes together.
+
+Example definition for another registered spirit reusing the tequila silhouette:
+
+```json
+{
+  "fluids": ["example:spirit"],
+  "bottleBaseType": "tequila",
+  "liquidColor": "D5A858",
+  "bottleLabelPrimaryColor": "204936",
+  "bottleLabelSecondaryColor": "E5C878",
+  "name": "beverage.example.spirit",
+  "stages": [
+    {"minimumAgeDays": 365, "bottleLabelPrimaryColor": "35251E"}
+  ]
+}
+```
+
+These packaged definitions load at startup. After adding a new shape or changing
+its region geometry, run `python scripts/generate_bottle_models.py`, then restart
+the client. Palette edits need only a restart. The generator reads the original
+sprites and produces tinted geometry; it does not repaint the source art. A new
+shape needs artwork and one definition; it does not need a new item class.
+`python scripts/fit_inventory_models.py` fits native three-dimensional inventory
+previews after model generation, independently of their placed-world size.
+
+`vinum:fluid_crafting` wraps a shaped recipe with a reusable `container_item`,
+`fluid_tag`, and per-serving `amount`. The margarita uses this to require real
+tequila and return its emptied glasses while preserving the shaker/honey bottle
+remainders. Recipes for new cocktails can use the same serializer.
+
+### Larger plants and renewable ingredients
+
+Blue agave has eight stages and a mature sparse 3×3×3 rosette. See
+[agave growth and harvest](docs/agave-growth.md) for spacing, growth, leaf cutting,
+and piña harvesting. The harvested piña remains `vinum:agave`, so its cooking,
+wort preparation, fermentation, and distillation recipes form the same chain.
+
+
+Cork oaks grow from their own saplings and appear as rare small groves in the
+configured plains, forest, and savanna biome analogues. Their low-forked crowns
+are 9–11 blocks tall and up to 14 wide. Use an axe on a trunk to peel 2–3 pieces
+of cork bark without felling it; the harvested surface turns brick-red. Bark
+regenerates on a living tree after nine Minecraft days by default, configurable
+in `vinum-cork-oak-server.toml`. The deadline survives unloading and block pickup;
+detached timber cannot regrow bark. Craft cork bark into wine corks. See
+[cork oak research, world generation, and harvesting](docs/cork-oak.md).

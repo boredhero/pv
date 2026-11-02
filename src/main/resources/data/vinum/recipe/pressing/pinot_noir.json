@@ -1,0 +1,12 @@
+{
+  "type": "vinum:pressing",
+  "ingredient": {
+    "item": "vinum:grapes_pinot_noir"
+  },
+  "count": 1,
+  "output": {
+    "id": "vinum:juice_pinot_noir",
+    "amount": 1000
+  },
+  "energy": 2000
+}

@@ -13,7 +13,7 @@
             "state": {
               "Name": "vinum:crop_agave",
               "Properties": {
-                "age": "2"
+                "age": "3"
               }
             }
           }
@@ -34,7 +34,7 @@
                 "state": {
                   "Name": "vinum:crop_agave",
                   "Properties": {
-                    "age": "2"
+                    "age": "3"
                   }
                 }
               }

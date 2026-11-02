@@ -1,0 +1,652 @@
+{
+  "variants": {
+    "age=0,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=0,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=1,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=2,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=3,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age4_0_0_1"
+    },
+    "age=4,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age4_1_0_0"
+    },
+    "age=4,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age4_1_0_2"
+    },
+    "age=4,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age4_1_1_1"
+    },
+    "age=4,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age4_2_0_1"
+    },
+    "age=4,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=4,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age5_0_0_1"
+    },
+    "age=5,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age5_0_1_1"
+    },
+    "age=5,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age5_1_0_0"
+    },
+    "age=5,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age5_1_0_2"
+    },
+    "age=5,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/age5_1_1_0"
+    },
+    "age=5,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age5_1_1_1"
+    },
+    "age=5,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age5_1_1_2"
+    },
+    "age=5,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age5_2_0_1"
+    },
+    "age=5,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age5_2_1_1"
+    },
+    "age=5,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=5,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age6_0_0_0"
+    },
+    "age=6,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age6_0_0_1"
+    },
+    "age=6,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age6_0_0_2"
+    },
+    "age=6,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age6_0_1_1"
+    },
+    "age=6,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age6_0_1_2"
+    },
+    "age=6,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age6_1_0_0"
+    },
+    "age=6,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age6_1_0_2"
+    },
+    "age=6,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/age6_1_1_0"
+    },
+    "age=6,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age6_1_1_1"
+    },
+    "age=6,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age6_1_1_2"
+    },
+    "age=6,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/age6_1_2_1"
+    },
+    "age=6,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age6_2_0_0"
+    },
+    "age=6,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age6_2_0_1"
+    },
+    "age=6,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age6_2_0_2"
+    },
+    "age=6,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age6_2_1_1"
+    },
+    "age=6,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=6,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=0,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age7_0_0_0"
+    },
+    "age=7,root_x=0,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age7_0_0_1"
+    },
+    "age=7,root_x=0,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age7_0_0_2"
+    },
+    "age=7,root_x=0,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/age7_0_1_0"
+    },
+    "age=7,root_x=0,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age7_0_1_1"
+    },
+    "age=7,root_x=0,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age7_0_1_2"
+    },
+    "age=7,root_x=0,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=0,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=0,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=1,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age7_1_0_0"
+    },
+    "age=7,root_x=1,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=1,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age7_1_0_2"
+    },
+    "age=7,root_x=1,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/age7_1_1_0"
+    },
+    "age=7,root_x=1,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age7_1_1_1"
+    },
+    "age=7,root_x=1,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age7_1_1_2"
+    },
+    "age=7,root_x=1,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=1,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/age7_1_2_1"
+    },
+    "age=7,root_x=1,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=2,root_y=0,root_z=0": {
+      "model": "vinum:block/agave/age7_2_0_0"
+    },
+    "age=7,root_x=2,root_y=0,root_z=1": {
+      "model": "vinum:block/agave/age7_2_0_1"
+    },
+    "age=7,root_x=2,root_y=0,root_z=2": {
+      "model": "vinum:block/agave/age7_2_0_2"
+    },
+    "age=7,root_x=2,root_y=1,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=2,root_y=1,root_z=1": {
+      "model": "vinum:block/agave/age7_2_1_1"
+    },
+    "age=7,root_x=2,root_y=1,root_z=2": {
+      "model": "vinum:block/agave/age7_2_1_2"
+    },
+    "age=7,root_x=2,root_y=2,root_z=0": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=2,root_y=2,root_z=1": {
+      "model": "vinum:block/agave/empty"
+    },
+    "age=7,root_x=2,root_y=2,root_z=2": {
+      "model": "vinum:block/agave/empty"
+    }
+  }
+}

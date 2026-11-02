@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "vinum:block/cork_oak_log_stripped",
+    "end": "vinum:block/cork_oak_log_top"
+  }
+}

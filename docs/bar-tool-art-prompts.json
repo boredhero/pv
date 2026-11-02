@@ -1,0 +1,69 @@
+[
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/juicer.png",
+    "resolution": [
+      64,
+      64
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-0c30e108-b35f-455a-b4ba-db7dcc93f02b.png",
+    "brief_summary": "Edit the existing juicer sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt."
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/ice_cubes.png",
+    "resolution": [
+      64,
+      64
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-2589e118-c69c-429b-9587-4840e4976741.png",
+    "brief_summary": "Edit the existing ice cubes sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt."
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/ice_pick.png",
+    "resolution": [
+      64,
+      64
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-79ee82c2-5b2f-45b3-857a-290dd6e5001c.png",
+    "brief_summary": "Edit the existing ice pick sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt."
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/cocktail_shaker.png",
+    "resolution": [
+      64,
+      64
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-ccf945cc-a23b-4c20-92c9-c728e781308d.png",
+    "brief_summary": "Edit the existing cocktail shaker sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt."
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/wine_cork.png",
+    "resolution": [
+      32,
+      32
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-7c3d3ef9-1ab7-4f6a-83c1-ec8a9a66f62d.png",
+    "brief_summary": "Edit the existing wine cork sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt.",
+    "postprocessing": "Later reduced from64x64 to32x32 with nearest-neighbor sampling at user request; see docs/yeast-art-prompts.json."
+  },
+  {
+    "asset": "src/main/resources/assets/vinum/textures/item/cork_bark.png",
+    "resolution": [
+      64,
+      64
+    ],
+    "tool": "built-in imagegen",
+    "source_generation": "exec-759acce2-b51e-49c5-ad83-ba3a2e5a4765.png",
+    "brief_summary": "Edit the existing cork bark sprite, preserving recognizable subject, orientation and palette; improve material shading and readable pixel detail with transparent background. Resize to 64x64 with nearest-neighbor sampling.",
+    "note": "Brief summary reconstructed after session resume; not a verbatim generation prompt."
+  }
+]

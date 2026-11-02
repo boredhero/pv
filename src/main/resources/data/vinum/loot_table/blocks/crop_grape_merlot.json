@@ -6,7 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "vinum:grape_seeds_merlot"
+          "name": "vinum:grape_seeds",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "vinum:grape_variety": "vinum:merlot"
+              }
+            }
+          ]
         }
       ]
     },

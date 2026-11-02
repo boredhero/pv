@@ -1,0 +1,12 @@
+{
+  "type": "vinum:pressing",
+  "ingredient": {
+    "item": "vinum:grapes_sauvignon_blanc"
+  },
+  "count": 1,
+  "output": {
+    "id": "vinum:juice_sauvignon_blanc",
+    "amount": 1000
+  },
+  "energy": 2000
+}
