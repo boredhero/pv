@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "vinum:rum"
+    "vinum:rum",
+    "vinum:mead_must",
+    "vinum:honeyshine",
+    "vinum:brandy"
   ]
 }

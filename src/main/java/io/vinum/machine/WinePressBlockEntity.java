@@ -27,6 +27,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
       FE_PER_TICK = 10,
       CRANK_WORK = 250,
       CRANK_COOLDOWN = 10;
+  public static final int EXTRA_OUTPUT_SLOT = 3, INVENTORY_SIZE = 4;
   private PressingRecipe plan;
   private int progress;
   private boolean crank;
@@ -35,7 +36,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
   private int crankTurns;
   public final MachineEnergy energy = new MachineEnergy(ENERGY_CAPACITY, 80, 0, this::setChanged);
   public final ItemStackHandler inventory =
-      new ItemStackHandler(3) {
+      new ItemStackHandler(INVENTORY_SIZE) {
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
           return switch (slot) {
@@ -47,7 +48,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
 
         @Override
         public int getSlotLimit(int slot) {
-          return slot == 0 ? 64 : 1;
+          return slot == 0 || slot == EXTRA_OUTPUT_SLOT ? 64 : 1;
         }
 
         @Override
@@ -100,13 +101,13 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
         }
       };
   private final IItemHandler top = new SidedItemView(inventory, true, false, 0);
-  private final IItemHandler bottom = new SidedItemView(inventory, false, true, 2);
-  // Side automation loads empty containers and extracts the completed container.
+  private final IItemHandler bottom = new SidedItemView(inventory, false, true, 2, EXTRA_OUTPUT_SLOT);
+  // Side automation loads empty containers and extracts either completed output.
   private final IItemHandler sides =
       new IItemHandler() {
         @Override
         public int getSlots() {
-          return 2;
+          return 3;
         }
 
         @Override
@@ -121,12 +122,12 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
 
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-          return slot == 1 ? inventory.extractItem(2, amount, simulate) : ItemStack.EMPTY;
+          return slot == 1 || slot == 2 ? inventory.extractItem(slot + 1, amount, simulate) : ItemStack.EMPTY;
         }
 
         @Override
         public int getSlotLimit(int slot) {
-          return 1;
+          return inventory.getSlotLimit(slot + 1);
         }
 
         @Override
@@ -232,7 +233,24 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
               .orElse(null);
     if (plan == null) return false;
     FluidStack output = result(plan);
-    return tank.fill(output, IFluidHandler.FluidAction.SIMULATE) == output.getAmount();
+    return tank.fill(output, IFluidHandler.FluidAction.SIMULATE) == output.getAmount()
+        && canStoreByproduct(plan.byproduct());
+  }
+
+  private boolean canStoreByproduct(ItemStack byproduct) {
+    if (byproduct.isEmpty()) return true;
+    ItemStack stored = inventory.getStackInSlot(EXTRA_OUTPUT_SLOT);
+    int limit = Math.min(inventory.getSlotLimit(EXTRA_OUTPUT_SLOT), byproduct.getMaxStackSize());
+    return (stored.isEmpty() || ItemStack.isSameItemSameComponents(stored, byproduct))
+        && stored.getCount() + byproduct.getCount() <= limit;
+  }
+
+  /** Only called after both outputs are preflighted, on the server's single processing thread. */
+  private void storeByproduct(ItemStack byproduct) {
+    if (byproduct.isEmpty()) return;
+    ItemStack stored = inventory.getStackInSlot(EXTRA_OUTPUT_SLOT);
+    ItemStack result = stored.isEmpty() ? byproduct.copy() : stored.copyWithCount(stored.getCount() + byproduct.getCount());
+    inventory.setStackInSlot(EXTRA_OUTPUT_SLOT, result);
   }
 
   private void advanceWork(int work) {
@@ -241,7 +259,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
     if (progress >= requiredWork()) {
       tank.fill(result(plan), IFluidHandler.FluidAction.EXECUTE);
       inventory.extractItem(0, plan.count(), false);
-      if (!plan.byproduct().isEmpty()) net.minecraft.world.level.block.Block.popResource(level, worldPosition, plan.byproduct());
+      storeByproduct(plan.byproduct());
       plan = null;
       progress = 0;
       sync();
@@ -353,7 +371,10 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
   @Override
   protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
     super.loadAdditional(tag, registries);
-    inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+    // Older presses persisted three slots. Preserve their indices and append Extra Out.
+    CompoundTag savedInventory = tag.getCompound("Inventory").copy();
+    savedInventory.putInt("Size", INVENTORY_SIZE);
+    inventory.deserializeNBT(registries, savedInventory);
     tank.readFromNBT(registries, tag.getCompound("Juice"));
     energy.load(tag.getInt("Energy"));
     plan =

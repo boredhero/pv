@@ -188,7 +188,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
     public static void serverTick(Level level, BlockPos pos, BlockState state, FermentationVesselBlockEntity vessel) {
         if (vessel.fluid.isEmpty() || level.getGameTime() % 20 != 0) return;
         if (vessel.recipe == null) {
-            if (!vessel.isVat() && vessel.airlock && WineCatalog.isWine(vessel.fluid)
+            if (!vessel.isVat() && vessel.airlock && (WineCatalog.isWine(vessel.fluid) || vessel.fluid.is(io.vinum.beverage.FluidBlending.CARBOY_AGEABLE))
                     && BatchProfile.of(vessel.fluid).solidsGramsPerLitre() == 0) {
                 long age = io.vinum.barrel.BarrelFluidData.getAge(vessel.fluid);
                 vessel.fluid = io.vinum.barrel.BarrelFluidData.withAge(vessel.fluid,

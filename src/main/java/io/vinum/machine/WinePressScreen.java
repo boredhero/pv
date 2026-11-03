@@ -70,6 +70,7 @@ public final class WinePressScreen extends AbstractContainerScreen<WinePressMenu
     g.drawString(font, Component.translatable("gui.vinum.press_input"), 30, 24, 0x493B2D, false);
     g.drawString(font, Component.translatable("gui.vinum.container"), 104, 12, 0x493B2D, false);
     g.drawString(font, Component.translatable("gui.vinum.output"), 106, 54, 0x493B2D, false);
+    g.drawString(font, Component.translatable("gui.vinum.extra_output"), 22, 65, 0x493B2D, false);
     g.drawString(
         font,
         Component.translatable(

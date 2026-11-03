@@ -1,0 +1,201 @@
+{
+  "parent": "vinum:container/bottles/mead_0",
+  "overrides": [
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/default_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/default_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/default_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 0,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/default_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/tequila_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/tequila_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/tequila_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 1,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/tequila_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/wine_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/wine_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/wine_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/wine_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/rum_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/rum_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/rum_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/rum_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 4,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/mead_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 4,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/mead_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 4,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/mead_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 4,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/mead_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 5,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/honeyshine_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 5,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/honeyshine_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 5,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/honeyshine_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 5,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/honeyshine_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 6,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/brandy_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 6,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/brandy_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 6,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/brandy_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 6,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/brandy_4"
+    }
+  ]
+}

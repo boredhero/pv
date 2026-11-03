@@ -31,6 +31,13 @@ public final class SugarKettleBlockEntity extends BlockEntity {
     public boolean processing(){return processing;}
     public int progress(){return progress;}
     public SugarProcess recipe(){return SugarProcess.recipes().get(mode);}
+    /** Atomically replaces a complete cold water batch; active heat recipes cannot be modified. */
+    public boolean addHoney(){
+        if(level==null||level.isClientSide||processing||!solid.isEmpty())return false;
+        var next=HoneyMixing.prepare(fluid);
+        if(next.isEmpty()||next.getAmount()>CAPACITY)return false;
+        fluid=next;sync();return true;
+    }
     public boolean installInsert(){if(insert||processing)return false;insert=true;sync();return true;}
     public void cycleMode(){if(!processing){mode=(mode+1)%SugarProcess.recipes().size();sync();}}
     public boolean start(){
@@ -54,7 +61,7 @@ public final class SugarKettleBlockEntity extends BlockEntity {
     }
     /** Dissolves one provenance-bearing sugar/panela item, preserving its sugar mass. */
     public boolean dissolve(ItemStack item){
-        if(processing||fluid.isEmpty()||!accepted(fluid)||BatchProfile.of(fluid).alcoholFraction()!=0)return false;
+        if(processing||fluid.isEmpty()||fluid.getFluid().isSame(io.vinum.fluid.ModFluids.MEAD_MUST.source().get())||!accepted(fluid)||BatchProfile.of(fluid).alcoholFraction()!=0)return false;
         if(!item.is(Items.SUGAR)&&!item.is(SugarContent.PANELA.get()))return false;
         BatchProfile ingredient=item.get(ProductionDataComponents.BATCH_PROFILE.get());
         if(ingredient==null&&item.is(SugarContent.PANELA.get())) ingredient=new BatchProfile(200,0,0,0,Map.of(ProductionInputs.id("panela"),1.0),Optional.empty(),List.of());
@@ -76,7 +83,7 @@ public final class SugarKettleBlockEntity extends BlockEntity {
     }
     private static boolean accepted(FluidStack value){
         var id=BuiltInRegistries.FLUID.getKey(value.getFluid());
-        return value.getFluid()==Fluids.WATER||id.getNamespace().equals("vinum")&&Set.of("cane_juice","cane_syrup","molasses","cane_wash").contains(id.getPath());
+        return value.getFluid()==Fluids.WATER||id.getNamespace().equals("vinum")&&Set.of("cane_juice","cane_syrup","molasses","cane_wash","mead_must").contains(id.getPath());
     }
     private final IFluidHandler handler=new IFluidHandler(){
         public int getTanks(){return 1;}

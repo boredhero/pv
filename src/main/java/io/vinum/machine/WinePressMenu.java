@@ -12,7 +12,7 @@ public final class WinePressMenu extends AbstractContainerMenu {
   private final ContainerData data;
 
   public WinePressMenu(int id, Inventory inventory) {
-    this(id, inventory, null, new ItemStackHandler(3), new SimpleContainerData(7));
+    this(id, inventory, null, new ItemStackHandler(WinePressBlockEntity.INVENTORY_SIZE), new SimpleContainerData(7));
   }
 
   public WinePressMenu(
@@ -21,7 +21,7 @@ public final class WinePressMenu extends AbstractContainerMenu {
         id,
         inventory,
         resolvePress(inventory, buffer.readBlockPos()),
-        new ItemStackHandler(3),
+        new ItemStackHandler(WinePressBlockEntity.INVENTORY_SIZE),
         new SimpleContainerData(7));
   }
 
@@ -64,6 +64,9 @@ public final class WinePressMenu extends AbstractContainerMenu {
             return false;
           }
         });
+    addSlot(new SlotItemHandler(items, WinePressBlockEntity.EXTRA_OUTPUT_SLOT, 35, 76) {
+      @Override public boolean mayPlace(ItemStack stack) { return false; }
+    });
     for (int row = 0; row < 3; row++)
       for (int col = 0; col < 9; col++)
         addSlot(new Slot(inventory, 9 + row * 9 + col, 8 + col * 18, 126 + row * 18));
@@ -120,15 +123,15 @@ public final class WinePressMenu extends AbstractContainerMenu {
     Slot slot = slots.get(index);
     if (!slot.hasItem()) return ItemStack.EMPTY;
     ItemStack stack = slot.getItem(), original = stack.copy();
-    if (index < 3) {
-      if (!moveItemStackTo(stack, 3, 39, true)) return ItemStack.EMPTY;
+    if (index < 4) {
+      if (!moveItemStackTo(stack, 4, 40, true)) return ItemStack.EMPTY;
     } else if (slots.get(0).mayPlace(stack)) {
       if (!moveItemStackTo(stack, 0, 1, false)) return ItemStack.EMPTY;
     } else if (slots.get(1).mayPlace(stack)) {
       if (!moveItemStackTo(stack, 1, 2, false)) return ItemStack.EMPTY;
-    } else if (index < 30) {
-      if (!moveItemStackTo(stack, 30, 39, false)) return ItemStack.EMPTY;
-    } else if (!moveItemStackTo(stack, 3, 30, false)) return ItemStack.EMPTY;
+    } else if (index < 31) {
+      if (!moveItemStackTo(stack, 31, 40, false)) return ItemStack.EMPTY;
+    } else if (!moveItemStackTo(stack, 4, 31, false)) return ItemStack.EMPTY;
     if (stack.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
     else slot.setChanged();
     if (stack.getCount() == original.getCount()) return ItemStack.EMPTY;

@@ -1,0 +1,9 @@
+{
+  "type": "vinum:distillation",
+  "input_fluid": "vinum:mead",
+  "output_fluid": "vinum:honeyshine",
+  "output_item": "vinum:carboy",
+  "duration_ticks": 1200,
+  "target_alcohol_fraction": 0.6,
+  "output_millibuckets": 750
+}

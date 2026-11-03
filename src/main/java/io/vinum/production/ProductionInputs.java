@@ -26,6 +26,10 @@ public final class ProductionInputs {
         registerFluidProfile(id("molasses"), profile(id("molasses"), 400, 0));
         registerFluidProfile(id("cane_wash"), profile(id("sugar_cane"), 200, 0));
         registerFluidProfile(id("fermented_cane_wash"), profile(id("sugar_cane"), 0, 20).withAlcoholFraction(.12));
+        registerFluidProfile(id("mead_must"), profile(id("honey"), 200, 0));
+        registerFluidProfile(id("mead"), profile(id("honey"), 0, 0).withAlcoholFraction(.12));
+        registerFluidProfile(id("honeyshine"), profile(id("honey"), 0, 0).withAlcoholFraction(.6));
+        registerFluidProfile(id("brandy"), profile(id("grapes"), 0, 0).withAlcoholFraction(.6));
         registerFluidProfile(id("rum"), profile(id("sugar_cane"), 0, 0).withAlcoholFraction(.6));
         register(id("unfermented_agave_wort"), id("agave_mosto"), profile(id("agave"), 500.0 / 3, 0));
     }

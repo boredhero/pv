@@ -29,11 +29,20 @@ public final class BarRenderChecks {
             ((FluidContainerItem)ModItems.RUM_BOTTLE.get()).filled(io.vinum.barrel.BarrelFluidData.withAge(
                 ModItems.spirit(ModFluids.RUM.source().get(),750), 90L*24000)),
             ((FluidContainerItem)ModItems.RUM_BOTTLE.get()).filled(io.vinum.barrel.BarrelFluidData.withAge(
-                ModItems.spirit(ModFluids.RUM.source().get(),750), 365L*24000))};
+                ModItems.spirit(ModFluids.RUM.source().get(),750), 365L*24000)),
+            sample(ModItems.MEAD_BOTTLE.get(),ModFluids.MEAD,0),
+            sample(ModItems.MEAD_BOTTLE.get(),ModFluids.MEAD,180),
+            sample(ModItems.HONEYSHINE_BOTTLE.get(),ModFluids.HONEYSHINE,0),
+            sample(ModItems.HONEYSHINE_BOTTLE.get(),ModFluids.HONEYSHINE,90),
+            sample(ModItems.HONEYSHINE_BOTTLE.get(),ModFluids.HONEYSHINE,365),
+            sample(ModItems.BRANDY_BOTTLE.get(),ModFluids.BRANDY,0),
+            sample(ModItems.BRANDY_BOTTLE.get(),ModFluids.BRANDY,90),
+            sample(ModItems.BRANDY_BOTTLE.get(),ModFluids.BRANDY,365)};
+        var shelfSamples=java.util.Arrays.stream(samples).filter(s->s.getItem() instanceof FluidContainerItem c && c.capacity()==750).toList();
         try(var buffers=new SwitchingBuffers()) {
             for(Direction facing:Direction.Plane.HORIZONTAL) {
                 for(boolean filled:new boolean[]{true,false}) {
-                  for(int offset:new int[]{0,1,2,3}) {
+                  for(int offset=0;offset<samples.length;offset++) {
                     var bar=new BarBlockEntity(BlockPos.ZERO,BarContent.BAR.get().defaultBlockState().setValue(BarBlock.FACING,facing));
                     var slots=NonNullList.withSize(BarBlockEntity.SLOTS,ItemStack.EMPTY);
                     for(int i=0;i<slots.size();i++) {
@@ -43,10 +52,12 @@ public final class BarRenderChecks {
                     var tag=new CompoundTag();ContainerHelper.saveAllItems(tag,slots,registries);bar.loadWithComponents(tag,registries);
                     new BarRenderer(null).render(bar,0,new PoseStack(),buffers,LightTexture.FULL_BRIGHT,0);
                     var shelf=new WineShelfBlockEntity(BlockPos.ZERO,ShelfContent.SHELF.get().defaultBlockState().setValue(WineShelfBlock.FACING,facing));
-                    shelf.insert(0,slots.get(0));shelf.insert(1,slots.get(1));
-                    shelf.insert(2,filled?samples[5]:new ItemStack(ModItems.RUM_BOTTLE.get()));
-                    shelf.insert(3,filled?samples[6]:new ItemStack(ModItems.RUM_BOTTLE.get()));
-                    shelf.insert(4,filled?samples[7]:new ItemStack(ModItems.RUM_BOTTLE.get()));
+                    var shelfSlots=NonNullList.withSize(WineShelfBlockEntity.SLOTS,ItemStack.EMPTY);
+                    for(int i=0;i<shelfSlots.size();i++) {
+                        var sample=shelfSamples.get((i+offset)%shelfSamples.size());
+                        shelfSlots.set(i,filled?sample:new ItemStack(sample.getItem()));
+                    }
+                    var shelfTag=new CompoundTag();ContainerHelper.saveAllItems(shelfTag,shelfSlots,registries);shelf.loadWithComponents(shelfTag,registries);
                     new WineShelfRenderer(null).render(shelf,0,new PoseStack(),buffers,LightTexture.FULL_BRIGHT,0);
                   }
                 }
@@ -55,6 +66,10 @@ public final class BarRenderChecks {
             if(buffers.meshes<16)throw new AssertionError("Expected textured bottle, label, closure, glass and drinkware meshes");
             LogUtils.getLogger().info("Vinum render-path checks passed: {} real meshes across filled/empty bars and shelves in every facing",buffers.meshes);
         }
+    }
+    private static ItemStack sample(net.minecraft.world.item.Item item,ModFluids.FluidEntry fluid,int days) {
+        return ((FluidContainerItem)item).filled(io.vinum.barrel.BarrelFluidData.withAge(
+            ModItems.spirit(fluid.source().get(),750),days*24000L));
     }
     /** Switching an unbuffered render type ends its previous builder, just like BufferSource. */
     private static final class SwitchingBuffers implements MultiBufferSource,AutoCloseable {

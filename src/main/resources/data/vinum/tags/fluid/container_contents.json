@@ -30,6 +30,10 @@
     "vinum:molasses",
     "vinum:cane_wash",
     "vinum:fermented_cane_wash",
-    "vinum:rum"
+    "vinum:rum",
+    "vinum:mead_must",
+    "vinum:mead",
+    "vinum:honeyshine",
+    "vinum:brandy"
   ]
 }

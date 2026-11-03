@@ -199,5 +199,169 @@
       "top": 0.568,
       "radius": 0.023
     }
+  },
+  {
+    "fluids": [
+      "vinum:mead"
+    ],
+    "items": [
+      "vinum:mead_bottle"
+    ],
+    "bottleType": "vinum:mead",
+    "bottle3DType": "vinum:rum",
+    "liquidColorSource": "fixed",
+    "liquidColor": "F4DE84",
+    "name": "beverage.vinum.mead.young",
+    "flavor": "tooltip.vinum.mead_flavor.young",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "B0CBD0",
+      "transparency": 0.9
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/mead_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "D5B05C",
+      "panel": {
+        "width": 0.85,
+        "bottom": 0.07,
+        "top": 0.335,
+        "uv": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "closure": {
+      "type": "cork",
+      "texture": "minecraft:textures/block/oak_log_top.png",
+      "color": "B38B54",
+      "bottom": 0.505,
+      "top": 0.56,
+      "radius": 0.045
+    },
+    "stages": [
+      {
+        "agingStage": "tooltip.vinum.maturation.mead_mature",
+        "name": "beverage.vinum.mead.mature",
+        "flavor": "tooltip.vinum.mead_flavor.mature",
+        "liquidColor": "D5AB50"
+      }
+    ]
+  },
+  {
+    "fluids": [
+      "vinum:honeyshine"
+    ],
+    "items": [
+      "vinum:honeyshine_bottle"
+    ],
+    "bottleType": "vinum:honeyshine",
+    "bottle3DType": "vinum:rum",
+    "liquidColorSource": "fixed",
+    "liquidColor": "EFF2E7",
+    "name": "beverage.vinum.honeyshine.white",
+    "flavor": "tooltip.vinum.honeyshine_flavor.white",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "B0CBD0",
+      "transparency": 0.9
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/honeyshine_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "D5B05C",
+      "panel": {
+        "width": 0.85,
+        "bottom": 0.07,
+        "top": 0.335,
+        "uv": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "closure": {
+      "type": "cork",
+      "texture": "minecraft:textures/block/oak_log_top.png",
+      "color": "B38B54",
+      "bottom": 0.505,
+      "top": 0.56,
+      "radius": 0.045
+    },
+    "stages": [
+      {
+        "agingStage": "tooltip.vinum.maturation.honeyshine_light_aged",
+        "name": "beverage.vinum.honeyshine.light_aged",
+        "flavor": "tooltip.vinum.honeyshine_flavor.light_aged",
+        "liquidColor": "D9B35C"
+      },
+      {
+        "agingStage": "tooltip.vinum.maturation.honeyshine_dark_aged",
+        "name": "beverage.vinum.honeyshine.dark_aged",
+        "flavor": "tooltip.vinum.honeyshine_flavor.dark_aged",
+        "liquidColor": "A15D27"
+      }
+    ]
+  },
+  {
+    "fluids": [
+      "vinum:brandy"
+    ],
+    "items": [
+      "vinum:brandy_bottle"
+    ],
+    "bottleType": "vinum:brandy",
+    "bottle3DType": "vinum:brandy",
+    "liquidColor": "EFE9D6",
+    "name": "beverage.vinum.brandy.white",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "AAC6CF",
+      "transparency": 0.9
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/brandy_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "C79A3B",
+      "panel": {
+        "width": 0.78,
+        "bottom": 0.055,
+        "top": 0.195,
+        "uv": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "closure": {
+      "type": "cork",
+      "texture": "minecraft:textures/block/gold_block.png",
+      "color": "DFC17A",
+      "bottom": 0.515,
+      "top": 0.575,
+      "radius": 0.048
+    },
+    "flavor": "tooltip.vinum.brandy_flavor.white",
+    "stages": [
+      {
+        "agingStage": "tooltip.vinum.maturation.brandy_light_aged",
+        "name": "beverage.vinum.brandy.light_aged",
+        "liquidColor": "CD923E",
+        "flavor": "tooltip.vinum.brandy_flavor.light_aged"
+      },
+      {
+        "agingStage": "tooltip.vinum.maturation.brandy_dark_aged",
+        "name": "beverage.vinum.brandy.dark_aged",
+        "liquidColor": "8E421B",
+        "flavor": "tooltip.vinum.brandy_flavor.dark_aged"
+      }
+    ]
   }
 ]

@@ -36,6 +36,18 @@ public final class SugarKettleBlock extends BaseEntityBlock {
     }
     @Override protected ItemInteractionResult useItemOn(ItemStack stack,BlockState state,Level level,BlockPos pos,Player player,InteractionHand hand,BlockHitResult hit){
         if(!player.mayBuild()||!level.mayInteract(player,pos)||!player.mayUseItemAt(pos,hit.getDirection(),stack)||!(level.getBlockEntity(pos) instanceof SugarKettleBlockEntity kettle))return ItemInteractionResult.FAIL;
+        if(stack.is(Items.HONEY_BOTTLE)) {
+            if(!level.isClientSide) {
+                if(kettle.addHoney()) {
+                    // Consume exactly one input in both game modes, returning its physical container.
+                    stack.shrink(1);
+                    var empty=new ItemStack(Items.GLASS_BOTTLE);
+                    if(stack.isEmpty())player.setItemInHand(hand,empty);
+                    else if(!player.getInventory().add(empty))player.drop(empty,false);
+                } else player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.vinum.honey_mixing_failed"),true);
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
         if(stack.is(SugarContent.SEPARATION_INSERT.get())) {
             if(!level.isClientSide&&kettle.installInsert())stack.shrink(1);
             return ItemInteractionResult.sidedSuccess(level.isClientSide);

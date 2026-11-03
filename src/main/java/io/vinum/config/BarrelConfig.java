@@ -5,6 +5,10 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 /** World-specific capacity and maturation settings, synchronized to joining clients. */
 public final class BarrelConfig {
     public static final ModConfigSpec SPEC;
+    private static final ModConfigSpec.IntValue HONEYSHINE_LIGHT_AGED_DAYS;
+    private static final ModConfigSpec.IntValue HONEYSHINE_DARK_AGED_DAYS;
+    private static final ModConfigSpec.IntValue BRANDY_LIGHT_AGED_DAYS;
+    private static final ModConfigSpec.IntValue BRANDY_DARK_AGED_DAYS;
     private static final ModConfigSpec.IntValue CAPACITY;
     private static final ModConfigSpec.IntValue TICKS_PER_DAY;
     private static final ModConfigSpec.IntValue REPOSADO_DAYS;
@@ -36,6 +40,10 @@ public final class BarrelConfig {
                 .defineInRange("wineMatureDays", 180, 1, 365_000);
         WINE_RESERVE_DAYS = builder.comment("Wine gameplay reserve milestone. Aging never increases alcohol strength.")
                 .defineInRange("wineReserveDays", 730, 1, 365_000);
+        HONEYSHINE_LIGHT_AGED_DAYS = builder.defineInRange("honeyshineLightAgedDays", 90, 1, 365_000);
+        HONEYSHINE_DARK_AGED_DAYS = builder.defineInRange("honeyshineDarkAgedDays", 365, 1, 365_000);
+        BRANDY_LIGHT_AGED_DAYS = builder.defineInRange("brandyLightAgedDays", 90, 1, 365_000);
+        BRANDY_DARK_AGED_DAYS = builder.defineInRange("brandyDarkAgedDays", 365, 1, 365_000);
         builder.pop();
         SPEC = builder.build();
     }
@@ -51,5 +59,9 @@ public final class BarrelConfig {
     public static int rumDarkAgedDays() { return Math.max(rumLightAgedDays(), value(RUM_DARK_AGED_DAYS)); }
     public static int wineMatureDays() { return value(WINE_MATURE_DAYS); }
     public static int wineReserveDays() { return Math.max(wineMatureDays(), value(WINE_RESERVE_DAYS)); }
+    public static int honeyshineLightAgedDays() { return value(HONEYSHINE_LIGHT_AGED_DAYS); }
+    public static int honeyshineDarkAgedDays() { return Math.max(honeyshineLightAgedDays(), value(HONEYSHINE_DARK_AGED_DAYS)); }
+    public static int brandyLightAgedDays() { return value(BRANDY_LIGHT_AGED_DAYS); }
+    public static int brandyDarkAgedDays() { return Math.max(brandyLightAgedDays(), value(BRANDY_DARK_AGED_DAYS)); }
     public static long daysToTicks(long days) { return Math.multiplyExact(days, (long) ticksPerDay()); }
 }

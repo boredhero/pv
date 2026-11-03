@@ -22,6 +22,10 @@ public final class CarboyItem extends FluidContainerItem {
     }
     @Override public String getDescriptionId() { return block.getDescriptionId(); }
     @Override public InteractionResult useOn(UseOnContext context) {
+        var player = context.getPlayer();
+        if (player != null && (!player.mayBuild() || !context.getLevel().mayInteract(player, context.getClickedPos())
+                || !player.mayUseItemAt(context.getClickedPos(), context.getClickedFace(), context.getItemInHand())))
+            return InteractionResult.FAIL;
         var tank = context.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
                 context.getClickedPos(), context.getClickedFace());
         boolean emptyPlacement = context.getPlayer() != null && context.getPlayer().isShiftKeyDown()

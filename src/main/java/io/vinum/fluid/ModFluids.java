@@ -33,6 +33,10 @@ public final class ModFluids {
     public static final FluidEntry MOLASSES = registerBeverage("molasses", 0xFF473021);
     public static final FluidEntry CANE_WASH = registerBeverage("cane_wash", 0xFFAD9263);
     public static final FluidEntry FERMENTED_CANE_WASH = registerBeverage("fermented_cane_wash", 0xFFBAA782);
+    public static final FluidEntry MEAD_MUST = registerBeverage("mead_must", 0xFFF0C66A);
+    public static final FluidEntry MEAD = registerBeverage("mead", 0xFFEAC46B);
+    public static final FluidEntry HONEYSHINE = registerBeverage("honeyshine", 0xFFF2EEE0);
+    public static final FluidEntry BRANDY = registerBeverage("brandy", 0xFFF0E9DC);
     public static final FluidEntry RUM = registerBeverage("rum", 0xFFF0EEE3);
 
     public static final FluidEntry AGAVE_MOSTO = registerBeverage("agave_mosto", 0xFFD5BA79);

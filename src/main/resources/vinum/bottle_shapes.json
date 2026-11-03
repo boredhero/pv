@@ -91,5 +91,84 @@
     "items": [
       "rum_bottle"
     ]
+  },
+  "mead": {
+    "modelValue": 4,
+    "texture": "vinum:item/mead_bottle",
+    "liquidBounds": [
+      16,
+      27,
+      48,
+      57
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 30,
+    "liquidNeutralMinimum": 60,
+    "liquidNeutralMaximum": 180,
+    "emptyModel": true,
+    "closureBounds": [
+      20,
+      3,
+      43,
+      14
+    ],
+    "items": [
+      "mead_bottle"
+    ]
+  },
+  "honeyshine": {
+    "modelValue": 5,
+    "texture": "vinum:item/honeyshine_bottle",
+    "liquidBounds": [
+      16,
+      27,
+      48,
+      57
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 30,
+    "liquidNeutralMinimum": 60,
+    "liquidNeutralMaximum": 180,
+    "emptyModel": true,
+    "closureBounds": [
+      20,
+      3,
+      43,
+      14
+    ],
+    "items": [
+      "honeyshine_bottle"
+    ]
+  },
+  "brandy": {
+    "modelValue": 6,
+    "texture": "vinum:item/brandy_bottle",
+    "liquidBounds": [
+      9,
+      20,
+      55,
+      59
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 20,
+    "liquidNeutralMinimum": 60,
+    "liquidNeutralMaximum": 230,
+    "labelArtworkBounds": [
+      20,
+      40,
+      44,
+      56
+    ],
+    "emptyModel": true,
+    "emptyGlassTint": true,
+    "closureBounds": [
+      23,
+      3,
+      41,
+      14
+    ],
+    "items": [
+      "brandy_bottle"
+    ]
   }
 }

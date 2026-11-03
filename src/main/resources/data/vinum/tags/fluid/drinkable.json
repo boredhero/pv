@@ -17,6 +17,9 @@
     "vinum:juice_merlot",
     "vinum:juice_pinot_noir",
     "vinum:juice_zinfandel",
-    "vinum:rum"
+    "vinum:rum",
+    "vinum:mead",
+    "vinum:honeyshine",
+    "vinum:brandy"
   ]
 }

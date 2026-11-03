@@ -45,6 +45,7 @@ public final class ClientModelChecks {
         }
         BarRenderChecks.run();
         wineBottles(event);
+        newBottles(event);
     }
 
     private static void wineBottles(ModelEvent.BakingCompleted event) {
@@ -68,5 +69,24 @@ public final class ClientModelChecks {
         }
         if(colors.size()<2)throw new AssertionError("Wine varieties lost their distinct colors");
         LogUtils.getLogger().info("Vinum wine inventory checks passed: {} varieties select layered models and preserve batch colors",variants.size());
+    }
+    private static void newBottles(ModelEvent.BakingCompleted event) {
+        for(String name:new String[]{"mead","honeyshine","brandy"}) {
+            var itemId=ResourceLocation.fromNamespaceAndPath("vinum",name+"_bottle");
+            var bottle=(io.vinum.item.FluidContainerItem)net.minecraft.core.registries.BuiltInRegistries.ITEM.get(itemId);
+            var base=event.getModels().get(ModelResourceLocation.inventory(itemId));
+            if(base==null || base==event.getModelManager().getMissingModel())throw new AssertionError("Missing bottle model: "+itemId);
+            var fluid=net.minecraft.core.registries.BuiltInRegistries.FLUID.get(ResourceLocation.fromNamespaceAndPath("vinum",name));
+            for(int amount:new int[]{1,187,375,562,750}) for(int days:new int[]{0,90,180,365}) {
+                var contents=io.vinum.barrel.BarrelFluidData.withAge(io.vinum.item.ModItems.spirit(fluid,amount),days*24000L);
+                var stack=bottle.filled(contents);var model=base.getOverrides().resolve(base,stack,null,null,0);
+                if(model==null || model==base || model==event.getModelManager().getMissingModel())throw new AssertionError("Unresolved filled model: "+itemId);
+                var quads=model.getQuads(null,null,RandomSource.create(0),net.neoforged.neoforge.client.model.data.ModelData.EMPTY,null);
+                if(quads.stream().noneMatch(q->q.getTintIndex()==255))throw new AssertionError("Missing liquid tint: "+itemId);
+                if(quads.stream().noneMatch(q->q.getTintIndex()<0))throw new AssertionError("Missing untinted artwork: "+itemId);
+                if(quads.stream().anyMatch(q->q.getSprite().contents().name().getPath().equals("missingno")))throw new AssertionError("Missing bottle texture: "+itemId);
+            }
+        }
+        LogUtils.getLogger().info("Vinum mead/honeyshine/brandy inventory checks passed: 60 fill and maturity combinations");
     }
 }

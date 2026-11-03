@@ -26,6 +26,9 @@
     "vinum:wine_glass_zinfandel",
     "vinum:margarita_glass",
     "vinum:spiced_apple_margarita",
-    "vinum:rum_bottle"
+    "vinum:rum_bottle",
+    "vinum:mead_bottle",
+    "vinum:honeyshine_bottle",
+    "vinum:brandy_bottle"
   ]
 }

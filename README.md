@@ -938,3 +938,60 @@ bar or shelf, pour servings, or move them into Survival without a special creati
 item type.
 
 Creative also includes a full 125 mB wine glass for each of the six varieties. Right-click an empty position on the bar to place a glass; its wine variety and maturation are preserved.
+
+### Mead, honeyshine, and brandy
+
+These routes reuse the sugar kettle, carboys, fermentation vat, still, and barrels.
+No additional machine is required.
+
+- **Mead:** vanilla honey bottle + water → mead must → vat OR airlocked carboy → young mead → optional maturation → mead bottle / wine glass.
+- **Honeyshine:** mead → still → unaged honeyshine → optional barrel aging → dilute → honeyshine bottle / shot glass.
+- **Brandy:** grapes → press → must → fermentation → strain → wine → still → unaged brandy → optional barrel aging → dilute → brandy bottle / shot glass.
+
+To prepare mead must, put one water bucket (1,000 mB) into an empty, idle sugar
+kettle, then right-click it with one vanilla honey bottle. No heat is needed.
+This makes 1,250 mB of mead must and returns the empty glass bottle. Draw the
+must with a carboy, then repeat to make a larger batch. Each preparation needs
+exactly 1,000 mB of plain water and no solid output in the kettle.
+
+Pour must into the fermentation vat or place the carboy and attach an airlock.
+Sneak-right-click the vessel with an empty hand to start fermentation. Wine yeast
+is optional and accelerates fermentation. The standard honey mixture ferments
+to 12% ABV mead; it has no suspended solids, so it needs no straining step.
+Mead matures in an airlocked carboy or a barrel at the configured wine maturity
+milestone (default 180 game days).
+
+The still accepts clean mead for honeyshine and clean grape wine for brandy.
+Provide an empty carboy in its output-container slot. At 12% ABV, 3,750 mB of
+input yields 750 mB of 60% spirit; the ordinary heated still cycle takes 1,200
+ticks. Distillation preserves ingredient provenance and starts a new maturation
+clock. These are game balance values, not real production instructions.
+
+Honeyshine and brandy mature only in barrels, with light-aged and dark-aged
+milestones at 90 and 365 game days by default. Aging does not change ABV. For a
+40% bottling batch, combine two 750 mB still outputs with 750 mB of water in a
+carboy: 2,250 mB fills three bottles. Use the existing water-bottle/vessel dilution
+interaction; carry a wine cork for each corked bottle filling.
+
+Empty bottle recipes are shapeless: rum bottle + honeycomb → mead bottle;
+rum bottle + yellow dye → honeyshine bottle; rum bottle + orange dye → brandy
+bottle. Filled Creative examples include young/mature mead bottles and wine
+glasses, and all three ages of honeyshine/brandy bottles and shots. All use the
+existing bar pouring, placement, drinking, and sneak-pickup controls.
+
+Mead and honeyshine reuse the rum-shaped glass with distinct arched labels.
+Brandy has a broad, flattened decanter, gold stopper, and an oval grapevine label.
+Inventory and placed appearances are selected through `BeverageAppearance`.
+
+The kettle now exposes its fluid capability, so sneak-right-clicking it with a
+filled carboy pours correctly even when vanilla bypasses the block interaction.
+The press's **Extra Out** slot stores bagasse, supports output extraction, and
+pauses pressing when full; it no longer ejects bagasse onto the ground.
+
+Research basis: [BJCP's mead study guide](https://www.bjcp.org/education-training/exam-preparation/mead-part-2-mead-exam-study-guide/)
+describes honey/water fermentation;
+[Westslope's honey spirit](https://www.westslopedist.com/sweet-sting-honey-spirit)
+is distilled mead with an oak-aged expression;
+[BNIC's production overview](https://www.cognac.fr/en/discover/expertise/production/)
+describes wine distillation and oak maturation. The mod implements generic brandy,
+with configurable game milestones rather than regional Cognac classifications.

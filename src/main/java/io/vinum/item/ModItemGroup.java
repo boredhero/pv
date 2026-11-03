@@ -45,7 +45,21 @@ public final class ModItemGroup {
                                                           .get(),
                                                       container.capacity()),
                                                   io.vinum.config.BarrelConfig.daysToTicks(days))));
-                                    if (item.get() == ModItems.SHOT_GLASS.get()) addRumExamples(output, container);
+                                    if (item.get() == ModItems.SHOT_GLASS.get()) {
+                                      addRumExamples(output, container);
+                                      addHoneyshineExamples(output, container);
+                                      addBrandyExamples(output, container);
+                                    }
+                                    return;
+                                  }
+                                  if (item.get() == ModItems.MEAD_BOTTLE.get()
+                                      || item.get() == ModItems.HONEYSHINE_BOTTLE.get()
+                                      || item.get() == ModItems.BRANDY_BOTTLE.get()) {
+                                    output.accept(item.get());
+                                    var container = (FluidContainerItem) item.get();
+                                    if (item.get() == ModItems.MEAD_BOTTLE.get()) addMeadExamples(output, container);
+                                    else if (item.get() == ModItems.HONEYSHINE_BOTTLE.get()) addHoneyshineExamples(output, container);
+                                    else addBrandyExamples(output, container);
                                     return;
                                   }
                                   if (item.get() == ModItems.RUM_BOTTLE.get()) {
@@ -63,6 +77,7 @@ public final class ModItemGroup {
                                       output.accept(bottle.filled(io.vinum.barrel.BarrelFluidData.withAge(wine,
                                           io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.wineMatureDays()))));
                                     }
+                                    if (item.get() == ModItems.WINE_GLASS_EMPTY.get()) addMeadExamples(output, bottle);
                                     return;
                                   }
                                   if (item.get() instanceof GrapeSeedItem) {
@@ -98,6 +113,28 @@ public final class ModItemGroup {
     for (int days : new int[] {0, io.vinum.config.BarrelConfig.rumLightAgedDays(), io.vinum.config.BarrelConfig.rumDarkAgedDays()}) {
       var fluid = new net.neoforged.neoforge.fluids.FluidStack(io.vinum.fluid.ModFluids.RUM.source().get(), container.capacity());
       io.vinum.production.BatchProfile.of(fluid).withAlcoholFraction(.4).applyTo(fluid);
+      output.accept(container.filled(io.vinum.barrel.BarrelFluidData.withAge(fluid,
+          io.vinum.config.BarrelConfig.daysToTicks(days))));
+    }
+  }
+
+  private static void addMeadExamples(CreativeModeTab.Output output, FluidContainerItem container) {
+    addAgedExamples(output, container, io.vinum.fluid.ModFluids.MEAD.source().get(), .12,
+        0, io.vinum.config.BarrelConfig.wineMatureDays());
+  }
+  private static void addHoneyshineExamples(CreativeModeTab.Output output, FluidContainerItem container) {
+    addAgedExamples(output, container, io.vinum.fluid.ModFluids.HONEYSHINE.source().get(), .4,
+        0, io.vinum.config.BarrelConfig.honeyshineLightAgedDays(), io.vinum.config.BarrelConfig.honeyshineDarkAgedDays());
+  }
+  private static void addBrandyExamples(CreativeModeTab.Output output, FluidContainerItem container) {
+    addAgedExamples(output, container, io.vinum.fluid.ModFluids.BRANDY.source().get(), .4,
+        0, io.vinum.config.BarrelConfig.brandyLightAgedDays(), io.vinum.config.BarrelConfig.brandyDarkAgedDays());
+  }
+  private static void addAgedExamples(CreativeModeTab.Output output, FluidContainerItem container,
+      net.minecraft.world.level.material.Fluid type, double alcohol, int... ages) {
+    for (int days : ages) {
+      var fluid = new net.neoforged.neoforge.fluids.FluidStack(type, container.capacity());
+      io.vinum.production.BatchProfile.of(fluid).withAlcoholFraction(alcohol).applyTo(fluid);
       output.accept(container.filled(io.vinum.barrel.BarrelFluidData.withAge(fluid,
           io.vinum.config.BarrelConfig.daysToTicks(days))));
     }

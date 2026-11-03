@@ -23,6 +23,9 @@ public final class SugarContent {
     private SugarContent() {}
     public static void register(IEventBus bus) {
         BLOCKS.register(bus); ITEMS.register(bus); ENTITIES.register(bus);
+        bus.addListener((net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) ->
+            event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
+                ENTITY.get(), (kettle, side) -> kettle.fluids()));
         bus.addListener((net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent event) -> {
             if (event.getTab() == io.vinum.item.ModItemGroup.MAIN.get()) {
                 event.accept(ITEM.get()); event.accept(BAGASSE.get()); event.accept(PANELA.get()); event.accept(SEPARATION_INSERT.get());

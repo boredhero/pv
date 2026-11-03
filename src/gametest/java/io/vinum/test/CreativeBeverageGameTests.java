@@ -76,4 +76,29 @@ public final class CreativeBeverageGameTests {
         }
         h.succeed();
     }
+    @GameTest(template = "empty")
+    public static void honeyAndBrandyCreativeServingsAreAvailable(GameTestHelper h) {
+        var tab=ModItemGroup.MAIN.get();
+        tab.buildContents(new CreativeModeTab.ItemDisplayParameters(h.getLevel().enabledFeatures(),true,h.getLevel().registryAccess()));
+        var bottleItems=java.util.List.of(ModItems.MEAD_BOTTLE.get(),ModItems.HONEYSHINE_BOTTLE.get(),ModItems.BRANDY_BOTTLE.get());
+        var fluids=java.util.List.of(io.vinum.fluid.ModFluids.MEAD.source().get(),io.vinum.fluid.ModFluids.HONEYSHINE.source().get(),io.vinum.fluid.ModFluids.BRANDY.source().get());
+        for(int index=0;index<fluids.size();index++) {
+            var fluid=fluids.get(index);
+            var bottle=(FluidContainerItem)bottleItems.get(index);
+            var glass=(FluidContainerItem)(index==0?ModItems.WINE_GLASS_EMPTY.get():ModItems.SHOT_GLASS.get());
+            int stages=index==0?2:3;
+            for(var vessel:java.util.List.of(bottle,glass)) {
+                var entries=tab.getDisplayItems().stream().filter(stack->stack.is(vessel)&&vessel.contents(stack).getFluid().isSame(fluid)).toList();
+                h.assertTrue(entries.size()==stages,"Creative offers every maturity of each honey/brandy serving");
+                for(var stack:entries) {
+                    h.assertTrue(vessel.contents(stack).getAmount()==vessel.capacity(),"Creative serving is full");
+                    h.assertTrue(tab.getSearchTabDisplayItems().stream().anyMatch(other->
+                        net.minecraft.world.item.ItemStack.isSameItemSameComponents(stack,other)),"Serving available in search");
+                    h.assertTrue(io.vinum.bar.BarBlockEntity.accepts(stack),"Serving can be placed on bar");
+                    if(vessel==bottle)h.assertTrue(BottleCorks.hasCork(stack),"Creative bottles include cork");
+                }
+            }
+        }
+        h.succeed();
+    }
 }

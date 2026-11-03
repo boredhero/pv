@@ -113,9 +113,9 @@ public final class SugarProcessingGameTests {
         press.attachMotor(); press.energy.generate(2000);
         for (int i = 0; i < 400; i++) WinePressBlockEntity.tick(h.getLevel(), pos, press.getBlockState(), press);
         var juice = press.fluids().getFluidInTank(0);
-        int bagasse = h.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
-                new net.minecraft.world.phys.AABB(pos).inflate(2)).stream()
-                .filter(item -> item.getItem().is(SugarContent.BAGASSE.get())).mapToInt(item -> item.getItem().getCount()).sum();
+        int bagasse = press.inventory.getStackInSlot(WinePressBlockEntity.EXTRA_OUTPUT_SLOT).getCount();
+        h.assertTrue(press.inventory.getStackInSlot(WinePressBlockEntity.EXTRA_OUTPUT_SLOT).is(SugarContent.BAGASSE.get()),
+                "Bagasse is stored in Extra Out rather than ejected into the world");
         h.assertTrue(juice.getAmount() == 1000 && press.inventory.getStackInSlot(0).isEmpty()
                 && press.energy.getEnergyStored() == 0 && bagasse == 1,
                 "One completed cane pressing consumes four stalks and 2000 FE and yields one litre plus one bagasse");

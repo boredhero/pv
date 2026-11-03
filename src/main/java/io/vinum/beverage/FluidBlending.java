@@ -15,6 +15,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 /** Conservative batch mixing. Water contributes volume, never ingredient provenance or maturation. */
 public final class FluidBlending {
+    public static final TagKey<Fluid> CARBOY_AGEABLE = tag("carboy_ageable");
     public static final TagKey<Fluid> CANE_FEEDSTOCKS = tag("cane_feedstocks");
     public static final TagKey<Fluid> BLENDABLE = tag("blendable_batches");
     public static final TagKey<Fluid> DILUTABLE = tag("dilutable_batches");

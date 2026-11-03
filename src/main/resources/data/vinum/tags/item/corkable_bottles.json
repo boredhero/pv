@@ -14,6 +14,9 @@
     "vinum:fifth_reposado_tequila",
     "vinum:fifth_anejo_tequila",
     "vinum:fifth_extra_anejo_tequila",
-    "vinum:rum_bottle"
+    "vinum:rum_bottle",
+    "vinum:mead_bottle",
+    "vinum:honeyshine_bottle",
+    "vinum:brandy_bottle"
   ]
 }

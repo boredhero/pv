@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     "vinum:rum",
-    "vinum:fermented_cane_wash"
+    "vinum:fermented_cane_wash",
+    "vinum:mead_must",
+    "vinum:mead",
+    "vinum:honeyshine",
+    "vinum:brandy"
   ]
 }
