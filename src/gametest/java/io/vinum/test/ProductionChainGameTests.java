@@ -148,9 +148,9 @@ public final class ProductionChainGameTests {
                     .findFirst().orElseThrow();
             var juiceProfile = ProductionInputs.defaultProfile(pressing.output());
             helper.assertTrue(juiceProfile.sugarGramsPerLitre() == 200
-                    && juiceProfile.solidsGramsPerLitre() == 0
+                    && juiceProfile.solidsGramsPerLitre() == 100
                     && juiceProfile.ingredientProportions().equals(java.util.Map.of(definition.ingredient(), 1D)),
-                    "Catalog-derived juice chemistry must retain fermentable sugar and grape identity");
+                    "Catalog-derived must chemistry must retain fermentable sugar and grape identity");
             var preparedMust = new ItemStack(BuiltInRegistries.ITEM.get(
                     ProductionInputs.id("grape_must_" + variety.getSerializedName())));
             var must = ProductionInputs.fromItem(preparedMust);

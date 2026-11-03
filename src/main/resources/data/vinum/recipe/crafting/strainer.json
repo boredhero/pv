@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "P P",
     " I ",
-    "P P"
+    " S "
   ],
   "key": {
-    "P": {
-      "tag": "minecraft:planks"
-    },
     "I": {
       "item": "minecraft:iron_bars"
+    },
+    "S": {
+      "item": "minecraft:stick"
     }
   },
   "result": {

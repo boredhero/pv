@@ -82,44 +82,46 @@ public final class StrainerGameTests {
     h.succeed();
   }
 
-  @GameTest(template = "barrel_space", timeoutTicks = 60)
-  public static void rawMustStrainsIntoJuiceAndFermentsInSmallCarboy(GameTestHelper h) {
-    BlockPos pos = place(h);
+  @GameTest(template = "barrel_space", timeoutTicks = 100)
+  public static void mustFermentsThenHandheldStrainerClearsAndAirlockAllowsAging(GameTestHelper h) {
+    BlockPos pos = h.absolutePos(new BlockPos(2, 1, 2));
+    h.getLevel().setBlockAndUpdate(pos, ModBlocks.CARBOY.get().defaultBlockState());
+    var vessel = (FermentationVesselBlockEntity) h.getLevel().getBlockEntity(pos);
+    FluidStack must = ProductionInputs.fromItem(new ItemStack(ModItems.GRAPE_MUST_MERLOT.get()));
+    h.assertTrue(vessel.getFluidHandler(null).fill(must, FluidAction.EXECUTE) == 1000, "Carboy accepts raw must");
     var player = h.makeMockPlayer(GameType.SURVIVAL);
-    player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ModItems.GRAPE_MUST_MERLOT.get()));
+    player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(StrainerContent.ITEM.get()));
     use(h, pos, player);
-    h.assertTrue(player.getMainHandItem().is(ModItems.GRAPE_MUST_MERLOT.get()), "Missing receiver cannot consume must");
-    player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(ModItems.JUICE_CARBOY.get()));
-    use(h, pos, player);
-    FluidStack juice = contents(player.getOffhandItem());
-    h.assertTrue(player.getMainHandItem().is(Items.BOWL) && juice.getAmount() == 1000
-        && BuiltInRegistries.FLUID.getKey(juice.getFluid()).equals(ProductionInputs.id("juice_merlot"))
-        && BatchProfile.of(juice).solidsGramsPerLitre() == 0
-        && BatchProfile.of(juice).sugarGramsPerLitre() == 200
-        && BatchProfile.of(juice).alcoholFraction() == 0,
-        "A bowl strains to a litre of fermentable juice without creating alcohol, returning its bowl");
-    BlockPos carboyPos = pos.offset(2, 0, 0);
-    h.getLevel().setBlockAndUpdate(carboyPos, ModBlocks.CARBOY.get().defaultBlockState());
-    var vessel = (FermentationVesselBlockEntity) h.getLevel().getBlockEntity(carboyPos);
-    player.setItemInHand(InteractionHand.MAIN_HAND, player.getOffhandItem());
-    player.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-    player.setShiftKeyDown(true);
-    ProductionContainers.useItemOn(player.getMainHandItem(), h.getLevel(), player, InteractionHand.MAIN_HAND, vessel.getFluidHandler(null));
-    h.assertTrue(vessel.installAirlock(), "Install the small fermentation airlock");
-    h.assertTrue(vessel.getFluid().getAmount() == 1000 && vessel.startFermentation(), "Strained juice supports small-carboy fermentation");
-    h.assertTrue(vessel.getFluidHandler(null).drain(1000, FluidAction.SIMULATE).isEmpty(), "Active batches cannot be extracted for straining");
+    h.assertTrue(FluidStack.isSameFluidSameComponents(must, vessel.getFluid()), "Raw must cannot be strained");
+    h.assertTrue(!vessel.startFermentation(), "Airlock required for fermentation");
+    vessel.installAirlock();
+    h.assertTrue(vessel.startFermentation(), "Airlocked must starts fermenting");
+    h.assertTrue(!vessel.strain(), "Active batches cannot be strained");
     var saved = vessel.saveWithoutMetadata(h.getLevel().registryAccess());
     saved.putInt("FermentationProgress", 23980);
     vessel.loadWithComponents(saved, h.getLevel().registryAccess());
     h.runAfterDelay(21, () -> {
-      player.setShiftKeyDown(false);
-      ProductionContainers.useItemOn(player.getMainHandItem(), h.getLevel(), player, InteractionHand.MAIN_HAND, vessel.getFluidHandler(null));
-      FluidStack wine = contents(player.getMainHandItem());
-      h.assertTrue(wine.getAmount() == 1000 && WineCatalog.isWine(wine)
-          && Math.abs(BatchProfile.of(wine).alcoholFraction() - .12) < 1e-9
-          && BatchProfile.of(wine).solidsGramsPerLitre() == 0,
-          "Small carboy produces clear wine ready for bottling or aging");
-      h.succeed();
+      FluidStack cloudy = vessel.getFluid();
+      h.assertTrue(WineCatalog.isWine(cloudy) && BatchProfile.of(cloudy).solidsGramsPerLitre() == 100,
+          "Fermentation leaves fermented must with skins");
+      h.assertTrue(BarrelFluidData.getAge(cloudy) == 0, "Unstrained must does not age in glass");
+      use(h, pos, player);
+      FluidStack clear = vessel.getFluid();
+      h.assertTrue(clear.getAmount() == 1000 && BatchProfile.of(clear).solidsGramsPerLitre() == 0
+          && Math.abs(BatchProfile.of(clear).alcoholFraction() - .12) < 1e-9,
+          "Handheld strainer preserves volume and alcohol while clearing young wine");
+      h.assertTrue(player.getMainHandItem().is(StrainerContent.ITEM.get()) && !vessel.strain(), "Reusable strainer and repeat no-op");
+      h.runAfterDelay(21, () -> {
+        h.assertTrue(BarrelFluidData.getAge(vessel.getFluid()) > 0, "Airlocked placed carboy ages clear wine");
+        var noAirlock = vessel.saveWithoutMetadata(h.getLevel().registryAccess());
+        noAirlock.putBoolean("Airlock", false);
+        vessel.loadWithComponents(noAirlock, h.getLevel().registryAccess());
+        long age = BarrelFluidData.getAge(vessel.getFluid());
+        h.runAfterDelay(21, () -> {
+          h.assertTrue(BarrelFluidData.getAge(vessel.getFluid()) == age, "Without airlock maturation pauses");
+          h.succeed();
+        });
+      });
     });
   }
 

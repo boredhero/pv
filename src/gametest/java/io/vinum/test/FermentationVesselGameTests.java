@@ -30,14 +30,14 @@ public final class FermentationVesselGameTests {
     private static final IFluidHandler.FluidAction SIMULATE = IFluidHandler.FluidAction.SIMULATE;
 
     @GameTest(template = "barrel_space")
-    public static void carboyRejectsMustAndSimulationNeverChangesFluid(GameTestHelper helper) {
+    public static void carboyAcceptsMustAndSimulationNeverChangesFluid(GameTestHelper helper) {
         BlockPos pos = helper.absolutePos(ORIGIN);
         helper.getLevel().setBlock(pos, ModBlocks.CARBOY.get().defaultBlockState(), Block.UPDATE_CLIENTS);
         var carboy = vessel(helper, pos);
         var tank = carboy.getFluidHandler(null);
         FluidStack juice = new FluidStack(ModFluids.JUICE_CHARDONNAY.source().get(), 1000);
         FluidStack must = new FluidStack(ModFluids.MUST_CHARDONNAY.source().get(), 1000);
-        helper.assertTrue(tank.fill(must, EXECUTE) == 0, "Glass carboys reject suspended must solids");
+        helper.assertTrue(tank.fill(must, SIMULATE) == 1000, "Glass carboys accept must without mutating during simulation");
         helper.assertTrue(tank.fill(juice, SIMULATE) == 1000 && carboy.getLocalFluid().isEmpty(), "Simulated fill must not start fermentation or change volume");
         helper.assertTrue(tank.fill(juice, EXECUTE) == 1000, "Carboys accept clarified grape juice");
         helper.assertTrue(tank.drain(750, SIMULATE).getAmount() == 750 && carboy.getLocalFluid().getAmount() == 1000, "Simulated drain preserves all stored juice");
@@ -128,7 +128,7 @@ public final class FermentationVesselGameTests {
         }).thenSucceed();
     }
     @GameTest(template = "barrel_space")
-    public static void fermentedMustCanBeStrainedAfterDrawingWithoutLosingWine(GameTestHelper helper) {
+    public static void handheldStrainerClearsFermentedVatWithoutLosingWine(GameTestHelper helper) {
         BlockPos pos = helper.absolutePos(ORIGIN);
         helper.getLevel().setBlock(pos, ModBlocks.FERMENTATION_VAT.get().defaultBlockState(), Block.UPDATE_CLIENTS);
         var vat = vessel(helper, pos);
@@ -147,20 +147,17 @@ public final class FermentationVesselGameTests {
                             "Fermented red must retains all suspended skins");
                     BlockPos carboyPos = pos.offset(4, 0, 0);
                     helper.getLevel().setBlock(carboyPos, ModBlocks.CARBOY.get().defaultBlockState(), Block.UPDATE_CLIENTS);
-                    helper.assertTrue(vessel(helper, carboyPos).getFluidHandler(null).fill(before, SIMULATE) == 0,
-                            "Unpressed wine cannot enter a carboy");
+                    helper.assertTrue(vessel(helper, carboyPos).getFluidHandler(null).fill(before, SIMULATE) == 1000,
+                            "Fermented must can enter a carboy");
                     var player = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
-                    var portable = (io.vinum.item.FluidContainerItem) io.vinum.item.ModItems.JUICE_CARBOY.get();
                     player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,
-                            portable.filled(vat.getFluidHandler(null).drain(1000, EXECUTE)));
-                    BlockPos strainerPos = pos.relative(net.minecraft.core.Direction.WEST);
-                    helper.getLevel().setBlockAndUpdate(strainerPos, io.vinum.straining.StrainerContent.BLOCK.get().defaultBlockState());
-                    var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(strainerPos),
-                            net.minecraft.core.Direction.UP, strainerPos, false);
-                    helper.getLevel().getBlockState(strainerPos).useItemOn(player.getMainHandItem(), helper.getLevel(), player,
+                            new ItemStack(io.vinum.straining.StrainerContent.ITEM.get()));
+                    var hit = new net.minecraft.world.phys.BlockHitResult(net.minecraft.world.phys.Vec3.atCenterOf(pos),
+                            net.minecraft.core.Direction.UP, pos, false);
+                    helper.getLevel().getBlockState(pos).useItemOn(player.getMainHandItem(), helper.getLevel(), player,
                             net.minecraft.world.InteractionHand.MAIN_HAND, hit);
-                    FluidStack after = portable.contents(player.getMainHandItem());
-                    helper.assertTrue(vat.getFluid().isEmpty(), "Finished wine leaves the vat before straining");
+                    FluidStack after = vat.getFluid();
+                    helper.assertTrue(after.getAmount() == 1000, "Handheld straining leaves wine in the vat");
                     BatchProfile pressed = BatchProfile.of(after);
                     helper.assertTrue(after.getAmount() == before.getAmount() && pressed.solidsGramsPerLitre() == 0
                                     && pressed.alcoholFraction() == profile.alcoholFraction()

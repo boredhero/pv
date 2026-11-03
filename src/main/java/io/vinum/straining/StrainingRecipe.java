@@ -21,7 +21,7 @@ public record StrainingRecipe(ResourceLocation inputFluid, ResourceLocation outp
   ).apply(instance, StrainingRecipe::new));
 
   public boolean accepts(FluidStack input) {
-    return !input.isEmpty() && BuiltInRegistries.FLUID.getKey(input.getFluid()).equals(inputFluid)
+    return !input.isEmpty() && io.vinum.beverage.WineCatalog.isWine(input) && BuiltInRegistries.FLUID.getKey(input.getFluid()).equals(inputFluid)
         && BatchProfile.of(input).solidsGramsPerLitre() > 0
         && BuiltInRegistries.FLUID.containsKey(outputFluid)
         && BuiltInRegistries.FLUID.get(outputFluid) != Fluids.EMPTY;

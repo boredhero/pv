@@ -28,7 +28,7 @@ public final class StrainerContent {
   private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(Registries.RECIPE_SERIALIZER, Defines.MODID);
   public static final DeferredHolder<Block, StrainerBlock> BLOCK = BLOCKS.register("strainer", () -> new StrainerBlock(
       BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(1.5F).sound(SoundType.WOOD).noOcclusion()));
-  public static final DeferredItem<BlockItem> ITEM = ITEMS.register("strainer", () -> new BlockItem(BLOCK.get(), new Item.Properties()));
+  public static final DeferredItem<Item> ITEM = ITEMS.register("strainer", () -> new Item(new Item.Properties().stacksTo(1)));
   public static final DeferredHolder<RecipeType<?>, RecipeType<StrainingRecipe>> TYPE = TYPES.register("straining", () -> new RecipeType<>() {});
   public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<StrainingRecipe>> SERIALIZER = SERIALIZERS.register("straining", () -> new RecipeSerializer<>() {
     @Override public MapCodec<StrainingRecipe> codec() { return StrainingRecipe.CODEC; }

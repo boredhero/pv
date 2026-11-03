@@ -1,5 +1,0 @@
-{
-  "type": "vinum:straining",
-  "input_fluid": "vinum:must_zinfandel",
-  "output_fluid": "vinum:juice_zinfandel"
-}

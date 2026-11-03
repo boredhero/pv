@@ -72,9 +72,16 @@ public final class WineCatalog {
         var ingredients = BatchProfile.of(normalize(fluid)).ingredientProportions();
         if (ingredients.size() == 1) {
             var variety = VARIETIES.get(ingredients.keySet().iterator().next());
-            if (variety != null) return Component.translatable("fluid." + variety.legacyFluid().getNamespace() + "." + variety.legacyFluid().getPath());
+            if (variety != null) return stageName(fluid, Component.translatable("fluid." + variety.legacyFluid().getNamespace() + "." + variety.legacyFluid().getPath()));
         }
-        return Component.translatable(ingredients.size() > 1 ? "fluid.vinum.wine_blend" : "fluid.vinum.wine");
+        return stageName(fluid, Component.translatable(ingredients.size() > 1 ? "fluid.vinum.wine_blend" : "fluid.vinum.wine"));
+    }
+    private static Component stageName(FluidStack fluid, Component name) {
+        if (BatchProfile.of(normalize(fluid)).solidsGramsPerLitre() > 0)
+            return Component.translatable("fluid.vinum.fermented_must", name);
+        if (io.vinum.barrel.BarrelFluidData.getAge(fluid) < io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.wineMatureDays()))
+            return Component.translatable("fluid.vinum.young_wine", name);
+        return name;
     }
     public static int color(FluidStack fluid) {
         if (fluid.isEmpty()) return 0xFFFFFFFF;

@@ -101,6 +101,29 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         return members;
     }
 
+    /** Validate every loaded member before replacing any batch; never strain active fermentation. */
+    public boolean strain() {
+        if (level == null || level.isClientSide) return false;
+        var parts = members();
+        if (parts == null) return false;
+        var outputs = new ArrayList<FluidStack>();
+        boolean any = false;
+        for (var part : parts) {
+            if (part.recipe != null) return false;
+            if (part.fluid.isEmpty()) { outputs.add(FluidStack.EMPTY); continue; }
+            FluidStack result = io.vinum.straining.StrainerBlock.strain(level, part.fluid);
+            if (result.isEmpty()) return false;
+            outputs.add(result);
+            any = true;
+        }
+        if (!any) return false;
+        for (int i = 0; i < parts.size(); i++) {
+            parts.get(i).fluid = outputs.get(i);
+            parts.get(i).changed();
+        }
+        return true;
+    }
+
     public boolean addStarter() {
         List<FermentationVesselBlockEntity> parts = members();
         if (parts == null || parts.stream().allMatch(p -> p.fluid.isEmpty() || p.starter)) return false;
@@ -161,7 +184,18 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, FermentationVesselBlockEntity vessel) {
         if (vessel.fluid.isEmpty() || level.getGameTime() % 20 != 0) return;
-        if (vessel.recipe == null) return;
+        if (vessel.recipe == null) {
+            if (!vessel.isVat() && vessel.airlock && WineCatalog.isWine(vessel.fluid)
+                    && BatchProfile.of(vessel.fluid).solidsGramsPerLitre() == 0) {
+                long age = io.vinum.barrel.BarrelFluidData.getAge(vessel.fluid);
+                vessel.fluid = io.vinum.barrel.BarrelFluidData.withAge(vessel.fluid,
+                        Math.min(Long.MAX_VALUE - 20, age) + 20);
+                vessel.setChanged();
+                if (level.getGameTime() % 200 == 0) vessel.changed();
+            }
+            return;
+        }
+        if (!vessel.isVat() && !vessel.airlock) return;
         vessel.progress = (int) Math.min((long) vessel.recipe.durationTicks(), vessel.progress + (vessel.starter ? 40L : 20L));
         if (vessel.progress >= vessel.recipe.durationTicks()) {
             FluidStack result = FermentationEngine.finish(vessel.fluid, vessel.recipe);
@@ -252,7 +286,7 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
             return combined;
         }
         @Override public boolean isFluidValid(int tank, FluidStack resource) {
-            return tank == 0 && !resource.isEmpty() && (isVat() || BatchProfile.of(resource).solidsGramsPerLitre() <= 0);
+            return tank == 0 && !resource.isEmpty();
         }
         @Override public int fill(FluidStack resource, FluidAction action) {
             if (!isFluidValid(0, resource)) return 0;

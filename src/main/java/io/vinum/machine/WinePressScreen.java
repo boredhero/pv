@@ -6,11 +6,31 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public final class WinePressScreen extends AbstractContainerScreen<WinePressMenu> {
+  private net.minecraft.client.gui.components.Button purge;
 
   public WinePressScreen(WinePressMenu menu, Inventory inventory, Component title) {
     super(menu, inventory, title);
     imageHeight = 208;
     inventoryLabelY = 115;
+  }
+
+  @Override
+  protected void init() {
+    super.init();
+    purge = addRenderableWidget(net.minecraft.client.gui.components.Button.builder(
+        Component.translatable("gui.vinum.purge"), button -> {
+          if (minecraft != null && minecraft.gameMode != null)
+            minecraft.gameMode.handleInventoryButtonClick(menu.containerId, WinePressMenu.PURGE_BUTTON);
+        }).bounds(leftPos + 116, topPos + 84, 50, 18)
+        .tooltip(net.minecraft.client.gui.components.Tooltip.create(
+            Component.translatable("gui.vinum.purge_hint"))).build());
+    purge.active = menu.juice() > 0;
+  }
+
+  @Override
+  protected void containerTick() {
+    super.containerTick();
+    purge.active = menu.juice() > 0;
   }
 
   @Override

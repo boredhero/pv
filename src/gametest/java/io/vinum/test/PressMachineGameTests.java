@@ -459,4 +459,32 @@ public final class PressMachineGameTests {
         "Block-entity synchronization preserves the new agave fluid identity for hover text");
     h.succeed();
   }
+  @GameTest(template = "barrel_space")
+  public static void purgeDiscardsOnlyTankAndRejectsDistantRequests(GameTestHelper h) {
+    var press = press(h);
+    press.attachMotor();
+    press.inventory.setStackInSlot(0, new ItemStack(ModItems.GRAPES_MERLOT.get(), 2));
+    press.energy.generate(4000);
+    work(h, press, 210);
+    press.inventory.setStackInSlot(1, new ItemStack(ModItems.CARBOY.get()));
+    var player = h.makeMockPlayer(GameType.SURVIVAL);
+    var menu = new WinePressMenu(1, player.getInventory(), press);
+    int energy = menu.energy(), progress = menu.progress();
+    h.assertTrue(menu.juice() == 1000 && progress > 0, "Fixture has juice and a second batch in progress");
+    player.setPos(press.getBlockPos().getX() + 20, press.getBlockPos().getY(), press.getBlockPos().getZ());
+    h.assertTrue(!menu.clickMenuButton(player, WinePressMenu.PURGE_BUTTON) && menu.juice() == 1000,
+        "A distant menu request cannot discard tank contents");
+    player.setPos(press.getBlockPos().getX() + .5, press.getBlockPos().getY(), press.getBlockPos().getZ() + .5);
+    h.assertTrue(menu.clickMenuButton(player, WinePressMenu.PURGE_BUTTON) && menu.juice() == 0,
+        "Purge immediately empties the full tank");
+    h.assertTrue(menu.energy() == energy && menu.progress() == progress && menu.hasMotor()
+        && press.inventory.getStackInSlot(0).getCount() == 1
+        && press.inventory.getStackInSlot(1).is(ModItems.CARBOY.get()),
+        "Purge preserves items, power, upgrades, and the in-progress batch");
+    h.assertTrue(!menu.clickMenuButton(player, WinePressMenu.PURGE_BUTTON), "Empty purge is a no-op");
+    var replica = new WinePressBlockEntity(press.getBlockPos(), press.getBlockState());
+    replica.loadWithComponents(press.saveWithFullMetadata(h.getLevel().registryAccess()), h.getLevel().registryAccess());
+    h.assertTrue(replica.fluids().getFluidInTank(0).isEmpty(), "Discarded fluid does not return after reload");
+    h.succeed();
+  }
 }

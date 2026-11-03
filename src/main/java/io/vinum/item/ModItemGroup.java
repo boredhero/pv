@@ -23,6 +23,8 @@ public final class ModItemGroup {
                             .getEntries()
                             .forEach(
                                 item -> {
+                                  // Legacy prepared bowls remain loadable, but pressing owns must production.
+                                  if (item.getId().getPath().startsWith("grape_must_")) return;
                                   if (item.get() == ModItems.FIFTH_BOTTLE_EMPTY.get()
                                       || item.get() == ModItems.SHOT_GLASS.get()) {
                                     output.accept(item.get());

@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.*;
 
 public final class WinePressMenu extends AbstractContainerMenu {
+  public static final int PURGE_BUTTON = 2;
   private final WinePressBlockEntity press;
   private final ContainerData data;
 
@@ -101,6 +102,16 @@ public final class WinePressMenu extends AbstractContainerMenu {
   @Override
   public boolean stillValid(Player player) {
     return press == null || press.usable(player);
+  }
+
+  @Override
+  public boolean clickMenuButton(Player player, int button) {
+    if (button != PURGE_BUTTON || press == null || player.level().isClientSide
+        || !press.usable(player)) return false;
+    boolean purged = !press.fluids().drain(Integer.MAX_VALUE,
+        net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE).isEmpty();
+    if (purged) broadcastChanges();
+    return purged;
   }
 
   @Override

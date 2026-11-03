@@ -114,8 +114,8 @@ offered in the creative tab.
 
 - Craft a **Carboy** from four glass blocks and a glass bottle. It
   is the same 4 L container used to carry liquid and ferment small batches.
-  Use it on the press to collect juice, right-click a vat with a filled one to pour,
-  or use it on the ground to place it. Its narrow neck rejects skin-on must.
+  Use it on the press to collect must, right-click a vat with a filled one to pour,
+  or use it on the ground to place it. It carries raw must, fermented must, and young wine.
   Craft an **Airlock** from three glass blocks and one wine cork, then use it on
   the placed carboy before starting fermentation. Vats do not require airlocks.
   Breaking and replacing a carboy preserves its liquid, airlock, and paused
@@ -135,7 +135,7 @@ offered in the creative tab.
   **Basic Generator** burns furnace fuels to supply it. An unpowered press does
   no work; the motor is required for external FE input.
 - Put grapes or cooked agave pulp in the press UI or feed them with a hopper above its upper half.
-  Each grape produces 1 L of juice; each cooked agave pulp produces 1 L of mosto.
+  Each grape produces 1 L of must; each cooked agave pulp produces 1 L of mosto.
   Both take eight manual turns. Each turn directly
   advances progress by one eighth, with a half-second cooldown; manual work never
   creates or requires FE and stops between turns. The manual UI shows progress,
@@ -145,8 +145,10 @@ offered in the creative tab.
   consuming ingredients or power. Add a carboy to the container slot, or use
   one on the press to draw liquid. Side hoppers insert containers; bottom hoppers
   extract filled containers. Fluid pipes can drain liquid from either half.
-- One grape item, the reusable juicer, and a bowl still prepare 1 L of skin-on must.
-- Use a filled carboy on a vessel to pour juice or agave mosto; an empty one draws liquid.
+  **Purge** discards all liquid currently in the press tank; input items, containers,
+  power, upgrades, and pressing progress are preserved.
+- The press is the normal source of must; old prepared must bowls remain usable for saved-world compatibility.
+- Use a filled carboy on a vessel to pour must, wine, or agave mosto; an empty one draws liquid.
   Right-click with a bowl of must to add it. Liquid stays in its reusable
   container when partially poured; must returns a bowl. Fill the batch first,
   then **sneak-right-click with an empty hand to start**. Ordinary empty-hand use
@@ -156,14 +158,16 @@ offered in the creative tab.
   Optional wine yeast doubles the rate; craft it from wheat, sugar, and a brown
   mushroom. Batches pause in unloaded chunks, while the world is closed, and while
   carried as items. They do not spoil for lack of tending.
-- Finished juice becomes usable wine directly in either a carboy or vat. The optional
-  skin-on must route uses a **Strainer**, never the Press after fermentation.
-  Use a filled reusable container on the placed strainer to remove skins without
-  changing volume, alcohol, age, or grape proportions. For a bowl of raw must,
-  hold a receiving carboy in the other hand; straining returns the empty bowl
-  and makes juice suitable for small-carboy fermentation. Finished cloudy wine
-  can age in a barrel first and be strained before serving. There is no vat
-  clarification button or sediment-cleanup requirement for pressed juice.
+- **Wine route:** Grapes → Press → Carboy of Must → Fermentation Vat →
+  Fermented Wine Must → handheld Strainer → Young Wine → aging/bottling.
+  For small batches, replace the vat with a placed carboy fitted with an airlock.
+- Right-click the vat or placed carboy with a **Strainer** to clear its entire
+  finished batch in place. The reusable tool preserves volume, alcohol, age,
+  and grape proportions. Raw must and active batches cannot be strained.
+  Existing placed strainer blocks remain functional for saved-world compatibility.
+- Young wine ages in a barrel or a **placed, airlocked carboy**. Carboy aging
+  pauses without an airlock, while carried, or while unloaded. Vats do not age wine.
+  Fermented must must be strained before carboy aging begins.
 - Craft empty wine bottles from a glass bottle and green dye, or empty wine glasses
   from a glass bottle and glass pane. Empty wine bottles draw 750 mL; glasses draw 125 mL. Ordinary empty buckets draw
   1 L into a metadata-preserving Batch Bucket, which can pour into another vessel,
@@ -311,13 +315,13 @@ requires manual testing. Use a disposable Creative world with cheats enabled:
 
 1. Get Carboy, Fermentation Vat, juice, must, wine yeast, Press, Hand Crank,
    Press Motor Upgrade, Basic Generator, empty wine bottles, and buckets.
-2. Confirm juice enters a carboy, while must is rejected unchanged. Fill a vat
+2. Confirm both juice and must enter a carboy. Fill a vat
    with must and confirm an ordinary empty-hand click shows its contents.
 3. Add optional yeast and sneak-empty-hand click to start. Active transfers must
    fail without consuming anything. To accelerate a **single** test vessel after
    starting, run `/data merge block X Y Z {FermentationProgress:23980}` using its
    coordinates; it should finish on the next processing tick.
-4. Draw finished must wine into a reusable carboy and use it on a Strainer.
+4. Draw finished fermented must into a carboy, place it, and right-click with a Strainer.
    Pour the strained wine into an aging barrel or bottle it; confirm volume,
    alcohol, age, and grape proportions remain unchanged.
 5. Press three cooked agave pulp into 3 L of mosto, ferment it, and feed the still with an
@@ -445,17 +449,18 @@ process history. Wine blends preserve volume-weighted composition and maturation
 age. Differing unknown components prevent mixing rather than silently losing data.
 
 The reusable wine glass holds 125 mB, the wine bottle 750 mB, and the portable
-juice carboy 4,000 mB, matching the placed carboy. Use on a storage vessel to draw
-liquid; sneak-use to pour. Transfers can be partial and preserve the remainder.
+carboy 4,000 mB, matching the placed carboy. Use on a storage vessel to draw
+liquid; sneak-use to pour with bottles/glasses. A filled carboy pours on ordinary use,
+and an empty carboy draws. Transfers can be partial and preserve the remainder.
 The tooltip shows current amount, capacity, ABV, and ingredient proportions; the
 item bar and liquid surface indicate fullness. Use a filled wine glass in the air
 to drink it. Container acceptance and drinkability are separate fluid tags:
 `data/vinum/tags/fluid/container_contents.json` and `drinkable.json`.
 
-Process grapes in the placed, powered **Press** to produce 1,000 mB of juice
-per grape. Fill an **empty juice carboy** from its tank; craft the carboy with glass
-in a ` G / G G / GGG` pattern. Must remains a bowl of crushed grapes. Juice carboys
-and must share artwork across varieties.
+Process grapes in the placed, powered **Press** to produce 1,000 mB of must
+per grape. Fill an **empty carboy** from its tank. Craft the carboy from four glass
+blocks and a glass bottle. Must is transported as liquid; old must bowls are legacy
+saved-world adapters and are no longer craftable or shown in Creative.
 
 `src/main/resources/vinum/wines.json` defines ingredient IDs, wine/juice/must RGB
 colors (six hexadecimal digits), and default alcohol fractions for wine samples.
@@ -470,8 +475,9 @@ The grape, carboy, wine-glass, and must art is 64×64. Shared container models t
 only the liquid or pulp, leaving glass highlights and wooden bowls unchanged.
 `python scripts/generate_beverage_models.py` regenerates the shared fill geometry
 from the artwork (requires Pillow). In-game visual verification is still needed:
-check grapes/must in Creative, press juice, pour into a placed carboy, ferment,
-draw into a wine glass, inspect capacity/color, and drink to recover the empty glass.
+check grapes in Creative, press must, pour into a placed airlocked carboy, ferment,
+right-click with the handheld strainer, then draw into a wine glass and inspect
+capacity/color. Repeat with a vat, and check that airlocked carboys age the cleared wine.
 
 
 ### Press recipes, upgrades, and generator
@@ -486,7 +492,7 @@ using the FE buffer. For example:
   "type": "vinum:pressing",
   "ingredient": {"item": "vinum:grapes_merlot"},
   "count": 1,
-  "output": {"id": "vinum:juice_merlot", "amount": 1000},
+  "output": {"id": "vinum:must_merlot", "amount": 1000},
   "energy": 2000
 }
 ```

@@ -96,6 +96,15 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
     @Override protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (held.isEmpty()) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (!(level.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (held.is(io.vinum.straining.StrainerContent.ITEM.get())) {
+            if (!player.mayBuild() || !level.mayInteract(player, pos)
+                    || !player.mayUseItemAt(pos, hit.getDirection(), held)) return ItemInteractionResult.FAIL;
+            if (level.isClientSide) return ItemInteractionResult.SUCCESS;
+            boolean strained = vessel.strain();
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable(
+                    strained ? "message.vinum.strained" : "message.vinum.strainer_not_ready"), true);
+            return strained ? ItemInteractionResult.CONSUME : ItemInteractionResult.FAIL;
+        }
         if (held.is(ModItems.AIRLOCK.get()) && !vessel.isVat()) {
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
             if (!vessel.installAirlock()) return ItemInteractionResult.FAIL;
