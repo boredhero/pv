@@ -10,6 +10,8 @@ public final class BarrelConfig {
     private static final ModConfigSpec.IntValue REPOSADO_DAYS;
     private static final ModConfigSpec.IntValue ANEJO_DAYS;
     private static final ModConfigSpec.IntValue EXTRA_ANEJO_DAYS;
+    private static final ModConfigSpec.IntValue RUM_LIGHT_AGED_DAYS;
+    private static final ModConfigSpec.IntValue RUM_DARK_AGED_DAYS;
     private static final ModConfigSpec.IntValue WINE_MATURE_DAYS;
     private static final ModConfigSpec.IntValue WINE_RESERVE_DAYS;
 
@@ -26,6 +28,10 @@ public final class BarrelConfig {
                 .defineInRange("tequilaAnejoDays", 365, 1, 365_000);
         EXTRA_ANEJO_DAYS = builder.comment("Minimum tequila barrel age for extra anejo.")
                 .defineInRange("tequilaExtraAnejoDays", 1095, 1, 365_000);
+        RUM_LIGHT_AGED_DAYS = builder.comment("Light-aged rum gameplay milestone; glass storage does not mature rum.")
+                .defineInRange("rumLightAgedDays", 90, 1, 365_000);
+        RUM_DARK_AGED_DAYS = builder.comment("Dark-aged rum gameplay milestone; never changes alcohol strength.")
+                .defineInRange("rumDarkAgedDays", 365, 1, 365_000);
         WINE_MATURE_DAYS = builder.comment("Wine gameplay maturation milestone; not a universal real-world wine standard.")
                 .defineInRange("wineMatureDays", 180, 1, 365_000);
         WINE_RESERVE_DAYS = builder.comment("Wine gameplay reserve milestone. Aging never increases alcohol strength.")
@@ -41,6 +47,8 @@ public final class BarrelConfig {
     public static int tequilaReposadoDays() { return value(REPOSADO_DAYS); }
     public static int tequilaAnejoDays() { return Math.max(tequilaReposadoDays(), value(ANEJO_DAYS)); }
     public static int tequilaExtraAnejoDays() { return Math.max(tequilaAnejoDays(), value(EXTRA_ANEJO_DAYS)); }
+    public static int rumLightAgedDays() { return value(RUM_LIGHT_AGED_DAYS); }
+    public static int rumDarkAgedDays() { return Math.max(rumLightAgedDays(), value(RUM_DARK_AGED_DAYS)); }
     public static int wineMatureDays() { return value(WINE_MATURE_DAYS); }
     public static int wineReserveDays() { return Math.max(wineMatureDays(), value(WINE_RESERVE_DAYS)); }
     public static long daysToTicks(long days) { return Math.multiplyExact(days, (long) ticksPerDay()); }

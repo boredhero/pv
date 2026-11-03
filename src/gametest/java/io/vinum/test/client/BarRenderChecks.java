@@ -24,18 +24,31 @@ public final class BarRenderChecks {
             ((FluidContainerItem)ModItems.WINE_BOTTLE_EMPTY.get()).filled(WineCatalog.sample(WineCatalog.varieties().getFirst(),400)),
             ((FluidContainerItem)ModItems.SHOT_GLASS.get()).filled(ModItems.spirit(ModFluids.TEQUILA.source().get(),25)),
             ((FluidContainerItem)ModItems.WINE_GLASS_EMPTY.get()).filled(WineCatalog.sample(WineCatalog.varieties().getFirst(),60)),
-            new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get())};
+            new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get()),
+            ((FluidContainerItem)ModItems.RUM_BOTTLE.get()).filled(ModItems.spirit(ModFluids.RUM.source().get(),375)),
+            ((FluidContainerItem)ModItems.RUM_BOTTLE.get()).filled(io.vinum.barrel.BarrelFluidData.withAge(
+                ModItems.spirit(ModFluids.RUM.source().get(),750), 90L*24000)),
+            ((FluidContainerItem)ModItems.RUM_BOTTLE.get()).filled(io.vinum.barrel.BarrelFluidData.withAge(
+                ModItems.spirit(ModFluids.RUM.source().get(),750), 365L*24000))};
         try(var buffers=new SwitchingBuffers()) {
             for(Direction facing:Direction.Plane.HORIZONTAL) {
                 for(boolean filled:new boolean[]{true,false}) {
+                  for(int offset:new int[]{0,1,2,3}) {
                     var bar=new BarBlockEntity(BlockPos.ZERO,BarContent.BAR.get().defaultBlockState().setValue(BarBlock.FACING,facing));
                     var slots=NonNullList.withSize(BarBlockEntity.SLOTS,ItemStack.EMPTY);
-                    for(int i=0;i<samples.length;i++)slots.set(i,filled?samples[i]:new ItemStack(samples[i].getItem()));
+                    for(int i=0;i<slots.size();i++) {
+                        var sample=samples[(i+offset)%samples.length];
+                        slots.set(i,filled?sample:new ItemStack(sample.getItem()));
+                    }
                     var tag=new CompoundTag();ContainerHelper.saveAllItems(tag,slots,registries);bar.loadWithComponents(tag,registries);
                     new BarRenderer(null).render(bar,0,new PoseStack(),buffers,LightTexture.FULL_BRIGHT,0);
                     var shelf=new WineShelfBlockEntity(BlockPos.ZERO,ShelfContent.SHELF.get().defaultBlockState().setValue(WineShelfBlock.FACING,facing));
                     shelf.insert(0,slots.get(0));shelf.insert(1,slots.get(1));
+                    shelf.insert(2,filled?samples[5]:new ItemStack(ModItems.RUM_BOTTLE.get()));
+                    shelf.insert(3,filled?samples[6]:new ItemStack(ModItems.RUM_BOTTLE.get()));
+                    shelf.insert(4,filled?samples[7]:new ItemStack(ModItems.RUM_BOTTLE.get()));
                     new WineShelfRenderer(null).render(shelf,0,new PoseStack(),buffers,LightTexture.FULL_BRIGHT,0);
+                  }
                 }
             }
             buffers.finish();

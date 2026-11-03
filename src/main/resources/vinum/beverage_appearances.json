@@ -97,5 +97,61 @@
         ]
       }
     }
+  },
+  {
+    "fluids": [
+      "vinum:rum"
+    ],
+    "items": [
+      "vinum:rum_bottle"
+    ],
+    "bottleType": "vinum:rum",
+    "bottle3DType": "vinum:rum",
+    "liquidColor": "EFF3E9",
+    "name": "beverage.vinum.rum.white",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "B0CBD0",
+      "transparency": 0.9
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/rum_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "D4AB50",
+      "panel": {
+        "width": 0.86,
+        "bottom": 0.09,
+        "top": 0.31,
+        "uv": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "closure": {
+      "type": "cork",
+      "texture": "minecraft:textures/block/oak_log_top.png",
+      "color": "B38B54",
+      "bottom": 0.505,
+      "top": 0.56,
+      "radius": 0.045
+    },
+    "stages": [
+      {
+        "agingStage": "tooltip.vinum.maturation.rum_light_aged",
+        "name": "beverage.vinum.rum.light_aged",
+        "liquidColor": "D9AC54",
+        "flavor": "tooltip.vinum.rum_flavor.light_aged"
+      },
+      {
+        "agingStage": "tooltip.vinum.maturation.rum_dark_aged",
+        "name": "beverage.vinum.rum.dark_aged",
+        "liquidColor": "8F431B",
+        "flavor": "tooltip.vinum.rum_flavor.dark_aged"
+      }
+    ],
+    "flavor": "tooltip.vinum.rum_flavor.white"
   }
 ]

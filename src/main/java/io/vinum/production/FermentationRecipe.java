@@ -14,7 +14,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
  * alcoholYieldFraction is ABV gained per gram of sugar consumed per litre (e.g. 0.0006).
  */
 public record FermentationRecipe(ResourceLocation inputFluid, ResourceLocation outputFluid, int durationTicks,
-        double sugarConsumedGramsPerLitre, double alcoholYieldFraction, double solidsRemainingFraction)
+        double sugarConsumedGramsPerLitre, double alcoholYieldFraction, double solidsRemainingFraction,
+        double minimumSugarGramsPerLitre, double maximumSugarGramsPerLitre)
         implements FluidProcessRecipe {
     public static final MapCodec<FermentationRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("input_fluid").forGetter(FermentationRecipe::inputFluid),
@@ -22,9 +23,18 @@ public record FermentationRecipe(ResourceLocation inputFluid, ResourceLocation o
             Codec.intRange(1, Integer.MAX_VALUE).fieldOf("duration_ticks").forGetter(FermentationRecipe::durationTicks),
             Codec.doubleRange(0, 10000).fieldOf("sugar_consumed_g_per_litre").forGetter(FermentationRecipe::sugarConsumedGramsPerLitre),
             Codec.doubleRange(0, 0.001).fieldOf("alcohol_yield_fraction").forGetter(FermentationRecipe::alcoholYieldFraction),
-            Codec.doubleRange(0, 1).fieldOf("solids_remaining_fraction").forGetter(FermentationRecipe::solidsRemainingFraction)
+            Codec.doubleRange(0, 1).fieldOf("solids_remaining_fraction").forGetter(FermentationRecipe::solidsRemainingFraction),
+            Codec.doubleRange(0, 10000).optionalFieldOf("minimum_sugar_g_per_litre", 0.0).forGetter(FermentationRecipe::minimumSugarGramsPerLitre),
+            Codec.doubleRange(0, 10000).optionalFieldOf("maximum_sugar_g_per_litre", 10000.0).forGetter(FermentationRecipe::maximumSugarGramsPerLitre)
     ).apply(instance, FermentationRecipe::new));
+    public FermentationRecipe(ResourceLocation inputFluid, ResourceLocation outputFluid, int durationTicks,
+            double sugarConsumedGramsPerLitre, double alcoholYieldFraction, double solidsRemainingFraction) {
+        this(inputFluid, outputFluid, durationTicks, sugarConsumedGramsPerLitre, alcoholYieldFraction, solidsRemainingFraction, 0, 10000);
+    }
     public FermentationRecipe {
+        if (!Double.isFinite(minimumSugarGramsPerLitre) || !Double.isFinite(maximumSugarGramsPerLitre)
+                || minimumSugarGramsPerLitre < 0 || maximumSugarGramsPerLitre > 10000
+                || minimumSugarGramsPerLitre > maximumSugarGramsPerLitre) throw new IllegalArgumentException("Invalid sugar range");
         if (durationTicks <= 0 || !Double.isFinite(sugarConsumedGramsPerLitre) || sugarConsumedGramsPerLitre < 0
                 || sugarConsumedGramsPerLitre > 10000 || !Double.isFinite(alcoholYieldFraction) || alcoholYieldFraction < 0
                 || alcoholYieldFraction > 0.001 || !Double.isFinite(solidsRemainingFraction)
@@ -32,6 +42,8 @@ public record FermentationRecipe(ResourceLocation inputFluid, ResourceLocation o
     }
     public boolean matches(FluidStack input) {
         return !input.isEmpty() && BuiltInRegistries.FLUID.getKey(input.getFluid()).equals(inputFluid)
+                && BatchProfile.of(input).sugarGramsPerLitre() >= minimumSugarGramsPerLitre
+                && BatchProfile.of(input).sugarGramsPerLitre() <= maximumSugarGramsPerLitre
                 && BuiltInRegistries.FLUID.containsKey(outputFluid)
                 && BuiltInRegistries.FLUID.get(outputFluid) != Fluids.EMPTY;
     }

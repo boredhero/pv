@@ -215,7 +215,7 @@ shipped mashing recipes; `DistillationRecipe` declares wash, output
 fluid/item, strength, volume, and processing duration. Distillation rounds input
 volume up to conserve alcohol. A future whisky module can register grain inputs,
 mashing recipes, wash, and spirit outputs without changing fermenter storage.
-A player-operated mash tun and playable whisky, rum, cider, and mead are future
+A player-operated mash tun and playable whisky, cider, and mead are future
 content, not included in this update. Temperature control, spoilage, clay jars,
 metal fermenters, and stirring bonuses are also not implemented.
 
@@ -762,3 +762,115 @@ duration; repeated packets in one tick cannot accelerate it.
 
 Place a barstool beside the counter and right-click to sit. Sneak to stand up.
 A stool seats one player and does not leave persistent seat entities behind.
+
+
+## Sugar processing and rum
+
+Sugarcane no longer crafts directly into sugar. The vanilla honey-to-sugar recipe
+and existing sugar drops remain. Cane processing produces normal Minecraft sugar
+with provenance metadata; it works in ordinary crafting, while only cane-derived
+sugar can be dissolved into rum wash. This prevents honey sugar from silently
+becoming cane rum.
+
+### Equipment and controls
+
+- **Sugar Kettle:** craft `C C / CIC /  I `, where C is copper ingot and I is iron
+  ingot. Place above a lit campfire or steel brazier. Capacity: 4,000 mB.
+- **Sugar-Separation Insert:** craft `III / S S`, where I is iron nugget and S is
+  string. Right-click the kettle to install it once; it is reusable.
+- Shift-right-click the kettle with an empty hand to cycle **Concentrate Syrup**,
+  **Separate Sugar**, and **Make Panela**. Ordinary empty-hand right-click starts
+  the selected process, or collects its solid output. The status message reports
+  mode, liquid, sugar concentration, output, separator, and progress.
+- Shift-right-click with a filled carboy to pour into the kettle; ordinary
+  right-click with a carboy draws out. Water buckets add 1,000 mB; right-click
+  with panela or cane-derived sugar to dissolve one item. Processing locks
+  transfers and pauses without heat. Breaking the kettle preserves its batch,
+  output, insert, and process progress in the dropped item.
+- **Rum Bottle:** craft ` G /G G/GGG` (center G in the first row), with glass,
+  for three 750 mB bottles. First filling with rum consumes a wine cork from
+  inventory; top-ups do not. Bottle + wine cork also prepares an empty bottle
+  for automated filling. GUI art is flat; placed bottles use separate faceted
+  geometry, a transparent X-shaped label, a wide cork, and actual liquid height.
+
+### Feedstock routes
+
+All quantities are gameplay units, not real-world factory yields.
+
+1. **Fresh juice:** 4 sugarcane → press (4 cranks or 2,000 FE) → 1,000 mB cane
+   juice + 1 bagasse → optionally strain → fermentation. Bagasse burns for 100
+   ticks as a small fuel.
+2. **Syrup:** 1,000 mB juice → kettle Concentrate (200 heated ticks) → 250 mB
+   syrup → add 750 mB water → 1,000 mB prepared cane wash.
+3. **Molasses:** 250 mB syrup → kettle Separate Sugar with insert (300 heated
+   ticks) → 1 sugar + 250 mB molasses → collect sugar; add 250 mB water to the
+   molasses → 500 mB wash. This divides the original 200 g sugar equivalent into
+   100 g in crystals and 100 g remaining in molasses.
+4. **Panela:** 250 mB syrup → kettle Make Panela (300 heated ticks) → 1 panela;
+   dissolve it in 1,000 mB water → 1,000 mB wash.
+5. **Sugar fraction:** dissolve 2 cane-derived sugar in 1,000 mB water → wash.
+6. **Mixed:** combine compatible cane juice, diluted syrup, molasses, and
+   dissolved sugar/panela in a kettle, vat, or carboy. Ingredients and sugar
+   concentration travel with the batch. Water changes concentration without
+   replacing the feedstock provenance.
+
+Kettle operations accept complete batches: juice in multiples of 1,000 mB,
+then syrup in multiples of 250 mB. Concentrating retains sugar; extracting
+crystals removes their sugar from the liquid. Output blockage cannot consume
+an input or discard the coproduct. Separation includes crystallization; the
+handheld strainer alone cannot extract dissolved sugar.
+
+### Fermentation, distillation, and bottling
+
+**Any prepared cane feedstock → vat OR placed airlocked carboy → fermented cane
+wash → strainer if suspended solids remain → still → rum in a carboy.**
+
+Prepare wash at no more than 250 g/L sugar (200 g/L is a useful target). Undiluted
+syrup and molasses are too concentrated. Shift-right-click the fermentation
+vessel with an empty hand to start; wine yeast is optional and speeds the usual
+24,000-tick fermentation. Raw juice can ferment directly. Straining removes
+suspended solids, not dissolved sugars or the feedstock's provenance. The still
+rejects unstrained solids before accepting wash.
+
+The existing four-part still produces 750 mB of 60% rum into an empty carboy per
+1,200 heated ticks. At 12% wash strength it consumes 3,750 mB wash. Output volume
+is calculated from actual batch alcohol; dilution never creates alcohol.
+
+**Exact survival proofing:** collect two runs (1,500 mB at 60%) in a placed
+carboy or vat. Fill a separate vessel with a water bucket, then draw exactly
+750 mB into an empty bottle. Sneak-right-click the rum vessel with that water
+bottle: the result is 2,250 mB at 40%, enough for three full rum bottles. Filled
+carboys pour into fermentation vessels directly; bottles use sneak-to-pour.
+
+- **White rum:** distill → optionally store in carboy → dilute → corked bottle.
+- **Light-aged rum:** distill → barrel for 90 game days → dilute → bottle.
+- **Dark-aged rum:** distill → barrel for 365 game days → dilute → bottle.
+- **Blended rum:** combine compatible rum batches → dilute → bottle; age is
+  volume-weighted between rum batches. Added water preserves the source rum age.
+
+Aging milestones are configurable as `rumLightAgedDays` and `rumDarkAgedDays` in
+server barrel config. Glass storage does not mature rum. White/light/dark stages
+have clear/gold/deep-amber liquid colors and descriptive tasting notes; the notes
+are presentation, not a separate sensory simulation. All stages use the same
+rum fluid plus batch and maturation components. Bars support rum bottle
+placement, pouring into shot glasses, and drinking placed servings as before.
+
+### Extension points and regression coverage
+
+`vinum/sugar_processes.json` defines kettle input/output volumes, sugar removed
+per solid item, heat time, insert requirement, and feedstock identities. For
+example, separation maps 250 mB syrup to 250 mB molasses plus one 100 g-equivalent
+sugar item. Solid `BatchProfile` concentrations use a documented one-litre
+equivalent per item so dissolution can recover exact sugar mass.
+
+Fluid tags `cane_feedstocks`, `blendable_batches`, and `dilutable_batches` control
+mixing; recipe sugar bounds control fermentability. Unknown conflicting metadata
+is rejected instead of discarded. `BeverageAppearance` owns bottle shapes,
+materials, X artwork, closure dimensions, and stage descriptions. Future bottle
+IDs can use this boundary without adding rum-specific renderer branches.
+
+Integration tests cover the real press, both fermentation vessels, locked and
+persisted kettle operations, coproduct conservation, dissolution, still output,
+proofing, maturation, and cork transactions. Client mesh regression exercises the
+new bottle through bar and shelf renderers. High-test syrup, skimmings, and spice
+infusion are not part of this initial release.

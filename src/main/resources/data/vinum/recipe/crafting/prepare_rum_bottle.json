@@ -1,0 +1,20 @@
+{
+  "type": "vinum:cork_bottle",
+  "recipe": {
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "vinum:rum_bottle"
+      },
+      {
+        "item": "vinum:wine_cork"
+      }
+    ],
+    "result": {
+      "id": "vinum:rum_bottle",
+      "components": {
+        "vinum:bottle_cork": true
+      }
+    }
+  }
+}

@@ -155,6 +155,9 @@ public final class FermentationVesselBlockEntity extends BlockEntity {
         }
         if (active) return Component.translatable("vessel.vinum.fermenting", WineCatalog.name(representative), totalAmount, getCapacity(), percentage);
         if (contents.isEmpty()) return Component.translatable("vessel.vinum.empty", getBlockState().getBlock().getName(), getCapacity() / 1000, dimensions);
+        if (contents.is(io.vinum.beverage.FluidBlending.CANE_FEEDSTOCKS)
+                && BatchProfile.of(contents).sugarGramsPerLitre() > 250)
+            return Component.translatable("vessel.vinum.too_concentrated");
         if (BatchProfile.of(contents).solidsGramsPerLitre() > 0 && BatchProfile.of(contents).history()
                 .contains(ResourceLocation.fromNamespaceAndPath("vinum", "fermentation"))) {
             return Component.translatable("vessel.vinum.needs_strainer",

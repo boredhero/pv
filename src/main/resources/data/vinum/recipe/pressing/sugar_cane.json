@@ -1,0 +1,16 @@
+{
+  "type": "vinum:pressing",
+  "ingredient": {
+    "item": "minecraft:sugar_cane"
+  },
+  "count": 4,
+  "output": {
+    "id": "vinum:cane_juice",
+    "amount": 1000
+  },
+  "energy": 2000,
+  "byproduct": {
+    "id": "vinum:bagasse",
+    "count": 1
+  }
+}

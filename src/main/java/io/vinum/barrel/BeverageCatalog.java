@@ -25,12 +25,17 @@ public final class BeverageCatalog {
             new AgingProfile.Stage(() -> 0, "tooltip.vinum.maturation.young"),
             new AgingProfile.Stage(() -> BarrelConfig.daysToTicks(BarrelConfig.wineMatureDays()), "tooltip.vinum.maturation.mature"),
             new AgingProfile.Stage(() -> BarrelConfig.daysToTicks(BarrelConfig.wineReserveDays()), "tooltip.vinum.maturation.reserve")));
+    public static final AgingProfile RUM_AGING = new AgingProfile(List.of(
+            new AgingProfile.Stage(() -> 0, "tooltip.vinum.maturation.rum_white"),
+            new AgingProfile.Stage(() -> BarrelConfig.daysToTicks(BarrelConfig.rumLightAgedDays()), "tooltip.vinum.maturation.rum_light_aged"),
+            new AgingProfile.Stage(() -> BarrelConfig.daysToTicks(BarrelConfig.rumDarkAgedDays()), "tooltip.vinum.maturation.rum_dark_aged")));
     public static final AgingProfile GOLDEN_AGING = new AgingProfile(List.of(
             new AgingProfile.Stage(() -> 0, "tooltip.vinum.maturation.golden")));
 
     static {
         // Canonical wine stores its variety/blend in the batch profile. Reusable containers
         // handle serving volumes themselves, but still need a maturation definition.
+        register(new BeverageDefinition(id("rum"), ModFluids.RUM.source(), RUM_AGING, List.of()));
         register(new BeverageDefinition(id("wine"), ModFluids.WINE.source(), WINE_AGING, List.of()));
         register(new BeverageDefinition(id("tequila"), ModFluids.TEQUILA.source(), TEQUILA_AGING, List.of(
                 new Serving(ModItems.FIFTH_BOTTLE_EMPTY, 750, List.of(

@@ -45,8 +45,8 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
             if(!fluid.isEmpty()) {
                 double surface=shape.fillHeight((double)fluid.getAmount()/container.capacity());
                 for(int i=0;i<shape.sections();i++) {
-                    double low=shape.height(i),high=Math.min(shape.height(i+1),surface);
-                    if(high<=low)break;
+                    double low=Math.max(shape.height(i),shape.liquidBottom()),high=Math.min(shape.height(i+1),surface);
+                    if(high<=low)continue;
                     wall(opaque,poses.last(),shape,low+.008,high+.008,shape.radius(low)*.86,shape.radius(high)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
                 }
                 cap(opaque,poses.last(),shape,surface+.008,shape.radius(surface)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
@@ -54,15 +54,17 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
             // Thin opaque heel/lip highlights keep the glass silhouette legible when empty.
             int edge=0xFF000000 | style.glassMaterial().tint();
             wall(opaque,poses.last(),shape,0,.012,shape.radius(0),shape.radius(.012),edge,light,overlay);
-            wall(opaque,poses.last(),shape,.526,.54,.029,.029,edge,light,overlay);
+            double lip=shape.height(shape.sections());
+            wall(opaque,poses.last(),shape,lip-.008,lip,shape.radius(lip-.008),shape.radius(lip),edge,light,overlay);
             // A texture switch may finish the shared builder. Do not reuse opaque after this draw.
             if(!fluid.isEmpty()) io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
             if(!fluid.isEmpty() && style.closure().type()!=BeverageAppearance.ClosureType.NONE
                 && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack))) {
                 int closure=style.closure().color();
                 var closureMesh=buffers.getBuffer(RenderType.entityCutoutNoCull(style.closure().texture()));
-                wall(closureMesh,poses.last(),shape,.535,.563,.028,.028,closure,light,overlay);
-                cap(closureMesh,poses.last(),shape,.563,.028,closure,light,overlay);
+                var stopper=style.closure();
+                wall(closureMesh,poses.last(),shape,stopper.bottom(),stopper.top(),stopper.radius(),stopper.radius(),closure,light,overlay);
+                cap(closureMesh,poses.last(),shape,stopper.top(),stopper.radius(),closure,light,overlay);
             }
             var glass=buffers.getBuffer(RenderType.entityTranslucent(style.glassMaterial().texture()));
             int glassColor=style.glassMaterial().color();

@@ -28,6 +28,13 @@ public final class ModFluids {
     public static final FluidEntry PINOT_NOIR = registerBeverage("pinot_noir", 0xFF9A3C4C);
     public static final FluidEntry ZINFANDEL = registerBeverage("zinfandel", 0xFF76213A);
 
+    public static final FluidEntry CANE_JUICE = registerBeverage("cane_juice", 0xFFC2C77A);
+    public static final FluidEntry CANE_SYRUP = registerBeverage("cane_syrup", 0xFFB17B32);
+    public static final FluidEntry MOLASSES = registerBeverage("molasses", 0xFF473021);
+    public static final FluidEntry CANE_WASH = registerBeverage("cane_wash", 0xFFAD9263);
+    public static final FluidEntry FERMENTED_CANE_WASH = registerBeverage("fermented_cane_wash", 0xFFBAA782);
+    public static final FluidEntry RUM = registerBeverage("rum", 0xFFF0EEE3);
+
     public static final FluidEntry AGAVE_MOSTO = registerBeverage("agave_mosto", 0xFFD5BA79);
     public static final FluidEntry AGAVE_WASH = registerBeverage("agave_wash", 0xFFCEC09A);
     public static final FluidEntry JUICE_CHARDONNAY = registerBeverage("juice_chardonnay", 0xFFEBD17F);

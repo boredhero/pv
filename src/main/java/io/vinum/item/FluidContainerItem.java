@@ -55,7 +55,7 @@ public class FluidContainerItem extends Item {
         ItemStack stack = new ItemStack(canonicalItem == null ? this : canonicalItem.get());
         if (fluid.getAmount() > capacity) throw new IllegalArgumentException("Container overflow");
         stack.set(ModDataComponents.CONTAINED_FLUID.get(), SimpleFluidContent.copyOf(WineCatalog.normalize(fluid)));
-        if (io.vinum.beverage.BottleCorks.isBottle(stack) && WineCatalog.isWine(fluid))
+        if (io.vinum.beverage.BottleCorks.isBottle(stack) && io.vinum.beverage.BottleCorks.needsCork(fluid))
             stack.set(ModDataComponents.BOTTLE_CORK.get(), true);
         return stack;
     }
@@ -74,6 +74,8 @@ public class FluidContainerItem extends Item {
             tooltip.add(Component.translatable(io.vinum.beverage.BottleCorks.hasCork(stack)
                     ? "tooltip.vinum.cork_supplied" : "tooltip.vinum.cork_required").withStyle(ChatFormatting.GRAY));
         if (fluid.isEmpty()) return;
+        String flavor=io.vinum.beverage.BeverageAppearance.resolve(fluid,stack).flavor();
+        if(!flavor.isEmpty()) tooltip.add(Component.translatable(flavor).withStyle(ChatFormatting.GRAY,ChatFormatting.ITALIC));
         io.vinum.barrel.BeverageCatalog.lookupFluid(fluid.getFluid()).ifPresent(beverage -> {
             long age=BarrelFluidData.getAge(fluid);
             tooltip.add(Component.translatable("tooltip.vinum.barrel_age",age/io.vinum.config.BarrelConfig.ticksPerDay()).withStyle(ChatFormatting.GRAY));

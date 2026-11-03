@@ -43,5 +43,28 @@
       15
     ],
     "preserveOpaquePixels": true
+  },
+  "rum": {
+    "modelValue": 3,
+    "texture": "vinum:item/rum_bottle",
+    "liquidBounds": [
+      16,
+      27,
+      48,
+      57
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 30,
+    "liquidNeutralMinimum": 60,
+    "emptyModel": true,
+    "closureBounds": [
+      20,
+      3,
+      42,
+      14
+    ],
+    "items": [
+      "rum_bottle"
+    ]
   }
 }

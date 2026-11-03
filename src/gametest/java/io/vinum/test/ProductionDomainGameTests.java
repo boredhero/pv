@@ -75,8 +75,16 @@ public final class ProductionDomainGameTests {
     @GameTest(template = "barrel_space")
     public static void recipesLoadAndFermentationConservesAvailableSugar(GameTestHelper helper) {
         var manager = helper.getLevel().getRecipeManager();
-        helper.assertTrue(manager.getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get()).size() == 13,
-                "All twelve grape inputs and agave mosto must have fermentation recipes");
+        var inputs = manager.getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get()).stream()
+                .map(holder -> holder.value().inputFluid()).collect(java.util.stream.Collectors.toSet());
+        for (var variety : io.vinum.beverage.WineCatalog.varieties()) {
+            String name = variety.legacyFluid().getPath();
+            helper.assertTrue(inputs.contains(ProductionInputs.id("must_" + name))
+                    && inputs.contains(ProductionInputs.id("juice_" + name)), "Each grape input retains fermentation support");
+        }
+        helper.assertTrue(inputs.contains(ProductionInputs.id("agave_mosto"))
+                && inputs.contains(ProductionInputs.id("cane_juice")) && inputs.contains(ProductionInputs.id("cane_wash")),
+                "Agave and both prepared cane inputs have fermentation recipes");
         var recipe = manager.getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get()).stream()
                 .map(holder -> holder.value()).filter(value -> value.inputFluid().equals(ProductionInputs.id("must_merlot"))).findFirst().orElseThrow();
         FluidStack input = profile(100, 0, 40).applyTo(fluid("must_merlot", 375));
@@ -120,8 +128,9 @@ public final class ProductionDomainGameTests {
     @GameTest(template = "barrel_space")
     public static void distillationConservesAlcoholAndWritesBottledFluid(GameTestHelper helper) {
         var recipes = helper.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.DISTILLATION_TYPE.get());
-        helper.assertTrue(recipes.size() == 1, "Agave distillation recipe must load");
-        DistillationRecipe recipe = recipes.getFirst().value();
+        DistillationRecipe recipe = recipes.stream().map(holder -> holder.value())
+                .filter(candidate -> candidate.inputFluid().equals(ProductionInputs.id("agave_wash")))
+                .findFirst().orElseThrow();
         FluidStack wash = profile(0, 0, 0).withAlcoholFraction(0.1).applyTo(fluid("agave_wash", 3000));
         helper.assertTrue(recipe.requiredInputAmount(wash) == 3000 && recipe.matches(wash), "750mB at forty percent requires three litres at ten percent");
         helper.assertTrue(!recipe.matches(wash.copyWithAmount(2999)), "Insufficient alcohol volume must not produce a bottle");

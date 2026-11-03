@@ -1,0 +1,11 @@
+{
+  "type": "vinum:fermentation",
+  "input_fluid": "vinum:cane_juice",
+  "output_fluid": "vinum:fermented_cane_wash",
+  "duration_ticks": 24000,
+  "sugar_consumed_g_per_litre": 250,
+  "alcohol_yield_fraction": 0.0006,
+  "solids_remaining_fraction": 1,
+  "minimum_sugar_g_per_litre": 1,
+  "maximum_sugar_g_per_litre": 250
+}

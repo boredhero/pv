@@ -10,6 +10,7 @@
     "vinum:still_multiblock_part_4",
     "vinum:block_lead",
     "vinum:block_lead_ore",
-    "vinum:basic_generator"
+    "vinum:basic_generator",
+    "vinum:sugar_kettle"
   ]
 }

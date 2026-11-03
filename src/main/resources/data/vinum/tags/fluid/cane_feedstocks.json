@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "vinum:cane_juice",
+    "vinum:cane_syrup",
+    "vinum:molasses",
+    "vinum:cane_wash"
+  ]
+}

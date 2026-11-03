@@ -24,6 +24,12 @@
     "vinum:must_cabernet_sauvignon",
     "vinum:must_merlot",
     "vinum:must_pinot_noir",
-    "vinum:must_zinfandel"
+    "vinum:must_zinfandel",
+    "vinum:cane_juice",
+    "vinum:cane_syrup",
+    "vinum:molasses",
+    "vinum:cane_wash",
+    "vinum:fermented_cane_wash",
+    "vinum:rum"
   ]
 }

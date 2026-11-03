@@ -18,8 +18,13 @@ public final class BottleCorks {
     private BottleCorks() {}
     public static boolean isBottle(ItemStack stack) { return stack.is(BOTTLES); }
     public static boolean hasCork(ItemStack stack) { return stack.getOrDefault(ModDataComponents.BOTTLE_CORK.get(), false); }
+    public static final TagKey<net.minecraft.world.level.material.Fluid> CORK_REQUIRED = TagKey.create(Registries.FLUID,
+            ResourceLocation.fromNamespaceAndPath("vinum", "cork_required"));
+    public static boolean needsCork(FluidStack incoming) {
+        return WineCatalog.isWine(incoming) || incoming.is(CORK_REQUIRED);
+    }
     public static boolean requiresCork(ItemStack stack, FluidStack incoming) {
-        return isBottle(stack) && WineCatalog.isWine(incoming) && !hasCork(stack);
+        return isBottle(stack) && needsCork(incoming) && !hasCork(stack);
     }
     public static ItemStack findCork(Player player) {
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {

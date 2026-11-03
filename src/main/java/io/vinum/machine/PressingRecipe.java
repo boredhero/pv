@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 /** Datapack-defined input and exact fluid yield; both crank and FE pay the same work cost. */
-public record PressingRecipe(Ingredient ingredient, int count, FluidStack output, int energy)
+public record PressingRecipe(Ingredient ingredient, int count, FluidStack output, int energy, ItemStack byproduct)
     implements Recipe<SingleRecipeInput> {
   public static final MapCodec<PressingRecipe> CODEC =
       RecordCodecBuilder.mapCodec(
@@ -20,8 +20,11 @@ public record PressingRecipe(Ingredient ingredient, int count, FluidStack output
                       Ingredient.CODEC.fieldOf("ingredient").forGetter(PressingRecipe::ingredient),
                       Codec.intRange(1, 64).fieldOf("count").forGetter(PressingRecipe::count),
                       FluidStack.CODEC.fieldOf("output").forGetter(PressingRecipe::output),
-                      Codec.intRange(1, 32000).fieldOf("energy").forGetter(PressingRecipe::energy))
+                      Codec.intRange(1, 32000).fieldOf("energy").forGetter(PressingRecipe::energy),
+                      ItemStack.OPTIONAL_CODEC.optionalFieldOf("byproduct", ItemStack.EMPTY).forGetter(PressingRecipe::byproduct))
                   .apply(i, PressingRecipe::new));
+
+  public PressingRecipe(Ingredient ingredient, int count, FluidStack output, int energy) { this(ingredient,count,output,energy,ItemStack.EMPTY); }
 
   public PressingRecipe {
     if (ingredient.isEmpty()
@@ -32,7 +35,10 @@ public record PressingRecipe(Ingredient ingredient, int count, FluidStack output
         || energy < 1
         || energy > 32000) throw new IllegalArgumentException("Invalid pressing recipe");
     output = output.copy();
+    byproduct = byproduct.copy();
   }
+
+  @Override public ItemStack byproduct() { return byproduct.copy(); }
 
   @Override
   public FluidStack output() {

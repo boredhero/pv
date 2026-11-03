@@ -18,7 +18,7 @@ public final class BeverageItemClient {
     private BeverageItemClient() {}
     @SubscribeEvent public static void colors(RegisterColorHandlersEvent.Item event) {
         ModItems.ITEMS.getEntries().forEach(entry -> event.register((stack, tint) -> {
-            if(stack.getItem() instanceof FluidContainerItem bottle && (entry.get()==ModItems.FIFTH_BOTTLE_EMPTY.get() || entry.getId().getPath().startsWith("fifth_")))
+            if(stack.getItem() instanceof FluidContainerItem bottle && (entry.get()==ModItems.RUM_BOTTLE.get() || entry.get()==ModItems.FIFTH_BOTTLE_EMPTY.get() || entry.getId().getPath().startsWith("fifth_")))
                 return io.vinum.beverage.BeverageAppearance.tint(bottle.contents(stack),stack,tint);
             if (tint != 0) return 0xFFFFFFFF;
             if(stack.getItem() instanceof io.vinum.item.GrapeSeedItem) return io.vinum.item.GrapeSeedItem.color(stack);

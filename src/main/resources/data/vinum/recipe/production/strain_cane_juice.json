@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:cane_juice",
+  "output_fluid": "vinum:cane_juice"
+}

@@ -241,6 +241,7 @@ public final class WinePressBlockEntity extends BlockEntity implements MenuProvi
     if (progress >= requiredWork()) {
       tank.fill(result(plan), IFluidHandler.FluidAction.EXECUTE);
       inventory.extractItem(0, plan.count(), false);
+      if (!plan.byproduct().isEmpty()) net.minecraft.world.level.block.Block.popResource(level, worldPosition, plan.byproduct());
       plan = null;
       progress = 0;
       sync();

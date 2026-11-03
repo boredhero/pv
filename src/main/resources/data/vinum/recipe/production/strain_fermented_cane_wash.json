@@ -1,0 +1,5 @@
+{
+  "type": "vinum:straining",
+  "input_fluid": "vinum:fermented_cane_wash",
+  "output_fluid": "vinum:fermented_cane_wash"
+}

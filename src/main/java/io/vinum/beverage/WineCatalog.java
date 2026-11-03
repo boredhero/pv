@@ -90,7 +90,7 @@ public final class WineCatalog {
         var ingredients = BatchProfile.of(normalize(fluid)).ingredientProportions();
         boolean wine = isWine(fluid);
         boolean must = BatchProfile.of(fluid).solidsGramsPerLitre() > 0;
-        if (ingredients.isEmpty()) return ModFluids.entries().stream().filter(e -> e.source().get().isSame(fluid.getFluid()))
+        if (ingredients.isEmpty() || !wine && ingredients.keySet().stream().noneMatch(VARIETIES::containsKey)) return ModFluids.entries().stream().filter(e -> e.source().get().isSame(fluid.getFluid()))
                 .map(ModFluids.FluidEntry::color).findFirst().orElse(0xFFB7D9EC);
         double r = 0, g = 0, b = 0;
         if (ingredients.isEmpty()) return 0xFF842D40;

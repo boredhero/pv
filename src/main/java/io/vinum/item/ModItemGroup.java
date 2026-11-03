@@ -47,6 +47,17 @@ public final class ModItemGroup {
                                                   io.vinum.config.BarrelConfig.daysToTicks(days))));
                                     return;
                                   }
+                                  if (item.get() == ModItems.RUM_BOTTLE.get()) {
+                                    output.accept(item.get());
+                                    var container = (FluidContainerItem) item.get();
+                                    for (int days : new int[] {0, io.vinum.config.BarrelConfig.rumLightAgedDays(), io.vinum.config.BarrelConfig.rumDarkAgedDays()}) {
+                                      var fluid = new net.neoforged.neoforge.fluids.FluidStack(io.vinum.fluid.ModFluids.RUM.source().get(), 750);
+                                      io.vinum.production.BatchProfile.of(fluid).withAlcoholFraction(.4).applyTo(fluid);
+                                      output.accept(container.filled(io.vinum.barrel.BarrelFluidData.withAge(fluid,
+                                          io.vinum.config.BarrelConfig.daysToTicks(days))));
+                                    }
+                                    return;
+                                  }
                                   if (item.get() instanceof GrapeSeedItem) {
                                     io.vinum.beverage.WineCatalog.varieties()
                                         .forEach(

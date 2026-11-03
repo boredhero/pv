@@ -75,6 +75,7 @@ public record DistillationRecipe(
         && BuiltInRegistries.FLUID.get(outputFluid) != Fluids.EMPTY
         && BuiltInRegistries.ITEM.get(outputItem) != Items.AIR
         && validOutputContainer()
+        && BatchProfile.of(input).solidsGramsPerLitre() <= 0
         && requiredInputAmount(input) <= input.getAmount();
   }
 

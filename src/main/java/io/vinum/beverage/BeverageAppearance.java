@@ -36,10 +36,16 @@ public final class BeverageAppearance {
   }
   public record Label(ResourceLocation artwork, int primaryColor, int secondaryColor, LabelPanel panel) {}
   public enum ClosureType { CORK, CAP, NONE }
-  public record Closure(ClosureType type, ResourceLocation texture, int color) {}
+  public record Closure(ClosureType type, ResourceLocation texture, int color, double bottom, double top, double radius) {
+    public Closure {
+      if(!Double.isFinite(bottom)||!Double.isFinite(top)||!Double.isFinite(radius)||bottom<0||top<=bottom||radius<=0)
+        throw new IllegalArgumentException("Invalid bottle closure dimensions");
+    }
+    public Closure(ClosureType type, ResourceLocation texture, int color) { this(type,texture,color,.535,.563,.028); }
+  }
   public record Style(
       BottleType bottleType, Bottle3DType bottle3DType, GlassMaterial glassMaterial,
-      Label label, Closure closure, int liquidColor, String name) {
+      Label label, Closure closure, int liquidColor, String name, String flavor) {
     /** Compatibility for callers of the original packaged appearance API. */
     public String bottleBaseType() { return bottleType.id().getPath(); }
     public int bottleLabelPrimaryColor() { return label.primaryColor(); }
@@ -57,7 +63,7 @@ public final class BeverageAppearance {
         new GlassMaterial(WHITE, wine ? 0xFF5D8750 : 0xFF7FAAB5, wine ? .75f : .84f),
         new Label(WHITE, 0xFFE2D5B4, 0xFF705C36, new LabelPanel(.5f,.16f,.28f,0,0,1,1)),
         new Closure(wine ? ClosureType.CORK : ClosureType.CAP, WHITE, 0xFFAE8753),
-        0xFFFFFFFF, "");
+        0xFFFFFFFF, "", "");
   }
 
   private record Stage(String agingStage, double minimumAgeDays, Style style) {}
@@ -66,6 +72,7 @@ public final class BeverageAppearance {
 
   private static final Map<String, Integer> SHAPES = new LinkedHashMap<>();
   private static final Map<String, Definition> DEFINITIONS = new LinkedHashMap<>();
+  private static final Map<ResourceLocation, Style> EMPTY_VESSELS = new LinkedHashMap<>();
 
   static {
     read("bottle_shapes.json")
@@ -92,6 +99,9 @@ public final class BeverageAppearance {
           stages.add(new Stage(string(data, "agingStage", ""), days, style(data, base)));
         }
       Definition definition = new Definition(base, List.copyOf(stages));
+      if(json.has("items")) for(var item:json.getAsJsonArray("items"))
+        if(EMPTY_VESSELS.putIfAbsent(ResourceLocation.parse(item.getAsString()),base)!=null)
+          throw new IllegalArgumentException("Duplicate empty bottle appearance: "+item);
       for (var fluid : json.getAsJsonArray("fluids"))
         if (DEFINITIONS.putIfAbsent(fluid.getAsString(), definition) != null)
           throw new IllegalArgumentException("Duplicate beverage appearance: " + fluid);
@@ -149,13 +159,18 @@ public final class BeverageAppearance {
             color(label, "secondaryColor", color(data, "bottleLabelSecondaryColor", fallback.label().secondaryColor())), panel(label, fallback.label().panel())),
         new Closure(ClosureType.valueOf(string(closure, "type", fallback.closure().type().name()).toUpperCase(Locale.ROOT)),
             ResourceLocation.parse(string(closure, "texture", fallback.closure().texture().toString())),
-            color(closure, "color", fallback.closure().color())),
-        color(data, "liquidColor", fallback.liquidColor()), string(data, "name", fallback.name()));
+            color(closure, "color", fallback.closure().color()),
+            closure.has("bottom")?closure.get("bottom").getAsDouble():fallback.closure().bottom(),
+            closure.has("top")?closure.get("top").getAsDouble():fallback.closure().top(),
+            closure.has("radius")?closure.get("radius").getAsDouble():fallback.closure().radius()),
+        color(data, "liquidColor", fallback.liquidColor()), string(data, "name", fallback.name()),
+        string(data, "flavor", fallback.flavor()));
   }
 
   /** Single resolution boundary. Future per-stack design components belong here, not in renderers. */
   public static Style resolve(FluidStack fluid, ItemStack vessel) {
-    return find(fluid).orElseGet(() -> defaults(WineCatalog.isWine(fluid) || vessel.is(ModItems.WINE_BOTTLE_EMPTY.get())));
+    return find(fluid).orElseGet(() -> EMPTY_VESSELS.getOrDefault(BuiltInRegistries.ITEM.getKey(vessel.getItem()),
+        defaults(WineCatalog.isWine(fluid) || vessel.is(ModItems.WINE_BOTTLE_EMPTY.get()))));
   }
 
 

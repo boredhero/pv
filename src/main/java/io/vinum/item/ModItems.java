@@ -40,6 +40,7 @@ public final class ModItems {
     public static final DeferredItem<io.vinum.production.vessel.CarboyItem> JUICE_CARBOY = CARBOY;
 	public static final DeferredItem<Item> MOLTEN_GLASS = ITEMS.register("molten_glass", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> FIFTH_BOTTLE_EMPTY = ITEMS.register("fifth_bottle_empty", () -> new FluidContainerItem(new Item.Properties(), 750, false));
+	public static final DeferredItem<Item> RUM_BOTTLE = ITEMS.register("rum_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> SHOT_GLASS = ITEMS.register("shot_glass", () -> new FluidContainerItem(new Item.Properties(), 50, true));
 	public static final DeferredItem<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new ShotGlassPackItem(new Item.Properties()));
 	public static final DeferredItem<Item> MARGARITA_GLASS = ITEMS.register("margarita_glass", () -> new Item(new Item.Properties()));

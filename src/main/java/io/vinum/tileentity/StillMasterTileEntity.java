@@ -231,7 +231,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
   }
 
   private boolean acceptsWash(FluidStack fluid) {
-    if (level == null || fluid.isEmpty()) return false;
+    if (level == null || fluid.isEmpty() || io.vinum.production.BatchProfile.of(fluid).solidsGramsPerLitre() > 0) return false;
     return level
         .getRecipeManager()
         .getAllRecipesFor(ProductionRecipes.DISTILLATION_TYPE.get())

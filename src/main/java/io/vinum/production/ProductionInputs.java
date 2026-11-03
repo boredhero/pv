@@ -21,6 +21,12 @@ public final class ProductionInputs {
             register(related(key, "grape_juice_"), related(key, "juice_"), profile(variety.ingredient(), 200, 0));
             register(related(key, "grape_must_"), related(key, "must_"), profile(variety.ingredient(), 200, 100));
         }
+        registerFluidProfile(id("cane_juice"), profile(id("sugar_cane"), 200, 20));
+        registerFluidProfile(id("cane_syrup"), profile(id("cane_syrup"), 800, 0));
+        registerFluidProfile(id("molasses"), profile(id("molasses"), 400, 0));
+        registerFluidProfile(id("cane_wash"), profile(id("sugar_cane"), 200, 0));
+        registerFluidProfile(id("fermented_cane_wash"), profile(id("sugar_cane"), 0, 20).withAlcoholFraction(.12));
+        registerFluidProfile(id("rum"), profile(id("sugar_cane"), 0, 0).withAlcoholFraction(.6));
         register(id("unfermented_agave_wort"), id("agave_mosto"), profile(id("agave"), 500.0 / 3, 0));
     }
     private ProductionInputs() {}
@@ -33,6 +39,10 @@ public final class ProductionInputs {
     }
     public static synchronized void register(ResourceLocation item, ResourceLocation fluid, BatchProfile profile) {
         if (ITEMS.putIfAbsent(item, fluid) != null) throw new IllegalArgumentException("Duplicate production input " + item);
+        PROFILES.put(fluid, profile);
+    }
+    /** Defaults for tank-only fluids; no fabricated prepared item is needed. */
+    public static synchronized void registerFluidProfile(ResourceLocation fluid, BatchProfile profile) {
         PROFILES.put(fluid, profile);
     }
     /** Represents one prepared item (not the complete stack); does not consume it. */

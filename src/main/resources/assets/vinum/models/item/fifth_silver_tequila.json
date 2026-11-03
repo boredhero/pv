@@ -87,6 +87,34 @@
         "vinum:fill": 0.75001
       },
       "model": "vinum:container/bottles/wine_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/rum_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/rum_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/rum_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 3,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/rum_4"
     }
   ]
 }

@@ -19,16 +19,17 @@ for name,shape in sorted(shapes.items(),key=lambda p:p[1]['modelValue']):
  namespace,path=shape['texture'].split(':',1)
  im=Image.open(ROOT/f'assets/{namespace}/textures/{path}.png').convert('RGBA')
  assert im.width==im.height
- for step in range(1,5):
+ for step in range(0 if shape.get('emptyModel') else 1,5):
   fraction=step/4;elements=[];bounds=shape['liquidBounds'];surface=bounds[3]-(bounds[3]-bounds[1])*fraction
   for y in range(im.height):
    for x in range(im.width):
     r,g,b,a=im.getpixel((x,y));role=None;shade=255
+    if step==0 and inside(x,y,shape.get('closureBounds')):continue
     if inside(x,y,shape.get('labelPrimaryBounds')) and a:
      role=1;shade=round(max(r,g,b)/150*255)
     elif inside(x,y,shape.get('labelSecondaryBounds')) and a:
      role=2;shade=round(max(r,g,b)/153*255)
-    elif inside(x,y,bounds) and (not shape.get('liquidNeutralOnly') or (a and max(r,g,b)-min(r,g,b)<12)):
+    elif inside(x,y,bounds) and (not shape.get('liquidNeutralOnly') or (a and max(r,g,b)-min(r,g,b)<shape.get('liquidNeutralTolerance',12) and min(r,g,b)>=shape.get('liquidNeutralMinimum',0))):
      if shape.get('preserveOpaquePixels') and a:pass
      elif y>=surface:role=0
      else:continue
@@ -37,7 +38,10 @@ for name,shape in sorted(shapes.items(),key=lambda p:p[1]['modelValue']):
   model=f'container/bottles/{name}_{step}'
   write(ASSETS/f'models/{model}.json',{'gui_light':'front','textures':{'frame':shape['texture'],'white':'minecraft:block/white_concrete','particle':shape['texture']},
     'display':{'gui':{'rotation':[0,0,0],'scale':[1,1,1]},'ground':{'scale':[.5,.5,.5]},'firstperson_righthand':{'rotation':[0,-90,25],'scale':[.68,.68,.68]},'thirdperson_righthand':{'rotation':[0,-90,55],'scale':[.85,.85,.85]}},'elements':elements})
-  overrides.append({'predicate':{'vinum:bottle_shape':shape['modelValue'],'vinum:fill':.00001 if step==1 else (step-1)/4+.00001},'model':'vinum:'+model})
+  if step>0:overrides.append({'predicate':{'vinum:bottle_shape':shape['modelValue'],'vinum:fill':.00001 if step==1 else (step-1)/4+.00001},'model':'vinum:'+model})
 base={'parent':'minecraft:item/generated','textures':{'layer0':'vinum:item/fifth_bottle_empty'},'overrides':overrides}
 for name in ['fifth_bottle_empty','fifth_silver_tequila','fifth_golden_tequila','fifth_reposado_tequila','fifth_anejo_tequila','fifth_extra_anejo_tequila']:
  write(ASSETS/f'models/item/{name}.json',base)
+for name,shape in shapes.items():
+ for item in shape.get('items',[]):
+  write(ASSETS/f'models/item/{item}.json',{'parent':f'vinum:container/bottles/{name}_0','overrides':overrides})
