@@ -302,3 +302,7 @@ for variety in json.loads((ROOT / 'src/main/resources/vinum/wines.json').read_te
     for old in (ASSETS / 'models/block').glob(name + '_stage*.json'):
         old.unlink()
 print('Generated shared vineyard geometry, eight growth stages and separate berry clusters.')
+
+# Inventory representation is independent of the two-block placed trellis.
+from generate_inventory_models import trellis
+trellis()

@@ -129,3 +129,7 @@ for installed in (False,True):
         entry['overrides'].append({'predicate':predicate,'model':f'vinum:container/carboy_{tier}'+('_airlock' if installed else '')})
 write(ROOT/'models/item/carboy.json',entry)
 print('Generated airlock accessory and ten portable carboy fill/airlock variants.')
+
+# Preserve the separate GUI sprites when regenerating native geometry.
+from generate_inventory_models import carboys
+carboys()

@@ -642,3 +642,14 @@ Cork oak logs also craft into planks, stairs, slabs, fences, fence gates, doors,
 trapdoors, buttons, and pressure plates. Their 16×16 plank texture matches the
 scale of vanilla wood. Harvested cork logs retain their red exposed surface in
 the inventory and when replaced.
+
+### Flat inventory sprites
+
+Carboy, airlock, and grape trellis use separate 32×32 GUI sprites; held and placed
+models retain their native geometry. Carboy GUI variants preserve the four liquid
+fill tiers, batch tint, and installed-airlock indicator. Regenerate the GUI model
+wrappers with `python scripts/generate_inventory_models.py`; the carboy and vine
+generators also apply them automatically. Sprite prompts and generation method are
+recorded in `docs/inventory-sprite-prompts.json`. Test in Creative inventory after
+restarting: empty/filled carboys, airlocked carboys, airlock and trellis should show
+flat icons, while a placed airlocked carboy should retain the 3D accessory.

@@ -1,21 +1,70 @@
 {
-  "parent": "vinum:block/vine/trellis_item",
-  "display": {
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "vinum:block/vine/trellis_item",
+    "display": {
+      "gui": {
+        "rotation": [
+          30,
+          225,
+          0
+        ],
+        "translation": [
+          -0.0,
+          -2.9729,
+          0
+        ],
+        "scale": [
+          0.4291,
+          0.4291,
+          0.4291
+        ]
+      }
+    }
+  },
+  "perspectives": {
     "gui": {
-      "rotation": [
-        30,
-        225,
-        0
-      ],
-      "translation": [
-        -0.0,
-        -2.9729,
-        0
-      ],
-      "scale": [
-        0.4291,
-        0.4291,
-        0.4291
+      "parent": "minecraft:block/block",
+      "gui_light": "front",
+      "ambientocclusion": false,
+      "textures": {
+        "sprite": "vinum:item/inventory/grape_trellis",
+        "particle": "vinum:item/inventory/grape_trellis"
+      },
+      "elements": [
+        {
+          "from": [
+            0,
+            0,
+            7.5
+          ],
+          "to": [
+            16,
+            16,
+            7.5
+          ],
+          "shade": false,
+          "faces": {
+            "south": {
+              "texture": "#sprite",
+              "uv": [
+                0,
+                0,
+                16,
+                16
+              ]
+            },
+            "north": {
+              "texture": "#sprite",
+              "uv": [
+                16,
+                0,
+                0,
+                16
+              ]
+            }
+          }
+        }
       ]
     }
   }

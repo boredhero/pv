@@ -16,7 +16,7 @@ public final class ClientModelChecks {
     @SubscribeEvent
     public static void baked(ModelEvent.BakingCompleted event) {
         if (!Boolean.getBoolean("vinum.clientTests")) return;
-        for (String name : new String[] {"coa", "airlock", "carboy"}) {
+        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis"}) {
             var id = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath("vinum", name));
             var model = event.getModels().get(id);
             if (model == null || model == event.getModelManager().getMissingModel())
@@ -25,6 +25,20 @@ public final class ClientModelChecks {
             for (Direction side : Direction.values())
                 quads += model.getQuads(null, side, RandomSource.create(0), net.neoforged.neoforge.client.model.data.ModelData.EMPTY, null).size();
             if (quads == 0) throw new AssertionError("Invisible inventory model: " + id);
+            if (!name.equals("coa")) {
+                var gui = model.applyTransform(net.minecraft.world.item.ItemDisplayContext.GUI,
+                        new com.mojang.blaze3d.vertex.PoseStack(), false);
+                var guiQuads = gui.getQuads(null, null, RandomSource.create(0),
+                        net.neoforged.neoforge.client.model.data.ModelData.EMPTY, null);
+                if (gui == model || guiQuads.size() != 2)
+                    throw new AssertionError("Expected separate flat GUI sprite: " + id);
+                if (model.applyTransform(net.minecraft.world.item.ItemDisplayContext.NONE,
+                        new com.mojang.blaze3d.vertex.PoseStack(), false) == gui)
+                    throw new AssertionError("Placed model incorrectly uses GUI sprite: " + id);
+                for (var quad : guiQuads)
+                    if (quad.getSprite().contents().name().getPath().equals("missingno"))
+                        throw new AssertionError("Missing GUI texture: " + id);
+            }
             LogUtils.getLogger().info("Vinum client model check: {} has {} rendered quads", name, quads);
         }
     }
