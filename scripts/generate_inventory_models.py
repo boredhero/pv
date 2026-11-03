@@ -17,6 +17,7 @@ def plane(x0, y0, x1, y1, z, texture, tint=None):
 
 def sprite(name, tier=0, airlock=False):
     model = {'parent': 'minecraft:block/block', 'gui_light': 'front', 'ambientocclusion': False,
+             'display': {'gui': {'rotation': [0, 0, 0], 'translation': [0, 0, 0], 'scale': [1, 1, 1]}},
              'textures': {'sprite': f'vinum:item/inventory/{name}', 'particle': f'vinum:item/inventory/{name}'},
              'elements': []}
     if tier:

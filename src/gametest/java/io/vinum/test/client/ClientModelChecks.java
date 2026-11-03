@@ -16,7 +16,7 @@ public final class ClientModelChecks {
     @SubscribeEvent
     public static void baked(ModelEvent.BakingCompleted event) {
         if (!Boolean.getBoolean("vinum.clientTests")) return;
-        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis"}) {
+        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis", "bar"}) {
             var id = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath("vinum", name));
             var model = event.getModels().get(id);
             if (model == null || model == event.getModelManager().getMissingModel())
@@ -25,9 +25,11 @@ public final class ClientModelChecks {
             for (Direction side : Direction.values())
                 quads += model.getQuads(null, side, RandomSource.create(0), net.neoforged.neoforge.client.model.data.ModelData.EMPTY, null).size();
             if (quads == 0) throw new AssertionError("Invisible inventory model: " + id);
-            if (!name.equals("coa")) {
-                var gui = model.applyTransform(net.minecraft.world.item.ItemDisplayContext.GUI,
-                        new com.mojang.blaze3d.vertex.PoseStack(), false);
+            if (!name.equals("coa") && !name.equals("bar")) {
+                var guiPose = new com.mojang.blaze3d.vertex.PoseStack();
+                var gui = model.applyTransform(net.minecraft.world.item.ItemDisplayContext.GUI, guiPose, false);
+                if (!guiPose.last().pose().equals(new org.joml.Matrix4f(), 0.00001F))
+                    throw new AssertionError("Flat icon inherited a block GUI transform: " + id);
                 var guiQuads = gui.getQuads(null, null, RandomSource.create(0),
                         net.neoforged.neoforge.client.model.data.ModelData.EMPTY, null);
                 if (gui == model || guiQuads.size() != 2)

@@ -235,5 +235,6 @@
   "fluid.vinum.fermented_must": "Fermented Wine Must (%s)",
   "fluid.vinum.young_wine": "Young %s",
   "message.vinum.strainer_not_ready": "Strain finished fermented must. Raw must, active batches and clear wine cannot be strained.",
-  "item.vinum.strainer": "Strainer"
+  "item.vinum.strainer": "Strainer",
+  "block.vinum.bar": "Bar Counter"
 }

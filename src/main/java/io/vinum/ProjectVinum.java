@@ -16,6 +16,7 @@ public final class ProjectVinum {
         io.vinum.tree.CorkOakContent.register(modBus, container);
         io.vinum.straining.StrainerContent.register(modBus);
         io.vinum.shelf.ShelfContent.register(modBus);
+        io.vinum.bar.BarContent.register(modBus);
         io.vinum.worldgen.AgaveWorldgen.register(modBus);
         modBus.addListener(NetworkLoader::register);
         container.registerConfig(ModConfig.Type.SERVER, BarrelConfig.SPEC);

@@ -653,3 +653,28 @@ generators also apply them automatically. Sprite prompts and generation method a
 recorded in `docs/inventory-sprite-prompts.json`. Test in Creative inventory after
 restarting: empty/filled carboys, airlocked carboys, airlock and trellis should show
 flat icons, while a placed airlocked carboy should retain the 3D accessory.
+
+### Bar counter
+
+Craft a **Bar Counter** with three wooden slabs across the top and five planks
+below (`SSS / P P / PPP`). Counters tile side by side into a bar. Each holds five
+upright wine/spirit bottles across its top. Right-click the desired position with
+a bottle to place one; empty-hand right-click that position to retrieve it.
+An occupied position rejects another bottle. Breaking the counter drops its five
+stored bottles and the counter itself.
+
+Bottle items retain their exact volume, alcohol, maturation age, cork, name, and
+other components. This is display storage; it does not advance aging. Empty and
+partly filled bottles are supported. Round wine, square spirit, and tapered tequila
+meshes use the existing beverage appearance colors. Liquid is rendered separately
+inside translucent glass; its continuously calculated height follows interior
+volume through the shoulders rather than using four fixed fullness models.
+
+`vinum:bar_bottles` is an item tag for supported `FluidContainerItem` bottles.
+Add a compatible bottle to that tag to allow it on counters. Display profiles are
+in `DisplayBottleShape`; liquid heights are derived by integrating their sections.
+
+Manual check: place counters in all four directions; insert five mixed bottles,
+including empty, partially filled, and full spirits. Check upright models, labels,
+liquid levels and glass against both bright and dark surroundings. Retrieve each
+position, reload the world, and break a populated counter to check the drops.
