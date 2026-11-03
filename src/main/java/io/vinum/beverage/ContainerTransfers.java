@@ -35,10 +35,14 @@ public final class ContainerTransfers {
         return true;
     }
     public static ItemInteractionResult use(ItemStack held, Level level, Player player, InteractionHand hand, IFluidHandler tank) {
+        return use(held, level, player, hand, tank, player.isShiftKeyDown());
+    }
+    /** Explicit direction for interactions whose receiving vessel determines the action. */
+    public static ItemInteractionResult use(ItemStack held, Level level, Player player, InteractionHand hand,
+            IFluidHandler tank, boolean pouring) {
         if (!(held.getItem() instanceof FluidContainerItem item)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (level.isClientSide) return ItemInteractionResult.SUCCESS;
         var container = item.handler(held.copyWithCount(1));
-        boolean pouring = player.isShiftKeyDown();
         IFluidHandler source = pouring ? container : tank;
         IFluidHandler target = pouring ? tank : container;
         FluidStack sample = source.drain(Integer.MAX_VALUE, FluidAction.SIMULATE);

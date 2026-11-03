@@ -114,6 +114,8 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
         if (held.getItem() instanceof CarboyItem carboy && player.isShiftKeyDown() && carboy.contents(held).isEmpty())
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         var handler = vessel.getFluidHandler(hit.getDirection());
+        if (held.getItem() instanceof CarboyItem carboy)
+            return io.vinum.beverage.ContainerTransfers.use(held, level, player, hand, handler, !carboy.contents(held).isEmpty());
         ItemInteractionResult result = ProductionContainers.useItemOn(held, level, player, hand, handler);
         if (result != ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION) return result;
         result = BarrelBottling.useItemOn(held, level, player, hand, handler);
@@ -137,7 +139,10 @@ public abstract class FermentationVesselBlock extends Block implements EntityBlo
     }
     @Override protected RenderShape getRenderShape(BlockState state) { return this instanceof FermentationVatBlock ? RenderShape.INVISIBLE : RenderShape.MODEL; }
     @Override protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        if (this instanceof CarboyBlock) return Shapes.or(box(3, 0, 3, 13, 11, 13), box(6, 11, 6, 10, 16, 10));
+        if (this instanceof CarboyBlock) return Shapes.or(
+                box(3, 0, 4, 13, 10.5, 12), box(4, 0, 3, 12, 10.5, 13),
+                box(4, 10.5, 4, 12, 11.5, 12), box(5, 11.5, 5, 11, 12.5, 11),
+                box(6.25, 12.5, 6.25, 9.75, 13.3, 9.75), box(6.35, 13.3, 6.35, 9.65, 15.7, 9.65));
         int size = 1, height = 1, x = 0, y = 0, z = 0;
         if (world.getBlockEntity(pos) instanceof FermentationVesselBlockEntity vessel) {
             size = vessel.getStructureSize();

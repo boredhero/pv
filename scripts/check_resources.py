@@ -69,6 +69,15 @@ def main():
         if (len(parts) > 2 and parts[0] == "data" and parts[2] in {"recipes", "loot_tables"}) or "/tags/items/" in source:
             errors.append(f"{source}: legacy plural data directory")
         if "/models/" in source:
+            if doc.get("elements"):
+                # Sprite-generated parents discard cuboids, producing invisible layerless tools.
+                parent = doc.get("parent", "")
+                seen = set()
+                while parent.startswith("vinum:") and parent not in seen:
+                    seen.add(parent)
+                    parent = documents.get("assets/vinum/models/" + parent.split(":", 1)[1] + ".json", {}).get("parent", "")
+                if parent in {"builtin/generated", "minecraft:item/generated", "minecraft:item/handheld", "minecraft:item/handheld_rod"}:
+                    errors.append(f"{source}: native cuboids cannot inherit a sprite-generated item parent")
             if "parent" in doc and not doc["parent"].startswith("builtin/"):
                 check_ref(source, doc["parent"], "assets/{namespace}/models")
             for texture in doc.get("textures", {}).values():

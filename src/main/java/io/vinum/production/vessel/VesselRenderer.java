@@ -35,7 +35,7 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
         if (!vessel.isController()) return;
         if (!vessel.isVat() && vessel.hasAirlock()) {
             poses.pushPose();
-            poses.translate(.5, 1.125, .5);
+            poses.translate(.5, 1.190625, .5);
             poses.scale(.45F, .45F, .45F);
             Minecraft.getInstance().getItemRenderer().renderStatic(new ItemStack(ModItems.AIRLOCK.get()),
                     ItemDisplayContext.NONE, light, overlay, poses, buffers, vessel.getLevel(), 0);
@@ -72,13 +72,16 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
         var sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(texture);
         var out = buffers.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
         float fill = Math.min(1F, fluid.getAmount() / (float) vessel.getCapacity());
-        float height = vessel.isVat() ? .14F + fill * (structureHeight * .87F - .14F) : .13F + fill * .56F;
+        float bottom = vessel.isVat() ? .14F : .65F / 16F;
+        float height = vessel.isVat() ? .14F + fill * (structureHeight * .87F - .14F) : bottom + fill * (9.1F / 16F);
         int tint = extension.getTintColor(fluid);
         tint = (tint & 0x00FFFFFF) | 0xDF000000;
-        float liquidRadius = radius - (vessel.isVat() ? .095F : .02F);
-        for (int i = 0; i < 20; i++) {
-            float[] p = point(center, liquidRadius, (float) (i * Math.PI * 2 / 20));
-            float[] q = point(center, liquidRadius, (float) ((i + 1) * Math.PI * 2 / 20));
+        float liquidRadius = vessel.isVat() ? radius - .095F : (float) (4.65 / (16 * Math.cos(Math.PI / 8)));
+        int sides = vessel.isVat() ? 20 : 8;
+        double rotation = vessel.isVat() ? 0 : Math.PI / 8;
+        for (int i = 0; i < sides; i++) {
+            float[] p = point(center, liquidRadius, (float) (rotation + i * Math.PI * 2 / sides));
+            float[] q = point(center, liquidRadius, (float) (rotation + (i + 1) * Math.PI * 2 / sides));
             vertex(out, poses.last(), center, height, center, sprite.getU(.5F), sprite.getV(.5F), tint, light, overlay, 0, 1, 0);
             vertex(out, poses.last(), p[0], height, p[1], sprite.getU((p[0] - center) / size + .5F), sprite.getV((p[1] - center) / size + .5F), tint, light, overlay, 0, 1, 0);
             vertex(out, poses.last(), q[0], height, q[1], sprite.getU((q[0] - center) / size + .5F), sprite.getV((q[1] - center) / size + .5F), tint, light, overlay, 0, 1, 0);
@@ -86,10 +89,10 @@ public final class VesselRenderer implements BlockEntityRenderer<FermentationVes
             if (!vessel.isVat()) {
                 float nx = (p[0] + q[0] - 2 * center) / (2 * liquidRadius);
                 float nz = (p[1] + q[1] - 2 * center) / (2 * liquidRadius);
-                vertex(out, poses.last(), p[0], .13F, p[1], sprite.getU0(), sprite.getV1(), tint, light, overlay, nx, 0, nz);
+                vertex(out, poses.last(), p[0], bottom, p[1], sprite.getU0(), sprite.getV1(), tint, light, overlay, nx, 0, nz);
                 vertex(out, poses.last(), p[0], height, p[1], sprite.getU0(), sprite.getV0(), tint, light, overlay, nx, 0, nz);
                 vertex(out, poses.last(), q[0], height, q[1], sprite.getU1(), sprite.getV0(), tint, light, overlay, nx, 0, nz);
-                vertex(out, poses.last(), q[0], .13F, q[1], sprite.getU1(), sprite.getV1(), tint, light, overlay, nx, 0, nz);
+                vertex(out, poses.last(), q[0], bottom, q[1], sprite.getU1(), sprite.getV1(), tint, light, overlay, nx, 0, nz);
             }
         }
     }

@@ -28,7 +28,9 @@ public final class CarboyItem extends FluidContainerItem {
                 && contents(context.getItemInHand()).isEmpty();
         if (tank != null && context.getPlayer() != null && !emptyPlacement) {
             var result = io.vinum.beverage.ContainerTransfers.use(context.getItemInHand(), context.getLevel(),
-                    context.getPlayer(), context.getHand(), tank);
+                    context.getPlayer(), context.getHand(), tank,
+                    context.getLevel().getBlockEntity(context.getClickedPos()) instanceof FermentationVesselBlockEntity
+                        ? !contents(context.getItemInHand()).isEmpty() : context.getPlayer().isShiftKeyDown());
             return result.consumesAction() ? InteractionResult.sidedSuccess(context.getLevel().isClientSide) : InteractionResult.FAIL;
         }
         return place(new BlockPlaceContext(context));

@@ -112,9 +112,9 @@ offered in the creative tab.
 
 ## Fermentation and preparation
 
-- Craft a **Carboy** from three glass blocks, a glass bottle, and an oak slab. It
+- Craft a **Carboy** from four glass blocks and a glass bottle. It
   is the same 4 L container used to carry liquid and ferment small batches.
-  Use it on the press to collect juice, sneak-use a filled one on a vat to pour,
+  Use it on the press to collect juice, right-click a vat with a filled one to pour,
   or use it on the ground to place it. Its narrow neck rejects skin-on must.
   Craft an **Airlock** from three glass blocks and one wine cork, then use it on
   the placed carboy before starting fermentation. Vats do not require airlocks.
@@ -146,8 +146,8 @@ offered in the creative tab.
   one on the press to draw liquid. Side hoppers insert containers; bottom hoppers
   extract filled containers. Fluid pipes can drain liquid from either half.
 - One grape item, the reusable juicer, and a bowl still prepare 1 L of skin-on must.
-- Sneak-use a filled portable carboy on a vessel to pour juice or agave mosto;
-  right-click with a bowl of must to add it. Liquid stays in its reusable
+- Use a filled carboy on a vessel to pour juice or agave mosto; an empty one draws liquid.
+  Right-click with a bowl of must to add it. Liquid stays in its reusable
   container when partially poured; must returns a bowl. Fill the batch first,
   then **sneak-right-click with an empty hand to start**. Ordinary empty-hand use
   reports contents and progress. Active batches reject transfers to protect their
