@@ -26,16 +26,16 @@ public final class BarDrinking {
             HOLDS.remove(player);return;
         }
         ItemStack drink=bar.bottle(slot);
-        if(!DrinkwareAppearance.canDrink(drink)){HOLDS.remove(player);return;}
+        if(!DrinkwareAppearance.canDrink(drink) || !(drink.getItem() instanceof io.vinum.item.drinks.PlacedDrink)){HOLDS.remove(player);return;}
         long now=player.level().getGameTime();
         Hold prior=HOLDS.get(player);
         boolean same=prior!=null && prior.dimension().equals(player.level().dimension()) && prior.pos().equals(pos) && prior.slot()==slot
             && ItemStack.isSameItemSameComponents(prior.snapshot(),drink);
         if(same && (prior.finished() || prior.last()==now))return;
-        int ticks=same && now-prior.last()<=3 ? prior.ticks()+1 : 1;
+        int ticks=same && now-prior.last()<=3 ? prior.ticks()+(int)(now-prior.last()) : 1;
         boolean done=ticks>=drink.getUseDuration(player);
         if(done) {
-            ItemStack empty=drink.copy().finishUsingItem(player.level(),player);
+            ItemStack empty=((io.vinum.item.drinks.PlacedDrink)drink.getItem()).finishDrinkingOnBar(drink.copy(),player.level(),player);
             bar.replace(slot,drink,empty);
             player.level().playSound(null,pos,net.minecraft.sounds.SoundEvents.GENERIC_DRINK,
                 net.minecraft.sounds.SoundSource.PLAYERS,.6f,1);

@@ -35,7 +35,10 @@ public final class BarDrinkClient {
                 return;
             }
         }
-        if(target!=null && mc.player!=null)PacketDistributor.sendToServer(new BarDrinkMessage(target,slot,false));
+        if(target!=null && mc.player!=null) {
+            PacketDistributor.sendToServer(new BarDrinkMessage(target,slot,false));
+            mc.player.displayClientMessage(Component.empty(),true);
+        }
         target=null;slot=-1;ticks=0;
     }
 }

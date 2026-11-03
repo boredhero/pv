@@ -26,6 +26,7 @@ public final class ClientTestContext {
     private boolean captured;
     private int selected;
     private final boolean shiftWasDown;
+    private final boolean useWasDown;
     private CompletableFuture<Void> pending = CompletableFuture.completedFuture(null);
 
     public ClientTestContext() {
@@ -37,6 +38,7 @@ public final class ClientTestContext {
         playerId = mc.player.getUUID();
         target = mc.player.blockPosition().above(8);
         shiftWasDown = mc.options.keyShift.isDown();
+        useWasDown = mc.options.keyUse.isDown();
     }
 
     public void server(Consumer<ServerPlayer> action) {
@@ -96,6 +98,7 @@ public final class ClientTestContext {
 
     public CompletableFuture<Void> restore() {
         mc.options.keyShift.setDown(shiftWasDown);
+        mc.options.keyUse.setDown(useWasDown);
         if (mc.player != null) mc.player.closeContainer();
         // Queue after all earlier server work, even if preparation or an assertion failed.
         return server.submit(() -> {

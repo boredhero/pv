@@ -122,4 +122,38 @@ public final class BarServiceGameTests {
             h.succeed();
         });
     }
+    @GameTest(template="barrel_space",timeoutTicks=80)
+    public static void allPlacedServingsEmptyInBothModesAndCanBeRetrieved(GameTestHelper h) {
+        var shot=(FluidContainerItem)ModItems.SHOT_GLASS.get();
+        var wine=(FluidContainerItem)ModItems.WINE_GLASS_EMPTY.get();
+        ItemStack[] servings={shot.filled(ModItems.spirit(io.vinum.fluid.ModFluids.RUM.source().get(),50)),
+            wine.filled(WineCatalog.sample(WineCatalog.varieties().getFirst(),125)),
+            new ItemStack(ModItems.SPICED_APPLE_MARGARITA.get())};
+        net.minecraft.world.item.Item[] vessels={shot,wine,ModItems.MARGARITA_GLASS.get()};
+        int index=0;
+        for(var mode:new GameType[]{GameType.CREATIVE,GameType.SURVIVAL}) for(int type=0;type<servings.length;type++) {
+            var pos=h.absolutePos(new BlockPos(2+(index%3)*3,1,2+(index/3)*3));index++;
+            var bar=bar(h,pos);bar.insert(2,servings[type]);
+            var expected=vessels[type];
+            var player=h.makeMockPlayer(mode);
+            player.setPos(pos.getX()+.5,pos.getY()+2,pos.getZ()+.5);player.setXRot(90);player.setYRot(0);
+            // Spaced heartbeats must still measure elapsed server time, not packet count.
+            for(int tick=1;tick<=33;tick+=2)h.runAfterDelay(tick,()->BarDrinking.pulse(player,pos,2,true));
+            h.runAfterDelay(34,()->{
+                var empty=bar.bottle(2);
+                h.assertTrue(empty.is(expected)&&!io.vinum.beverage.DrinkwareAppearance.canDrink(empty),
+                    "Completed placed serving is empty in "+mode);
+                h.assertTrue(player.getMainHandItem().isEmpty(),"No vessel moved to the hand while drinking");
+                BarDrinking.pulse(player,pos,2,true);
+                h.assertTrue(ItemStack.isSameItemSameComponents(empty,bar.bottle(2)),"Continued hold cannot consume empty vessel");
+                player.setShiftKeyDown(true);
+                var hit=new BlockHitResult(Vec3.atBottomCenterOf(pos).add(0,1,0),Direction.UP,pos,false);
+                bar.getBlockState().useWithoutItem(h.getLevel(),player,hit);
+                h.assertTrue(bar.bottle(2).isEmpty()&&player.getInventory().countItem(expected)==1,
+                    "Sneak-right-click retrieves exactly one vessel in "+mode);
+                h.assertTrue(h.getLevel().getBlockState(pos).is(BarContent.BAR.get()),"Retrieval leaves the bar intact");
+            });
+        }
+        h.runAfterDelay(35,h::succeed);
+    }
 }

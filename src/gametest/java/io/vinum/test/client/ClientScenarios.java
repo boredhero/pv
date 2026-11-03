@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 final class ClientScenarios {
     private ClientScenarios() {}
     static List<ClientScenario> all() {
-        return List.of(new BarServingScenario(), new ClientScenario() {
+        return List.of(new BarDrinkingScenario(), new BarServingScenario(), new ClientScenario() {
             public String name() { return "carboy_interaction"; }
             public List<Step> steps(ClientTestContext c) {
                 return new Sequence()

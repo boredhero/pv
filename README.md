@@ -756,7 +756,9 @@ glass with a bottle to pour into it; sneak-use explicitly pours the held contain
 Transfers preserve partial amounts, ingredients, alcohol, and age. Hold right-click
 with an empty main hand while aiming at a placed drink to drink it in place; release,
 look away, or leave reach to cancel. The empty glass stays on the counter and normal
-drink effects still apply. **Shift-right-click with an empty hand picks up glasses**;
+drink effects still apply. Placed servings empty in both Creative and Survival;
+Creative only retains infinite drinks when drinking from your hand.
+**Shift-right-click with an empty hand picks up glasses**;
 bottles retain ordinary empty-hand pickup. The server enforces the normal drinking
 duration; repeated packets in one tick cannot accelerate it.
 

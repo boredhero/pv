@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
-public class DrinkItem extends Item implements IDrink {
+public class DrinkItem extends Item implements IDrink, PlacedDrink {
     private final int useDuration;
     private final int bacLevel;
     private final ItemStack returnedItem;
@@ -36,6 +36,14 @@ public class DrinkItem extends Item implements IDrink {
     }
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+        return finishDrinking(stack, level, entity, false);
+    }
+    @Override
+    public ItemStack finishDrinkingOnBar(ItemStack stack, Level level, Player player) {
+        return finishDrinking(stack, level, player, true);
+    }
+    private ItemStack finishDrinking(ItemStack stack, Level level, LivingEntity entity, boolean placed) {
+        if (level.isClientSide) return stack;
         if (entity instanceof ServerPlayer player) {
             CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
             player.awardStat(Stats.ITEM_USED.get(this));
@@ -44,7 +52,7 @@ public class DrinkItem extends Item implements IDrink {
             for (MobEffectInstance effect : givenPotionEffects) entity.addEffect(new MobEffectInstance(effect));
             if (entity instanceof Player player) IDrink.addBACLevel(level, player, bacLevel);
         }
-        if (entity instanceof Player player && player.hasInfiniteMaterials()) return stack;
+        if (!placed && entity instanceof Player player && player.hasInfiniteMaterials()) return stack;
         stack.shrink(1);
         ItemStack container = returnedItem.copy();
         if (stack.isEmpty()) return container;

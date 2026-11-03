@@ -24,7 +24,7 @@ import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 /** Reusable, partial-fill container. Capacity, acceptance and drinking are independent of beverage identity. */
-public class FluidContainerItem extends Item {
+public class FluidContainerItem extends Item implements io.vinum.item.drinks.PlacedDrink {
     public static final TagKey<Fluid> CONTENTS = TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("vinum", "container_contents"));
     public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("vinum", "drinkable"));
     private final int capacity;
@@ -99,12 +99,18 @@ public class FluidContainerItem extends Item {
     @Override public int getUseDuration(ItemStack stack, LivingEntity entity) { return 32; }
     @Override public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.DRINK; }
     @Override public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+        return finishDrinking(stack, level, entity, false);
+    }
+    @Override public ItemStack finishDrinkingOnBar(ItemStack stack, Level level, Player player) {
+        return finishDrinking(stack, level, player, true);
+    }
+    private ItemStack finishDrinking(ItemStack stack, Level level, LivingEntity entity, boolean placed) {
         if (!canDrink(stack) || level.isClientSide) return stack;
         if (entity instanceof net.minecraft.server.level.ServerPlayer player) {
             net.minecraft.advancements.CriteriaTriggers.CONSUME_ITEM.trigger(player, stack);
             player.awardStat(net.minecraft.stats.Stats.ITEM_USED.get(this));
         }
-        if (entity instanceof Player player && player.hasInfiniteMaterials()) return stack;
+        if (!placed && entity instanceof Player player && player.hasInfiniteMaterials()) return stack;
         FluidStack fluid = contents(stack);
         // A normal 125 mB glass at 12% ABV corresponds to the existing one-point serving.
         if (entity instanceof Player player) io.vinum.item.drinks.IDrink.addBACLevel(level, player,
