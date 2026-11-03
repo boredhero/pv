@@ -32,17 +32,17 @@ public final class WineShelfGameTests {
     return ((FluidContainerItem)ModItems.WINE_BOTTLE_EMPTY.get()).filled(BarrelFluidData.withAge(WineCatalog.sample(WineCatalog.varieties().getFirst(),625),123));
   }
   @GameTest(template="barrel_space")
-  public static void fiveShelfSlotsPreserveBottlesAndDropOnce(GameTestHelper h) {
+  public static void nineShelfSlotsPreserveBottlesAndDropOnce(GameTestHelper h) {
     BlockPos pos=h.absolutePos(new BlockPos(3,1,3));var shelf=place(h,pos);
     var bottle=wine();bottle.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,Component.literal("Cellar batch"));
-    for(int i=0;i<5;i++){h.assertTrue(shelf.bottle(i).isEmpty(),"New shelves start completely empty");h.assertTrue(shelf.insert(i,bottle),"Each position accepts one bottle");}
-    h.assertTrue(!shelf.insert(0,bottle)&&!shelf.insert(5,bottle)&&!shelf.insert(-1,bottle),"A shelf never exceeds five bottles");
+    for(int i=0;i<9;i++){h.assertTrue(shelf.bottle(i).isEmpty(),"New shelves start completely empty");h.assertTrue(shelf.insert(i,bottle),"Each position accepts one bottle");}
+    h.assertTrue(!shelf.insert(0,bottle)&&!shelf.insert(9,bottle)&&!shelf.insert(-1,bottle),"A shelf never exceeds nine bottles");
     var saved=shelf.saveWithoutMetadata(h.getLevel().registryAccess());
     var restored=new WineShelfBlockEntity(pos,shelf.getBlockState());restored.loadWithComponents(saved,h.getLevel().registryAccess());
-    for(int i=0;i<5;i++)h.assertTrue(ItemStack.isSameItemSameComponents(restored.bottle(i),bottle),"All bottle metadata and partial volume survive persistence");
+    for(int i=0;i<9;i++)h.assertTrue(ItemStack.isSameItemSameComponents(restored.bottle(i),bottle),"All bottle metadata and partial volume survive persistence");
     h.getLevel().destroyBlock(pos,true);
     var drops=h.getLevel().getEntitiesOfClass(ItemEntity.class,new AABB(pos).inflate(2));
-    h.assertTrue(drops.stream().filter(e->e.getItem().is(ModItems.WINE_BOTTLE_EMPTY.get())).mapToInt(e->e.getItem().getCount()).sum()==5,"Breaking shelf returns exactly its five bottles");
+    h.assertTrue(drops.stream().filter(e->e.getItem().is(ModItems.WINE_BOTTLE_EMPTY.get())).mapToInt(e->e.getItem().getCount()).sum()==9,"Breaking shelf returns exactly its nine bottles");
     h.assertTrue(drops.stream().filter(e->e.getItem().is(ShelfContent.ITEM.get())).mapToInt(e->e.getItem().getCount()).sum()==1,"Breaking shelf returns one empty shelf");h.succeed();
   }
   @GameTest(template="barrel_space")
@@ -50,16 +50,29 @@ public final class WineShelfGameTests {
     BlockPos pos=h.absolutePos(new BlockPos(3,1,3));var left=place(h,pos);var right=place(h,pos.east());
     h.assertTrue(h.getLevel().getBlockState(pos).getValue(WineShelfBlock.RIGHT)&&h.getLevel().getBlockState(pos.east()).getValue(WineShelfBlock.LEFT),"Matching shelf edges connect in both directions");
     var player=h.makeMockPlayer(GameType.SURVIVAL);
-    for(int slot=0;slot<5;slot++) {
+    for(int slot=0;slot<9;slot++) {
       left.insert(slot,wine());double[] center=WineShelfBlock.CENTERS[slot];
       var hit=new BlockHitResult(new Vec3(pos.getX()+center[0],pos.getY()+center[1],pos.getZ()),Direction.NORTH,pos,false);
       h.assertTrue(WineShelfBlock.slot(left.getBlockState(),pos,hit)==slot,"Every visible bottle position has its own click target");
       left.getBlockState().useWithoutItem(h.getLevel(),player,hit);
       h.assertTrue(left.bottle(slot).isEmpty(),"Click removes only the selected bottle");
     }
-    h.assertTrue(player.getInventory().countItem(ModItems.WINE_BOTTLE_EMPTY.get())==5,"Extracted bottles are returned to the player");
+    h.assertTrue(player.getInventory().countItem(ModItems.WINE_BOTTLE_EMPTY.get())==9,"Extracted bottles are returned to the player");
     h.getLevel().destroyBlock(pos.east(),false);
     h.assertTrue(!h.getLevel().getBlockState(pos).getValue(WineShelfBlock.RIGHT),"Outside trim returns when a neighbor is removed");
+    h.succeed();
+  }
+  @GameTest(template="barrel_space")
+  public static void legacyFiveBottleShelfLoadsWithoutLoss(GameTestHelper h) {
+    BlockPos pos=h.absolutePos(new BlockPos(3,1,3));var shelf=place(h,pos);
+    for(int slot=0;slot<5;slot++) {
+      var bottle=wine();bottle.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,Component.literal("Legacy slot "+slot));
+      shelf.insert(slot,bottle);
+    }
+    var legacy=shelf.saveWithoutMetadata(h.getLevel().registryAccess());
+    var restored=new WineShelfBlockEntity(pos,shelf.getBlockState());restored.loadWithComponents(legacy,h.getLevel().registryAccess());
+    for(int slot=0;slot<5;slot++)h.assertTrue(ItemStack.isSameItemSameComponents(restored.bottle(slot),shelf.bottle(slot)),"Original five slot IDs preserve their exact bottles");
+    for(int slot=5;slot<9;slot++)h.assertTrue(restored.bottle(slot).isEmpty(),"Four new corner positions start empty");
     h.succeed();
   }
   @GameTest(template="barrel_space")

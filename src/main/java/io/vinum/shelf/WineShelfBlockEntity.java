@@ -17,9 +17,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 
-/** Five independent bottle positions; full item components survive storage and transfers. */
+/** Nine independent bottle positions; full item components survive storage and transfers. */
 public final class WineShelfBlockEntity extends BlockEntity {
-  public static final int SLOTS = 5;
+  public static final int SLOTS = 9;
   private NonNullList<ItemStack> bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
   private int agingTicks;
   public WineShelfBlockEntity(BlockPos pos, BlockState state) { super(ShelfContent.ENTITY.get(), pos, state); }

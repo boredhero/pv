@@ -32,9 +32,9 @@ public final class WineShelfRenderer implements BlockEntityRenderer<WineShelfBlo
       int primary=style.map(BeverageAppearance.Style::bottleLabelPrimaryColor).orElse(0xFFE2D5B4);
       int secondary=style.map(BeverageAppearance.Style::bottleLabelSecondaryColor).orElse(0xFF705C36);
       double x=WineShelfBlock.CENTERS[slot][0],y=WineShelfBlock.CENTERS[slot][1];
-      // Bottles lie neck-out; five separate solid meshes occupy the rack's five openings.
+      // Bottles lie neck-out; nine separate solid meshes occupy the rack's three-by-three openings.
       int sides=wineBottle?8:4;
-      double radius=tequila?.125:.105;
+      double radius=tequila?.125:.12;
       double heel=tequila?.098:radius;
       tube(poses,buffers,x,y,.34,.88,radius,heel,body,sides,light,overlay);
       tube(poses,buffers,x,y,.23,.34,.045,radius,glass,sides,light,overlay);

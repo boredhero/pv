@@ -632,7 +632,8 @@ detached timber cannot regrow bark. Craft cork bark into wine corks. See
 ### Wine cellar storage
 
 Craft a **Wine Shelf** with six planks and two sticks. Each shelf starts empty and
-holds five wine/fifth bottles in its X-shaped compartments. Use a bottle on a slot
+holds nine wine/fifth bottles in a dense 3×3 grid. Existing five-bottle shelves
+retain their original bottles; four new corner positions start empty. Use a bottle on a slot
 to insert it; use an empty hand on that slot to retrieve it. Each occupied slot
 shows a three-dimensional bottle with its contents' bottle style and colors.
 Shelves placed alongside or above one another with the same facing join their

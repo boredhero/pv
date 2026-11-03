@@ -14,12 +14,14 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.phys.BlockHitResult;
 
-/** Matching facing shelves share their outside trim; each block remains an independent five-bottle rack. */
+/** Matching facing shelves share their outside trim; each block remains an independent nine-bottle rack. */
 public final class WineShelfBlock extends Block implements EntityBlock {
   public static final MapCodec<WineShelfBlock> CODEC = simpleCodec(WineShelfBlock::new);
   public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
   public static final BooleanProperty LEFT = BooleanProperty.create("left"), RIGHT = BooleanProperty.create("right"), UP = BooleanProperty.create("up"), DOWN = BooleanProperty.create("down");
-  public static final double[][] CENTERS = {{.5,.79},{.21,.5},{.79,.5},{.5,.21},{.5,.5}};
+  // Keep the original five slot IDs at their nearest positions; old saves need no inventory rewrite.
+  public static final double[][] CENTERS = {{.5,.8},{.2,.5},{.8,.5},{.5,.2},{.5,.5},
+      {.2,.8},{.8,.8},{.2,.2},{.8,.2}};
   public WineShelfBlock(Properties properties) { super(properties); registerDefaultState(stateDefinition.any().setValue(FACING,Direction.NORTH).setValue(LEFT,false).setValue(RIGHT,false).setValue(UP,false).setValue(DOWN,false)); }
   @Override protected MapCodec<? extends Block> codec() { return CODEC; }
   @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block,BlockState> builder) { builder.add(FACING,LEFT,RIGHT,UP,DOWN); }
