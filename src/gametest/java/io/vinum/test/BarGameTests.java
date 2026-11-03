@@ -34,6 +34,24 @@ public final class BarGameTests {
         return (BarBlockEntity)h.getLevel().getBlockEntity(pos);
     }
     @GameTest(template="barrel_space")
+    public static void countersConnectAndDisconnectWithoutLosingBottles(GameTestHelper h) {
+        BlockPos pos=h.absolutePos(new BlockPos(3,1,3));
+        var state=BarContent.BAR.get().defaultBlockState().setValue(BarBlock.FACING,Direction.NORTH);
+        h.getLevel().setBlockAndUpdate(pos,state);
+        var bar=(BarBlockEntity)h.getLevel().getBlockEntity(pos);
+        var bottle=wine();bar.insert(2,bottle);
+        h.getLevel().setBlockAndUpdate(pos.west(),state);
+        h.getLevel().setBlockAndUpdate(pos.east(),state);
+        var connected=h.getLevel().getBlockState(pos);
+        h.assertTrue(connected.getValue(BarBlock.LEFT)&&connected.getValue(BarBlock.RIGHT),"Counter joins both aligned neighbors");
+        h.assertTrue(ItemStack.isSameItemSameComponents(bar.bottle(2),bottle),"Connection updates retain bottle data");
+        h.getLevel().removeBlock(pos.west(),false);
+        h.getLevel().setBlockAndUpdate(pos.east(),state.setValue(BarBlock.FACING,Direction.SOUTH));
+        var isolated=h.getLevel().getBlockState(pos);
+        h.assertTrue(!isolated.getValue(BarBlock.LEFT)&&!isolated.getValue(BarBlock.RIGHT),"Removed or oppositely facing counters disconnect");
+        h.succeed();
+    }
+    @GameTest(template="barrel_space")
     public static void barPersistsFiveExactBottlesAndDropsOnce(GameTestHelper h) {
         BlockPos pos=h.absolutePos(new BlockPos(3,1,3));var bar=place(h,pos);var bottle=wine();
         for(int slot=0;slot<5;slot++)h.assertTrue(bar.insert(slot,bottle),"Five independent bottle slots");
@@ -53,8 +71,8 @@ public final class BarGameTests {
             player.getInventory().clearContent();
             h.getLevel().setBlockAndUpdate(pos,bar.getBlockState().setValue(BarBlock.FACING,facing));
             for(int slot=0;slot<5;slot++) {
-                double a=BarBlock.CENTERS[slot],x=a,z=.53;
-                switch(facing){case EAST->{x=.47;z=a;}case SOUTH->{x=1-a;z=.47;}case WEST->{x=.53;z=1-a;}default->{}}
+                double[] center=BarBlock.center(bar.getBlockState(),slot);
+                double x=center[0],z=center[1];
                 var hit=new BlockHitResult(new Vec3(pos.getX()+x,pos.getY()+1,pos.getZ()+z),Direction.UP,pos,false);
                 var state=h.getLevel().getBlockState(pos);player.setItemInHand(InteractionHand.MAIN_HAND,wine());
                 h.assertTrue(BarBlock.slot(state,pos,hit)==slot,"Target follows facing");
@@ -76,6 +94,7 @@ public final class BarGameTests {
     public static void bottleLiquidHeightTracksVolumeThroughShoulders(GameTestHelper h) {
         for(var shape:BottleGeometry.values()) {
             double previous=-1;
+            h.assertTrue(shape.widthScale()>0&&shape.depthScale()>0,"Profiles have valid rectangular footprints");
             for(double fraction:new double[]{0,.001,.1,.25,.5,.75,.999,1}) {
                 double height=shape.fillHeight(fraction);
                 h.assertTrue(height>=previous&&height<=BottleGeometry.LIQUID_TOP,"Continuous bounded fill height");

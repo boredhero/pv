@@ -28,7 +28,10 @@ public final class WineShelfRenderer implements BlockEntityRenderer<WineShelfBlo
       var shape=style.bottle3DType().geometry();
       double x=WineShelfBlock.CENTERS[slot][0],y=WineShelfBlock.CENTERS[slot][1];
       // Reuse the exact catalog profile, rotated neck-out and scaled to fit the rack.
-      double radialScale=1.4, lengthScale=1.4;
+      poses.pushPose();poses.translate(x,y,0);
+      poses.scale((float)shape.widthScale(),(float)shape.depthScale(),1);
+      x=0;y=0;
+      double radialScale=1.4/Math.max(shape.widthScale(),shape.depthScale()), lengthScale=1.4;
       for(int i=0;i<shape.sections();i++) {
         double low=shape.height(i), high=shape.height(i+1);
         if(!fluid.isEmpty())
@@ -53,7 +56,7 @@ public final class WineShelfRenderer implements BlockEntityRenderer<WineShelfBlo
               shape.sides(),light,overlay,style.label().artwork(),false);
         }
       }
-
+      poses.popPose();
     }
     poses.popPose();
   }

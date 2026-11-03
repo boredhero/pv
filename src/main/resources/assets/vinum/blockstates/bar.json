@@ -1,19 +1,84 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "vinum:block/bar"
-    },
-    "facing=east": {
+    "facing=north,left=false,right=false": {
       "model": "vinum:block/bar",
-      "y": 90
+      "y": 0,
+      "uvlock": true
     },
-    "facing=south": {
+    "facing=east,left=false,right=false": {
       "model": "vinum:block/bar",
-      "y": 180
+      "y": 90,
+      "uvlock": true
     },
-    "facing=west": {
+    "facing=south,left=false,right=false": {
       "model": "vinum:block/bar",
-      "y": 270
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=false": {
+      "model": "vinum:block/bar",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=true": {
+      "model": "vinum:block/bar_right",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=true": {
+      "model": "vinum:block/bar_right",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=true": {
+      "model": "vinum:block/bar_right",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=true": {
+      "model": "vinum:block/bar_right",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=false": {
+      "model": "vinum:block/bar_left",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=false": {
+      "model": "vinum:block/bar_left",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=false": {
+      "model": "vinum:block/bar_left",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=false": {
+      "model": "vinum:block/bar_left",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=true": {
+      "model": "vinum:block/bar_left_right",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=true": {
+      "model": "vinum:block/bar_left_right",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=true": {
+      "model": "vinum:block/bar_left_right",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=true": {
+      "model": "vinum:block/bar_left_right",
+      "y": 270,
+      "uvlock": true
     }
   }
 }

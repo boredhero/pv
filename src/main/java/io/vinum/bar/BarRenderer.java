@@ -33,7 +33,8 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
             var shape=style.bottle3DType().geometry();
             int primary=style.label().primaryColor();
             int secondary=style.label().secondaryColor();
-            poses.pushPose();poses.translate(BarBlock.CENTERS[slot],1.008,.53);
+            poses.pushPose();poses.translate(BarBlock.CENTERS[slot][0],1.008,BarBlock.CENTERS[slot][1]);
+            poses.scale((float)shape.widthScale(),1,(float)shape.depthScale());
             var opaque=buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
             if(!fluid.isEmpty()) {
                 double surface=shape.fillHeight((double)fluid.getAmount()/container.capacity());

@@ -727,3 +727,14 @@ read-compatible. Design identities use typed resource IDs, not enum ordinals.
 A future per-item design component should override the resolved defaults at this
 boundary; no UUID storage, player designer, or custom-design network protocol is
 implemented yet. Packaged profiles currently load at startup.
+
+Bar counters have five click-targeted bottle positions in an X: four corners and a
+center. Aim at the desired position to place or retrieve a bottle. Stored slot IDs
+remain unchanged when upgrading; existing bottles move to the new positions without
+losing contents. Adjacent counters facing the same direction connect along their
+left/right edges, including the body, front trim, and footrail. Removing or turning
+a neighbor restores the exposed end. Perpendicular corner joins are not included.
+
+Bottle geometry profiles optionally specify positive `widthScale` and `depthScale`
+(default 1). Tequila uses a broad rectangular footprint; the bar preserves these
+proportions and the cellar shelf scales the same profile to fit its openings.

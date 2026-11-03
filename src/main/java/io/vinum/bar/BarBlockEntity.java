@@ -18,6 +18,10 @@ public final class BarBlockEntity extends BlockEntity {
     public static final TagKey<Item> BOTTLES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("vinum", "bar_bottles"));
     private NonNullList<ItemStack> bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
     public BarBlockEntity(BlockPos pos, BlockState state) { super(BarContent.ENTITY.get(), pos, state); }
+    @Override public void onLoad() {
+        super.onLoad();
+        if(level!=null && !level.isClientSide) level.scheduleTick(worldPosition,getBlockState().getBlock(),1);
+    }
     public static boolean accepts(ItemStack stack) { return stack.getItem() instanceof FluidContainerItem && stack.is(BOTTLES); }
     public ItemStack bottle(int slot) { return slot >= 0 && slot < SLOTS ? bottles.get(slot).copy() : ItemStack.EMPTY; }
     public boolean insert(int slot, ItemStack stack) {
