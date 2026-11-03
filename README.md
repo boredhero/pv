@@ -658,22 +658,24 @@ flat icons, while a placed airlocked carboy should retain the 3D accessory.
 ### Bar counter
 
 Craft a **Bar Counter** with three wooden slabs across the top and five planks
-below (`SSS / P P / PPP`). Counters tile side by side into a bar. Each holds five
-upright wine/spirit bottles across its top. Right-click the desired position with
-a bottle to place one; empty-hand right-click that position to retrieve it.
-An occupied position rejects another bottle. Breaking the counter drops its five
-stored bottles and the counter itself.
+below (`SSS / P P / PPP`). Counters connect into straight runs and corners. Each
+holds five bottles or glasses in an X layout. Right-click the desired position to
+place one. Bottles use ordinary empty-hand pickup; glasses use sneak + empty-hand
+right-click so normal held right-click can drink from them in place. Occupied slots
+support serving between compatible containers rather than replacing the stored item.
+Breaking a counter returns every stored item and the counter itself.
 
-Bottle items retain their exact volume, alcohol, maturation age, cork, name, and
-other components. This is display storage; it does not advance aging. Empty and
-partly filled bottles are supported. Round wine, square spirit, and tapered tequila
-meshes use the existing beverage appearance colors. Liquid is rendered separately
-inside translucent glass; its continuously calculated height follows interior
-volume through the shoulders rather than using four fixed fullness models.
+Stored items retain their exact volume, alcohol, maturation age, cork, name, and
+other components. Display storage does not advance aging. Empty and partly filled
+containers are supported; liquid height follows the interior volume of the selected
+profile. Rectangular tequila bottles use centered label artwork from their item sprite.
+Shot, wine, and margarita glass profiles preserve their inventory artwork and use
+separate placed geometry. See serving controls below.
 
-`vinum:bar_bottles` is an item tag for supported `FluidContainerItem` bottles.
-Add a compatible bottle to that tag to allow it on counters. Display profiles are
-in `DisplayBottleShape`; liquid heights are derived by integrating their sections.
+`vinum:bar_bottles` retains its compatibility ID and now tags all supported counter
+items, including drinkware. Inventory/placed beverage appearances are resolved through
+`BeverageAppearance`; drinkware uses `drinkware_appearances.json`. Geometry lives in
+`bottle_3d_types.json` and is read by the shared `BottleGeometry` catalog.
 
 Manual check: place counters in all four directions; insert five mixed bottles,
 including empty, partially filled, and full spirits. Check upright models, labels,
@@ -717,8 +719,9 @@ polygon sides and ordered `[height, radius]` sections in block units. Geometry i
 independent of the bar/shelf and integrates tapered volume for upright fill heights.
 Material/artwork paths are texture resources including `textures/` and `.png`;
 colors are six-digit RGB, and transparency runs from 0 (opaque) to 1 (invisible).
-The current label artwork is a tintable neutral texture; inventory artwork stays
-in the inventory profile. Closure categories are `cork`, `cap`, and `none`.
+Label panels select a centered region of the artwork using normalized `panel.uv` coordinates,
+with configurable `width`, `bottom`, and `top`. Tequila uses the label region of its existing
+inventory texture. Inventory artwork stays in the inventory profile. Closure categories are `cork`, `cap`, and `none`.
 
 Age stages inherit omitted fields, including individual material and label fields.
 Unknown fluid designs receive safe bottle defaults; empty wine vessels retain wine
@@ -731,10 +734,31 @@ implemented yet. Packaged profiles currently load at startup.
 Bar counters have five click-targeted bottle positions in an X: four corners and a
 center. Aim at the desired position to place or retrieve a bottle. Stored slot IDs
 remain unchanged when upgrading; existing bottles move to the new positions without
-losing contents. Adjacent counters facing the same direction connect along their
-left/right edges, including the body, front trim, and footrail. Removing or turning
-a neighbor restores the exposed end. Perpendicular corner joins are not included.
+losing contents. Adjacent counters connect on all four horizontal sides regardless of bottle-facing
+direction. Bodies meet at shared edges, and panel trim and footrails follow only
+the exposed perimeter, including L corners and U-shaped runs. Removing a neighbor
+restores its exposed edge. Existing counters refresh their joins when loaded.
 
 Bottle geometry profiles optionally specify positive `widthScale` and `depthScale`
 (default 1). Tequila uses a broad rectangular footprint; the bar preserves these
 proportions and the cellar shelf scales the same profile to fit its openings.
+
+### Serving and drinking at the bar
+
+Place bottles, shot glasses, wine glasses, empty margarita glasses, or spiced apple
+margaritas in any of the five counter positions. Their inventory art is unchanged;
+placed glasses use profiles in `drinkware_appearances.json` and `bottle_3d_types.json`.
+Glass profiles declare `liquidBottom` and `liquidTop`, so only the bowl fills, not
+the stem. Actual liquid quantity determines the visible surface height.
+
+Right-click a placed bottle with a glass to draw a serving. Right-click a placed
+glass with a bottle to pour into it; sneak-use explicitly pours the held container.
+Transfers preserve partial amounts, ingredients, alcohol, and age. Hold right-click
+with an empty main hand while aiming at a placed drink to drink it in place; release,
+look away, or leave reach to cancel. The empty glass stays on the counter and normal
+drink effects still apply. **Shift-right-click with an empty hand picks up glasses**;
+bottles retain ordinary empty-hand pickup. The server enforces the normal drinking
+duration; repeated packets in one tick cannot accelerate it.
+
+Place a barstool beside the counter and right-click to sit. Sneak to stand up.
+A stool seats one player and does not leave persistent seat entities behind.

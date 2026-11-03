@@ -34,6 +34,29 @@ public final class BarGameTests {
         return (BarBlockEntity)h.getLevel().getBlockEntity(pos);
     }
     @GameTest(template="barrel_space")
+    public static void cornerCountersJoinInEveryOrientationAndKeepContents(GameTestHelper h) {
+        BlockPos pos=h.absolutePos(new BlockPos(3,1,3));
+        for(Direction facing:Direction.Plane.HORIZONTAL) {
+            var state=BarContent.BAR.get().defaultBlockState().setValue(BarBlock.FACING,facing);
+            h.getLevel().setBlockAndUpdate(pos,state);
+            var bar=(BarBlockEntity)h.getLevel().getBlockEntity(pos);
+            var bottle=wine();bar.insert(2,bottle);
+            BlockPos side=pos.relative(facing.getCounterClockWise()),back=pos.relative(facing.getOpposite());
+            h.getLevel().setBlockAndUpdate(side,state);
+            h.getLevel().setBlockAndUpdate(back,state.setValue(BarBlock.FACING,facing.getClockWise()));
+            var corner=h.getLevel().getBlockState(pos);
+            h.assertTrue(corner.getValue(BarBlock.LEFT)&&corner.getValue(BarBlock.BACK)
+                && !corner.getValue(BarBlock.RIGHT)&&!corner.getValue(BarBlock.FRONT),"L corner connects both perpendicular legs only");
+            h.assertTrue(h.getLevel().getBlockState(back).getValue(BarBlock.LEFT),"Perpendicular neighbor connects reciprocally");
+            h.assertTrue(ItemStack.isSameItemSameComponents(bar.bottle(2),bottle),"Corner updates retain exact bottle components");
+            h.getLevel().removeBlock(back,false);
+            h.assertTrue(!h.getLevel().getBlockState(pos).getValue(BarBlock.BACK)
+                && h.getLevel().getBlockState(pos).getValue(BarBlock.LEFT),"Removing a leg restores exposed corner edge");
+            h.getLevel().removeBlock(side,false);bar.remove(2);
+        }
+        h.succeed();
+    }
+    @GameTest(template="barrel_space")
     public static void countersConnectAndDisconnectWithoutLosingBottles(GameTestHelper h) {
         BlockPos pos=h.absolutePos(new BlockPos(3,1,3));
         var state=BarContent.BAR.get().defaultBlockState().setValue(BarBlock.FACING,Direction.NORTH);
@@ -46,9 +69,9 @@ public final class BarGameTests {
         h.assertTrue(connected.getValue(BarBlock.LEFT)&&connected.getValue(BarBlock.RIGHT),"Counter joins both aligned neighbors");
         h.assertTrue(ItemStack.isSameItemSameComponents(bar.bottle(2),bottle),"Connection updates retain bottle data");
         h.getLevel().removeBlock(pos.west(),false);
-        h.getLevel().setBlockAndUpdate(pos.east(),state.setValue(BarBlock.FACING,Direction.SOUTH));
+        h.getLevel().setBlockAndUpdate(pos.east(),Blocks.STONE.defaultBlockState());
         var isolated=h.getLevel().getBlockState(pos);
-        h.assertTrue(!isolated.getValue(BarBlock.LEFT)&&!isolated.getValue(BarBlock.RIGHT),"Removed or oppositely facing counters disconnect");
+        h.assertTrue(!isolated.getValue(BarBlock.LEFT)&&!isolated.getValue(BarBlock.RIGHT),"Removed or non-counter neighbors disconnect");
         h.succeed();
     }
     @GameTest(template="barrel_space")
@@ -97,8 +120,8 @@ public final class BarGameTests {
             h.assertTrue(shape.widthScale()>0&&shape.depthScale()>0,"Profiles have valid rectangular footprints");
             for(double fraction:new double[]{0,.001,.1,.25,.5,.75,.999,1}) {
                 double height=shape.fillHeight(fraction);
-                h.assertTrue(height>=previous&&height<=BottleGeometry.LIQUID_TOP,"Continuous bounded fill height");
-                h.assertTrue(Math.abs(shape.volumeBelow(height)/shape.volumeBelow(BottleGeometry.LIQUID_TOP)-fraction)<1e-8,"Liquid mesh represents actual volume even across tapered shoulders");previous=height;
+                h.assertTrue(height>=previous&&height<=shape.liquidTop(),"Continuous bounded fill height");
+                h.assertTrue(Math.abs((shape.volumeBelow(height)-shape.volumeBelow(shape.liquidBottom()))/(shape.volumeBelow(shape.liquidTop())-shape.volumeBelow(shape.liquidBottom()))-fraction)<1e-8,"Liquid mesh represents actual volume even across tapered shoulders");previous=height;
             }
         }
         h.succeed();

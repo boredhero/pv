@@ -48,7 +48,19 @@
     },
     "label": {
       "primaryColor": "969696",
-      "secondaryColor": "999999"
+      "secondaryColor": "999999",
+      "artwork": "vinum:textures/item/fifth_silver_tequila.png",
+      "panel": {
+        "width": 0.5,
+        "bottom": 0.16,
+        "top": 0.28,
+        "uv": [
+          0.375,
+          0.5,
+          0.625,
+          0.6875
+        ]
+      }
     }
   },
   {
@@ -71,7 +83,19 @@
     },
     "label": {
       "primaryColor": "D8B658",
-      "secondaryColor": "999999"
+      "secondaryColor": "999999",
+      "artwork": "vinum:textures/item/fifth_silver_tequila.png",
+      "panel": {
+        "width": 0.5,
+        "bottom": 0.16,
+        "top": 0.28,
+        "uv": [
+          0.375,
+          0.5,
+          0.625,
+          0.6875
+        ]
+      }
     }
   }
 ]

@@ -8,6 +8,8 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 public final class NetworkLoader {
     private NetworkLoader() {}
     public static void register(RegisterPayloadHandlersEvent event) {
+        event.registrar("1").playToServer(BarDrinkMessage.TYPE, BarDrinkMessage.STREAM_CODEC,
+                (message, context) -> io.vinum.bar.BarDrinking.pulse(context.player(),message.pos(),message.slot(),message.active()));
         event.registrar("1").playToClient(BACSyncMessage.TYPE, BACSyncMessage.STREAM_CODEC,
                 (message, context) -> context.player().getData(BACCapability.BAC_STATE).setBACLevel(message.level()));
     }

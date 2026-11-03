@@ -86,7 +86,7 @@ public class FluidContainerItem extends Item {
                     String.format(java.util.Locale.ROOT, "%.1f", entry.getValue() * 100)).withStyle(ChatFormatting.DARK_GRAY)));
         tooltip.add(Component.translatable("tooltip.vinum.container_controls").withStyle(ChatFormatting.DARK_GRAY));
     }
-    private boolean canDrink(ItemStack stack) {
+    public boolean canDrink(ItemStack stack) {
         var fluid = contents(stack);
         return drinking && !fluid.isEmpty() && fluid.is(DRINKABLE) && BatchProfile.of(fluid).solidsGramsPerLitre() == 0;
     }

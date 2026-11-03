@@ -1,0 +1,41 @@
+[
+  {
+    "items": [
+      "vinum:shot_glass",
+      "vinum:shot_silver_tequila",
+      "vinum:shot_golden_tequila"
+    ],
+    "geometry": "vinum:shot_glass",
+    "glassTint": "B3CFE9",
+    "opacity": 0.25,
+    "rimColor": "DAE9F7",
+    "cocktail": false
+  },
+  {
+    "items": [
+      "vinum:wine_glass_empty",
+      "vinum:wine_glass_chardonnay",
+      "vinum:wine_glass_sauvignon_blanc",
+      "vinum:wine_glass_cabernet_sauvignon",
+      "vinum:wine_glass_merlot",
+      "vinum:wine_glass_pinot_noir",
+      "vinum:wine_glass_zinfandel"
+    ],
+    "geometry": "vinum:wine_glass",
+    "glassTint": "B3CFE9",
+    "opacity": 0.25,
+    "rimColor": "DAE9F7",
+    "cocktail": false
+  },
+  {
+    "items": [
+      "vinum:margarita_glass",
+      "vinum:spiced_apple_margarita"
+    ],
+    "geometry": "vinum:margarita_glass",
+    "glassTint": "B3CFE9",
+    "opacity": 0.25,
+    "rimColor": "DAE9F7",
+    "cocktail": true
+  }
+]

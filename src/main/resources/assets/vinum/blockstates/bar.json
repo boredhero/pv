@@ -1,82 +1,322 @@
 {
   "variants": {
-    "facing=north,left=false,right=false": {
+    "facing=north,left=false,right=false,front=false,back=false": {
       "model": "vinum:block/bar",
       "y": 0,
       "uvlock": true
     },
-    "facing=east,left=false,right=false": {
+    "facing=east,left=false,right=false,front=false,back=false": {
       "model": "vinum:block/bar",
       "y": 90,
       "uvlock": true
     },
-    "facing=south,left=false,right=false": {
+    "facing=south,left=false,right=false,front=false,back=false": {
       "model": "vinum:block/bar",
       "y": 180,
       "uvlock": true
     },
-    "facing=west,left=false,right=false": {
+    "facing=west,left=false,right=false,front=false,back=false": {
       "model": "vinum:block/bar",
       "y": 270,
       "uvlock": true
     },
-    "facing=north,left=false,right=true": {
+    "facing=north,left=false,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_front",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_front",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_front",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_front",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_front_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_front_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_front_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_front_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=true,front=false,back=false": {
       "model": "vinum:block/bar_right",
       "y": 0,
       "uvlock": true
     },
-    "facing=east,left=false,right=true": {
+    "facing=east,left=false,right=true,front=false,back=false": {
       "model": "vinum:block/bar_right",
       "y": 90,
       "uvlock": true
     },
-    "facing=south,left=false,right=true": {
+    "facing=south,left=false,right=true,front=false,back=false": {
       "model": "vinum:block/bar_right",
       "y": 180,
       "uvlock": true
     },
-    "facing=west,left=false,right=true": {
+    "facing=west,left=false,right=true,front=false,back=false": {
       "model": "vinum:block/bar_right",
       "y": 270,
       "uvlock": true
     },
-    "facing=north,left=true,right=false": {
+    "facing=north,left=false,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_right_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_right_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_right_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_right_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_right_front",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_right_front",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_right_front",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_right_front",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=false,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_right_front_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=false,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_right_front_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=false,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_right_front_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=false,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_right_front_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=false,front=false,back=false": {
       "model": "vinum:block/bar_left",
       "y": 0,
       "uvlock": true
     },
-    "facing=east,left=true,right=false": {
+    "facing=east,left=true,right=false,front=false,back=false": {
       "model": "vinum:block/bar_left",
       "y": 90,
       "uvlock": true
     },
-    "facing=south,left=true,right=false": {
+    "facing=south,left=true,right=false,front=false,back=false": {
       "model": "vinum:block/bar_left",
       "y": 180,
       "uvlock": true
     },
-    "facing=west,left=true,right=false": {
+    "facing=west,left=true,right=false,front=false,back=false": {
       "model": "vinum:block/bar_left",
       "y": 270,
       "uvlock": true
     },
-    "facing=north,left=true,right=true": {
+    "facing=north,left=true,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_left_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_left_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_left_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=false,front=false,back=true": {
+      "model": "vinum:block/bar_left_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_left_front",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_left_front",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_left_front",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=false,front=true,back=false": {
+      "model": "vinum:block/bar_left_front",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_left_front_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_left_front_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_left_front_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=false,front=true,back=true": {
+      "model": "vinum:block/bar_left_front_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=true,front=false,back=false": {
       "model": "vinum:block/bar_left_right",
       "y": 0,
       "uvlock": true
     },
-    "facing=east,left=true,right=true": {
+    "facing=east,left=true,right=true,front=false,back=false": {
       "model": "vinum:block/bar_left_right",
       "y": 90,
       "uvlock": true
     },
-    "facing=south,left=true,right=true": {
+    "facing=south,left=true,right=true,front=false,back=false": {
       "model": "vinum:block/bar_left_right",
       "y": 180,
       "uvlock": true
     },
-    "facing=west,left=true,right=true": {
+    "facing=west,left=true,right=true,front=false,back=false": {
       "model": "vinum:block/bar_left_right",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_left_right_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_left_right_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_left_right_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=true,front=false,back=true": {
+      "model": "vinum:block/bar_left_right_back",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_left_right_front",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_left_right_front",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_left_right_front",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=true,front=true,back=false": {
+      "model": "vinum:block/bar_left_right_front",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=north,left=true,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_left_right_front_back",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east,left=true,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_left_right_front_back",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,left=true,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_left_right_front_back",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west,left=true,right=true,front=true,back=true": {
+      "model": "vinum:block/bar_left_right_front_back",
       "y": 270,
       "uvlock": true
     }

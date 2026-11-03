@@ -5,20 +5,21 @@ public final class BottleGeometry {
     private static final java.util.Map<net.minecraft.resources.ResourceLocation, BottleGeometry> PROFILES = load();
     public static final double LIQUID_TOP = .51;
     private final int sides;
-    private final double widthScale, depthScale;
+    private final double widthScale, depthScale, liquidBottom, liquidTop;
     private final double[] radii;
     private final double[] heights;
-    private BottleGeometry(int sides, double[] heights, double[] radii, double widthScale, double depthScale) {
+    private BottleGeometry(int sides, double[] heights, double[] radii, double widthScale, double depthScale, double liquidBottom, double liquidTop) {
         if(!Double.isFinite(widthScale)||!Double.isFinite(depthScale)||widthScale<=0||depthScale<=0)
             throw new IllegalArgumentException("Bottle footprint scales must be positive and finite");
         this.widthScale=widthScale;this.depthScale=depthScale;
+        this.liquidBottom=liquidBottom;this.liquidTop=liquidTop;
         if (sides < 3 || sides > 64 || heights.length < 2 || heights.length != radii.length || heights[0] != 0)
             throw new IllegalArgumentException("Invalid bottle profile dimensions");
         for (int i=0;i<heights.length;i++) {
             if (!Double.isFinite(heights[i]) || !Double.isFinite(radii[i]) || radii[i] <= 0
                 || (i > 0 && heights[i] <= heights[i-1])) throw new IllegalArgumentException("Invalid bottle profile section");
         }
-        if (heights[heights.length-1] < LIQUID_TOP) throw new IllegalArgumentException("Bottle must contain its fill height");
+        if (!Double.isFinite(liquidBottom)||!Double.isFinite(liquidTop)||liquidBottom<0||liquidTop<=liquidBottom||heights[heights.length-1] < liquidTop) throw new IllegalArgumentException("Bottle must contain its fill height");
         this.sides=sides; this.heights=heights.clone(); this.radii=radii.clone();
     }
     private static java.util.Map<net.minecraft.resources.ResourceLocation, BottleGeometry> load() {
@@ -30,7 +31,7 @@ public final class BottleGeometry {
                 var json=entry.getValue().getAsJsonObject(); var sections=json.getAsJsonArray("sections");
                 double[] heights=new double[sections.size()], radii=new double[sections.size()];
                 for(int i=0;i<sections.size();i++){var section=sections.get(i).getAsJsonArray();heights[i]=section.get(0).getAsDouble();radii[i]=section.get(1).getAsDouble();}
-                result.put(net.minecraft.resources.ResourceLocation.parse(entry.getKey()),new BottleGeometry(json.get("sides").getAsInt(),heights,radii,json.has("widthScale")?json.get("widthScale").getAsDouble():1,json.has("depthScale")?json.get("depthScale").getAsDouble():1));
+                result.put(net.minecraft.resources.ResourceLocation.parse(entry.getKey()),new BottleGeometry(json.get("sides").getAsInt(),heights,radii,json.has("widthScale")?json.get("widthScale").getAsDouble():1,json.has("depthScale")?json.get("depthScale").getAsDouble():1,json.has("liquidBottom")?json.get("liquidBottom").getAsDouble():0,json.has("liquidTop")?json.get("liquidTop").getAsDouble():LIQUID_TOP));
             }
             return java.util.Collections.unmodifiableMap(result);
         } catch(java.io.IOException e){throw new ExceptionInInitializerError(e);}
@@ -41,6 +42,8 @@ public final class BottleGeometry {
         return profile;
     }
     public static java.util.Collection<BottleGeometry> values(){return PROFILES.values();}
+    public double liquidBottom(){return liquidBottom;}
+    public double liquidTop(){return liquidTop;}
     public double widthScale(){return widthScale;}
     public double depthScale(){return depthScale;}
     public int sides() { return sides; }
@@ -65,8 +68,8 @@ public final class BottleGeometry {
         return volume;
     }
     public double fillHeight(double fraction) {
-        double target=volumeBelow(LIQUID_TOP)*Math.clamp(fraction,0,1);
-        double low=0,high=LIQUID_TOP;
+        double target=volumeBelow(liquidBottom)+(volumeBelow(liquidTop)-volumeBelow(liquidBottom))*Math.clamp(fraction,0,1);
+        double low=liquidBottom,high=liquidTop;
         for(int i=0;i<40;i++){double mid=(low+high)/2;if(volumeBelow(mid)<target)low=mid;else high=mid;}
         return (low+high)/2;
     }

@@ -22,11 +22,17 @@ public final class BarBlockEntity extends BlockEntity {
         super.onLoad();
         if(level!=null && !level.isClientSide) level.scheduleTick(worldPosition,getBlockState().getBlock(),1);
     }
-    public static boolean accepts(ItemStack stack) { return stack.getItem() instanceof FluidContainerItem && stack.is(BOTTLES); }
+    public static boolean accepts(ItemStack stack) { return !stack.isEmpty() && stack.is(BOTTLES); }
     public ItemStack bottle(int slot) { return slot >= 0 && slot < SLOTS ? bottles.get(slot).copy() : ItemStack.EMPTY; }
     public boolean insert(int slot, ItemStack stack) {
         if (level == null || level.isClientSide || slot < 0 || slot >= SLOTS || !bottles.get(slot).isEmpty() || !accepts(stack)) return false;
         bottles.set(slot, stack.copyWithCount(1)); changed(); return true;
+    }
+    /** Commit a serving/drinking result only if the displayed stack still matches the snapshot. */
+    public boolean replace(int slot, ItemStack expected, ItemStack replacement) {
+        if(level==null || level.isClientSide || slot<0 || slot>=SLOTS
+            || !ItemStack.isSameItemSameComponents(bottles.get(slot),expected)) return false;
+        bottles.set(slot,replacement.copyWithCount(1));changed();return true;
     }
     public ItemStack remove(int slot) {
         if (level == null || level.isClientSide || slot < 0 || slot >= SLOTS) return ItemStack.EMPTY;

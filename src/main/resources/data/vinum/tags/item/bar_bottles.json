@@ -13,6 +13,18 @@
     "vinum:wine_bottle_zinfandel",
     "vinum:fifth_reposado_tequila",
     "vinum:fifth_anejo_tequila",
-    "vinum:fifth_extra_anejo_tequila"
+    "vinum:fifth_extra_anejo_tequila",
+    "vinum:shot_glass",
+    "vinum:shot_silver_tequila",
+    "vinum:shot_golden_tequila",
+    "vinum:wine_glass_empty",
+    "vinum:wine_glass_chardonnay",
+    "vinum:wine_glass_sauvignon_blanc",
+    "vinum:wine_glass_cabernet_sauvignon",
+    "vinum:wine_glass_merlot",
+    "vinum:wine_glass_pinot_noir",
+    "vinum:wine_glass_zinfandel",
+    "vinum:margarita_glass",
+    "vinum:spiced_apple_margarita"
   ]
 }

@@ -16,7 +16,7 @@ public final class ClientModelChecks {
     @SubscribeEvent
     public static void baked(ModelEvent.BakingCompleted event) {
         if (!Boolean.getBoolean("vinum.clientTests")) return;
-        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis", "bar"}) {
+        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis", "bar", "barstool", "shot_glass", "wine_glass_empty", "margarita_glass", "spiced_apple_margarita"}) {
             var id = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath("vinum", name));
             var model = event.getModels().get(id);
             if (model == null || model == event.getModelManager().getMissingModel())
@@ -25,7 +25,7 @@ public final class ClientModelChecks {
             for (Direction side : Direction.values())
                 quads += model.getQuads(null, side, RandomSource.create(0), net.neoforged.neoforge.client.model.data.ModelData.EMPTY, null).size();
             if (quads == 0) throw new AssertionError("Invisible inventory model: " + id);
-            if (!name.equals("coa") && !name.equals("bar")) {
+            if (java.util.Set.of("airlock", "carboy", "grape_trellis").contains(name)) {
                 var guiPose = new com.mojang.blaze3d.vertex.PoseStack();
                 var gui = model.applyTransform(net.minecraft.world.item.ItemDisplayContext.GUI, guiPose, false);
                 if (!guiPose.last().pose().equals(new org.joml.Matrix4f(), 0.00001F))

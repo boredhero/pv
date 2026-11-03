@@ -28,7 +28,13 @@ public final class BeverageAppearance {
     }
     public int color() { return ((int)((1 - transparency) * 255) << 24) | (tint & 0xFFFFFF); }
   }
-  public record Label(ResourceLocation artwork, int primaryColor, int secondaryColor) {}
+  public record LabelPanel(float width, float bottom, float top, float u0, float v0, float u1, float v1) {
+    public LabelPanel {
+      if(!Float.isFinite(width)||width<=0||width>1||!Float.isFinite(bottom)||!Float.isFinite(top)||bottom<0||top<=bottom
+          || !(u0>=0 && v0>=0 && u1<=1 && v1<=1 && u1>u0 && v1>v0)) throw new IllegalArgumentException("Invalid label panel");
+    }
+  }
+  public record Label(ResourceLocation artwork, int primaryColor, int secondaryColor, LabelPanel panel) {}
   public enum ClosureType { CORK, CAP, NONE }
   public record Closure(ClosureType type, ResourceLocation texture, int color) {}
   public record Style(
@@ -49,7 +55,7 @@ public final class BeverageAppearance {
     return new Style(new BottleType(ResourceLocation.fromNamespaceAndPath("vinum", wine ? "wine" : "default")),
         new Bottle3DType(ResourceLocation.fromNamespaceAndPath("vinum", wine ? "wine" : "spirit")),
         new GlassMaterial(WHITE, wine ? 0xFF5D8750 : 0xFF7FAAB5, wine ? .75f : .84f),
-        new Label(WHITE, 0xFFE2D5B4, 0xFF705C36),
+        new Label(WHITE, 0xFFE2D5B4, 0xFF705C36, new LabelPanel(.5f,.16f,.28f,0,0,1,1)),
         new Closure(wine ? ClosureType.CORK : ClosureType.CAP, WHITE, 0xFFAE8753),
         0xFFFFFFFF, "");
   }
@@ -114,6 +120,16 @@ public final class BeverageAppearance {
     return 0xFF000000 | Integer.parseInt(hex, 16);
   }
 
+  private static LabelPanel panel(JsonObject label, LabelPanel fallback) {
+    if(!label.has("panel")) return fallback;
+    var p=label.getAsJsonObject("panel");
+    var uv=p.has("uv")?p.getAsJsonArray("uv"):null;
+    return new LabelPanel(p.has("width")?p.get("width").getAsFloat():fallback.width(),
+        p.has("bottom")?p.get("bottom").getAsFloat():fallback.bottom(),p.has("top")?p.get("top").getAsFloat():fallback.top(),
+        uv==null?fallback.u0():uv.get(0).getAsFloat(),uv==null?fallback.v0():uv.get(1).getAsFloat(),
+        uv==null?fallback.u1():uv.get(2).getAsFloat(),uv==null?fallback.v1():uv.get(3).getAsFloat());
+  }
+
   private static Style style(JsonObject data, Style fallback) {
     String shape = string(data, "bottleType", string(data, "bottleBaseType", fallback.bottleType().id().toString()));
     ResourceLocation inventory = ResourceLocation.parse(shape.contains(":") ? shape : "vinum:" + shape);
@@ -130,7 +146,7 @@ public final class BeverageAppearance {
             glass.has("transparency") ? glass.get("transparency").getAsFloat() : fallback.glassMaterial().transparency()),
         new Label(ResourceLocation.parse(string(label, "artwork", fallback.label().artwork().toString())),
             color(label, "primaryColor", color(data, "bottleLabelPrimaryColor", fallback.label().primaryColor())),
-            color(label, "secondaryColor", color(data, "bottleLabelSecondaryColor", fallback.label().secondaryColor()))),
+            color(label, "secondaryColor", color(data, "bottleLabelSecondaryColor", fallback.label().secondaryColor())), panel(label, fallback.label().panel())),
         new Closure(ClosureType.valueOf(string(closure, "type", fallback.closure().type().name()).toUpperCase(Locale.ROOT)),
             ResourceLocation.parse(string(closure, "texture", fallback.closure().texture().toString())),
             color(closure, "color", fallback.closure().color())),
