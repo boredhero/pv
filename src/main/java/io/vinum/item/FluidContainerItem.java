@@ -81,6 +81,8 @@ public class FluidContainerItem extends Item implements io.vinum.item.drinks.Pla
             tooltip.add(Component.translatable("tooltip.vinum.barrel_age",age/io.vinum.config.BarrelConfig.ticksPerDay()).withStyle(ChatFormatting.GRAY));
             tooltip.add(Component.translatable("tooltip.vinum.maturation",Component.translatable(beverage.aging().stage(age))).withStyle(ChatFormatting.GOLD));
         });
+        String refinement = io.vinum.production.NeutralSpiritProcess.refinementTooltip(fluid);
+        if (!refinement.isEmpty()) tooltip.add(Component.translatable(refinement).withStyle(ChatFormatting.GRAY));
         BatchProfile profile = BatchProfile.of(fluid);
         tooltip.add(Component.translatable("tooltip.vinum.alcohol", String.format(java.util.Locale.ROOT, "%.1f", profile.alcoholFraction() * 100)).withStyle(ChatFormatting.GRAY));
         profile.ingredientProportions().entrySet().stream().sorted(java.util.Map.Entry.comparingByKey()).forEach(entry ->

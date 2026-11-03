@@ -4,6 +4,7 @@ import io.vinum.common.Defines;
 import io.vinum.tileentity.StillMasterTileEntity;
 import io.vinum.inventory.container.StillMasterContainer;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,8 @@ public class StillMasterScreen extends AbstractContainerScreen<StillMasterContai
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Defines.MODID, "textures/gui/container/still.png");
 
+    private Button modeButton;
+
     public StillMasterScreen(StillMasterContainer menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
     }
@@ -21,6 +24,21 @@ public class StillMasterScreen extends AbstractContainerScreen<StillMasterContai
     protected void init() {
         super.init();
         titleLabelX = (imageWidth - font.width(title)) / 2;
+        modeButton = addRenderableWidget(Button.builder(modeLabel(), button -> {
+            if (minecraft != null && minecraft.gameMode != null)
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
+        }).bounds(leftPos + 8, topPos - 22, imageWidth - 16, 20).build());
+    }
+
+    private Component modeLabel() {
+        return Component.translatable(menu.rectification() ? "gui.vinum.still.rectify" : "gui.vinum.still.distill");
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        modeButton.setMessage(modeLabel());
+        modeButton.active = !menu.processing();
     }
 
     @Override

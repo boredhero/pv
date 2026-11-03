@@ -1,0 +1,89 @@
+{
+  "tool": "image_gen built-in",
+  "intent": "Improve original pot still textures, preserving design and UV maps",
+  "source_revision": "4350153",
+  "source_dimensions": [
+    16,
+    16
+  ],
+  "output_dimensions": [
+    64,
+    64
+  ],
+  "prompt": "Edit the original six-column three-row atlas into higher quality Minecraft-compatible gray steel pixel art. Preserve every region and transparent cutout at the same position. Keep charcoal bottoms, steel sides, brazier grate, pot rim, furnace grille and white/red pressure gauge. Add restrained brushed metal, bevel highlights, seams and rivet details. No copper recolor, extra objects, text, changed silhouette or layout.",
+  "processing": "Split fixed6x3 imagegen atlas; Lanczos downsample each cell to64x64; composite details over nearest-neighbor original; restore exact original alpha mask at4x. Model UVs and geometry unchanged.",
+  "files": [
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_brazier.png",
+      "sha256": "6c960a6c20ef4a94e75a245ef3d29c390cadbe6aabd394fc795e39270e3eaf98"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_brazier_base.png",
+      "sha256": "5eba9538de77688987ce022723e416163df85852a7e8896b2b8062cb3e18a727"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_brazier_base_bottom.png",
+      "sha256": "a5f9360604ffbe3c3df3a91620bbb3540dc26474e96ea815de58b9b4b847c426"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_coil.png",
+      "sha256": "3696caf187c9a8787330dadb85791e1a84948448b7ea6edda4caa77ff9752a31"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_pot.png",
+      "sha256": "af67341ab0f225184171276dd5f43a90465be9999df518cbb62254b007f277d7"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_pot_bottom.png",
+      "sha256": "230bef936647a0099089fea0d1515ca9d60f68206c42507fa404d3d73da68ccf"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/steel_pot_side.png",
+      "sha256": "281605d48e7b7ed003d8ec38df587cbda52b36dbfa0655f1076b532795d4e8c8"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_1_base.png",
+      "sha256": "25253ddbc2338d1f8fd37bbc35c6afa5ccc4ca69aa14a80168f3bc92fda4cb46"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_1_face.png",
+      "sha256": "bcc0e885e0da85285cd841b236ca684f76afcdadfcb52d224d168f6721dc106e"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_1_side.png",
+      "sha256": "772946e0e0193802d040893cc8d6e0e48e18084892cc8d7b2e3fcaee53848bac"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_1_top.png",
+      "sha256": "3503e30234a02fdde6772cdbf4754381e9bc868ce1305a57978eb5427a0ff099"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_2_base.png",
+      "sha256": "0574cb2b656a721abf3c4c0bd1d2831929cc35c905396c6c4be3a329bb270d31"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_2_front.png",
+      "sha256": "d6a5c714fd143ea134abade1fb1a83ff09fc63f1c16c20cb7efda754f2710d2f"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_2_long_side.png",
+      "sha256": "515169265b55b1012338f3be679e6e9335f03777a6ac66b8ca28d68dc30a7392"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_2_side.png",
+      "sha256": "35f010e9a7c69c39a5848c1a7f1c83df19faf1bcba9864a45e047da3b8fe6965"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_2_top.png",
+      "sha256": "e828a2f1677b7596a2f9fdfb824aec35aeafcd7264500fafae599e900b4b8474"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_4_base.png",
+      "sha256": "b76fab20ea21e2b491bf8d712b0c0eb2eb770e77b4ee8b9ff40eba6228da4e9c"
+    },
+    {
+      "path": "src/main/resources/assets/vinum/textures/block/still_multiblock_part_4_side.png",
+      "sha256": "b76135c544dedc26f202ab8cebb1626f9ac1393c8c7b52889fe249e384ebf7b9"
+    }
+  ]
+}

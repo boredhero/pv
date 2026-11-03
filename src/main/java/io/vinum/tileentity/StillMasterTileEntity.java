@@ -58,6 +58,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
   private FluidStack wash = FluidStack.EMPTY;
   // A running recipe is persisted so a data-pack reload cannot change a batch halfway through.
   private DistillationRecipe activeRecipe;
+  private boolean rectification;
   private int clientWashAmount;
   private int clientRequiredAmount;
   private final IFluidHandler washHandler =
@@ -123,6 +124,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
                 level != null && !level.isClientSide ? requiredWashAmount() : clientRequiredAmount;
             case 5 ->
                 level != null && level.isClientSide ? clientProcessingTicks : processingTicks();
+            case 6 -> rectification ? 1 : 0;
             default -> 0;
           };
         }
@@ -136,12 +138,13 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
             case 3 -> clientWashAmount = value;
             case 4 -> clientRequiredAmount = value;
             case 5 -> clientProcessingTicks = value;
+            case 6 -> rectification = value != 0;
           }
         }
 
         @Override
         public int getCount() {
-          return 6;
+          return 7;
         }
       };
 
@@ -159,6 +162,17 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
     return side == null
         ? unsidedHandler
         : sidedHandlers.computeIfAbsent(side, direction -> new SidedInvWrapper(this, direction));
+  }
+
+  public boolean rectification() { return rectification; }
+
+  /** A selected operation is fixed once work begins; changing idle mode never consumes input. */
+  public boolean toggleRectification() {
+    if (level == null || level.isClientSide || progressTime > 0) return false;
+    rectification = !rectification;
+    activeRecipe = null;
+    setChanged();
+    return true;
   }
 
   public boolean isLit() {
@@ -287,7 +301,8 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
         .stream()
         .sorted(java.util.Comparator.comparing(holder -> holder.id().toString()))
         .map(holder -> holder.value())
-        .filter(recipe -> recipe.matches(wash) && recipe.acceptsContainer(items.get(BOTTLE_SLOT)))
+        .filter(recipe -> recipe.rectification() == rectification
+            && recipe.matches(wash) && recipe.acceptsContainer(items.get(BOTTLE_SLOT)))
         .findFirst();
   }
 
@@ -305,7 +320,8 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
 
   public boolean canStill() {
     if (activeRecipe != null
-        && (!activeRecipe.matches(wash) || !activeRecipe.acceptsContainer(items.get(BOTTLE_SLOT)))) {
+        && (activeRecipe.rectification() != rectification
+            || !activeRecipe.matches(wash) || !activeRecipe.acceptsContainer(items.get(BOTTLE_SLOT)))) {
       // Only a still-valid batch keeps its saved recipe through reloads. Changing inputs or
       // containers cancels that batch; its work cannot count toward a different recipe.
       activeRecipe = null;
@@ -427,6 +443,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
     super.loadAdditional(tag, registries);
     items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
     ContainerHelper.loadAllItems(tag, items, registries);
+    rectification = tag.getBoolean("Rectification");
     fuelTime = Math.max(0, tag.getInt("FuelTime"));
     wash = FluidStack.parseOptional(registries, tag.getCompound("Wash"));
     if (wash.getAmount() > WASH_CAPACITY) wash.setAmount(WASH_CAPACITY);
@@ -451,6 +468,7 @@ public class StillMasterTileEntity extends BaseContainerBlockEntity implements W
           .encodeStart(NbtOps.INSTANCE, activeRecipe)
           .result()
           .ifPresent(plan -> tag.put("DistillationPlan", plan));
+    tag.putBoolean("Rectification", rectification);
     tag.putInt("FuelTime", fuelTime);
     tag.putInt("ProgressTime", progressTime);
     tag.putInt("FuelDuration", fuelDuration);

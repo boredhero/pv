@@ -19,13 +19,13 @@ public class StillMasterContainer extends AbstractContainerMenu {
     private final ContainerData stillData;
 
     public StillMasterContainer(int id, Inventory playerInventory) {
-        this(id, playerInventory, new SimpleContainer(4), new SimpleContainerData(6));
+        this(id, playerInventory, new SimpleContainer(4), new SimpleContainerData(7));
     }
 
     public StillMasterContainer(int id, Inventory playerInventory, Container inventory, ContainerData stillData) {
         super(ModContainers.STILL_MASTER.get(), id);
         checkContainerSize(inventory, 4);
-        checkContainerDataCount(stillData, 6);
+        checkContainerDataCount(stillData, 7);
         this.inventory = inventory;
         this.stillData = stillData;
         inventory.startOpen(playerInventory.player);
@@ -115,6 +115,15 @@ public class StillMasterContainer extends AbstractContainerMenu {
         slot.onTake(player, stack);
         return original;
     }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        return id == 0 && !player.level().isClientSide && player.mayBuild() && stillValid(player)
+                && inventory instanceof StillMasterTileEntity still && still.toggleRectification();
+    }
+
+    public boolean rectification() { return stillData.get(6) != 0; }
+    public boolean processing() { return stillData.get(0) > 0; }
 
     public int getWashAmount() { return stillData.get(3); }
     public int getRequiredWashAmount() { return stillData.get(4); }

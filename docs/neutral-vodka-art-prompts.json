@@ -1,0 +1,27 @@
+{
+  "tool": "Built-in image_gen.imagegen",
+  "processing": "Nearest-neighbor sizing to 64x64 inventory sprites and 128x128 placed decals; original generated images preserved.",
+  "references": [
+    "Everclear-120-proof-grain-alcohol.jpg",
+    "189030138-C1N1.webp"
+  ],
+  "assets": [
+    {
+      "path": "assets/vinum/textures/item/neutral_spirit_bottle.png",
+      "prompt": "Create a Minecraft-style pixel art inventory sprite. Output a square transparent PNG, 64 by 64 pixels artwork aesthetic, crisp pixel edges, no antialiasing, one centered complete bottle occupying x20..44 y2..62. The bottle is a tall narrow clear cylindrical neutral spirit bottle inspired by an Everclear bottle: thick clear glass base, straight cylindrical body, rounded shoulders, long narrow neck, gold ribbed screwcap. CLEAR COLORLESS LIQUID, pale silver glass outlines and subtle highlights. Dark navy rectangular body label with thin gold bands at its top and bottom, tiny central cream diamond emblem; text on label 'VINUM' and below 'SPIRIT' in compact pixel letters, no brand logos. Separate navy neck sleeve with gold diamond, narrow gold cap. Front elevation, no perspective, no floor, no shadow, no background. Bottle proportions: body x20..44 y27..60; shoulders taper x20..44 y22..27 into neck x27..37 y8..22; gold cap x27..37 y2..8. Preserve transparent glass center outside labels, enough pale blue-gray glass highlights for visibility in GUI. Render native game sprite aesthetic, deliberately low resolution pixels, not illustration or photography."
+    },
+    {
+      "path": "assets/vinum/textures/item/vodka_bottle.png",
+      "prompt": "Create a Minecraft-style crisp pixel art inventory sprite, square transparent PNG with a 64 by 64 pixel artwork aesthetic. One centered complete bottle occupying x21..43 y2..62. Vodka bottle inspired by the silhouette and cobalt-blue glass of SKYY vodka, but own VINUM branding. Tall straight narrow cylindrical BLUE GLASS body, flattened round shoulders at y16..20, narrow short blue neck x28..36 y7..16, ribbed dark blue screwcap y2..7. Body x21..43 y20..60, base y60..62. Beautiful saturated cobalt-blue translucent glass, darker blue vertical flute lines and crisp pale blue highlights at the sides, thick blue glass base. On UPPER BODY ONLY, near y22..32, white/silver small block letters 'VINUM' and below 'VODKA'; no paper label or outline, no lower label. Lower 2/3 body uninterrupted blue glass with vertical subtle flutes. Front elevation, no perspective, no shadow/floor/background. No ice, no cork, no gold. Deliberately crisp low-resolution Minecraft pixel-art game sprite, not painting or photography. Transparent background."
+    },
+    {
+      "path": "assets/vinum/textures/beverage/neutral_spirit_label.png",
+      "prompt": "Create a game texture atlas PNG with a transparent background. Square image, crisp Minecraft pixel art, 128x128 pixel art aesthetic. Two separated elements of ONE neutral spirit bottle's label, flat front-facing texture not a bottle. Lower large rectangular navy blue paper label occupies exactly x0..127 y62..127 (entire lower half). Label has narrow gold border bands along top and bottom, centered cream diamond emblem at y72, centered compact pixel lettering 'VINUM' then 'NEUTRAL SPIRIT' in ivory/gold. Upper narrow navy neck label occupies x44..83 y0..36 with thin gold border and centered tiny gold diamond emblem. Between y37..61 everything transparent. Outside the top narrow neck label everything transparent. NO bottle, NO glass, NO cap, NO perspective, NO drop shadow. Simple elegant navy gold branding, crisp restrained pixels. Texture for wrapping on a clear bottle, central lower body label plus separate small neck label. Native transparent alpha.",
+      "revision_prompt": "Edit this pixel-art texture atlas. Preserve the bottom navy rectangular body label and all its text/art exactly. ONLY change the upper neck label: stretch that upper navy rectangle horizontally to fill the entire image width edge-to-edge, while preserving its current height (top quarter of image). Center the little gold diamond in this fullwidth upper navy rectangle and keep gold trim. The empty middle band remains fully transparent. No bottle or other objects. Crisp pixel art texture. Output square alpha PNG."
+    },
+    {
+      "path": "assets/vinum/textures/beverage/vodka_label.png",
+      "prompt": "Create a clean pixel-art typography decal PNG with transparent background. Two lines only: 'VINUM' large, 'VODKA' smaller. Letters are solid very pale blue (#d6e6f8), NOT pure white. Very crisp squared 8bit pixel-font letters, perfectly flat 2D, no bevel, no shading, no grain, no splashes, no distressed edges, no rough marks. Centered in square texture, glyphs occupy center 80%width and center50%height. Only letters visible on transparency. No bottle, background, icon, logo, shadow, border or backing. This is production-ready clean alpha decal for a blue vodka bottle."
+    }
+  ]
+}

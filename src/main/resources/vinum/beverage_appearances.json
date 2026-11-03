@@ -363,5 +363,91 @@
         "flavor": "tooltip.vinum.brandy_flavor.dark_aged"
       }
     ]
+  },
+  {
+    "fluids": [
+      "vinum:neutral_spirit"
+    ],
+    "items": [
+      "vinum:neutral_spirit_bottle"
+    ],
+    "bottleType": "vinum:neutral_spirit",
+    "bottle3DType": "vinum:neutral_spirit",
+    "liquidColorSource": "fixed",
+    "liquidColor": "EDF3F3",
+    "name": "beverage.vinum.neutral_spirit",
+    "flavor": "tooltip.vinum.neutral_spirit_flavor",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "BCD0D2",
+      "transparency": 0.9
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/neutral_spirit_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "C7A348",
+      "panel": {
+        "width": 0.95,
+        "bottom": 0.055,
+        "top": 0.53,
+        "uv": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "closure": {
+      "type": "cap",
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "color": "C7A348",
+      "bottom": 0.54,
+      "top": 0.575,
+      "radius": 0.034
+    }
+  },
+  {
+    "fluids": [
+      "vinum:vodka"
+    ],
+    "items": [
+      "vinum:vodka_bottle"
+    ],
+    "bottleType": "vinum:vodka",
+    "bottle3DType": "vinum:vodka",
+    "liquidColorSource": "fixed",
+    "liquidColor": "EDF3F3",
+    "name": "beverage.vinum.vodka",
+    "flavor": "tooltip.vinum.vodka_flavor",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "1847B2",
+      "transparency": 0.24
+    },
+    "label": {
+      "artwork": "vinum:textures/beverage/vodka_label.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "194798",
+      "panel": {
+        "width": 0.95,
+        "bottom": 0.285,
+        "top": 0.35,
+        "uv": [
+          0,
+          0.34,
+          1,
+          0.78
+        ]
+      }
+    },
+    "closure": {
+      "type": "cap",
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "color": "194798",
+      "bottom": 0.55,
+      "top": 0.58,
+      "radius": 0.034
+    }
   }
 ]

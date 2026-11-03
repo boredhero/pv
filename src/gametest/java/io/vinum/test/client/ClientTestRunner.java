@@ -121,7 +121,7 @@ public final class ClientTestRunner {
             if (context.mc.screen != null && !(context.mc.screen instanceof ChatScreen)
                     && !(context.mc.screen instanceof AbstractContainerScreen<?>
                         && (context.mc.player.containerMenu instanceof io.vinum.inventory.container.StillMasterContainer
-                            && scenario.equals("still_menu")
+                            && (scenario.equals("still_menu") || scenario.equals("neutral_spirit"))
                             || context.mc.player.containerMenu instanceof io.vinum.sugar.SugarPlantMenu
                             && scenario.equals("sugar_plant")
                             || context.mc.player.containerMenu instanceof io.vinum.blender.BlenderMenu

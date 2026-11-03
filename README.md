@@ -1065,3 +1065,54 @@ two-block plant. Harvest either half once; the paired half clears without
 duplicating drops. Each harvested rye or corn can be crafted into two seeds.
 Both crops and seeds appear in Creative. These are farming ingredients; vodka
 processing is not implemented yet.
+
+### Neutral spirit and vodka
+
+The still now has **Distill / Rectify** modes. Distill keeps the existing rum,
+tequila, honeyshine, and brandy recipes. Select **Rectify** before a batch starts
+and provide a clean fermented wash, wine, mead, or an existing spirit. Suspended
+solids must first be removed with the strainer. Supply fuel and an empty carboy
+in the still's output-container slot as usual.
+
+Rectification advances to the next strength: **60% → 80% → 90% → 95%**.
+A batch already at or above a stage skips that stage; 95% cannot be distilled
+further. Each completed batch supplies 750 mB, consuming input according to its
+actual alcohol content. Collect enough of each stage to supply the next run;
+one 750 mB bottle cannot produce another 750 mB at a higher strength. Whole-mB
+input rounding can leave a tiny alcohol loss, never an alcohol gain.
+
+- **Cane routes:** prepared cane wash → ferment → strain → Rectify 60% → 80% →
+  90% → 95% neutral spirit.
+- **Grape route:** grapes → press → must → ferment → strain → wine → Rectify
+  60% → 80% → 90% → 95% neutral spirit.
+- **Honey route:** honey + water in Blender → mead must → ferment → mead →
+  Rectify 60% → 80% → 90% → 95% neutral spirit.
+- **Agave route:** existing cooked-agave/wort preparation → ferment → strain →
+  agave wash → Rectify 60% → 80% → 90% → 95% neutral spirit.
+- **Existing spirits:** rum, brandy, honeyshine, tequila, or vodka → Rectify →
+  the next higher stage. Their original feedstock provenance remains recorded.
+
+You may bottle an intermediate neutral spirit or dilute it to any supported
+strength. For vodka, load neutral spirit into Blender A and water into B, select
+**Target ABV: 40%**, and start. Only this spirit family becomes vodka at 40%;
+diluting rum or tequila does not rename it. Whole-mB precision allows a 0.05
+percentage-point tolerance, and the displayed actual ABV is never overwritten.
+The recorded rectification stage survives dilution: early stages retain more
+feedstock character; 95% is the intended clean neutral finish. This is a game
+flavor progression, not a chemical congener simulation.
+
+Neutral spirit uses a tall clear bottle with navy/gold body and neck labels and
+a gold screw cap. Vodka has its own tall cobalt-blue bottle and blue screw cap.
+Both hold 750 mB and need no cork; empty and filled examples, including neutral
+60/80/90/95% and vodka 40%, are in Creative. Both can pour into shot glasses and
+be displayed on the bar. Flat inventory artwork and placed geometry are separate.
+
+**Research and abstraction:** there is no universal 'three distillations makes
+vodka' rule. [WSET's explanation of vodka production](https://www.wsetglobal.com/knowledge-centre/blog/2024/premium-vodka-and-how-to-savour-it)
+describes high-strength rectification in columns, followed by dilution, with
+optional filtration. [Still Spirits' reflux-still discussion](https://www.stillspirits.com/a/articles/making-the-most-out-of-your-t500-reflux-still)
+describes both single reflux runs and stripping-plus-spirit runs. Equipment and
+separation matter more than a fixed run count. Vinum's four strength stages and
+95% ceiling are deliberate gameplay abstractions using the existing still;
+they are not instructions for operating a real pot still. No new grain-mashing
+system is introduced by this update.

@@ -24,6 +24,7 @@ for name,shape in sorted(shapes.items(),key=lambda p:p[1]['modelValue']):
   for y in range(im.height):
    for x in range(im.width):
     r,g,b,a=im.getpixel((x,y));role=None;shade=255
+    if a<shape.get("minimumAlpha",0):continue
     if step==0 and inside(x,y,shape.get('closureBounds')):continue
     if inside(x,y,shape.get('labelPrimaryBounds')) and a:
      role=1;shade=round(max(r,g,b)/150*255)

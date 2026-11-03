@@ -49,6 +49,8 @@ public final class ModItemGroup {
                                       addRumExamples(output, container);
                                       addHoneyshineExamples(output, container);
                                       addBrandyExamples(output, container);
+                                      addNeutralExamples(output, container);
+                                      addVodkaExamples(output, container);
                                     }
                                     return;
                                   }
@@ -60,6 +62,13 @@ public final class ModItemGroup {
                                     if (item.get() == ModItems.MEAD_BOTTLE.get()) addMeadExamples(output, container);
                                     else if (item.get() == ModItems.HONEYSHINE_BOTTLE.get()) addHoneyshineExamples(output, container);
                                     else addBrandyExamples(output, container);
+                                    return;
+                                  }
+                                  if (item.get() == ModItems.NEUTRAL_SPIRIT_BOTTLE.get() || item.get() == ModItems.VODKA_BOTTLE.get()) {
+                                    output.accept(item.get());
+                                    var container = (FluidContainerItem) item.get();
+                                    if (item.get() == ModItems.NEUTRAL_SPIRIT_BOTTLE.get()) addNeutralExamples(output, container);
+                                    else addVodkaExamples(output, container);
                                     return;
                                   }
                                   if (item.get() == ModItems.RUM_BOTTLE.get()) {
@@ -108,6 +117,18 @@ public final class ModItemGroup {
                             .forEach(item -> output.accept(item.get()));
                       })
                   .build());
+
+  private static void addVodkaExamples(CreativeModeTab.Output output, FluidContainerItem container) {
+    var fluid = new net.neoforged.neoforge.fluids.FluidStack(io.vinum.fluid.ModFluids.VODKA.source().get(), container.capacity());
+    io.vinum.production.BatchProfile.of(fluid)
+        .addHistory(io.vinum.production.NeutralSpiritProcess.historyEvent(.95)).applyTo(fluid);
+    output.accept(container.filled(fluid));
+  }
+
+  private static void addNeutralExamples(CreativeModeTab.Output output, FluidContainerItem container) {
+    for (double alcohol : new double[] {.6, .8, .9, .95})
+      addAgedExamples(output, container, io.vinum.fluid.ModFluids.NEUTRAL_SPIRIT.source().get(), alcohol, 0);
+  }
 
   private static void addRumExamples(CreativeModeTab.Output output, FluidContainerItem container) {
     for (int days : new int[] {0, io.vinum.config.BarrelConfig.rumLightAgedDays(), io.vinum.config.BarrelConfig.rumDarkAgedDays()}) {

@@ -170,5 +170,70 @@
     "items": [
       "brandy_bottle"
     ]
+  },
+  "neutral_spirit": {
+    "modelValue": 7,
+    "texture": "vinum:item/neutral_spirit_bottle",
+    "liquidBounds": [
+      23,
+      29,
+      41,
+      59
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 18,
+    "liquidNeutralMinimum": 60,
+    "liquidNeutralMaximum": 230,
+    "labelArtworkBounds": [
+      21,
+      34,
+      43,
+      52
+    ],
+    "emptyModel": true,
+    "emptyGlassTint": true,
+    "closureBounds": [
+      27,
+      2,
+      37,
+      9
+    ],
+    "items": [
+      "neutral_spirit_bottle"
+    ],
+    "minimumAlpha": 16
+  },
+  "vodka": {
+    "modelValue": 8,
+    "texture": "vinum:item/vodka_bottle",
+    "liquidBounds": [
+      25,
+      20,
+      39,
+      59
+    ],
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 18,
+    "liquidNeutralMinimum": 60,
+    "liquidNeutralMaximum": 230,
+    "labelArtworkBounds": [
+      23,
+      22,
+      41,
+      29
+    ],
+    "emptyModel": true,
+    "emptyGlassTint": false,
+    "closureBounds": [
+      27,
+      2,
+      37,
+      8
+    ],
+    "items": [
+      "vodka_bottle"
+    ],
+    "preserveOpaquePixels": true,
+    "minimumAlpha": 16
   }
 }

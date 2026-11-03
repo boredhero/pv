@@ -43,7 +43,9 @@ public final class LegacyBottleLabelRenderer {
                 double[][] vertices=lying
                     ?new double[][]{{x0,d0,.88-low*1.4},{x2,d2,.88-high*1.4},{x3,d3,.88-high*1.4},{x1,d1,.88-low*1.4}}
                     :new double[][]{{x0,low,-d0},{x2,high,-d2},{x3,high,-d3},{x1,low,-d1}};
-                float u0=(float)(panel.u0()+(panel.u1()-panel.u0())*a),u1=(float)(panel.u0()+(panel.u1()-panel.u0())*b);
+                // Intentional post-cache bug fix: outward-facing upright text reads left-to-right.
+                // Keep the legacy geometry oracle while incorporating this corrected UV convention.
+                float u0=(float)(panel.u0()+(panel.u1()-panel.u0())*(lying?a:1-a)),u1=(float)(panel.u0()+(panel.u1()-panel.u0())*(lying?b:1-b));
                 for(int i=0;i<4;i++)out.addVertex(pose,(float)vertices[i][0],(float)vertices[i][1],(float)vertices[i][2])
                     .setColor(label.primaryColor()).setUv(i<2?u0:u1,i==0||i==3?lowerV:upperV)
                     .setOverlay(overlay).setLight(light).setNormal(pose,0,lying?1:0,lying?0:-1);

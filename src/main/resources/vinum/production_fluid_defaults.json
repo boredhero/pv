@@ -48,5 +48,13 @@
   "vinum:golden_tequila": {
     "ingredient": "vinum:agave",
     "alcohol_fraction": 0.4
+  },
+  "vinum:neutral_spirit": {
+    "ingredient": "vinum:neutral_base",
+    "alcohol_fraction": 0.95
+  },
+  "vinum:vodka": {
+    "ingredient": "vinum:neutral_base",
+    "alcohol_fraction": 0.4
   }
 }

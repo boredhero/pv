@@ -29,6 +29,8 @@
     "vinum:rum_bottle",
     "vinum:mead_bottle",
     "vinum:honeyshine_bottle",
-    "vinum:brandy_bottle"
+    "vinum:brandy_bottle",
+    "vinum:neutral_spirit_bottle",
+    "vinum:vodka_bottle"
   ]
 }

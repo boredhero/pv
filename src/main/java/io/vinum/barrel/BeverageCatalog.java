@@ -46,6 +46,8 @@ public final class BeverageCatalog {
     static {
         // Canonical wine stores its variety/blend in the batch profile. Reusable containers
         // handle serving volumes themselves, but still need a maturation definition.
+        register(new BeverageDefinition(id("neutral_spirit"), ModFluids.NEUTRAL_SPIRIT.source(), new AgingProfile(List.of()), List.of()));
+        register(new BeverageDefinition(id("vodka"), ModFluids.VODKA.source(), new AgingProfile(List.of()), List.of()));
         register(new BeverageDefinition(id("mead"), ModFluids.MEAD.source(), MEAD_AGING, List.of()));
         register(new BeverageDefinition(id("honeyshine"), ModFluids.HONEYSHINE.source(), HONEYSHINE_AGING, List.of()));
         register(new BeverageDefinition(id("brandy"), ModFluids.BRANDY.source(), BRANDY_AGING, List.of()));

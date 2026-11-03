@@ -3,6 +3,7 @@ package io.vinum.beverage;
 import io.vinum.barrel.BarrelFluidData;
 import io.vinum.barrel.ModDataComponents;
 import io.vinum.production.BatchProfile;
+import io.vinum.production.NeutralSpiritProcess;
 import io.vinum.production.ProductionDataComponents;
 import io.vinum.fluid.ModFluids;
 import java.util.HashSet;
@@ -37,7 +38,8 @@ public final class FluidBlending {
             return water.isComponentsPatchEmpty();
         }
         boolean cane = a.is(CANE_FEEDSTOCKS) && b.is(CANE_FEEDSTOCKS);
-        if (!cane && !FluidStack.isSameFluid(a, b)) return false;
+        boolean neutral = NeutralSpiritProcess.isNeutralFamily(a) && NeutralSpiritProcess.isNeutralFamily(b);
+        if (!cane && !neutral && !FluidStack.isSameFluid(a, b)) return false;
         a.remove(ModDataComponents.FLUID_AGE.get()); b.remove(ModDataComponents.FLUID_AGE.get());
         if (cane || WineCatalog.isWine(a) || a.is(BLENDABLE)) {
             var keys = new HashSet<>(BatchProfile.of(a).ingredientProportions().keySet());
@@ -64,14 +66,14 @@ public final class FluidBlending {
             new BatchProfile(profile.sugarGramsPerLitre() * ratio, profile.starchGramsPerLitre() * ratio,
                     profile.solidsGramsPerLitre() * ratio, profile.alcoholFraction() * ratio,
                     profile.ingredientProportions(), profile.yeast(), profile.history()).applyTo(result);
-            return result;
+            return NeutralSpiritProcess.classify(result);
         }
         boolean cane = a.is(CANE_FEEDSTOCKS) && b.is(CANE_FEEDSTOCKS);
         FluidStack result = new FluidStack(cane && !FluidStack.isSameFluid(a, b) ? ModFluids.CANE_WASH.source().get() : a.getFluid(), amount);
         result.applyComponents(a.getComponentsPatch());
         if (cane || WineCatalog.isWine(a) || a.is(BLENDABLE))
             BatchProfile.blend(BatchProfile.of(a), a.getAmount(), BatchProfile.of(b), b.getAmount()).applyTo(result);
-        return BarrelFluidData.withAge(result, BarrelFluidData.weightedAge(BarrelFluidData.getAge(a), a.getAmount(),
-                BarrelFluidData.getAge(b), b.getAmount()));
+        return NeutralSpiritProcess.classify(BarrelFluidData.withAge(result, BarrelFluidData.weightedAge(BarrelFluidData.getAge(a), a.getAmount(),
+                BarrelFluidData.getAge(b), b.getAmount())));
     }
 }

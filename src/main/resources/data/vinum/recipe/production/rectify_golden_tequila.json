@@ -1,0 +1,10 @@
+{
+  "type": "vinum:distillation",
+  "input_fluid": "vinum:golden_tequila",
+  "output_fluid": "vinum:neutral_spirit",
+  "output_item": "vinum:carboy",
+  "duration_ticks": 1200,
+  "target_alcohol_fraction": 0.95,
+  "output_millibuckets": 750,
+  "rectification": true
+}

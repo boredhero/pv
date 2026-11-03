@@ -22,7 +22,8 @@ public record DistillationRecipe(
     ResourceLocation outputItem,
     int durationTicks,
     double targetAlcoholFraction,
-    int outputMillibuckets)
+    int outputMillibuckets,
+    boolean rectification)
     implements FluidProcessRecipe {
   public static final MapCodec<DistillationRecipe> CODEC =
       RecordCodecBuilder.mapCodec(
@@ -46,8 +47,16 @@ public record DistillationRecipe(
                           .forGetter(DistillationRecipe::targetAlcoholFraction),
                       Codec.intRange(1, 16000)
                           .fieldOf("output_millibuckets")
-                          .forGetter(DistillationRecipe::outputMillibuckets))
+                          .forGetter(DistillationRecipe::outputMillibuckets),
+                      Codec.BOOL.optionalFieldOf("rectification", false)
+                          .forGetter(DistillationRecipe::rectification))
                   .apply(instance, DistillationRecipe::new));
+
+  /** Existing fixed-strength recipes retain their original schema and construction API. */
+  public DistillationRecipe(ResourceLocation inputFluid, ResourceLocation outputFluid,
+      ResourceLocation outputItem, int durationTicks, double targetAlcoholFraction, int outputMillibuckets) {
+    this(inputFluid, outputFluid, outputItem, durationTicks, targetAlcoholFraction, outputMillibuckets, false);
+  }
 
   public DistillationRecipe {
     if (durationTicks <= 0
@@ -59,11 +68,18 @@ public record DistillationRecipe(
       throw new IllegalArgumentException("Invalid distillation recipe");
   }
 
-  /** Integer.MAX_VALUE means an input with no usable alcohol. */
+  /** A rectification recipe advances to the next gameplay strength, never past 95%. */
+  public double targetAlcoholFraction(FluidStack input) {
+    return rectification ? NeutralSpiritProcess.nextStrength(BatchProfile.of(input).alcoholFraction())
+        : targetAlcoholFraction;
+  }
+
+  /** Integer.MAX_VALUE means an input with no usable alcohol or no stronger stage. */
   public int requiredInputAmount(FluidStack input) {
     double abv = BatchProfile.of(input).alcoholFraction();
-    if (abv <= 0 || abv > targetAlcoholFraction) return Integer.MAX_VALUE;
-    double required = outputMillibuckets * targetAlcoholFraction / abv;
+    double target = targetAlcoholFraction(input);
+    if (abv <= 0 || target <= 0 || abv > target) return Integer.MAX_VALUE;
+    double required = outputMillibuckets * target / abv;
     return required >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) Math.ceil(required - 1.0e-9);
   }
 
@@ -106,7 +122,8 @@ public record DistillationRecipe(
     distillate.applyComponents(input.getComponentsPatch());
     distillate.remove(ModDataComponents.FLUID_AGE.get());
     BatchProfile.of(input)
-        .distilled(targetAlcoholFraction, ProductionInputs.id("distillation"))
+        .distilled(targetAlcoholFraction(input), rectification
+            ? NeutralSpiritProcess.historyEvent(targetAlcoholFraction(input)) : ProductionInputs.id("distillation"))
         .applyTo(distillate);
     return ((FluidContainerItem) BuiltInRegistries.ITEM.get(outputItem)).filled(distillate);
   }

@@ -43,6 +43,8 @@ public final class ModItems {
 	public static final DeferredItem<Item> MEAD_BOTTLE = ITEMS.register("mead_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> HONEYSHINE_BOTTLE = ITEMS.register("honeyshine_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> BRANDY_BOTTLE = ITEMS.register("brandy_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
+	public static final DeferredItem<Item> NEUTRAL_SPIRIT_BOTTLE = ITEMS.register("neutral_spirit_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
+	public static final DeferredItem<Item> VODKA_BOTTLE = ITEMS.register("vodka_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> RUM_BOTTLE = ITEMS.register("rum_bottle", () -> new FluidContainerItem(new Item.Properties(), 750, false));
 	public static final DeferredItem<Item> SHOT_GLASS = ITEMS.register("shot_glass", () -> new FluidContainerItem(new Item.Properties(), 50, true));
 	public static final DeferredItem<Item> PACK_OF_SHOT_GLASSES = ITEMS.register("pack_of_shot_glasses", () -> new ShotGlassPackItem(new Item.Properties()));

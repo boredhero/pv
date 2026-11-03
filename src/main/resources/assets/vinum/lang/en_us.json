@@ -420,5 +420,21 @@
   "gui.vinum.blender.return_hint": "Collect empty containers returned from loading or ingredients.",
   "gui.vinum.blender.bottle_hint": "Insert an empty carboy or another liquid container to collect output.",
   "gui.vinum.blender.filled_hint": "Collect the filled output container.",
-  "gui.vinum.blender.ingredient_hint": "Honey bottles, cane-derived sugar, or panela for preparation recipes."
+  "gui.vinum.blender.ingredient_hint": "Honey bottles, cane-derived sugar, or panela for preparation recipes.",
+  "item.vinum.neutral_spirit_bottle": "Neutral Spirit Bottle",
+  "item.vinum.vodka_bottle": "Vodka Bottle",
+  "fluid.vinum.neutral_spirit": "Neutral Spirit",
+  "fluid.vinum.vodka": "Vodka",
+  "beverage.vinum.neutral_spirit": "Neutral Spirit",
+  "beverage.vinum.vodka": "Vodka",
+  "tooltip.vinum.neutral_spirit_flavor": "Clear spirit; further rectification softens its source character",
+  "tooltip.vinum.vodka_flavor": "Clear spirit blended to 40% ABV",
+  "item.vinum.neutral_base": "Neutral Spirit Base",
+  "gui.vinum.still.distill": "Mode: Distill",
+  "gui.vinum.still.rectify": "Mode: Rectify",
+  "tooltip.vinum.rectification.unknown": "Rectification history unknown",
+  "tooltip.vinum.rectification.60": "Rectified to 60%: pronounced source character",
+  "tooltip.vinum.rectification.80": "Rectified to 80%: lighter source character",
+  "tooltip.vinum.rectification.90": "Rectified to 90%: faint source character",
+  "tooltip.vinum.rectification.95": "Rectified to 95%: neutral finish"
 }
