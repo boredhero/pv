@@ -12,7 +12,7 @@ import java.util.*;
 
 /** Packaged process definitions: volumes in mB; sugar removed per output item in grams. */
 public record SugarProcess(String id, ResourceLocation input, int inputAmount, ResourceLocation output,
-        int outputAmount, ResourceLocation solid, double sugarPerSolid, int ticks, boolean insert,
+        int outputAmount, ResourceLocation solid, double sugarPerSolid, int ticks,
         ResourceLocation liquidIngredient, ResourceLocation solidIngredient) {
     private static final List<SugarProcess> RECIPES = load();
     public static List<SugarProcess> recipes() { return RECIPES; }
@@ -25,7 +25,7 @@ public record SugarProcess(String id, ResourceLocation input, int inputAmount, R
                 var o=element.getAsJsonObject();
                 var recipe=new SugarProcess(o.get("id").getAsString(),ResourceLocation.parse(o.get("input").getAsString()),o.get("input_amount").getAsInt(),
                     o.has("output")?ResourceLocation.parse(o.get("output").getAsString()):null,o.get("output_amount").getAsInt(),
-                    o.has("solid")?ResourceLocation.parse(o.get("solid").getAsString()):null,o.get("sugar_per_solid").getAsDouble(),o.get("ticks").getAsInt(),o.get("insert").getAsBoolean(),
+                    o.has("solid")?ResourceLocation.parse(o.get("solid").getAsString()):null,o.get("sugar_per_solid").getAsDouble(),o.get("ticks").getAsInt(),
                     o.has("liquid_ingredient")?ResourceLocation.parse(o.get("liquid_ingredient").getAsString()):null,
                     o.has("solid_ingredient")?ResourceLocation.parse(o.get("solid_ingredient").getAsString()):null);
                 if(recipe.inputAmount<=0 || recipe.outputAmount<0 || recipe.ticks<=0 || recipe.sugarPerSolid<0) throw new IllegalStateException("Invalid sugar process");

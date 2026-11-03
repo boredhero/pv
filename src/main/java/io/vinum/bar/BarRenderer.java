@@ -60,11 +60,7 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
             if(!fluid.isEmpty()) io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
             if(!fluid.isEmpty() && style.closure().type()!=BeverageAppearance.ClosureType.NONE
                 && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack))) {
-                int closure=style.closure().color();
-                var closureMesh=buffers.getBuffer(RenderType.entityCutoutNoCull(style.closure().texture()));
-                var stopper=style.closure();
-                wall(closureMesh,poses.last(),shape,stopper.bottom(),stopper.top(),stopper.radius(),stopper.radius(),closure,light,overlay);
-                cap(closureMesh,poses.last(),shape,stopper.top(),stopper.radius(),closure,light,overlay);
+                io.vinum.client.BottleClosureRenderer.draw(buffers,poses.last(),style.closure(),shape,light,overlay);
             }
             var glass=buffers.getBuffer(RenderType.entityTranslucent(style.glassMaterial().texture()));
             int glassColor=style.glassMaterial().color();

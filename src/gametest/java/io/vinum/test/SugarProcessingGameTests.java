@@ -8,7 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.*;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
@@ -19,83 +18,78 @@ import net.neoforged.neoforge.gametest.*;
 public final class SugarProcessingGameTests {
     @GameTest(template = "barrel_space")
     public static void concentrationAndSugarSeparationConserveMassAcrossSaveReload(GameTestHelper h) {
-        var kettle = kettle(h);
+        var plant = plant(h);
         var juice = fluid("cane_juice", 1000);
         double initialSugar = sugar(juice);
-        h.assertTrue(kettle.fluids().fill(juice, FluidAction.SIMULATE) == 1000 && kettle.contents().isEmpty(),
-                "Kettle simulation cannot duplicate cane input");
-        kettle.fluids().fill(juice, FluidAction.EXECUTE);
-        h.assertTrue(kettle.start(), "Cane juice starts concentration");
-        tick(h, kettle, 10);
-        h.assertTrue(kettle.progress() == 0 && kettle.contents().getAmount() == 1000,
-                "An unheated kettle neither evaporates nor advances");
-        h.getLevel().setBlockAndUpdate(kettle.getBlockPos().below(), Blocks.CAMPFIRE.defaultBlockState());
-        tick(h, kettle, 100);
-        var saved = kettle.saveWithoutMetadata(h.getLevel().registryAccess());
-        kettle.loadWithComponents(saved, h.getLevel().registryAccess());
-        h.assertTrue(kettle.processing() && kettle.progress() == 100,
+        h.assertTrue(plant.inputFluids().fill(juice, FluidAction.SIMULATE) == 1000 && plant.input().isEmpty(),
+                "Input simulation cannot mutate the cane batch");
+        plant.inputFluids().fill(juice, FluidAction.EXECUTE);
+        h.assertTrue(!plant.start() && plant.input().getAmount() == 1000,
+                "Concentration without fuel preserves the input");
+        plant.inventory.setStackInSlot(SugarPlantBlockEntity.FUEL, new ItemStack(Items.COAL));
+        h.assertTrue(plant.start(), "Fueled cane juice starts concentration");
+        tick(h, plant, 100);
+        var saved = plant.saveWithoutMetadata(h.getLevel().registryAccess());
+        plant.loadWithComponents(saved, h.getLevel().registryAccess());
+        h.assertTrue(plant.processing() && plant.progress() == 100,
                 "In-flight concentration survives save/reload");
-        h.assertTrue(kettle.fluids().drain(1000, FluidAction.EXECUTE).isEmpty()
-                && kettle.fluids().fill(juice, FluidAction.EXECUTE) == 0,
-                "Inputs and outputs lock together while a batch is processing");
-        tick(h, kettle, 100);
-        h.assertTrue(kettle.contents().getAmount() == 250 && Math.abs(sugar(kettle.contents()) - initialSugar) < 1e-8,
+        h.assertTrue(plant.output().isEmpty(), "Unfinished concentration has no collectible output");
+        tick(h, plant, 100);
+        h.assertTrue(plant.output().getAmount() == 250 && Math.abs(sugar(plant.output()) - initialSugar) < 1e-8,
                 "Evaporation reduces water volume without destroying or creating sugar");
-        h.assertTrue(BatchProfile.of(kettle.contents()).ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("cane_syrup"), 1.0)),
-                "Actual concentration records syrup feedstock identity");
-        kettle.cycleMode();
-        h.assertTrue(!kettle.start(), "Sugar extraction requires the separation insert");
-        kettle.installInsert();
-        h.assertTrue(kettle.start(), "Concentrated syrup crystallizes with an insert");
-        tick(h, kettle, 299);
-        h.assertTrue(kettle.solidOutput().isEmpty()
-                && BuiltInRegistries.FLUID.getKey(kettle.contents().getFluid()).equals(ProductionInputs.id("cane_syrup")),
+        h.assertTrue(BatchProfile.of(plant.output()).ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("cane_syrup"), 1.0)),
+                "Concentration records syrup feedstock identity");
+        plant.recycleOutput();
+        plant.selectMode(1);
+        h.assertTrue(plant.start(), "Built-in separation crystallizes the recycled syrup");
+        tick(h, plant, 299);
+        h.assertTrue(plant.inventory.getStackInSlot(SugarPlantBlockEntity.SOLID_OUTPUT).isEmpty() && plant.output().isEmpty(),
                 "Crystals and molasses cannot be collected before both outputs are ready");
-        tick(h, kettle, 1);
-        var crystals = kettle.solidOutput();
-        var molasses = kettle.contents();
+        tick(h, plant, 1);
+        var crystals = plant.inventory.getStackInSlot(SugarPlantBlockEntity.SOLID_OUTPUT);
+        var molasses = plant.output();
         double crystalSugar = crystals.get(ProductionDataComponents.BATCH_PROFILE.get()).sugarGramsPerLitre() * crystals.getCount();
         h.assertTrue(crystals.is(Items.SUGAR) && crystals.getCount() == 1
                 && BuiltInRegistries.FLUID.getKey(molasses.getFluid()).equals(ProductionInputs.id("molasses"))
                 && Math.abs(sugar(molasses) + crystalSugar - initialSugar) < 1e-8,
-                "Sugar extraction commits usable vanilla sugar plus residual molasses without double-counting sugar");
+                "Sugar extraction yields vanilla sugar plus molasses without double-counting sugar");
         h.assertTrue(BatchProfile.of(molasses).ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("molasses"), 1.0))
                 && crystals.get(ProductionDataComponents.BATCH_PROFILE.get()).ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("cane_sugar"), 1.0)),
-                "Actual separation records distinct molasses and cane-sugar feedstock identities");
-        kettle.fluids().drain(Integer.MAX_VALUE, FluidAction.EXECUTE);
-        kettle.fluids().fill(fluid("cane_syrup", 250), FluidAction.EXECUTE);
-        var before = kettle.contents();
-        h.assertTrue(!kettle.start() && FluidStack.isSameFluidSameComponents(before, kettle.contents()),
-                "Uncollected solid output blocks another batch atomically");
-        h.assertTrue(kettle.takeOutput().getCount() == 1 && kettle.takeOutput().isEmpty(),
-                "Crystals can be collected exactly once");
+                "Separation records distinct molasses and cane-sugar feedstocks");
+        h.assertTrue(plant.inventory.extractItem(SugarPlantBlockEntity.SOLID_OUTPUT, 64, false).getCount() == 1
+                && plant.inventory.extractItem(SugarPlantBlockEntity.SOLID_OUTPUT, 64, false).isEmpty(), "Crystals are collected exactly once");
         h.succeed();
     }
 
     @GameTest(template = "barrel_space")
-    public static void panelaAndExtractedSugarDissolveWithProvenanceButOrdinarySugarDoesNot(GameTestHelper h) {
-        var kettle = kettle(h);
-        h.getLevel().setBlockAndUpdate(kettle.getBlockPos().below(), Blocks.CAMPFIRE.defaultBlockState());
+    public static void panelaDissolvesWithProvenanceButOrdinarySugarDoesNot(GameTestHelper h) {
+        var plant = plant(h);
+        plant.inventory.setStackInSlot(SugarPlantBlockEntity.FUEL, new ItemStack(Items.COAL));
         var syrup = fluid("cane_syrup", 250);
-        kettle.fluids().fill(syrup, FluidAction.EXECUTE);
-        kettle.cycleMode(); kettle.cycleMode();
-        h.assertTrue(kettle.start(), "Whole syrup can be evaporated into panela without extracting molasses");
-        tick(h, kettle, 300);
-        var panela = kettle.takeOutput();
-        h.assertTrue(kettle.contents().isEmpty() && panela.is(SugarContent.PANELA.get()) && panela.getCount() == 1,
+        plant.inputFluids().fill(syrup, FluidAction.EXECUTE);
+        plant.selectMode(2);
+        h.assertTrue(plant.start(), "Whole syrup can be evaporated into panela");
+        tick(h, plant, 300);
+        var panela = plant.inventory.extractItem(SugarPlantBlockEntity.SOLID_OUTPUT, 64, false);
+        h.assertTrue(plant.output().isEmpty() && panela.is(SugarContent.PANELA.get()) && panela.getCount() == 1,
                 "Panela captures the complete syrup batch as one solid item");
-        kettle.fluids().fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
-        h.assertTrue(!kettle.dissolve(new ItemStack(Items.SUGAR)),
+        plant.inputFluids().fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
+        plant.selectMode(4);
+        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT, new ItemStack(Items.SUGAR, 2));
+        h.assertTrue(!plant.start() && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).is(Items.SUGAR),
                 "Untracked honey/witch sugar cannot become cane rum through dissolution");
-        h.assertTrue(kettle.dissolve(panela) && Math.abs(sugar(kettle.contents()) - sugar(syrup)) < 1e-8,
-                "Dissolving panela restores the original fermentable sugar mass");
-        var profile = BatchProfile.of(kettle.contents());
+        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT, panela);
+        h.assertTrue(plant.start(), "Tracked panela starts dissolution");
+        tick(h, plant, 20);
+        h.assertTrue(Math.abs(sugar(plant.output()) - sugar(syrup)) < 1e-8,
+                "Dissolution restores the original fermentable sugar mass");
+        var profile = BatchProfile.of(plant.output());
         h.assertTrue(profile.ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("panela"), 1.0))
                 && profile.history().contains(ProductionInputs.id("dissolving")),
                 "Dissolved panela retains cane provenance and processing history");
         h.assertTrue(h.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get())
-                .stream().anyMatch(holder -> holder.value().matches(kettle.contents())),
-                "Panela wash participates in the real shared fermentation recipes");
+                .stream().anyMatch(holder -> holder.value().matches(plant.output())),
+                "Panela wash participates in the shared fermentation recipes");
         h.succeed();
     }
 
@@ -123,17 +117,17 @@ public final class SugarProcessingGameTests {
         h.succeed();
     }
 
-    private static SugarKettleBlockEntity kettle(GameTestHelper h) {
+    private static SugarPlantBlockEntity plant(GameTestHelper h) {
         var pos = h.absolutePos(new BlockPos(2, 2, 2));
-        h.getLevel().setBlockAndUpdate(pos, SugarContent.KETTLE.get().defaultBlockState());
-        return (SugarKettleBlockEntity) h.getLevel().getBlockEntity(pos);
+        h.getLevel().setBlockAndUpdate(pos, SugarContent.PLANT.get().defaultBlockState());
+        return (SugarPlantBlockEntity) h.getLevel().getBlockEntity(pos);
     }
     private static FluidStack fluid(String id, int amount) {
         var fluid = new FluidStack(BuiltInRegistries.FLUID.get(ProductionInputs.id(id)), amount);
         return ProductionInputs.defaultProfile(fluid).applyTo(fluid);
     }
     private static double sugar(FluidStack fluid) { return BatchProfile.of(fluid).sugarGramsPerLitre() * fluid.getAmount() / 1000; }
-    private static void tick(GameTestHelper h, SugarKettleBlockEntity kettle, int ticks) {
-        for (int i = 0; i < ticks; i++) SugarKettleBlockEntity.tick(h.getLevel(), kettle.getBlockPos(), kettle.getBlockState(), kettle);
+    private static void tick(GameTestHelper h, SugarPlantBlockEntity plant, int ticks) {
+        for (int i = 0; i < ticks; i++) SugarPlantBlockEntity.tick(h.getLevel(), plant.getBlockPos(), plant.getBlockState(), plant);
     }
 }

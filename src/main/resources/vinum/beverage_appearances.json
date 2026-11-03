@@ -132,8 +132,8 @@
     },
     "closure": {
       "type": "cork",
-      "texture": "minecraft:textures/block/oak_log_top.png",
-      "color": "B38B54",
+      "texture": "vinum:textures/block/bottle_cork.png",
+      "color": "FFFFFF",
       "bottom": 0.505,
       "top": 0.56,
       "radius": 0.045
@@ -193,8 +193,8 @@
     },
     "closure": {
       "type": "cork",
-      "texture": "minecraft:textures/block/oak_log_top.png",
-      "color": "BA905B",
+      "texture": "vinum:textures/block/bottle_cork.png",
+      "color": "FFFFFF",
       "bottom": 0.532,
       "top": 0.568,
       "radius": 0.023
@@ -236,8 +236,8 @@
     },
     "closure": {
       "type": "cork",
-      "texture": "minecraft:textures/block/oak_log_top.png",
-      "color": "B38B54",
+      "texture": "vinum:textures/block/bottle_cork.png",
+      "color": "FFFFFF",
       "bottom": 0.505,
       "top": 0.56,
       "radius": 0.045
@@ -287,8 +287,8 @@
     },
     "closure": {
       "type": "cork",
-      "texture": "minecraft:textures/block/oak_log_top.png",
-      "color": "B38B54",
+      "texture": "vinum:textures/block/bottle_cork.png",
+      "color": "FFFFFF",
       "bottom": 0.505,
       "top": 0.56,
       "radius": 0.045

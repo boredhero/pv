@@ -8,7 +8,6 @@
       "output_amount": 250,
       "sugar_per_solid": 0,
       "ticks": 200,
-      "insert": false,
       "liquid_ingredient": "vinum:cane_syrup"
     },
     {
@@ -20,7 +19,6 @@
       "solid": "minecraft:sugar",
       "sugar_per_solid": 100,
       "ticks": 300,
-      "insert": true,
       "liquid_ingredient": "vinum:molasses",
       "solid_ingredient": "vinum:cane_sugar"
     },
@@ -32,7 +30,6 @@
       "solid": "vinum:panela",
       "sugar_per_solid": 200,
       "ticks": 300,
-      "insert": false,
       "solid_ingredient": "vinum:panela"
     }
   ]

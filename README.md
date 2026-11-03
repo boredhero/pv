@@ -776,19 +776,18 @@ becoming cane rum.
 
 ### Equipment and controls
 
-- **Sugar Kettle:** craft `C C / CIC /  I `, where C is copper ingot and I is iron
-  ingot. Place above a lit campfire or steel brazier. Capacity: 4,000 mB.
-- **Sugar-Separation Insert:** craft `III / S S`, where I is iron nugget and S is
-  string. Right-click the kettle to install it once; it is reusable.
-- Shift-right-click the kettle with an empty hand to cycle **Concentrate Syrup**,
-  **Separate Sugar**, and **Make Panela**. Ordinary empty-hand right-click starts
-  the selected process, or collects its solid output. The status message reports
-  mode, liquid, sugar concentration, output, separator, and progress.
-- Shift-right-click with a filled carboy to pour into the kettle; ordinary
-  right-click with a carboy draws out. Water buckets add 1,000 mB; right-click
-  with panela or cane-derived sugar to dissolve one item. Processing locks
-  transfers and pauses without heat. Breaking the kettle preserves its batch,
-  output, insert, and process progress in the dropped item.
+- **Sugar Plant:** a self-contained machine with an internal furnace, built-in
+  separation, two 8,000 mB tanks, and a GUI. Right-click to open it.
+- Place filled carboys or water buckets in **Load**. Empty containers appear in
+  **Return**. Put empty containers in **Bottle** and collect them from **Filled**.
+- Select **Syrup**, **Sugar**, **Panela**, **Mead**, or **Wash**. The recipe and any
+  blocked requirement are displayed. Put normal furnace fuel in **Fuel** for hot
+  processes, and honey/sugar/panela in **Add** for the cold mixing recipes.
+- Click **Start** to run a batch. Finished liquid enters the output tank and
+  sugar/panela enters **Solids**. **Next stage** returns liquid to the input tank
+  for further processing; **Drain input** recovers unused input without deleting it.
+- No external fire or separator attachment is needed. Full outputs pause safely.
+  Breaking the machine preserves tanks, inventory, fuel, and any in-progress batch.
 - **Rum Bottle:** craft ` G /G G/GGG` (center G in the first row), with glass,
   for one 750 mB bottle. First filling with rum consumes a wine cork from
   inventory; top-ups do not. Bottle + wine cork also prepares an empty bottle
@@ -802,22 +801,22 @@ All quantities are gameplay units, not real-world factory yields.
 1. **Fresh juice:** 4 sugarcane → press (4 cranks or 2,000 FE) → 1,000 mB cane
    juice + 1 bagasse → optionally strain → fermentation. Bagasse burns for 100
    ticks as a small fuel.
-2. **Syrup:** 1,000 mB juice → kettle Concentrate (200 heated ticks) → 250 mB
+2. **Syrup:** 1,000 mB juice → plant Syrup (200 heated ticks) → 250 mB
    syrup → add 750 mB water → 1,000 mB prepared cane wash.
-3. **Molasses:** 250 mB syrup → kettle Separate Sugar with insert (300 heated
+3. **Molasses:** 250 mB syrup → plant Sugar (300 heated
    ticks) → 1 sugar + 250 mB molasses → collect sugar; add 250 mB water to the
    molasses → 500 mB wash. This divides the original 200 g sugar equivalent into
    100 g in crystals and 100 g remaining in molasses.
-4. **Panela:** 250 mB syrup → kettle Make Panela (300 heated ticks) → 1 panela;
+4. **Panela:** 250 mB syrup → plant Panela (300 heated ticks) → 1 panela;
    dissolve it in 1,000 mB water → 1,000 mB wash.
 5. **Sugar fraction:** dissolve 2 cane-derived sugar in 1,000 mB water → wash.
 6. **Mixed:** combine compatible cane juice, diluted syrup, molasses, and
-   dissolved sugar/panela in a kettle, vat, or carboy. Ingredients and sugar
+   dissolved sugar/panela in a plant, vat, or carboy. Ingredients and sugar
    concentration travel with the batch. Water changes concentration without
    replacing the feedstock provenance.
 
-Kettle operations accept complete batches: juice in multiples of 1,000 mB,
-then syrup in multiples of 250 mB. Concentrating retains sugar; extracting
+The plant processes one 1,000 mB juice or 250 mB syrup batch at a time,
+preserving unused input. Concentrating retains sugar; extracting
 crystals removes their sugar from the liquid. Output blockage cannot consume
 an input or discard the coproduct. Separation includes crystallization; the
 handheld strainer alone cannot extract dissolved sugar.
@@ -859,7 +858,7 @@ placement, pouring into shot glasses, and drinking placed servings as before.
 
 ### Extension points and regression coverage
 
-`vinum/sugar_processes.json` defines kettle input/output volumes, sugar removed
+`vinum/sugar_processes.json` defines plant input/output volumes, sugar removed
 per solid item, heat time, insert requirement, and feedstock identities. For
 example, separation maps 250 mB syrup to 250 mB molasses plus one 100 g-equivalent
 sugar item. Solid `BatchProfile` concentrations use a documented one-litre
@@ -872,7 +871,7 @@ materials, X artwork, closure dimensions, and stage descriptions. Future bottle
 IDs can use this boundary without adding rum-specific renderer branches.
 
 Integration tests cover the real press, both fermentation vessels, locked and
-persisted kettle operations, coproduct conservation, dissolution, still output,
+persisted plant operations, coproduct conservation, dissolution, still output,
 proofing, maturation, and cork transactions. Client mesh regression exercises the
 new bottle through bar and shelf renderers. High-test syrup, skimmings, and spice
 infusion are not part of this initial release.
@@ -941,18 +940,17 @@ Creative also includes a full 125 mB wine glass for each of the six varieties. R
 
 ### Mead, honeyshine, and brandy
 
-These routes reuse the sugar kettle, carboys, fermentation vat, still, and barrels.
+These routes reuse the sugar plant, carboys, fermentation vat, still, and barrels.
 No additional machine is required.
 
 - **Mead:** vanilla honey bottle + water → mead must → vat OR airlocked carboy → young mead → optional maturation → mead bottle / wine glass.
 - **Honeyshine:** mead → still → unaged honeyshine → optional barrel aging → dilute → honeyshine bottle / shot glass.
 - **Brandy:** grapes → press → must → fermentation → strain → wine → still → unaged brandy → optional barrel aging → dilute → brandy bottle / shot glass.
 
-To prepare mead must, put one water bucket (1,000 mB) into an empty, idle sugar
-kettle, then right-click it with one vanilla honey bottle. No heat is needed.
-This makes 1,250 mB of mead must and returns the empty glass bottle. Draw the
-must with a carboy, then repeat to make a larger batch. Each preparation needs
-exactly 1,000 mB of plain water and no solid output in the kettle.
+To prepare mead must, load one water bucket (1,000 mB) into the plant, put a
+vanilla honey bottle in **Add**, choose **Mead**, and press **Start**. No fuel is
+needed. The output tank receives 1,250 mB must and the glass bottle returns in
+**Return**. Collect the must using an empty carboy in **Bottle**.
 
 Pour must into the fermentation vat or place the carboy and attach an airlock.
 Sneak-right-click the vessel with an empty hand to start fermentation. Wine yeast
@@ -983,8 +981,6 @@ Mead and honeyshine reuse the rum-shaped glass with distinct arched labels.
 Brandy has a broad, flattened decanter, gold stopper, and an oval grapevine label.
 Inventory and placed appearances are selected through `BeverageAppearance`.
 
-The kettle now exposes its fluid capability, so sneak-right-clicking it with a
-filled carboy pours correctly even when vanilla bypasses the block interaction.
 The press's **Extra Out** slot stores bagasse, supports output extraction, and
 pauses pressing when full; it no longer ejects bagasse onto the ground.
 
@@ -995,3 +991,13 @@ is distilled mead with an oak-aged expression;
 [BNIC's production overview](https://www.cognac.fr/en/discover/expertise/production/)
 describes wine distillation and oak maturation. The mod implements generic brandy,
 with configurable game milestones rather than regional Cognac classifications.
+
+### Rye and corn
+
+Break short grass to occasionally find rye or corn seeds (each has a 1-in-40
+chance; shears preserve the grass instead). Plant on farmland and grow with
+normal crop conditions or bone meal. Corn needs room above it to mature into a
+two-block plant. Harvest either half once; the paired half clears without
+duplicating drops. Each harvested rye or corn can be crafted into two seeds.
+Both crops and seeds appear in Creative. These are farming ingredients; vodka
+processing is not implemented yet.

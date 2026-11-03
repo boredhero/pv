@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 public final class BarRenderChecks {
     private BarRenderChecks() {}
     public static void run() {
+        BottleClosureChecks.run();
         var registries=RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
         var samples=new ItemStack[]{
             ((FluidContainerItem)ModItems.FIFTH_BOTTLE_EMPTY.get()).filled(ModItems.spirit(ModFluids.TEQUILA.source().get(),317)),

@@ -45,8 +45,14 @@ public final class WineShelfRenderer implements BlockEntityRenderer<WineShelfBlo
       }
       if(style.closure().type()!=BeverageAppearance.ClosureType.NONE
           && !fluid.isEmpty() && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack)))
-        tube(poses,buffers,x,y,.88-style.closure().top()*lengthScale,.88-style.closure().bottom()*lengthScale,
-            style.closure().radius()*radialScale,style.closure().radius()*radialScale,style.closure().color(),shape.sides(),light,overlay,style.closure().texture(),false);
+      {
+        poses.pushPose();
+        poses.translate(0,0,.88);
+        poses.mulPose(Axis.XP.rotationDegrees(-90));
+        poses.scale((float)radialScale,(float)lengthScale,(float)radialScale);
+        io.vinum.client.BottleClosureRenderer.draw(buffers,poses.last(),style.closure(),shape,light,overlay);
+        poses.popPose();
+      }
       if(!fluid.isEmpty()) io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,radialScale,true,light,overlay);
       poses.popPose();
     }

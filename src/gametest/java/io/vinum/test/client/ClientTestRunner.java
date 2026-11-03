@@ -120,8 +120,10 @@ public final class ClientTestRunner {
             if (context.mc.player == null || context.mc.level == null) throw new IllegalStateException("World closed during test");
             if (context.mc.screen != null && !(context.mc.screen instanceof ChatScreen)
                     && !(context.mc.screen instanceof AbstractContainerScreen<?>
-                        && context.mc.player.containerMenu instanceof io.vinum.inventory.container.StillMasterContainer
-                        && scenario.equals("still_menu")))
+                        && (context.mc.player.containerMenu instanceof io.vinum.inventory.container.StillMasterContainer
+                            && scenario.equals("still_menu")
+                            || context.mc.player.containerMenu instanceof io.vinum.sugar.SugarPlantMenu
+                            && scenario.equals("sugar_plant"))))
                 throw new IllegalStateException("Unexpected screen opened during test");
             // Chat remains available for status/cancel; never issue clicks while the user is typing.
             if (context.mc.screen instanceof ChatScreen) return;

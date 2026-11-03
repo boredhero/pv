@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "vinum:corn"
+    }
+  ],
+  "result": {
+    "id": "vinum:corn_seeds",
+    "count": 2
+  }
+}

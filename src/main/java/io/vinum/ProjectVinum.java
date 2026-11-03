@@ -20,6 +20,7 @@ public final class ProjectVinum {
         io.vinum.stool.StoolContent.register(modBus);
         io.vinum.sugar.SugarContent.register(modBus);
         io.vinum.cinnamon.CinnamonContent.register(modBus);
+        io.vinum.grain.RyeCornContent.register(modBus);
         io.vinum.worldgen.AgaveWorldgen.register(modBus);
         modBus.addListener(NetworkLoader::register);
         container.registerConfig(ModConfig.Type.SERVER, BarrelConfig.SPEC);
