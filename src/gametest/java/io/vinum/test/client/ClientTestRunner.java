@@ -123,7 +123,9 @@ public final class ClientTestRunner {
                         && (context.mc.player.containerMenu instanceof io.vinum.inventory.container.StillMasterContainer
                             && scenario.equals("still_menu")
                             || context.mc.player.containerMenu instanceof io.vinum.sugar.SugarPlantMenu
-                            && scenario.equals("sugar_plant"))))
+                            && scenario.equals("sugar_plant")
+                            || context.mc.player.containerMenu instanceof io.vinum.blender.BlenderMenu
+                            && scenario.equals("blender"))))
                 throw new IllegalStateException("Unexpected screen opened during test");
             // Chat remains available for status/cancel; never issue clicks while the user is typing.
             if (context.mc.screen instanceof ChatScreen) return;

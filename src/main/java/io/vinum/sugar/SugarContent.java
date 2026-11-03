@@ -25,6 +25,8 @@ public final class SugarContent {
         bus.addListener((net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
             event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK,
                 PLANT_ENTITY.get(), (plant, side) -> plant.fluids(side));
+            event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,
+                PLANT_ENTITY.get(), (plant, side) -> plant.energy);
             event.registerBlockEntity(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
                 PLANT_ENTITY.get(), (plant, side) -> plant.items(side));
         });

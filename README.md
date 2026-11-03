@@ -35,8 +35,8 @@ Craft an **Oak Barrel** using the existing barrel recipe. Place barrels facing t
 same direction: complete solid cubes automatically combine, from **1×1×1 through
 9×9×9**, including even sizes. Partial additions remain separate until a larger
 compatible cube is complete. Different fluids or facings cannot share a reservoir.
-Each block contributes **225 L** by default: a 3×3×3 barrel holds 6,075 L and a
-9×9×9 barrel holds 164,025 L. Larger connected builds never create a reservoir
+Each block contributes **4 L** by default, matching a carboy: a 4×4×4 barrel holds
+256 L and a 9×9×9 barrel holds 2,916 L. Larger connected builds never create a reservoir
 larger than 9×9×9.
 
 All sizes use curved oak staves, metal hoops, plank ends, crescent-shaped wooden rests, and a visible
@@ -804,15 +804,20 @@ becoming cane rum.
 
 ### Equipment and controls
 
-- **Sugar Plant:** a self-contained machine with an internal furnace, built-in
+- **Sugar Plant:** a self-contained machine with an internal furnace, FE input, built-in
   separation, two 8,000 mB tanks, and a GUI. Right-click to open it.
 - Place filled carboys or water buckets in **Load**. Empty containers appear in
   **Return**. Put empty containers in **Bottle** and collect them from **Filled**.
-- Select **Syrup**, **Sugar**, **Panela**, **Mead**, or **Wash**. The recipe and any
+- Select **Syrup**, **Sugar**, or **Panela**. The recipe and any
   blocked requirement are displayed. Put normal furnace fuel in **Fuel** for hot
-  processes, and honey/sugar/panela in **Add** for the cold mixing recipes.
-- Click **Start** to run a batch. Finished liquid enters the output tank and
-  sugar/panela enters **Solids**. **Next stage** returns liquid to the input tank
+  processes, or supply FE from any side (32,000 FE storage, 80 FE/tick input,
+  20 FE per heated processing tick). It finishes existing furnace heat before using
+  FE, and uses FE before igniting more fuel. No power is spent while blocked or idle.
+- Click **Start** to run one batch, or enable **Run until empty** to repeat the
+  selected recipe automatically. It waits when ingredients/power run out or outputs
+  block, then resumes when supplied or cleared. Turning it off finishes the current
+  batch. The setting survives world reloads and machine pickup.
+- Finished liquid enters the output tank; sugar/panela enters **Solids**. **Next stage** returns liquid to the input tank
   for further processing; **Drain input** recovers unused input without deleting it.
 - No external fire or separator attachment is needed. Full outputs pause safely.
   Breaking the machine preserves tanks, inventory, fuel, and any in-progress batch.
@@ -821,6 +826,38 @@ becoming cane rum.
   inventory; top-ups do not. Bottle + wine cork also prepares an empty bottle
   for automated filling. GUI art is flat; placed bottles use separate faceted
   geometry, a transparent X-shaped label, a wide cork, and actual liquid height.
+
+### Blender
+
+Craft `GIG/GCG/III` with glass (G), iron ingots (I), and a copper ingot (C).
+Right-click to open its two 8,000 mB input tanks and 8,000 mB output tank.
+Load containers into A or B; their empty containers appear in the adjacent
+return slots. Put an empty container in **Bottle** to collect the output.
+
+- **Blend:** choose A/B percentages with the slider. The machine preserves the
+  exact ratio, including smaller final batches, and waits for missing inputs.
+  Compatible blends retain alcohol, ingredient proportions, and maturation data.
+- **Target ABV:** put spirit in A and plain water in B, then select the desired
+  strength. The target must be lower than the spirit's current ABV. The machine
+  calculates whole-mB amounts using actual alcohol content, within 0.05 percentage
+  points of the target. For example, 666 mB of 60% spirit plus 333 mB water yields
+  999 mB at 40%. Focus the slider and use arrow keys for 0.1% adjustments.
+- **Honey must:** 1 honey bottle in **Add** + 1,000 mB water in A → 1,250 mB
+  mead must; the glass bottle returns beside Add. Input B is left untouched.
+- **Wash:** 2 cane-derived sugar or 1 panela in **Add** + 1,000 mB water in A
+  → 1,000 mB cane wash. Ordinary untracked sugar is not accepted as cane sugar.
+
+**Start** runs one batch; **Run automatically** repeats the selected recipe and
+waits safely for ingredients or output space. Disable automation before adjusting
+ratios. Mixing needs no fuel or FE. **Drain A/B** recovers unused input into the
+output tank when compatible and space permits. Breaking the Blender preserves its
+contents and pending batch. Fluid automation uses the bottom for output, the
+machine's right side for B, and other sides for A. Item outputs use the bottom.
+
+Unprofiled fluid defaults are declared in `src/main/resources/vinum/production_fluid_defaults.json`;
+for example, `vinum:tequila` supplies an agave ingredient and `alcohol_fraction: 0.4`.
+Explicit batch components take precedence. Add compatible fluids to the blendable/dilutable
+fluid tags; generic vessel code does not need beverage-name checks.
 
 ### Feedstock routes
 
@@ -839,7 +876,7 @@ All quantities are gameplay units, not real-world factory yields.
    dissolve it in 1,000 mB water → 1,000 mB wash.
 5. **Sugar fraction:** dissolve 2 cane-derived sugar in 1,000 mB water → wash.
 6. **Mixed:** combine compatible cane juice, diluted syrup, molasses, and
-   dissolved sugar/panela in a plant, vat, or carboy. Ingredients and sugar
+   dissolved sugar/panela in a Blender, vat, or carboy. Ingredients and sugar
    concentration travel with the batch. Water changes concentration without
    replacing the feedstock provenance.
 
@@ -968,15 +1005,14 @@ Creative also includes a full 125 mB wine glass for each of the six varieties. R
 
 ### Mead, honeyshine, and brandy
 
-These routes reuse the sugar plant, carboys, fermentation vat, still, and barrels.
-No additional machine is required.
+These routes use the Blender, carboys, fermentation vat, still, and barrels.
 
-- **Mead:** vanilla honey bottle + water → mead must → vat OR airlocked carboy → young mead → optional maturation → mead bottle / wine glass.
+- **Mead:** honey bottle + water → mead must → vat OR airlocked carboy → young mead → optional maturation → mead bottle / wine glass.
 - **Honeyshine:** mead → still → unaged honeyshine → optional barrel aging → dilute → honeyshine bottle / shot glass.
 - **Brandy:** grapes → press → must → fermentation → strain → wine → still → unaged brandy → optional barrel aging → dilute → brandy bottle / shot glass.
 
-To prepare mead must, load one water bucket (1,000 mB) into the plant, put a
-vanilla honey bottle in **Add**, choose **Mead**, and press **Start**. No fuel is
+To prepare mead must, load one water bucket (1,000 mB) into Blender input A, put a
+honey bottle in **Add**, choose **Honey must**, and press **Start**. No fuel is
 needed. The output tank receives 1,250 mB must and the glass bottle returns in
 **Return**. Collect the must using an empty carboy in **Bottle**.
 

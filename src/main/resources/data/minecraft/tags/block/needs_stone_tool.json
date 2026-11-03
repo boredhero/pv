@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "vinum:sugar_plant"
+    "vinum:sugar_plant",
+    "vinum:blender"
   ]
 }

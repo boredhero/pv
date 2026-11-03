@@ -1,0 +1,52 @@
+{
+  "vinum:cane_juice": {
+    "ingredient": "vinum:sugar_cane",
+    "sugar_g_per_litre": 200,
+    "solids_g_per_litre": 20
+  },
+  "vinum:cane_syrup": {
+    "ingredient": "vinum:cane_syrup",
+    "sugar_g_per_litre": 800
+  },
+  "vinum:molasses": {
+    "ingredient": "vinum:molasses",
+    "sugar_g_per_litre": 400
+  },
+  "vinum:cane_wash": {
+    "ingredient": "vinum:sugar_cane",
+    "sugar_g_per_litre": 200
+  },
+  "vinum:fermented_cane_wash": {
+    "ingredient": "vinum:sugar_cane",
+    "solids_g_per_litre": 20,
+    "alcohol_fraction": 0.12
+  },
+  "vinum:mead_must": {
+    "ingredient": "vinum:honey",
+    "sugar_g_per_litre": 200
+  },
+  "vinum:mead": {
+    "ingredient": "vinum:honey",
+    "alcohol_fraction": 0.12
+  },
+  "vinum:honeyshine": {
+    "ingredient": "vinum:honey",
+    "alcohol_fraction": 0.6
+  },
+  "vinum:brandy": {
+    "ingredient": "vinum:grapes",
+    "alcohol_fraction": 0.6
+  },
+  "vinum:rum": {
+    "ingredient": "vinum:sugar_cane",
+    "alcohol_fraction": 0.6
+  },
+  "vinum:tequila": {
+    "ingredient": "vinum:agave",
+    "alcohol_fraction": 0.4
+  },
+  "vinum:golden_tequila": {
+    "ingredient": "vinum:agave",
+    "alcohol_fraction": 0.4
+  }
+}

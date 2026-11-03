@@ -2,8 +2,6 @@ package io.vinum.sugar;
 
 import io.vinum.beverage.FluidBlending;
 import io.vinum.beverage.WineCatalog;
-import io.vinum.production.*;
-import java.util.*;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +13,6 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.*;
@@ -25,23 +22,25 @@ import org.jetbrains.annotations.Nullable;
 
 /** Two isolated tanks and a reserved batch: processing can never overwrite or discard either output. */
 public final class SugarPlantBlockEntity extends BlockEntity implements MenuProvider {
-    public static final int TANK_CAPACITY=8000, INVENTORY_SIZE=7, DATA_COUNT=12;
+    public static final int TANK_CAPACITY=8000, INVENTORY_SIZE=7, DATA_COUNT=14;
+    public static final int ENERGY_CAPACITY=32000, FE_PER_TICK=20;
+    public final io.vinum.machine.MachineEnergy energy=new io.vinum.machine.MachineEnergy(ENERGY_CAPACITY,80,0,this::setChanged);
+    // Slot 5 remains extraction-only so old ingredient stacks can be recovered without remapping saves.
     public static final int INPUT_CONTAINER=0, RETURNED_CONTAINER=1, OUTPUT_CONTAINER=2,
-        FILLED_CONTAINER=3, FUEL=4, INGREDIENT=5, SOLID_OUTPUT=6;
-    public static final int MODE_COUNT=5, HONEY_MODE=3, DISSOLVE_MODE=4;
+        FILLED_CONTAINER=3, FUEL=4, LEGACY_RETURN=5, SOLID_OUTPUT=6;
+    public static final int MODE_COUNT=3;
     public static final int STATUS_READY=0, STATUS_RUNNING=1, STATUS_INPUT=2,
-        STATUS_OUTPUT=3, STATUS_SOLID=4, STATUS_FUEL=5, STATUS_INGREDIENT=6;
+        STATUS_OUTPUT=3, STATUS_SOLID=4, STATUS_FUEL=5;
     private FluidStack input=FluidStack.EMPTY,output=FluidStack.EMPTY,pendingFluid=FluidStack.EMPTY;
     private ItemStack pendingSolid=ItemStack.EMPTY;
     private int mode,progress,duration,burnTime,burnTotal;
-    private boolean processing,heatedBatch;
+    private boolean processing,heatedBatch,automatic;
 
     public final ItemStackHandler inventory=new ItemStackHandler(INVENTORY_SIZE) {
         @Override public boolean isItemValid(int slot,ItemStack stack) {
             return switch(slot) {
                 case INPUT_CONTAINER,OUTPUT_CONTAINER -> FluidUtil.getFluidHandler(stack).isPresent();
                 case FUEL -> stack.getBurnTime(RecipeType.SMELTING)>0;
-                case INGREDIENT -> stack.is(Items.HONEY_BOTTLE)||stack.is(Items.SUGAR)||stack.is(SugarContent.PANELA.get());
                 default -> false;
             };
         }
@@ -54,6 +53,12 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
     public FluidStack output(){return output.copy();}
     public int mode(){return mode;}
     public boolean processing(){return processing;}
+    public boolean automatic(){return automatic;}
+    /** Disabling repetition finishes the reserved batch; it never discards its inputs. */
+    public boolean toggleAutomatic(){
+        if(level==null||level.isClientSide)return false;
+        automatic=!automatic;sync();return true;
+    }
     public int progress(){return progress;}
     public int requiredTicks(){return duration;}
     public int burnTime(){return burnTime;}
@@ -65,8 +70,7 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
     private static boolean accepted(FluidStack value){
         if(value.isEmpty())return false;
         var id=BuiltInRegistries.FLUID.getKey(value.getFluid());
-        return value.getFluid().isSame(Fluids.WATER)||id.getNamespace().equals("vinum")
-            &&Set.of("cane_juice","cane_syrup","molasses","cane_wash","mead_must").contains(id.getPath());
+        return SugarProcess.recipes().stream().anyMatch(recipe->recipe.input().equals(id));
     }
     private final IFluidHandler intake=new TankPort(false);
     private final IFluidHandler outlet=new TankPort(true);
@@ -100,8 +104,8 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
     /** Output-only automation remains able to unblock a paused batch. */
     public IItemHandler items(@Nullable Direction side){
         return new IItemHandler(){
-            private final int[] slots=side==Direction.DOWN?new int[]{RETURNED_CONTAINER,FILLED_CONTAINER,SOLID_OUTPUT}:
-                new int[]{INPUT_CONTAINER,OUTPUT_CONTAINER,FUEL,INGREDIENT};
+            private final int[] slots=side==Direction.DOWN?new int[]{RETURNED_CONTAINER,FILLED_CONTAINER,SOLID_OUTPUT,LEGACY_RETURN}:
+                new int[]{INPUT_CONTAINER,OUTPUT_CONTAINER,FUEL};
             public int getSlots(){return slots.length;}
             public ItemStack getStackInSlot(int slot){return inventory.getStackInSlot(slots[slot]);}
             public ItemStack insertItem(int slot,ItemStack stack,boolean simulate){return side==Direction.DOWN?stack:inventory.insertItem(slots[slot],stack,simulate);}
@@ -110,35 +114,14 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
             public boolean isItemValid(int slot,ItemStack stack){return side!=Direction.DOWN&&inventory.isItemValid(slots[slot],stack);}
         };
     }
-    private record Plan(int inputAmount,FluidStack liquid,ItemStack solid,ItemStack remainder,int ingredientCount,int ticks,boolean heat){}
+    private record Plan(int inputAmount,FluidStack liquid,ItemStack solid,int ticks){}
     private Plan plan(){
-        if(mode<SugarProcess.recipes().size()){
-            var recipe=SugarProcess.recipes().get(mode);
-            if(input.getAmount()<recipe.inputAmount())return null;
-            var batch=input.copyWithAmount(recipe.inputAmount());
-            if(recipe.batches(batch)!=1)return null;
-            return new Plan(recipe.inputAmount(),recipe.liquid(batch),recipe.solids(batch),ItemStack.EMPTY,0,recipe.ticks(),true);
-        }
-        if(input.getAmount()<1000||!input.getFluid().isSame(Fluids.WATER)||!input.isComponentsPatchEmpty())return null;
-        var ingredient=inventory.getStackInSlot(INGREDIENT);
-        if(mode==HONEY_MODE){
-            if(!ingredient.is(Items.HONEY_BOTTLE))return null;
-            return new Plan(1000,HoneyMixing.prepare(input.copyWithAmount(1000)),ItemStack.EMPTY,new ItemStack(Items.GLASS_BOTTLE),1,20,false);
-        }
-        if(!ingredient.is(Items.SUGAR)&&!ingredient.is(SugarContent.PANELA.get()))return null;
-        int count=ingredient.is(Items.SUGAR)?2:1;
-        if(ingredient.getCount()<count)return null;
-        var profile=ingredient.get(ProductionDataComponents.BATCH_PROFILE.get());
-        if(profile==null&&ingredient.is(SugarContent.PANELA.get()))profile=new BatchProfile(200,0,0,0,
-            Map.of(ProductionInputs.id("panela"),1D),Optional.empty(),List.of());
-        if(profile==null||profile.ingredientProportions().isEmpty()||profile.sugarGramsPerLitre()<=0||profile.alcoholFraction()!=0)return null;
-        var wash=new FluidStack(io.vinum.fluid.ModFluids.CANE_WASH.source().get(),1000);
-        // Solid profiles store grams per item; the wash occupies one litre.
-        double sugar=profile.sugarGramsPerLitre()*count,starch=profile.starchGramsPerLitre()*count,solids=profile.solidsGramsPerLitre()*count;
-        if(sugar>10000||starch>10000||solids>10000)return null;
-        new BatchProfile(sugar,starch,solids,0,profile.ingredientProportions(),profile.yeast(),profile.history())
-            .addHistory(ProductionInputs.id("dissolving")).applyTo(wash);
-        return new Plan(1000,wash,ItemStack.EMPTY,ItemStack.EMPTY,count,20,false);
+        if(mode<0||mode>=MODE_COUNT||mode>=SugarProcess.recipes().size())return null;
+        var recipe=SugarProcess.recipes().get(mode);
+        if(input.getAmount()<recipe.inputAmount())return null;
+        var batch=input.copyWithAmount(recipe.inputAmount());
+        if(recipe.batches(batch)!=1)return null;
+        return new Plan(recipe.inputAmount(),recipe.liquid(batch),recipe.solids(batch),recipe.ticks());
     }
     private boolean fits(int slot,ItemStack next){
         if(next.isEmpty())return true;
@@ -152,6 +135,7 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
         var old=inventory.getStackInSlot(slot);
         inventory.setStackInSlot(slot,old.isEmpty()?value.copy():old.copyWithCount(old.getCount()+value.getCount()));
     }
+    private boolean heatAvailable(){return burnTime>0||energy.getEnergyStored()>=FE_PER_TICK||fuelAvailable();}
     private boolean fuelAvailable(){
         if(burnTime>0)return true;
         var fuel=inventory.getStackInSlot(FUEL);
@@ -163,19 +147,13 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
         if(processing){
             if(!fitsLiquid(pendingFluid))return STATUS_OUTPUT;
             if(!fits(SOLID_OUTPUT,pendingSolid))return STATUS_SOLID;
-            return heatedBatch&&!fuelAvailable()?STATUS_FUEL:STATUS_RUNNING;
-        }
-        if(mode>=HONEY_MODE){
-            var ingredient=inventory.getStackInSlot(INGREDIENT);
-            if(mode==HONEY_MODE&&!ingredient.is(Items.HONEY_BOTTLE)
-                ||mode==DISSOLVE_MODE&&(!ingredient.is(Items.SUGAR)&&!ingredient.is(SugarContent.PANELA.get())
-                    ||ingredient.is(Items.SUGAR)&&ingredient.getCount()<2))return STATUS_INGREDIENT;
+            return heatedBatch&&!heatAvailable()?STATUS_FUEL:STATUS_RUNNING;
         }
         var plan=plan();
         if(plan==null)return STATUS_INPUT;
         if(!fitsLiquid(plan.liquid()))return STATUS_OUTPUT;
-        if(!fits(SOLID_OUTPUT,plan.solid())||!fits(RETURNED_CONTAINER,plan.remainder()))return STATUS_SOLID;
-        if(plan.heat()&&!fuelAvailable())return STATUS_FUEL;
+        if(!fits(SOLID_OUTPUT,plan.solid()))return STATUS_SOLID;
+        if(!heatAvailable())return STATUS_FUEL;
         return STATUS_READY;
     }
     public boolean start(){
@@ -183,10 +161,8 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
         var plan=plan();
         // Reserve exactly one batch and its results. Its complete snapshot survives saves and pickup.
         input.shrink(plan.inputAmount());
-        inventory.extractItem(INGREDIENT,plan.ingredientCount(),false);
-        store(RETURNED_CONTAINER,plan.remainder());
         pendingFluid=plan.liquid().copy();pendingSolid=plan.solid().copy();
-        duration=plan.ticks();progress=0;heatedBatch=plan.heat();processing=true;sync();return true;
+        duration=plan.ticks();progress=0;heatedBatch=true;processing=true;sync();return true;
     }
     public boolean recycleOutput(){
         if(level==null||level.isClientSide||processing||output.isEmpty()||!accepted(output)
@@ -240,8 +216,17 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
     public static void tick(Level level,BlockPos pos,BlockState state,SugarPlantBlockEntity plant){
         if(level.isClientSide)return;
         plant.transferContainers();
+        // Reuse the same admission checks as a manual batch. Missing inputs/fuel or blocked
+        // outputs leave repetition armed without consuming anything; replenishment resumes it.
+        if(plant.automatic&&!plant.processing)plant.start();
         if(!plant.processing||plant.status()!=STATUS_RUNNING)return;
-        if(plant.heatedBatch){plant.consumeFuel();plant.burnTime--;}
+        if(plant.heatedBatch){
+            // Finish already-lit fuel before spending FE; prefer FE over igniting another item.
+            // This is one heat source per advancing tick, never a double charge.
+            if(plant.burnTime>0)plant.burnTime--;
+            else if(plant.energy.getEnergyStored()>=FE_PER_TICK)plant.energy.consume(FE_PER_TICK);
+            else {plant.consumeFuel();plant.burnTime--;}
+        }
         if(++plant.progress>=plant.duration){
             if(!plant.pendingFluid.isEmpty())plant.output=FluidBlending.blend(plant.output,plant.pendingFluid);
             plant.store(SOLID_OUTPUT,plant.pendingSolid);
@@ -257,28 +242,28 @@ public final class SugarPlantBlockEntity extends BlockEntity implements MenuProv
             case 0->mode;case 1->progress;case 2->duration;case 3->burnTime;case 4->burnTotal;
             case 5->input.getAmount();case 6->output.getAmount();case 7->status();
             case 8->WineCatalog.color(input)&65535;case 9->WineCatalog.color(input)>>>16;
-            case 10->WineCatalog.color(output)&65535;case 11->WineCatalog.color(output)>>>16;default->0;};}
+            case 10->WineCatalog.color(output)&65535;case 11->WineCatalog.color(output)>>>16;case 12->automatic?1:0;case 13->energy.getEnergyStored();default->0;};}
         public void set(int index,int value){}
         public int getCount(){return DATA_COUNT;}
     };
     private void sync(){setChanged();if(level!=null&&!level.isClientSide)level.sendBlockUpdated(worldPosition,getBlockState(),getBlockState(),2);}
     @Override protected void saveAdditional(CompoundTag tag,HolderLookup.Provider registries){
-        super.saveAdditional(tag,registries);tag.put("Inventory",inventory.serializeNBT(registries));
+        super.saveAdditional(tag,registries);tag.putInt("Energy",energy.getEnergyStored());tag.put("Inventory",inventory.serializeNBT(registries));
         if(!input.isEmpty())tag.put("Input",input.save(registries));if(!output.isEmpty())tag.put("Output",output.save(registries));
         if(!pendingFluid.isEmpty())tag.put("PendingFluid",pendingFluid.save(registries));
         if(!pendingSolid.isEmpty())tag.put("PendingSolid",pendingSolid.save(registries));
         tag.putInt("Mode",mode);tag.putInt("Progress",progress);tag.putInt("Duration",duration);
-        tag.putInt("BurnTime",burnTime);tag.putInt("BurnTotal",burnTotal);tag.putBoolean("Processing",processing);tag.putBoolean("HeatedBatch",heatedBatch);
+        tag.putInt("BurnTime",burnTime);tag.putInt("BurnTotal",burnTotal);tag.putBoolean("Processing",processing);tag.putBoolean("HeatedBatch",heatedBatch);tag.putBoolean("Automatic",automatic);
     }
     @Override protected void loadAdditional(CompoundTag tag,HolderLookup.Provider registries){
-        super.loadAdditional(tag,registries);
+        super.loadAdditional(tag,registries);energy.load(tag.getInt("Energy"));
         var savedInventory=tag.getCompound("Inventory").copy();savedInventory.putInt("Size",INVENTORY_SIZE);
         inventory.deserializeNBT(registries,savedInventory);
         input=FluidStack.parseOptional(registries,tag.getCompound("Input"));output=FluidStack.parseOptional(registries,tag.getCompound("Output"));
         pendingFluid=FluidStack.parseOptional(registries,tag.getCompound("PendingFluid"));pendingSolid=ItemStack.parseOptional(registries,tag.getCompound("PendingSolid"));
         mode=Math.clamp(tag.getInt("Mode"),0,MODE_COUNT-1);duration=Math.max(0,tag.getInt("Duration"));progress=Math.clamp(tag.getInt("Progress"),0,duration);
         burnTime=Math.max(0,tag.getInt("BurnTime"));burnTotal=Math.max(burnTime,tag.getInt("BurnTotal"));
-        processing=tag.getBoolean("Processing")&&duration>0&&(!pendingFluid.isEmpty()||!pendingSolid.isEmpty());heatedBatch=tag.getBoolean("HeatedBatch");
+        processing=tag.getBoolean("Processing")&&duration>0&&(!pendingFluid.isEmpty()||!pendingSolid.isEmpty());heatedBatch=tag.getBoolean("HeatedBatch");automatic=tag.getBoolean("Automatic");
     }
     @Override public void saveToItem(ItemStack stack,HolderLookup.Provider registries){BlockItem.setBlockEntityData(stack,getType(),saveCustomOnly(registries));}
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries){return saveCustomOnly(registries);}

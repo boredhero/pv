@@ -62,19 +62,58 @@ public final class BarrelGameTests {
             BarrelMultiblock.reconcile(helper.getLevel(), helper.absolutePos(ORIGIN.offset(size - 1, size - 1, size - 1)));
             assertStructure(helper, size);
         }
-        helper.assertTrue(barrel(helper, helper.absolutePos(ORIGIN)).getCapacity() == 164_025_000,
+        helper.assertTrue(barrel(helper, helper.absolutePos(ORIGIN)).getCapacity() == 2_916_000,
                 "Maximum cube must expose exactly 729 times the per-barrel capacity without integer overflow");
         IFluidHandler maximum = tank(helper, helper.absolutePos(ORIGIN));
         long transferStarted = System.nanoTime();
-        helper.assertTrue(maximum.fill(new FluidStack(Fluids.WATER, 164_025_000), IFluidHandler.FluidAction.EXECUTE) == 164_025_000,
+        helper.assertTrue(maximum.fill(new FluidStack(Fluids.WATER, 2_916_000), IFluidHandler.FluidAction.EXECUTE) == 2_916_000,
                 "Maximum cube must accept its full capacity across729 local reservoirs");
         for (int query = 0; query < 100; query++) {
             helper.assertTrue(maximum.drain(1_000, IFluidHandler.FluidAction.SIMULATE).getAmount() == 1_000, "Repeated simulated automation queries must remain stable");
         }
         helper.assertTrue(maximum.drain(1_000_000, IFluidHandler.FluidAction.EXECUTE).getAmount() == 1_000_000
-                && maximum.getFluidInTank(0).getAmount() == 163_025_000, "Large transfer must conserve exact aggregate volume");
+                && maximum.getFluidInTank(0).getAmount() == 1_916_000, "Large transfer must conserve exact aggregate volume");
         org.slf4j.LoggerFactory.getLogger(BarrelGameTests.class).info("Maximum9-cube: full fill,100 simulated drains,and1M mB drain completed in {} ms",
                 (System.nanoTime() - transferStarted) / 1_000_000.0);
+        helper.succeed();
+    }
+
+    @GameTest(template = "barrel_space")
+    public static void singleBarrelMatchesCarboyAndFourCubeScalesByBlockCount(GameTestHelper helper) {
+        placeCube(helper,1,Direction.NORTH);
+        helper.assertTrue(tank(helper,helper.absolutePos(ORIGIN)).getTankCapacity(0)
+            ==io.vinum.production.vessel.FermentationVesselBlockEntity.CARBOY_CAPACITY,
+            "Default single barrel and carboy capacities must match");
+        placeCube(helper,4,Direction.NORTH);
+        BarrelMultiblock.reconcile(helper.getLevel(),helper.absolutePos(ORIGIN));
+        assertStructure(helper,4);
+        var tank=tank(helper,helper.absolutePos(ORIGIN));
+        helper.assertTrue(tank.getTankCapacity(0)==256_000
+            &&tank.fill(new FluidStack(Fluids.WATER,300_000),IFluidHandler.FluidAction.EXECUTE)==256_000,
+            "Four-cube holds precisely 64 four-litre blocks");
+        helper.succeed();
+    }
+
+    @GameTest(template = "barrel_space")
+    public static void reducedCapacityPreservesLoadedFluidAndAllowsDrainage(GameTestHelper helper) {
+        placeCube(helper,1,Direction.NORTH);
+        var barrel=barrel(helper,helper.absolutePos(ORIGIN));
+        var saved=barrel.saveWithoutMetadata(helper.getLevel().registryAccess());
+        saved.put("Fluid",BarrelFluidData.withAge(new FluidStack(Fluids.WATER,225_000),500)
+            .saveOptional(helper.getLevel().registryAccess()));
+        barrel.loadWithComponents(saved,helper.getLevel().registryAccess());
+        var tank=tank(helper,barrel.getBlockPos());
+        helper.assertTrue(tank.getTankCapacity(0)==4_000&&tank.getFluidInTank(0).getAmount()==225_000
+            &&barrel.getLocalAge()==500,"Loading old over-capacity contents preserves volume and age");
+        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER,1),IFluidHandler.FluidAction.SIMULATE)==0
+            &&tank.fill(new FluidStack(Fluids.WATER,1),IFluidHandler.FluidAction.EXECUTE)==0,
+            "Over-capacity barrel rejects new liquid");
+        var persisted=barrel.saveWithoutMetadata(helper.getLevel().registryAccess());
+        barrel.loadWithComponents(persisted,helper.getLevel().registryAccess());
+        helper.assertTrue(tank.drain(222_000,IFluidHandler.FluidAction.EXECUTE).getAmount()==222_000
+            &&tank.getFluidInTank(0).getAmount()==3_000,"Old excess survives save/load and can be drained normally");
+        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER,2_000),IFluidHandler.FluidAction.EXECUTE)==1_000
+            &&tank.getFluidInTank(0).getAmount()==4_000,"Refill resumes only within the reduced capacity");
         helper.succeed();
     }
 
@@ -122,7 +161,7 @@ public final class BarrelGameTests {
     public static void barrelCapacitySimulationAndFluidCompatibilityAreConservative(GameTestHelper helper) {
         placeCube(helper, 1, Direction.NORTH);
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
-        helper.assertTrue(tank.getTanks() == 1 && tank.getTankCapacity(0) == 225_000, "Single barrel default capacity must be 225000 mB");
+        helper.assertTrue(tank.getTanks() == 1 && tank.getTankCapacity(0) == 4_000, "Single barrel default capacity must be 4000 mB");
         helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 1_000), IFluidHandler.FluidAction.EXECUTE) == 1_000, "Barrel must accept water");
         CompoundTag beforeSimulation = barrel(helper, helper.absolutePos(ORIGIN)).saveWithoutMetadata(helper.getLevel().registryAccess());
         helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 400), IFluidHandler.FluidAction.SIMULATE) == 400, "Simulated fill reports available capacity");
@@ -134,8 +173,8 @@ public final class BarrelGameTests {
         helper.assertTrue(tank.fill(new FluidStack(Fluids.LAVA, 1_000), IFluidHandler.FluidAction.EXECUTE) == 0, "Mixed fluids must be rejected");
         helper.assertTrue(tank.drain(new FluidStack(Fluids.LAVA, 1_000), IFluidHandler.FluidAction.EXECUTE).isEmpty(), "Drain of wrong fluid must not remove contents");
         helper.assertTrue(tank.drain(300, IFluidHandler.FluidAction.EXECUTE).getAmount() == 300, "Executed drain removes requested quantity");
-        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 1_000_000), IFluidHandler.FluidAction.EXECUTE) == 224_300, "Fill must stop at exact remaining capacity");
-        helper.assertTrue(tank.getFluidInTank(0).getAmount() == 225_000, "Tank must not overflow or lose existing fluid");
+        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 1_000_000), IFluidHandler.FluidAction.EXECUTE) == 3_300, "Fill must stop at exact remaining capacity");
+        helper.assertTrue(tank.getFluidInTank(0).getAmount() == 4_000, "Tank must not overflow or lose existing fluid");
         helper.succeed();
     }
 
@@ -144,17 +183,17 @@ public final class BarrelGameTests {
         placeCube(helper, 2, Direction.NORTH);
         BarrelMultiblock.reconcile(helper.getLevel(), helper.absolutePos(ORIGIN));
         IFluidHandler tank = tank(helper, helper.absolutePos(ORIGIN));
-        helper.assertTrue(tank.getTankCapacity(0) == 1_800_000, "Two-cube capacity must include all eight members");
-        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 1_000_000), IFluidHandler.FluidAction.EXECUTE) == 1_000_000, "Fill must span multiple physical barrels");
+        helper.assertTrue(tank.getTankCapacity(0) == 32_000, "Two-cube capacity must include all eight members");
+        helper.assertTrue(tank.fill(new FluidStack(Fluids.WATER, 32_000), IFluidHandler.FluidAction.EXECUTE) == 32_000, "Fill must span multiple physical barrels");
         int localTotal = 0;
         for (BlockPos pos : cube(helper, 2)) {
-            helper.assertTrue(tank(helper, pos).getFluidInTank(0).getAmount() == 1_000_000, "All faces must report same aggregate fluid");
+            helper.assertTrue(tank(helper, pos).getFluidInTank(0).getAmount() == 32_000, "All faces must report same aggregate fluid");
             localTotal += barrel(helper, pos).getLocalFluid().getAmount();
         }
-        helper.assertTrue(localTotal == 1_000_000, "Local escrow sum must equal aggregate volume");
+        helper.assertTrue(localTotal == 32_000, "Local escrow sum must equal aggregate volume");
         IFluidHandler opposite = tank(helper, helper.absolutePos(ORIGIN.offset(1, 1, 1)));
-        helper.assertTrue(opposite.drain(123_456, IFluidHandler.FluidAction.EXECUTE).getAmount() == 123_456, "Any member must drain shared reservoir");
-        helper.assertTrue(tank.getFluidInTank(0).getAmount() == 876_544, "All members must observe drain exactly once");
+        helper.assertTrue(opposite.drain(12_345, IFluidHandler.FluidAction.EXECUTE).getAmount() == 12_345, "Any member must drain shared reservoir");
+        helper.assertTrue(tank.getFluidInTank(0).getAmount() == 19_655, "All members must observe drain exactly once");
         helper.succeed();
     }
 
@@ -177,7 +216,7 @@ public final class BarrelGameTests {
         placeCube(helper, 2, Direction.NORTH);
         BlockPos origin = helper.absolutePos(ORIGIN);
         BarrelMultiblock.reconcile(helper.getLevel(), origin);
-        tank(helper, origin).fill(BarrelFluidData.withAge(new FluidStack(Fluids.WATER, 1_000_000), 800), IFluidHandler.FluidAction.EXECUTE);
+        tank(helper, origin).fill(BarrelFluidData.withAge(new FluidStack(Fluids.WATER, 32_000), 800), IFluidHandler.FluidAction.EXECUTE);
         int removedVolume = barrel(helper, origin).getLocalFluid().getAmount();
         helper.getLevel().destroyBlock(origin, true);
         int retained = 0;
@@ -188,7 +227,7 @@ public final class BarrelGameTests {
             helper.assertTrue(member.getLocalAge() == 800, "Splitting must preserve each member's fluid age");
             retained += member.getLocalFluid().getAmount();
         }
-        helper.assertTrue(retained + removedVolume == 1_000_000, "Split must conserve each member's local fluid escrow");
+        helper.assertTrue(retained + removedVolume == 32_000, "Split must conserve each member's local fluid escrow");
         var drops = helper.getLevel().getEntitiesOfClass(ItemEntity.class, new AABB(origin).inflate(2));
         helper.assertTrue(drops.size() == 1 && drops.getFirst().getItem().getCount() == 1, "Broken barrel must produce exactly one item");
         ItemStack dropped = drops.getFirst().getItem().copy();
@@ -206,7 +245,7 @@ public final class BarrelGameTests {
         helper.assertTrue(restored.getLocalFluid().getAmount() == removedVolume, "Replacement must restore only dropped member's own fluid");
         helper.assertTrue(restored.getLocalAge() == 800, "Harvested barrel must preserve the age of its own contents");
         helper.assertTrue(restored.getStructureSize() == 1 && restored.getStructureOrigin().equals(replacement), "Dropped item must not retain former group ownership");
-        helper.assertTrue(retained + restored.getLocalFluid().getAmount() == 1_000_000, "Break and replacement must not duplicate or lose fluid");
+        helper.assertTrue(retained + restored.getLocalFluid().getAmount() == 32_000, "Break and replacement must not duplicate or lose fluid");
         helper.assertTrue(player.getMainHandItem().isEmpty(), "Successful placement must consume the one harvested barrel item");
         helper.succeed();
     }
@@ -312,9 +351,9 @@ public final class BarrelGameTests {
         helper.assertTrue(player.getMainHandItem().is(Items.BUCKET) && tank.getFluidInTank(0).getAmount() == 1_000, "Bucket emptying must conserve exactly 1000 mB and return empty bucket");
         helper.assertTrue(FluidUtil.interactWithFluidHandler(player, InteractionHand.MAIN_HAND, helper.getLevel(), pos, Direction.UP), "Empty bucket must collect barrel water");
         helper.assertTrue(player.getMainHandItem().is(Items.WATER_BUCKET) && tank.getFluidInTank(0).isEmpty(), "Bucket filling must remove exactly 1000 mB");
-        tank.fill(new FluidStack(Fluids.WATER, 224_500), IFluidHandler.FluidAction.EXECUTE);
+        tank.fill(new FluidStack(Fluids.WATER, 3_500), IFluidHandler.FluidAction.EXECUTE);
         helper.assertTrue(!FluidUtil.interactWithFluidHandler(player, InteractionHand.MAIN_HAND, helper.getLevel(), pos, Direction.UP), "Half-bucket free space must reject whole bucket transfer");
-        helper.assertTrue(player.getMainHandItem().is(Items.WATER_BUCKET) && tank.getFluidInTank(0).getAmount() == 224_500, "Rejected transfer must preserve held bucket and barrel fluid");
+        helper.assertTrue(player.getMainHandItem().is(Items.WATER_BUCKET) && tank.getFluidInTank(0).getAmount() == 3_500, "Rejected transfer must preserve held bucket and barrel fluid");
         tank.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
         tank.fill(new FluidStack(Fluids.WATER, 999), IFluidHandler.FluidAction.EXECUTE);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BUCKET));
@@ -488,7 +527,7 @@ public final class BarrelGameTests {
         tank.fill(supplied, IFluidHandler.FluidAction.EXECUTE);
         supplied.setAmount(1);
         var snapshot = barrel.getContents();
-        helper.assertTrue(snapshot.available() && snapshot.amount() == 4_000 && snapshot.capacity() == 225_000
+        helper.assertTrue(snapshot.available() && snapshot.amount() == 4_000 && snapshot.capacity() == 4_000
                 && snapshot.fluidType() == Fluids.WATER.getFluidType(), "Public snapshot must expose correct availability, volume, capacity and fluid type");
         FluidStack exposed = snapshot.fluid();
         exposed.setAmount(2);

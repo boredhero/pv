@@ -23,7 +23,7 @@ public final class BarrelConfig {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         builder.push("barrels");
         CAPACITY = builder.comment("Capacity of each barrel block in millibuckets (1000 mB = 1 litre).")
-                .defineInRange("capacityPerBlock", 225_000, 1000, 2_000_000);
+                .defineInRange("capacityPerBlock", 4_000, 1000, 2_000_000);
         TICKS_PER_DAY = builder.comment("Elapsed server game ticks counted as one maturation day. Time-of-day commands do not advance aging.")
                 .defineInRange("ticksPerDay", 24_000, 1, 24_000_000);
         REPOSADO_DAYS = builder.comment("Minimum tequila barrel age for reposado; default represents two 30-day months.")

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "vinum:block/blender"
+    },
+    "facing=east": {
+      "model": "vinum:block/blender",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "vinum:block/blender",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vinum:block/blender",
+      "y": 270
+    }
+  }
+}

@@ -12,7 +12,7 @@ public final class SugarPlantMenu extends AbstractContainerMenu {
     private final ContainerData data;
     public SugarPlantMenu(int id,Inventory inventory,RegistryFriendlyByteBuf buffer) {
         this(id,inventory,inventory.player.level().getBlockEntity(buffer.readBlockPos()) instanceof SugarPlantBlockEntity p?p:null,
-            new ItemStackHandler(7),new SimpleContainerData(12));
+            new ItemStackHandler(SugarPlantBlockEntity.INVENTORY_SIZE),new SimpleContainerData(SugarPlantBlockEntity.DATA_COUNT));
     }
     public SugarPlantMenu(int id,Inventory inventory,SugarPlantBlockEntity plant) {
         this(id,inventory,plant,plant.inventory,plant.data);
@@ -24,7 +24,7 @@ public final class SugarPlantMenu extends AbstractContainerMenu {
             int slot=i;
             addSlot(new SlotItemHandler(items,i,positions[i][0],positions[i][1]) {
                 @Override public boolean mayPlace(ItemStack stack) {
-                    return slot!=1&&slot!=3&&slot!=6&&super.mayPlace(stack);
+                    return slot!=1&&slot!=3&&slot!=5&&slot!=6&&super.mayPlace(stack);
                 }
             });
         }
@@ -34,6 +34,8 @@ public final class SugarPlantMenu extends AbstractContainerMenu {
         addDataSlots(data);
     }
     public int mode(){return data.get(0);}
+    public int energy(){return data.get(13); }
+    public boolean automatic(){return data.get(12)!=0;}
     public int progress(){return data.get(1);}
     public int required(){return data.get(2);}
     public int burn(){return data.get(3);}
@@ -48,10 +50,11 @@ public final class SugarPlantMenu extends AbstractContainerMenu {
     @Override public boolean stillValid(Player player){return plant!=null&&plant.usable(player);}
     @Override public boolean clickMenuButton(Player player,int button) {
         if(plant==null||player.level().isClientSide||!plant.usable(player))return false;
-        if(button>=0&&button<5)plant.selectMode(button);
+        if(button>=0&&button<SugarPlantBlockEntity.MODE_COUNT)plant.selectMode(button);
         else if(button==100)plant.start();
         else if(button==101)plant.recycleOutput();
         else if(button==102)plant.recoverInput();
+        else if(button==103)plant.toggleAutomatic();
         else return false;
         broadcastChanges();return true;
     }
@@ -63,7 +66,7 @@ public final class SugarPlantMenu extends AbstractContainerMenu {
         else {
             boolean emptyContainer=net.neoforged.neoforge.fluids.FluidUtil.getFluidHandler(stack)
                 .map(handler->handler.getFluidInTank(0).isEmpty()).orElse(false);
-            for(int target:emptyContainer?new int[]{5,4,2}:new int[]{5,4,0})if(slots.get(target).mayPlace(stack)) {
+            for(int target:emptyContainer?new int[]{4,2}:new int[]{4,0})if(slots.get(target).mayPlace(stack)) {
                 moved=moveItemStackTo(stack,target,target+1,false);if(moved)break;
             }
             if(!moved)moved=index<34?moveItemStackTo(stack,34,43,false):moveItemStackTo(stack,7,34,false);

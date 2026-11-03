@@ -9,10 +9,10 @@ import net.minecraft.world.entity.player.Inventory;
 
 /** Inputs on the left, processing in the center, finished liquids and solids on the right. */
 public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMenu> {
-    private final Button[] modes=new Button[5];
-    private Button start,recycle,recover;
-    private static final String[] MODES={"syrup","sugar","panela","mead","wash"};
-    private static final String[] STATUS={"ready","running","wrong_input","output_full","solid_full","fuel","ingredient"};
+    private final Button[] modes=new Button[SugarPlantBlockEntity.MODE_COUNT];
+    private Button start,recycle,recover,automatic;
+    private static final String[] MODES={"syrup","sugar","panela"};
+    private static final String[] STATUS={"ready","running","wrong_input","output_full","solid_full","fuel"};
     public SugarPlantScreen(SugarPlantMenu menu,Inventory inventory,Component title) {
         super(menu,inventory,title);imageWidth=340;imageHeight=222;inventoryLabelX=89;inventoryLabelY=127;
     }
@@ -22,7 +22,7 @@ public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMe
         for(int i=0;i<modes.length;i++) {
             int mode=i;
             modes[i]=addRenderableWidget(Button.builder(text(MODES[i]),b->send(mode))
-                .bounds(leftPos+8+i*65,topPos+20,62,18)
+                .bounds(leftPos+8+i*109,topPos+20,105,18)
                 .tooltip(Tooltip.create(text(MODES[i]+"_hint"))).build());
         }
         start=addRenderableWidget(Button.builder(text("start"),b->send(100)).bounds(leftPos+82,topPos+90,74,18).build());
@@ -30,10 +30,14 @@ public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMe
             .tooltip(Tooltip.create(text("next_stage_hint"))).build());
         recover=addRenderableWidget(Button.builder(text("recover"),b->send(102)).bounds(leftPos+267,topPos+182,65,18)
             .tooltip(Tooltip.create(text("recover_hint"))).build());
+        automatic=addRenderableWidget(Button.builder(text("automatic_off"),b->send(103))
+            .bounds(leftPos+188,topPos+3,144,16)
+            .tooltip(Tooltip.create(text("automatic_hint"))).build());
         updateButtons();
     }
     private void send(int action){if(minecraft!=null&&minecraft.gameMode!=null)minecraft.gameMode.handleInventoryButtonClick(menu.containerId,action);}
     private void updateButtons() {
+        automatic.setMessage(text(menu.automatic()?"automatic_on":"automatic_off"));
         for(int i=0;i<modes.length;i++)modes[i].active=menu.required()==0&&menu.mode()!=i;
         start.active=menu.status()==0;
         recycle.active=menu.required()==0&&menu.outputAmount()>0;
@@ -54,6 +58,10 @@ public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMe
         g.fill(leftPos+83,topPos+79,leftPos+83+progress,topPos+83,0xFF71925A);
         int fire=menu.burnTotal()<=0?0:Math.clamp(menu.burn()*16/menu.burnTotal(),0,16);
         g.fill(leftPos+39,topPos+163-fire,leftPos+43,topPos+163,0xFFE48C2C);
+        g.fill(leftPos+55,topPos+146,leftPos+65,topPos+201,0xFF625449);
+        g.fill(leftPos+56,topPos+147,leftPos+64,topPos+200,0xFF302D29);
+        int charge=Math.clamp(menu.energy()*53/SugarPlantBlockEntity.ENERGY_CAPACITY,0,53);
+        g.fill(leftPos+56,topPos+200-charge,leftPos+64,topPos+200,0xFFCD933A);
         g.drawString(font,"→",leftPos+68,topPos+58,0xFF594736,false);
         g.drawString(font,"↓",leftPos+53,topPos+75,0xFF594736,false);
         g.drawString(font,"↓",leftPos+279,topPos+75,0xFF594736,false);
@@ -72,10 +80,11 @@ public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMe
         g.drawString(font,text("bottles"),264,42,0x493B2D,false);
         g.drawString(font,text("returned"),42,106,0x493B2D,false);
         g.drawString(font,text("filled"),268,106,0x493B2D,false);
+        g.drawString(font,text("energy"),46,135,0x493B2D,false);
         g.drawString(font,text("fuel_slot"),14,135,0x493B2D,false);
-        g.drawString(font,text("ingredient_slot"),14,172,0x493B2D,false);
+        g.drawString(font,text("return_slot"),14,172,0x493B2D,false);
         g.drawString(font,text("solid_slot"),295,135,0x493B2D,false);
-        int mode=Math.clamp(menu.mode(),0,4);
+        int mode=Math.clamp(menu.mode(),0,MODES.length-1);
         g.drawWordWrap(font,text(MODES[mode]+"_recipe"),82,45,172,0x493B2D);
         int status=Math.clamp(menu.status(),0,STATUS.length-1);
         g.drawWordWrap(font,text("status_"+STATUS[status]),10,116,320,status==0?0x355125:0x715432);
@@ -88,7 +97,11 @@ public final class SugarPlantScreen extends AbstractContainerScreen<SugarPlantMe
             g.renderComponentTooltip(font,java.util.List.of(fluid.isEmpty()?Component.translatable("gui.vinum.empty_tank"):fluid.getHoverName(),
                 Component.translatable("tooltip.vinum.container_capacity",amount,SugarPlantBlockEntity.TANK_CAPACITY)),mouseX,mouseY);
         }
-        String[] hints={"load_hint","returned_hint","bottle_hint","filled_hint","fuel_hint","ingredient_hint","solid_hint"};
+        if(isHovering(55,146,10,55,mouseX,mouseY))
+            g.renderComponentTooltip(font,java.util.List.of(
+                Component.translatable("gui.vinum.sugar_plant.energy_amount",menu.energy(),SugarPlantBlockEntity.ENERGY_CAPACITY),
+                Component.translatable("gui.vinum.sugar_plant.energy_hint",SugarPlantBlockEntity.FE_PER_TICK)),mouseX,mouseY);
+        String[] hints={"load_hint","returned_hint","bottle_hint","filled_hint","fuel_hint","return_hint","solid_hint"};
         for(int i=0;i<7;i++) {
             var slot=menu.slots.get(i);
             if(!slot.hasItem()&&isHovering(slot.x,slot.y,16,16,mouseX,mouseY))

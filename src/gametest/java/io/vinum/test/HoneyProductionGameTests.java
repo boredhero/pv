@@ -9,6 +9,7 @@ import io.vinum.multiblock.StillMultiblock;
 import io.vinum.production.*;
 import io.vinum.production.vessel.FermentationVesselBlockEntity;
 import io.vinum.sugar.*;
+import io.vinum.blender.*;
 import io.vinum.tileentity.*;
 import java.util.List;
 import net.minecraft.core.*;
@@ -31,29 +32,29 @@ import net.neoforged.neoforge.gametest.*;
 @PrefixGameTestTemplate(false)
 public final class HoneyProductionGameTests {
     @GameTest(template="barrel_space")
-    public static void plantPreparesMeadMustAndReturnsExactlyOneHoneyBottle(GameTestHelper h) {
-        var plant=plant(h,new BlockPos(2,1,2));
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INPUT_CONTAINER,new ItemStack(Items.WATER_BUCKET));
+    public static void blenderPreparesMeadMustAndReturnsExactlyOneHoneyBottle(GameTestHelper h) {
+        var plant=blender(h,new BlockPos(2,1,2));
+        plant.inventory.setStackInSlot(BlenderBlockEntity.A_CONTAINER,new ItemStack(Items.WATER_BUCKET));
         tick(h,plant,1);
-        h.assertTrue(plant.input().getAmount()==1000 && plant.inventory.getStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER).is(Items.BUCKET),
+        h.assertTrue(plant.a().getAmount()==1000 && plant.inventory.getStackInSlot(BlenderBlockEntity.A_RETURN).is(Items.BUCKET),
                 "Input slot empties a water bucket into the plant and returns its bucket");
-        plant.inventory.extractItem(SugarPlantBlockEntity.RETURNED_CONTAINER,64,false);
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT,new ItemStack(Items.HONEY_BOTTLE,2));
-        plant.selectMode(3);
+        plant.inventory.extractItem(BlenderBlockEntity.A_RETURN,64,false);
+        plant.inventory.setStackInSlot(BlenderBlockEntity.INGREDIENT,new ItemStack(Items.HONEY_BOTTLE,2));
+        plant.selectMode(BlenderBlockEntity.HONEY);
         h.assertTrue(plant.start(),"Honey and water mix without requiring fuel");
         tick(h,plant,20);
         var must=plant.output();
         h.assertTrue(is(must,"mead_must") && must.getAmount()==1250
                 && Math.abs(BatchProfile.of(must).sugarGramsPerLitre()-200)<1e-9,
                 "One honey bottle and one litre water prepare1250mB of200g/L honey must");
-        h.assertTrue(plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE)
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).getCount()==1
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER).is(Items.GLASS_BOTTLE)
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER).getCount()==1,
+        h.assertTrue(plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE)
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).getCount()==1
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT_RETURN).is(Items.GLASS_BOTTLE)
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT_RETURN).getCount()==1,
                 "Preparation consumes one honey bottle and returns exactly one glass bottle");
         h.assertTrue(BatchProfile.of(must).ingredientProportions().keySet().stream().anyMatch(key->key.getPath().equals("honey")),
                 "Must records honey provenance rather than cane sugar");
-        var restored=new SugarPlantBlockEntity(plant.getBlockPos(),plant.getBlockState());
+        var restored=new BlenderBlockEntity(plant.getBlockPos(),plant.getBlockState());
         restored.loadWithComponents(plant.saveWithoutMetadata(h.getLevel().registryAccess()),h.getLevel().registryAccess());
         h.assertTrue(FluidStack.isSameFluidSameComponents(restored.output(),must)
                 && restored.output().getAmount()==1250,"Prepared honey batch survives plant serialization");
@@ -62,33 +63,33 @@ public final class HoneyProductionGameTests {
 
     @GameTest(template="barrel_space")
     public static void honeyPreparationRejectsInvalidInputsAndBlockedBottleReturns(GameTestHelper h) {
-        var plant=plant(h,new BlockPos(2,1,2));
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT,new ItemStack(Items.HONEY_BOTTLE));
-        plant.selectMode(3);
-        h.assertTrue(!plant.start() && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE),
+        var plant=blender(h,new BlockPos(2,1,2));
+        plant.inventory.setStackInSlot(BlenderBlockEntity.INGREDIENT,new ItemStack(Items.HONEY_BOTTLE));
+        plant.selectMode(BlenderBlockEntity.HONEY);
+        h.assertTrue(!plant.start() && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE),
                 "Honey cannot prepare must without water");
         for(var input:List.of(new FluidStack(Fluids.WATER,500),fluid("cane_juice",1000))) {
-            plant.inputFluids().drain(Integer.MAX_VALUE,FluidAction.EXECUTE);
-            plant.inputFluids().fill(input,FluidAction.EXECUTE);
-            var before=plant.input();
-            h.assertTrue(!plant.start() && FluidStack.isSameFluidSameComponents(before,plant.input())
-                    && before.getAmount()==plant.input().getAmount()
-                    && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE)
-                    && plant.inventory.getStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER).isEmpty(),
+            plant.inputA().drain(Integer.MAX_VALUE,FluidAction.EXECUTE);
+            plant.inputA().fill(input,FluidAction.EXECUTE);
+            var before=plant.a();
+            h.assertTrue(!plant.start() && FluidStack.isSameFluidSameComponents(before,plant.a())
+                    && before.getAmount()==plant.a().getAmount()
+                    && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).is(Items.HONEY_BOTTLE)
+                    && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT_RETURN).isEmpty(),
                     "Insufficient water or unrelated cane batches reject honey atomically");
         }
-        plant.inputFluids().drain(Integer.MAX_VALUE,FluidAction.EXECUTE);
-        plant.inputFluids().fill(new FluidStack(Fluids.WATER,1000),FluidAction.EXECUTE);
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER,new ItemStack(Items.BUCKET));
-        h.assertTrue(!plant.start() && plant.input().getAmount()==1000
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).getCount()==1,
+        plant.inputA().drain(Integer.MAX_VALUE,FluidAction.EXECUTE);
+        plant.inputA().fill(new FluidStack(Fluids.WATER,1000),FluidAction.EXECUTE);
+        plant.inventory.setStackInSlot(BlenderBlockEntity.INGREDIENT_RETURN,new ItemStack(Items.BUCKET));
+        h.assertTrue(!plant.start() && plant.a().getAmount()==1000
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).getCount()==1,
                 "An incompatible returned-container slot blocks honey preparation without loss");
-        plant.inventory.extractItem(SugarPlantBlockEntity.RETURNED_CONTAINER,64,false);
+        plant.inventory.extractItem(BlenderBlockEntity.INGREDIENT_RETURN,64,false);
         h.assertTrue(plant.start(),"Clearing the returned-container slot permits preparation");
         tick(h,plant,20);
         h.assertTrue(is(plant.output(),"mead_must") && plant.output().getAmount()==1250
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).isEmpty()
-                && plant.inventory.getStackInSlot(SugarPlantBlockEntity.RETURNED_CONTAINER).is(Items.GLASS_BOTTLE),
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).isEmpty()
+                && plant.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT_RETURN).is(Items.GLASS_BOTTLE),
                 "Preparation consumes one ingredient and returns its glass container");
         h.succeed();
     }
@@ -277,6 +278,6 @@ public final class HoneyProductionGameTests {
     private static FluidStack fluid(String id,int amount){var f=new FluidStack(BuiltInRegistries.FLUID.get(ProductionInputs.id(id)),amount);return ProductionInputs.defaultProfile(f).applyTo(f);}
     private static FermentationRecipe fermentation(GameTestHelper h,FluidStack fluid){return h.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get()).stream().map(holder->holder.value()).filter(r->r.matches(fluid)).findFirst().orElseThrow();}
     private static FermentationVesselBlockEntity vessel(GameTestHelper h,BlockPos relative,Block block){var pos=h.absolutePos(relative);h.getLevel().setBlockAndUpdate(pos,block.defaultBlockState());return (FermentationVesselBlockEntity)h.getLevel().getBlockEntity(pos);}
-    private static SugarPlantBlockEntity plant(GameTestHelper h,BlockPos relative){var pos=h.absolutePos(relative);h.getLevel().setBlockAndUpdate(pos,SugarContent.PLANT.get().defaultBlockState());return (SugarPlantBlockEntity)h.getLevel().getBlockEntity(pos);}
-    private static void tick(GameTestHelper h,SugarPlantBlockEntity plant,int ticks){for(int i=0;i<ticks;i++)SugarPlantBlockEntity.tick(h.getLevel(),plant.getBlockPos(),plant.getBlockState(),plant);}
+    private static BlenderBlockEntity blender(GameTestHelper h,BlockPos relative){var pos=h.absolutePos(relative);h.getLevel().setBlockAndUpdate(pos,BlenderContent.BLENDER.get().defaultBlockState());return (BlenderBlockEntity)h.getLevel().getBlockEntity(pos);}
+    private static void tick(GameTestHelper h,BlenderBlockEntity plant,int ticks){for(int i=0;i<ticks;i++)BlenderBlockEntity.tick(h.getLevel(),plant.getBlockPos(),plant.getBlockState(),plant);}
 }

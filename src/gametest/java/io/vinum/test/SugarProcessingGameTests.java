@@ -2,6 +2,7 @@ package io.vinum.test;
 
 import io.vinum.production.*;
 import io.vinum.sugar.*;
+import io.vinum.blender.*;
 import io.vinum.block.ModBlocks;
 import io.vinum.machine.WinePressBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -73,22 +74,25 @@ public final class SugarProcessingGameTests {
         var panela = plant.inventory.extractItem(SugarPlantBlockEntity.SOLID_OUTPUT, 64, false);
         h.assertTrue(plant.output().isEmpty() && panela.is(SugarContent.PANELA.get()) && panela.getCount() == 1,
                 "Panela captures the complete syrup batch as one solid item");
-        plant.inputFluids().fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
-        plant.selectMode(4);
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT, new ItemStack(Items.SUGAR, 2));
-        h.assertTrue(!plant.start() && plant.inventory.getStackInSlot(SugarPlantBlockEntity.INGREDIENT).is(Items.SUGAR),
+        var blenderPos=h.absolutePos(new BlockPos(5,2,2));
+        h.getLevel().setBlockAndUpdate(blenderPos,BlenderContent.BLENDER.get().defaultBlockState());
+        var blender=(BlenderBlockEntity)h.getLevel().getBlockEntity(blenderPos);
+        blender.inputA().fill(new FluidStack(Fluids.WATER, 1000), FluidAction.EXECUTE);
+        blender.selectMode(BlenderBlockEntity.WASH);
+        blender.inventory.setStackInSlot(BlenderBlockEntity.INGREDIENT, new ItemStack(Items.SUGAR, 2));
+        h.assertTrue(!blender.start() && blender.inventory.getStackInSlot(BlenderBlockEntity.INGREDIENT).is(Items.SUGAR),
                 "Untracked honey/witch sugar cannot become cane rum through dissolution");
-        plant.inventory.setStackInSlot(SugarPlantBlockEntity.INGREDIENT, panela);
-        h.assertTrue(plant.start(), "Tracked panela starts dissolution");
-        tick(h, plant, 20);
-        h.assertTrue(Math.abs(sugar(plant.output()) - sugar(syrup)) < 1e-8,
+        blender.inventory.setStackInSlot(BlenderBlockEntity.INGREDIENT, panela);
+        h.assertTrue(blender.start(), "Tracked panela starts dissolution");
+        for(int i=0;i<20;i++)BlenderBlockEntity.tick(h.getLevel(),blender.getBlockPos(),blender.getBlockState(),blender);
+        h.assertTrue(Math.abs(sugar(blender.output()) - sugar(syrup)) < 1e-8,
                 "Dissolution restores the original fermentable sugar mass");
-        var profile = BatchProfile.of(plant.output());
+        var profile = BatchProfile.of(blender.output());
         h.assertTrue(profile.ingredientProportions().equals(java.util.Map.of(ProductionInputs.id("panela"), 1.0))
                 && profile.history().contains(ProductionInputs.id("dissolving")),
                 "Dissolved panela retains cane provenance and processing history");
         h.assertTrue(h.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get())
-                .stream().anyMatch(holder -> holder.value().matches(plant.output())),
+                .stream().anyMatch(holder -> holder.value().matches(blender.output())),
                 "Panela wash participates in the shared fermentation recipes");
         h.succeed();
     }

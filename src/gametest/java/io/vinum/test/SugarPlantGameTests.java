@@ -56,24 +56,76 @@ public final class SugarPlantGameTests {
         tick(h,copy,125);h.assertTrue(copy.output().getAmount()==250&&!copy.processing(),"Restored batch completes exactly once");
         int fuel=copy.burnTime();tick(h,copy,200);h.assertTrue(copy.output().getAmount()==250&&copy.burnTime()==fuel,"Idle plant neither repeats outputs nor wastes fuel");h.succeed();
     }
+
     @GameTest(template="barrel_space")
-    public static void twoTrackedSugarItemsMakeOneLitreOfFermentableWash(GameTestHelper h){
-        var p=plant(h);p.selectMode(p.DISSOLVE_MODE);
-        p.inputFluids().fill(new FluidStack(net.minecraft.world.level.material.Fluids.WATER,1000),FluidAction.EXECUTE);
-        var sugar=SugarProcess.recipes().get(1).solids(fluid("cane_syrup",250));
-        p.inventory.setStackInSlot(p.INGREDIENT,sugar.copy());
-        h.assertTrue(!p.start()&&p.status()==p.STATUS_INGREDIENT&&p.input().getAmount()==1000
-            &&p.inventory.getStackInSlot(p.INGREDIENT).getCount()==1,"One sugar cannot start or consume water");
-        p.inventory.setStackInSlot(p.INGREDIENT,sugar.copyWithCount(3));
-        h.assertTrue(p.start(),"Two tracked sugar items prepare wash without fuel");tick(h,p,20);
-        var profile=BatchProfile.of(p.output());
-        h.assertTrue(p.output().getAmount()==1000&&Math.abs(profile.sugarGramsPerLitre()-200)<1e-8
-            &&p.inventory.getStackInSlot(p.INGREDIENT).getCount()==1,"One litre receives exactly the mass of two 100g sugar items");
-        h.assertTrue(profile.ingredientProportions().equals(sugar.get(ProductionDataComponents.BATCH_PROFILE.get()).ingredientProportions())
-            &&profile.history().contains(ProductionInputs.id("dissolving")),"Wash preserves cane origin and processing history");
-        h.assertTrue(h.getLevel().getRecipeManager().getAllRecipesFor(ProductionRecipes.FERMENTATION_TYPE.get())
-            .stream().anyMatch(r->r.value().matches(p.output())),"Resulting cane sugar wash is fermentable");h.succeed();
+    public static void automaticBatchesWaitForFuelAndOutputThenResume(GameTestHelper h){
+        var p=plant(h);p.selectMode(1);p.inputFluids().fill(fluid("cane_syrup",750),FluidAction.EXECUTE);
+        p.toggleAutomatic();tick(h,p,20);
+        h.assertTrue(p.automatic()&&!p.processing()&&p.input().getAmount()==750,"Auto waits for fuel without reserving input");
+        p.inventory.setStackInSlot(p.FUEL,new ItemStack(Items.COAL));
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,new ItemStack(Items.COBBLESTONE,64));tick(h,p,20);
+        h.assertTrue(p.input().getAmount()==750&&p.inventory.getStackInSlot(p.FUEL).getCount()==1,"Blocked auto start consumes neither input nor fuel");
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,ItemStack.EMPTY);tick(h,p,300);
+        h.assertTrue(p.output().getAmount()==250,"First automatic batch completes");
+        int remainingFuel=p.burnTime();
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,new ItemStack(Items.COBBLESTONE,64));tick(h,p,50);
+        h.assertTrue(p.input().getAmount()==500&&p.burnTime()==remainingFuel,"Output pause between automatic batches wastes nothing");
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,ItemStack.EMPTY);tick(h,p,600);
+        h.assertTrue(p.input().isEmpty()&&p.output().getAmount()==750&&p.inventory.getStackInSlot(p.SOLID_OUTPUT).getCount()==2,
+            "Clearing the output automatically completes both remaining batches");
+        remainingFuel=p.burnTime();tick(h,p,100);
+        h.assertTrue(!p.processing()&&p.burnTime()==remainingFuel&&p.output().getAmount()==750,"Empty input waits without duplicate output or fuel waste");
+        p.inputFluids().fill(fluid("cane_syrup",250),FluidAction.EXECUTE);tick(h,p,300);
+        h.assertTrue(p.output().getAmount()==1000,"Replenished input resumes automatically");h.succeed();
     }
+    @GameTest(template="barrel_space")
+    public static void automaticSettingPersistsAndStopFinishesOnlyReservedBatch(GameTestHelper h){
+        var p=plant(h);p.inputFluids().fill(fluid("cane_juice",2500),FluidAction.EXECUTE);
+        p.inventory.setStackInSlot(p.FUEL,new ItemStack(Items.COAL));p.toggleAutomatic();tick(h,p,75);
+        var item=new ItemStack(SugarContent.PLANT_ITEM.get());p.saveToItem(item,h.getLevel().registryAccess());
+        var copy=new SugarPlantBlockEntity(p.getBlockPos(),p.getBlockState());copy.setLevel(h.getLevel());
+        copy.loadWithComponents(item.get(net.minecraft.core.component.DataComponents.BLOCK_ENTITY_DATA).copyTag(),h.getLevel().registryAccess());
+        h.assertTrue(copy.automatic()&&copy.progress()==75,"Pickup and reload preserve repetition and progress");
+        copy.toggleAutomatic();tick(h,copy,500);
+        h.assertTrue(!copy.automatic()&&!copy.processing()&&copy.output().getAmount()==250&&copy.input().getAmount()==1500,
+            "Stopping auto finishes the reserved batch but never starts another");
+        copy.toggleAutomatic();tick(h,copy,500);
+        h.assertTrue(copy.output().getAmount()==500&&copy.input().getAmount()==500&&!copy.processing(),
+            "Automatic processing preserves an insufficient partial batch");h.succeed();
+    }
+    @GameTest(template="barrel_space")
+    public static void feHeatingFallsBackToFuelWithoutDoubleCharging(GameTestHelper h){
+        var p=plant(h);p.inputFluids().fill(fluid("cane_juice",2000),FluidAction.EXECUTE);
+        p.energy.generate(4020);p.inventory.setStackInSlot(p.FUEL,new ItemStack(Items.COAL));p.toggleAutomatic();tick(h,p,200);
+        h.assertTrue(p.output().getAmount()==250&&p.energy.getEnergyStored()==20&&p.burnTime()==0
+            &&p.inventory.getStackInSlot(p.FUEL).getCount()==1,"FE supplies exactly 20 per tick without igniting available fuel");
+        tick(h,p,1);h.assertTrue(p.progress()==1&&p.energy.getEnergyStored()==0,"Next batch spends the final FE tick");
+        tick(h,p,1);h.assertTrue(p.progress()==2&&p.burnTime()==1599&&p.inventory.getStackInSlot(p.FUEL).isEmpty(),
+            "Fuel takes over when FE runs out, with exactly one burn tick charged");
+        p.energy.generate(1234);tick(h,p,198);
+        h.assertTrue(p.output().getAmount()==500&&p.energy.getEnergyStored()==1234&&p.burnTime()==1401,
+            "Already-lit furnace heat finishes the batch without double-charging FE");
+        var item=new ItemStack(SugarContent.PLANT_ITEM.get());p.saveToItem(item,h.getLevel().registryAccess());
+        var copy=new SugarPlantBlockEntity(p.getBlockPos(),p.getBlockState());copy.setLevel(h.getLevel());
+        copy.loadWithComponents(item.get(net.minecraft.core.component.DataComponents.BLOCK_ENTITY_DATA).copyTag(),h.getLevel().registryAccess());
+        h.assertTrue(copy.energy.getEnergyStored()==1234&&copy.automatic(),"Pickup preserves energy and auto mode");h.succeed();
+    }
+    @GameTest(template="barrel_space")
+    public static void fePortsAndBlockedWorkConserveEnergy(GameTestHelper h){
+        var p=plant(h);
+        for(var side:Direction.values()){
+            var port=h.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.EnergyStorage.BLOCK,p.getBlockPos(),side);
+            h.assertTrue(port!=null&&port.canReceive()&&!port.canExtract(),"Every face accepts FE and cannot export it");
+            h.assertTrue(port.receiveEnergy(1000,true)==80&&port.getEnergyStored()==0,"Simulated intake is bounded and does not mutate");
+        }
+        p.energy.generate(4000);p.selectMode(1);p.inputFluids().fill(fluid("cane_syrup",250),FluidAction.EXECUTE);
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,new ItemStack(Items.COBBLESTONE,64));p.toggleAutomatic();tick(h,p,10);
+        h.assertTrue(p.energy.getEnergyStored()==4000&&p.input().getAmount()==250,"Blocked auto start consumes no FE or inputs");
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,ItemStack.EMPTY);tick(h,p,10);
+        p.inventory.setStackInSlot(p.SOLID_OUTPUT,new ItemStack(Items.COBBLESTONE,64));tick(h,p,10);
+        h.assertTrue(p.energy.getEnergyStored()==3800&&p.progress()==10,"A blocked reserved batch retains its FE and progress");h.succeed();
+    }
+
     private static SugarPlantBlockEntity plant(GameTestHelper h){var pos=h.absolutePos(new BlockPos(2,2,2));h.getLevel().setBlockAndUpdate(pos,SugarContent.PLANT.get().defaultBlockState());return (SugarPlantBlockEntity)h.getLevel().getBlockEntity(pos);}
     private static FluidStack fluid(String id,int amount){var f=new FluidStack(BuiltInRegistries.FLUID.get(ProductionInputs.id(id)),amount);return ProductionInputs.defaultProfile(f).applyTo(f);}
     private static void tick(GameTestHelper h,SugarPlantBlockEntity p,int count){for(int i=0;i<count;i++)SugarPlantBlockEntity.tick(h.getLevel(),p.getBlockPos(),p.getBlockState(),p);}

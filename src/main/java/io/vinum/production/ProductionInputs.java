@@ -21,17 +21,29 @@ public final class ProductionInputs {
             register(related(key, "grape_juice_"), related(key, "juice_"), profile(variety.ingredient(), 200, 0));
             register(related(key, "grape_must_"), related(key, "must_"), profile(variety.ingredient(), 200, 100));
         }
-        registerFluidProfile(id("cane_juice"), profile(id("sugar_cane"), 200, 20));
-        registerFluidProfile(id("cane_syrup"), profile(id("cane_syrup"), 800, 0));
-        registerFluidProfile(id("molasses"), profile(id("molasses"), 400, 0));
-        registerFluidProfile(id("cane_wash"), profile(id("sugar_cane"), 200, 0));
-        registerFluidProfile(id("fermented_cane_wash"), profile(id("sugar_cane"), 0, 20).withAlcoholFraction(.12));
-        registerFluidProfile(id("mead_must"), profile(id("honey"), 200, 0));
-        registerFluidProfile(id("mead"), profile(id("honey"), 0, 0).withAlcoholFraction(.12));
-        registerFluidProfile(id("honeyshine"), profile(id("honey"), 0, 0).withAlcoholFraction(.6));
-        registerFluidProfile(id("brandy"), profile(id("grapes"), 0, 0).withAlcoholFraction(.6));
-        registerFluidProfile(id("rum"), profile(id("sugar_cane"), 0, 0).withAlcoholFraction(.6));
+        loadFluidDefaults();
         register(id("unfermented_agave_wort"), id("agave_mosto"), profile(id("agave"), 500.0 / 3, 0));
+    }
+    /** Packaged adapters for unprofiled fluids; explicit batch components always take precedence. */
+    private static void loadFluidDefaults() {
+        try (var stream = ProductionInputs.class.getResourceAsStream("/vinum/production_fluid_defaults.json")) {
+            if (stream == null) throw new IllegalStateException("Missing production fluid defaults");
+            var entries = com.google.gson.JsonParser.parseReader(new java.io.InputStreamReader(
+                    stream, java.nio.charset.StandardCharsets.UTF_8)).getAsJsonObject();
+            for (var entry : entries.entrySet()) {
+                var value = entry.getValue().getAsJsonObject();
+                registerFluidProfile(ResourceLocation.parse(entry.getKey()), new BatchProfile(
+                        number(value, "sugar_g_per_litre"), number(value, "starch_g_per_litre"),
+                        number(value, "solids_g_per_litre"), number(value, "alcohol_fraction"),
+                        Map.of(ResourceLocation.parse(value.get("ingredient").getAsString()), 1D),
+                        Optional.empty(), List.of()));
+            }
+        } catch (java.io.IOException e) {
+            throw new IllegalStateException("Could not read production fluid defaults", e);
+        }
+    }
+    private static double number(com.google.gson.JsonObject value, String key) {
+        return value.has(key) ? value.get(key).getAsDouble() : 0;
     }
     private ProductionInputs() {}
     private static ResourceLocation related(ResourceLocation variety, String prefix) {
