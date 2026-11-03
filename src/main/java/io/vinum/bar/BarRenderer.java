@@ -50,12 +50,13 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
                     wall(opaque,poses.last(),shape,low+.008,high+.008,shape.radius(low)*.86,shape.radius(high)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
                 }
                 cap(opaque,poses.last(),shape,surface+.008,shape.radius(surface)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
-                io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
             }
             // Thin opaque heel/lip highlights keep the glass silhouette legible when empty.
             int edge=0xFF000000 | style.glassMaterial().tint();
             wall(opaque,poses.last(),shape,0,.012,shape.radius(0),shape.radius(.012),edge,light,overlay);
             wall(opaque,poses.last(),shape,.526,.54,.029,.029,edge,light,overlay);
+            // A texture switch may finish the shared builder. Do not reuse opaque after this draw.
+            if(!fluid.isEmpty()) io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
             if(!fluid.isEmpty() && style.closure().type()!=BeverageAppearance.ClosureType.NONE
                 && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack))) {
                 int closure=style.closure().color();

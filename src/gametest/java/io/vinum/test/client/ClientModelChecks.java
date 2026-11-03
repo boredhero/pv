@@ -43,5 +43,6 @@ public final class ClientModelChecks {
             }
             LogUtils.getLogger().info("Vinum client model check: {} has {} rendered quads", name, quads);
         }
+        BarRenderChecks.run();
     }
 }
