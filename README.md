@@ -241,6 +241,7 @@ Run real-client scenarios from chat:
 /vinumclienttest run carboy_interaction
 /vinumclienttest run still_menu
 /vinumclienttest run shallow_vat
+/vinumclienttest run render_comparison
 /vinumclienttest status
 /vinumclienttest cancel
 /vinumclienttest restore
@@ -252,7 +253,11 @@ opening the actual still screen and moving a bottle through its slots; and placi
 the last segment of a shallow vat. Actions use Minecraft's client interaction and
 container APIs, including network packets. They do not call the fermentation
 engine directly to pretend a client interaction happened. These are targeted
-functional scenarios, not screenshot comparisons or proof of every rendering detail.
+functional scenarios, not proof of every rendering detail. The separate
+`render_comparison` scenario captures the same scene using frozen reference and
+optimized renderers, reloads resources, and changes a bottle's fill. The test mod
+also compares emitted vertex attributes and reports warmed CPU submission timings;
+those timings are not GPU frame times or in-game FPS measurements.
 
 The runner requires singleplayer Creative with cheats. It reserves an empty loaded
 air volume near and above the player (searching up to 16 blocks horizontally and
@@ -689,6 +694,29 @@ objects. `BeverageAppearance.resolve(contents, vessel)` is the presentation boun
 bar and shelf renderers do not select designs by drink name. Inventory model predicates
 and tint handlers consume the same appearance fields. Resolution is read-only and does
 not alter chemistry, volume, aging, or item components.
+
+Placed bottle and drinkware renderers record immutable local-space meshes into
+`CachedRenderMesh`. Bounded shared caches key on the complete resolved appearance,
+color, fill fraction, and closure state. Slot snapshots avoid decoding unchanged
+items every frame; display mutations and client update packets advance a transient
+revision. Model/resource reloads invalidate both cache layers. Current pose, lighting,
+and overlay are applied during replay, and live GPU buffers are never cached.
+Changing a beverage's label, geometry, or material in the appearance definitions
+therefore uses the same cache boundary without adding a beverage-specific renderer.
+
+Rack bottles omit hidden opaque liquid disks at internal profile joins and group
+liquid/glass sections by material. Existing transparent faces, their order within
+the glass pass, texture resolution, polygon counts on visible surfaces, and cocktail
+garnishes are preserved. This uses ordinary Minecraft entity render types rather
+than a custom shader or an additional rendering backend.
+
+Regression coverage compares 396 reference/cached render cases, checks cache eviction,
+resource invalidation, changed fills, and current lighting. The initial optimization
+was also exercised with Iris 1.8.12, Sodium 0.6.13, and Complementary Reimagined r5.4
+in the isolated client. Transparent glass faces were retained after comparison;
+other shader packs still require their own compatibility checks. The warmed benchmark
+writes CPU submission timings and supported JVM allocation counters to
+`run-test-client/client-test-results/render-benchmark.json`.
 
 ```json
 {

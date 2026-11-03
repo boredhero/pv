@@ -26,48 +26,55 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
         poses.pushPose(); poses.translate(.5,0,.5);
         poses.mulPose(Axis.YP.rotationDegrees(180-bar.getBlockState().getValue(BarBlock.FACING).toYRot()));
         poses.translate(-.5,0,-.5);
-        for(int slot=0;slot<BarBlockEntity.SLOTS;slot++) {
-            var stack=bar.bottle(slot);
-            var drinkware=DrinkwareAppearance.find(stack);
-            if(drinkware.isPresent()) {
-                poses.pushPose();
-                poses.translate(BarBlock.CENTERS[slot][0],1.008,BarBlock.CENTERS[slot][1]);
-                DrinkwareRenderer.render(stack,drinkware.get(),poses,buffers,light,overlay);
-                poses.popPose();
-                continue;
-            }
-            if(!(stack.getItem() instanceof FluidContainerItem container))continue;
-            var fluid=container.contents(stack);var style=BeverageAppearance.resolve(fluid, stack);
-            var shape=style.bottle3DType().geometry();
-            poses.pushPose();poses.translate(BarBlock.CENTERS[slot][0],1.008,BarBlock.CENTERS[slot][1]);
-            poses.scale((float)shape.widthScale(),1,(float)shape.depthScale());
-            var opaque=buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
-            if(!fluid.isEmpty()) {
-                double surface=shape.fillHeight((double)fluid.getAmount()/container.capacity());
-                for(int i=0;i<shape.sections();i++) {
-                    double low=Math.max(shape.height(i),shape.liquidBottom()),high=Math.min(shape.height(i+1),surface);
-                    if(high<=low)continue;
-                    wall(opaque,poses.last(),shape,low+.008,high+.008,shape.radius(low)*.86,shape.radius(high)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
-                }
-                cap(opaque,poses.last(),shape,surface+.008,shape.radius(surface)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
-            }
-            // Thin opaque heel/lip highlights keep the glass silhouette legible when empty.
-            int edge=0xFF000000 | style.glassMaterial().tint();
-            wall(opaque,poses.last(),shape,0,.012,shape.radius(0),shape.radius(.012),edge,light,overlay);
-            double lip=shape.height(shape.sections());
-            wall(opaque,poses.last(),shape,lip-.008,lip,shape.radius(lip-.008),shape.radius(lip),edge,light,overlay);
-            // A texture switch may finish the shared builder. Do not reuse opaque after this draw.
-            if(!fluid.isEmpty()) io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
-            if(!fluid.isEmpty() && style.closure().type()!=BeverageAppearance.ClosureType.NONE
-                && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack))) {
-                io.vinum.client.BottleClosureRenderer.draw(buffers,poses.last(),style.closure(),shape,light,overlay);
-            }
-            var glass=buffers.getBuffer(RenderType.entityTranslucent(style.glassMaterial().texture()));
-            int glassColor=style.glassMaterial().color();
-            for(int i=0;i<shape.sections();i++)wall(glass,poses.last(),shape,shape.height(i),shape.height(i+1),shape.radius(shape.height(i)),shape.radius(shape.height(i+1)),glassColor,light,overlay);
+        var meshes=io.vinum.client.SlotRenderCache.get(bar,bar.renderRevision(),BarBlockEntity.SLOTS,
+            slot->bottleMesh(bar.bottle(slot)));
+        for(int slot=0;slot<meshes.length;slot++) {
+            if(meshes[slot]==null)continue;
+            poses.pushPose();
+            poses.translate(BarBlock.CENTERS[slot][0],1.008,BarBlock.CENTERS[slot][1]);
+            meshes[slot].render(poses.last(),buffers,light,overlay);
             poses.popPose();
         }
         poses.popPose();
+    }
+    private record BottleKey(BeverageAppearance.Style style,int color,double fraction,boolean filled,boolean closed) {}
+    private static final io.vinum.client.RenderMeshCache<BottleKey> MESHES=new io.vinum.client.RenderMeshCache<>(256);
+    private static io.vinum.client.CachedRenderMesh bottleMesh(net.minecraft.world.item.ItemStack stack) {
+        var drinkware=DrinkwareAppearance.find(stack);
+        if(drinkware.isPresent())return DrinkwareRenderer.mesh(stack,drinkware.get());
+        if(!(stack.getItem() instanceof FluidContainerItem container))return null;
+        var fluid=container.contents(stack);
+        var style=BeverageAppearance.resolve(fluid,stack);
+        var key=new BottleKey(style,0xFF000000|WineCatalog.color(fluid),
+            fluid.getAmount()/(double)container.capacity(),!fluid.isEmpty(),BottleCorks.hasCork(stack));
+        return MESHES.get(key,()->io.vinum.client.CachedRenderMesh.record((poses,buffers)->drawBottle(key,poses,buffers)));
+    }
+    /** Build only on a changed appearance/fill; replay retains the exact tessellation and materials. */
+    private static void drawBottle(BottleKey key,PoseStack poses,MultiBufferSource buffers) {
+        var style=key.style();var shape=style.bottle3DType().geometry();
+        int light=0,overlay=0;
+        poses.scale((float)shape.widthScale(),1,(float)shape.depthScale());
+        var opaque=buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
+        if(key.filled()) {
+            double surface=shape.fillHeight(key.fraction());
+            for(int i=0;i<shape.sections();i++) {
+                double low=Math.max(shape.height(i),shape.liquidBottom()),high=Math.min(shape.height(i+1),surface);
+                if(high<=low)continue;
+                wall(opaque,poses.last(),shape,low+.008,high+.008,shape.radius(low)*.86,shape.radius(high)*.86,key.color(),light,overlay);
+            }
+            cap(opaque,poses.last(),shape,surface+.008,shape.radius(surface)*.86,key.color(),light,overlay);
+        }
+        int edge=0xFF000000|style.glassMaterial().tint();
+        wall(opaque,poses.last(),shape,0,.012,shape.radius(0),shape.radius(.012),edge,light,overlay);
+        double lip=shape.height(shape.sections());
+        wall(opaque,poses.last(),shape,lip-.008,lip,shape.radius(lip-.008),shape.radius(lip),edge,light,overlay);
+        if(key.filled())io.vinum.client.BottleLabelRenderer.draw(buffers,poses.last(),style.label(),shape,1,false,light,overlay);
+        if(key.filled()&&style.closure().type()!=BeverageAppearance.ClosureType.NONE
+            &&(style.closure().type()!=BeverageAppearance.ClosureType.CORK||key.closed()))
+            io.vinum.client.BottleClosureRenderer.draw(buffers,poses.last(),style.closure(),shape,light,overlay);
+        var glass=buffers.getBuffer(RenderType.entityTranslucent(style.glassMaterial().texture()));
+        for(int i=0;i<shape.sections();i++)wall(glass,poses.last(),shape,shape.height(i),shape.height(i+1),
+            shape.radius(shape.height(i)),shape.radius(shape.height(i+1)),style.glassMaterial().color(),light,overlay);
     }
     static void wall(VertexConsumer out,PoseStack.Pose pose,BottleGeometry shape,double low,double high,double r0,double r1,int color,int light,int overlay) {
         int sides=shape.sides();double offset=sides==4?Math.PI/4:0;

@@ -24,6 +24,8 @@ public final class ClientTestContext {
     private final net.minecraft.client.server.IntegratedServer server;
     private final UUID playerId;
     private boolean captured;
+    private final java.util.List<Runnable> clientCleanup=new java.util.ArrayList<>();
+    public void onRestore(Runnable cleanup){clientCleanup.add(cleanup);}
     private int selected;
     private final boolean shiftWasDown;
     private final boolean useWasDown;
@@ -97,6 +99,11 @@ public final class ClientTestContext {
     public void useItem() { mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND); }
 
     public CompletableFuture<Void> restore() {
+        for(var cleanup:clientCleanup) {
+            try { cleanup.run(); }
+            catch(Throwable error) { com.mojang.logging.LogUtils.getLogger().error("Client scenario cleanup failed",error); }
+        }
+        clientCleanup.clear();
         mc.options.keyShift.setDown(shiftWasDown);
         mc.options.keyUse.setDown(useWasDown);
         if (mc.player != null) mc.player.closeContainer();

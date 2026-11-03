@@ -20,6 +20,9 @@ import net.neoforged.neoforge.fluids.SimpleFluidContent;
 /** Nine independent bottle positions; full item components survive storage and transfers. */
 public final class WineShelfBlockEntity extends BlockEntity {
   public static final int SLOTS = 9;
+  // Transient revision for client display snapshots; never persisted or synchronized itself.
+  private long renderRevision;
+  public long renderRevision() { return renderRevision; }
   private NonNullList<ItemStack> bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
   private int agingTicks;
   public WineShelfBlockEntity(BlockPos pos, BlockState state) { super(ShelfContent.ENTITY.get(), pos, state); }
@@ -38,6 +41,7 @@ public final class WineShelfBlockEntity extends BlockEntity {
     return stack;
   }
   private void changed() {
+    renderRevision++;
     setChanged();
     if (level != null && !level.isClientSide) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
   }
@@ -64,7 +68,7 @@ public final class WineShelfBlockEntity extends BlockEntity {
     super.saveAdditional(tag, registries); ContainerHelper.saveAllItems(tag, bottles, registries); tag.putInt("AgingTicks", agingTicks);
   }
   @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-    super.loadAdditional(tag, registries); bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY); ContainerHelper.loadAllItems(tag, bottles, registries);
+    super.loadAdditional(tag, registries); renderRevision++; bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY); ContainerHelper.loadAllItems(tag, bottles, registries);
     agingTicks = Math.clamp(tag.getInt("AgingTicks"), 0, 19);
   }
   @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveWithoutMetadata(registries); }

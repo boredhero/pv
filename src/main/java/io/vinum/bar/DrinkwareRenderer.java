@@ -23,19 +23,26 @@ public final class DrinkwareRenderer {
 
     public static void render(ItemStack stack, DrinkwareAppearance appearance, PoseStack poses,
                               MultiBufferSource buffers, int light, int overlay) {
-        BottleGeometry shape = appearance.geometry();
-        poses.pushPose();
-        poses.scale((float) shape.widthScale(), 1, (float) shape.depthScale());
-        double fullness = 0;
-        int liquidColor = 0xFFED8D16;
-        if (stack.getItem() instanceof FluidContainerItem container) {
-            var fluid = container.contents(stack);
-            fullness = fluid.getAmount() / (double) container.capacity();
-            liquidColor = 0xFF000000 | WineCatalog.color(fluid);
-        } else if (stack.getItem() instanceof DrinkItem) {
-            fullness = 1;
-        }
+        mesh(stack,appearance).render(poses.last(),buffers,light,overlay);
+    }
 
+    private record Key(DrinkwareAppearance appearance,double fullness,int liquidColor) {}
+    private static final io.vinum.client.RenderMeshCache<Key> MESHES=new io.vinum.client.RenderMeshCache<>(128);
+    public static io.vinum.client.CachedRenderMesh mesh(ItemStack stack,DrinkwareAppearance appearance) {
+        double fullness=0;int liquidColor=0xFFED8D16;
+        if(stack.getItem() instanceof FluidContainerItem container) {
+            var fluid=container.contents(stack);
+            fullness=fluid.getAmount()/(double)container.capacity();
+            liquidColor=0xFF000000|WineCatalog.color(fluid);
+        }else if(stack.getItem() instanceof DrinkItem)fullness=1;
+        var key=new Key(appearance,fullness,liquidColor);
+        return MESHES.get(key,()->io.vinum.client.CachedRenderMesh.record((poses,buffers)->build(key,poses,buffers)));
+    }
+    private static void build(Key key,PoseStack poses,MultiBufferSource buffers) {
+        var appearance=key.appearance();var shape=appearance.geometry();
+        double fullness=key.fullness();int liquidColor=key.liquidColor(),light=0,overlay=0;
+        poses.pushPose();
+        poses.scale((float)shape.widthScale(),1,(float)shape.depthScale());
         VertexConsumer opaque = buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
         if (fullness > 0) {
             double surface = shape.fillHeight(fullness);

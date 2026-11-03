@@ -16,6 +16,9 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class BarBlockEntity extends BlockEntity {
     public static final int SLOTS = 5;
     public static final TagKey<Item> BOTTLES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("vinum", "bar_bottles"));
+    // Transient revision for client display snapshots; never persisted or synchronized itself.
+    private long renderRevision;
+    public long renderRevision() { return renderRevision; }
     private NonNullList<ItemStack> bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
     public BarBlockEntity(BlockPos pos, BlockState state) { super(BarContent.ENTITY.get(), pos, state); }
     @Override public void onLoad() {
@@ -41,6 +44,7 @@ public final class BarBlockEntity extends BlockEntity {
         return result;
     }
     private void changed() {
+        renderRevision++;
         setChanged();
         if (level != null && !level.isClientSide) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
     }
@@ -48,7 +52,7 @@ public final class BarBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries); ContainerHelper.saveAllItems(tag, bottles, registries);
     }
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries); bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
+        super.loadAdditional(tag, registries); renderRevision++; bottles = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, bottles, registries);
     }
     @Override public CompoundTag getUpdateTag(HolderLookup.Provider registries) { return saveWithoutMetadata(registries); }
