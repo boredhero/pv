@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "vinum:block/cinnamon_slab"
+    },
+    "type=double": {
+      "model": "vinum:block/cinnamon_planks"
+    },
+    "type=top": {
+      "model": "vinum:block/cinnamon_slab_top"
+    }
+  }
+}

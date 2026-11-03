@@ -60,6 +60,31 @@ public final class BarServiceGameTests {
         h.succeed();
     }
     @GameTest(template="barrel_space",timeoutTicks=100)
+    public static void placedRumBottleServesShotWithMaturationAndDrinkingEffects(GameTestHelper h) {
+        var pos=h.absolutePos(new BlockPos(3,1,3));var bar=bar(h,pos);
+        var bottle=(FluidContainerItem)ModItems.RUM_BOTTLE.get();var shot=(FluidContainerItem)ModItems.SHOT_GLASS.get();
+        long age=io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.rumDarkAgedDays());
+        var fluid=BarrelFluidData.withAge(ModItems.spirit(io.vinum.fluid.ModFluids.RUM.source().get(),750),age);
+        BatchProfile.of(fluid).withAlcoholFraction(.4).applyTo(fluid);
+        bar.insert(2,bottle.filled(fluid));
+        var player=new net.neoforged.neoforge.common.util.FakePlayer(h.getLevel(), new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "rum-serving-test"));
+        player.setItemInHand(InteractionHand.MAIN_HAND,new ItemStack(shot));
+        var hit=new BlockHitResult(Vec3.atBottomCenterOf(pos).add(0,1,0),Direction.UP,pos,false);
+        bar.getBlockState().useItemOn(player.getMainHandItem(),h.getLevel(),player,InteractionHand.MAIN_HAND,hit);
+        var served=shot.contents(player.getMainHandItem());
+        h.assertTrue(served.getAmount()==50 && bottle.contents(bar.bottle(2)).getAmount()==700,
+                "Placed rum bottle serves exactly one shot and retains its remainder");
+        h.assertTrue(BarrelFluidData.getAge(served)==age && BatchProfile.of(served).alcoholFraction()==.4,
+                "Rum shot keeps dark maturation and actual alcohol strength");
+        h.assertTrue(io.vinum.barrel.BeverageCatalog.lookupFluid(served.getFluid()).orElseThrow().aging().stage(age)
+                .equals("tooltip.vinum.maturation.rum_dark_aged"),"Serving keeps the same rum stage");
+        var emptied=shot.finishUsingItem(player.getMainHandItem(),h.getLevel(),player);
+        h.assertTrue(emptied.is(ModItems.SHOT_GLASS.get()) && shot.contents(emptied).isEmpty()
+                && player.getData(io.vinum.capability.BACCapability.BAC_STATE).getBACLevel()>0,
+                "Drinking a rum shot applies alcohol and returns its reusable empty glass");
+        h.succeed();
+    }
+    @GameTest(template="barrel_space",timeoutTicks=100)
     public static void heldDrinkCancelsThenConsumesAndLeavesGlassOnCounter(GameTestHelper h) {
         var pos=h.absolutePos(new BlockPos(3,1,3));var bar=bar(h,pos);
         var glass=(FluidContainerItem)ModItems.SHOT_GLASS.get();

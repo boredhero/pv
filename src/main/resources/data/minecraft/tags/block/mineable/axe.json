@@ -30,6 +30,19 @@
     "vinum:strainer",
     "vinum:wine_shelf",
     "vinum:bar",
-    "vinum:barstool"
+    "vinum:barstool",
+    "vinum:cinnamon_planks",
+    "vinum:cinnamon_stairs",
+    "vinum:cinnamon_slab",
+    "vinum:cinnamon_fence",
+    "vinum:cinnamon_fence_gate",
+    "vinum:cinnamon_door",
+    "vinum:cinnamon_trapdoor",
+    "vinum:cinnamon_button",
+    "vinum:cinnamon_pressure_plate",
+    "vinum:cinnamon_log",
+    "vinum:cinnamon_wood",
+    "vinum:stripped_cinnamon_log",
+    "vinum:stripped_cinnamon_wood"
   ]
 }

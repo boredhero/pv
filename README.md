@@ -368,7 +368,7 @@ For salt, place a standalone dry **Steel Pot** above a lit campfire or steel
 brazier. Use a water bucket on the pot: the bucket returns immediately. After
 100 heated ticks (five seconds), use an empty hand to collect the salt. Losing
 heat pauses evaporation. Collect the contents before using that pot in a still.
-Cinnamon crafting returns the same shears with one durability use; apple juice
+Cinnamon is harvested by axe-stripping cinnamon logs; apple juice
 returns its glass bottle when drunk or used in crafting.
 
 The special glass chain is also obtainable: wash sand with a water bucket to
@@ -788,7 +788,7 @@ becoming cane rum.
   transfers and pauses without heat. Breaking the kettle preserves its batch,
   output, insert, and process progress in the dropped item.
 - **Rum Bottle:** craft ` G /G G/GGG` (center G in the first row), with glass,
-  for three 750 mB bottles. First filling with rum consumes a wine cork from
+  for one 750 mB bottle. First filling with rum consumes a wine cork from
   inventory; top-ups do not. Bottle + wine cork also prepares an empty bottle
   for automated filling. GUI art is flat; placed bottles use separate faceted
   geometry, a transparent X-shaped label, a wide cork, and actual liquid height.
@@ -874,3 +874,52 @@ persisted kettle operations, coproduct conservation, dissolution, still output,
 proofing, maturation, and cork transactions. Client mesh regression exercises the
 new bottle through bar and shelf renderers. High-test syrup, skimmings, and spice
 infusion are not part of this initial release.
+
+
+## Cinnamon trees and wood
+
+Cinnamon now comes from **true cinnamon trees** (*Cinnamomum verum*), replacing
+spruce-log/shears crafting. The ecological reasoning and primary sources are in
+[the habitat research](docs/cinnamon-research.md); inspected cut-stem, bark,
+end-grain and leaf references are in [the visual research](docs/cinnamon-visual-references.md).
+
+Natural trees generate in **new jungle chunks** with one attempt per eight
+chunks on average, and **new sparse-jungle chunks** with one attempt per twelve.
+Attempts can fail when soil, space or loaded-region conditions are unsuitable;
+these are gameplay rarity settings, not measured wild-tree density. Trees do not
+spawn in swamps, mangroves, savannas, cold forests or bamboo jungle by default.
+The two placed-feature JSON files make the rates datapack-configurable. Existing
+explored chunks do not retroactively gain trees.
+
+Axe-right-click a cinnamon log or cinnamon wood block to obtain **two cinnamon**
+and its stripped variant, consuming one axe durability in Survival. Stripped
+blocks retain their state when harvested and replaced, and cannot be crafted back
+into barked wood. Leaves drop saplings for renewable cultivation; saplings grow
+with ordinary soil/light/bonemeal rules outside the natural biome whitelist too.
+The growth feature preflights its footprint and refuses water, player structures,
+and unloaded areas rather than replacing them partway through growth.
+
+The wood family includes logs, all-bark wood, stripped variants, planks, stairs,
+slabs, fences, fence gates, doors, trapdoors, buttons, pressure plates, leaves and
+saplings. Wood has normal crafting tags, fuel/flammability behavior, leaf decay,
+Fortune/Silk Touch/shears drops and sapling/leaves composting. Its pale warm wood,
+gray-brown bark and pointed three-veined foliage are based on cinnamon references,
+not the rolled appearance of the spice.
+
+### Quick in-game checks
+
+- In Creative, place a Cinnamon Sapling on grass with plenty of room and use
+  bonemeal. Expect a branched evergreen tree with the new leaf texture.
+- In Survival, axe-strip a trunk block: expect two cinnamon, one durability wear,
+  and stripped wood. A second use must not yield more cinnamon.
+- Use `/locate biome minecraft:jungle` and explore fresh terrain to look for
+  natural trees. Rarity is an average placement attempt rate, not a guarantee.
+- Place rum bottles on a bar and aim directly at the bottle body/top with an
+  empty shot glass: expect 50 mB transferred, bottle reduced by 50 mB, and age/ABV
+  preserved in both Creative and Survival. Above-counter targeting uses a
+  server-validated ray, including reach and obstruction checks.
+- Creative now includes white/light-aged/dark-aged rum shots. Rum names are
+  translated; tequila keeps its original silhouette/label layout at 64px.
+- Placed shot glasses are shorter; the margarita has a broad shallow bowl, salt
+  granules, ice, spice and red/green apple wedges. Inventory glass/cocktail sprites
+  remain unchanged.

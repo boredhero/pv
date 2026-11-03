@@ -24,25 +24,32 @@ import net.neoforged.neoforge.gametest.*;
 @PrefixGameTestTemplate(false)
 public final class RecipeAuditGameTests {
   @GameTest(template = "empty")
-  public static void cinnamonPreservesToolComponentsAndAppliesWear(GameTestHelper h) {
-    var recipe = crafting(h, "crafting/cinnamon");
-    ItemStack shears = new ItemStack(Items.SHEARS);
-    shears.setDamageValue(25);
-    shears.set(DataComponents.CUSTOM_NAME, Component.literal("Kitchen shears"));
-    var input = CraftingInput.of(2, 1, List.of(shears, new ItemStack(Items.SPRUCE_LOG)));
-    h.assertTrue(recipe.matches(input, h.getLevel()), "Actual recipe accepts shears and spruce");
-    var returned = recipe.getRemainingItems(input).getFirst();
-    h.assertTrue(
-        returned.is(Items.SHEARS)
-            && returned.getCount() == 1
-            && returned.getDamageValue() == 26
-            && returned.getHoverName().equals(shears.getHoverName()),
-        "Craft returns the named tool with one point of durability wear");
-    h.assertTrue(shears.getDamageValue() == 25, "Remainder computation never mutates source stack");
-    shears.setDamageValue(shears.getMaxDamage() - 1);
-    h.assertTrue(
-        recipe.getRemainingItems(input).getFirst().isEmpty(),
-        "Exhausted shears break instead of duplicating");
+  public static void everyUnconditionalVinumRecipeResourceLoads(GameTestHelper h) {
+    var resources = h.getLevel().getServer().getResourceManager().listResources("recipe", key ->
+        key.getNamespace().equals("vinum") && key.getPath().endsWith(".json"));
+    h.assertTrue(!resources.isEmpty(), "Recipe resource audit found the mod's packaged recipes");
+    resources.forEach((key, resource) -> {
+      try (var reader = resource.openAsReader()) {
+        var document = com.google.gson.JsonParser.parseReader(reader).getAsJsonObject();
+        // Conditional optional integrations may intentionally be absent; unconditional recipes must never disappear.
+        if (document.has("neoforge:conditions")) return;
+        String path = key.getPath();
+        var recipeId = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("vinum",
+            path.substring("recipe/".length(), path.length() - ".json".length()));
+        h.assertTrue(h.getLevel().getRecipeManager().byKey(recipeId).isPresent(),
+            "Unconditional recipe must parse and load: " + recipeId);
+      } catch (java.io.IOException error) { throw new AssertionError("Cannot read recipe " + key, error); }
+    });
+    h.succeed();
+  }
+
+  @GameTest(template = "empty")
+  public static void cinnamonRequiresItsOwnTreeRatherThanSpruceCrafting(GameTestHelper h) {
+    var input = CraftingInput.of(2, 1, List.of(new ItemStack(Items.SHEARS), new ItemStack(Items.SPRUCE_LOG)));
+    h.assertTrue(h.getLevel().getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING).stream()
+        .noneMatch(r -> r.value().matches(input, h.getLevel())
+            && r.value().assemble(input, h.getLevel().registryAccess()).is(ModItems.CINNAMON.get())),
+        "Spruce and shears no longer craft cinnamon");
     h.succeed();
   }
 

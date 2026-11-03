@@ -44,21 +44,26 @@ public final class BarBlock extends Block implements EntityBlock {
         VoxelShape outline = counterShape(state);
         if (level.getBlockEntity(pos) instanceof BarBlockEntity bar) for (int i=0;i<BarBlockEntity.SLOTS;i++) {
             if (bar.bottle(i).isEmpty()) continue;
-            double[] center = center(state,i);
-            double x=center[0],z=center[1];
-            boolean alongX=state.getValue(FACING).getAxis()==Direction.Axis.Z;
-            double rx=alongX?.14:.09,rz=alongX?.09:.14,top=1.58;
-            var drinkware=io.vinum.beverage.DrinkwareAppearance.find(bar.bottle(i));
-            if(drinkware.isPresent()) {
-                var geometry=drinkware.get().geometry();double radius=0;
-                for(int section=0;section<=geometry.sections();section++)radius=Math.max(radius,geometry.radius(geometry.height(section)));
-                double width=radius*geometry.widthScale(),depth=radius*geometry.depthScale();
-                rx=alongX?width:depth;rz=alongX?depth:width;
-                top=1.008+geometry.height(geometry.sections());
-            }
-            outline=Shapes.or(outline,Shapes.box(x-rx,1,z-rz,x+rx,top,z+rz));
+            outline=Shapes.or(outline,displayShape(state,bar,i));
         }
         return outline;
+    }
+    /** Shared display bounds for outline selection and above-counter ray interactions. */
+    public static VoxelShape displayShape(BlockState state,BarBlockEntity bar,int slot) {
+        if(bar.bottle(slot).isEmpty())return Shapes.empty();
+        double[] center=center(state,slot);
+        double x=center[0],z=center[1];
+        boolean alongX=state.getValue(FACING).getAxis()==Direction.Axis.Z;
+        double rx=alongX?.14:.09,rz=alongX?.09:.14,top=1.58;
+        var drinkware=io.vinum.beverage.DrinkwareAppearance.find(bar.bottle(slot));
+        if(drinkware.isPresent()) {
+            var geometry=drinkware.get().geometry();double radius=0;
+            for(int section=0;section<=geometry.sections();section++)radius=Math.max(radius,geometry.radius(geometry.height(section)));
+            double width=radius*geometry.widthScale(),depth=radius*geometry.depthScale();
+            rx=alongX?width:depth;rz=alongX?depth:width;
+            top=1.008+geometry.height(geometry.sections());
+        }
+        return Shapes.box(x-rx,1,z-rz,x+rx,top,z+rz);
     }
     public static double[] center(BlockState state,int slot) {
         double x=CENTERS[slot][0],z=CENTERS[slot][1];

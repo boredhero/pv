@@ -1,0 +1,7 @@
+{
+  "type": "vinum:cinnamon_tree",
+  "config": {
+    "min_height": 8,
+    "max_height": 12
+  }
+}

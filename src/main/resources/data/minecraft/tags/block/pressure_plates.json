@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "vinum:cork_oak_pressure_plate"
+    "vinum:cork_oak_pressure_plate",
+    "vinum:cinnamon_pressure_plate"
   ]
 }

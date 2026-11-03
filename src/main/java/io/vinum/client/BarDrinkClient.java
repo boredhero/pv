@@ -6,7 +6,6 @@ import io.vinum.network.BarDrinkMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,10 +19,13 @@ public final class BarDrinkClient {
     private BarDrinkClient() {}
     @SubscribeEvent public static void tick(ClientTickEvent.Post event) {
         var mc=Minecraft.getInstance();
+        var picked=mc.player==null||mc.level==null||mc.screen!=null||!mc.options.keyUse.isDown()
+            ||!mc.player.getMainHandItem().isEmpty()||mc.player.isShiftKeyDown()?null:BarInteractions.target(mc.player).orElse(null);
         if(mc.player!=null && mc.level!=null && mc.screen==null && mc.options.keyUse.isDown()
             && mc.player.getMainHandItem().isEmpty() && !mc.player.isShiftKeyDown()
-            && mc.hitResult instanceof BlockHitResult hit && mc.level.getBlockEntity(hit.getBlockPos()) instanceof BarBlockEntity bar) {
-            int next=BarBlock.slot(bar.getBlockState(),hit.getBlockPos(),hit);
+            && picked!=null && mc.level.getBlockEntity(picked.hit().getBlockPos()) instanceof BarBlockEntity bar) {
+            var hit=picked.hit();
+            int next=picked.slot();
             var drink=bar.bottle(next);
             if(DrinkwareAppearance.canDrink(drink)) {
                 if(!hit.getBlockPos().equals(target)||slot!=next){ticks=0;target=hit.getBlockPos().immutable();slot=next;}

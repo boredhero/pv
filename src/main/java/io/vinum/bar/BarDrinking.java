@@ -6,7 +6,6 @@ import java.util.WeakHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.BlockHitResult;
 
 /** Server-timed hold gestures. No item leaves the counter; release or target changes cancel progress. */
 public final class BarDrinking {
@@ -20,10 +19,10 @@ public final class BarDrinking {
             || !player.level().hasChunkAt(pos) || !player.level().mayInteract(player,pos)) {
             HOLDS.remove(player);return;
         }
-        var hit=player.pick(player.blockInteractionRange(),1,false);
-        if(!(hit instanceof BlockHitResult blockHit) || !blockHit.getBlockPos().equals(pos)
+        var target=BarInteractions.target(player).orElse(null);
+        if(target==null || !target.hit().getBlockPos().equals(pos)
             || !(player.level().getBlockEntity(pos) instanceof BarBlockEntity bar)
-            || BarBlock.slot(bar.getBlockState(),pos,blockHit)!=slot) {
+            || target.slot()!=slot) {
             HOLDS.remove(player);return;
         }
         ItemStack drink=bar.bottle(slot);

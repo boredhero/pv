@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "vinum:cork_oak_log"
+    "vinum:cork_oak_log",
+    "vinum:cinnamon_log",
+    "vinum:cinnamon_wood",
+    "vinum:stripped_cinnamon_log",
+    "vinum:stripped_cinnamon_wood"
   ]
 }

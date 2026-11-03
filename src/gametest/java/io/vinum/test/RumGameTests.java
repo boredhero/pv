@@ -38,6 +38,22 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 @PrefixGameTestTemplate(false)
 public final class RumGameTests {
     @GameTest(template = "empty")
+    public static void reusableRumBottleCraftingRecipeLoadsAndProducesValidStack(GameTestHelper h) {
+        var input = CraftingInput.of(3, 3, List.of(ItemStack.EMPTY, new ItemStack(Items.GLASS), ItemStack.EMPTY,
+                new ItemStack(Items.GLASS), ItemStack.EMPTY, new ItemStack(Items.GLASS),
+                new ItemStack(Items.GLASS), new ItemStack(Items.GLASS), new ItemStack(Items.GLASS)));
+        var recipe = h.getLevel().getRecipeManager().byKey(ProductionInputs.id("rum_bottle")).orElseThrow();
+        h.assertTrue(recipe.value() instanceof net.minecraft.world.item.crafting.CraftingRecipe,
+                "Rum bottle has a loaded crafting recipe");
+        var crafting = (net.minecraft.world.item.crafting.CraftingRecipe) recipe.value();
+        h.assertTrue(crafting.matches(input, h.getLevel()), "Glass pattern crafts the rum bottle");
+        var bottle = crafting.assemble(input, h.getLevel().registryAccess());
+        h.assertTrue(bottle.is(ModItems.RUM_BOTTLE.get()) && bottle.getCount() == 1
+                && bottle.getCount() <= bottle.getMaxStackSize(), "Reusable bottle recipe yields a legal single-item stack");
+        h.succeed();
+    }
+
+    @GameTest(template = "empty")
     public static void caneCraftingShortcutRemovedButHoneySugarRemains(GameTestHelper h) {
         var recipes = h.getLevel().getRecipeManager();
         h.assertTrue(recipes.getRecipeFor(RecipeType.CRAFTING,

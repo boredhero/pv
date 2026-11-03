@@ -27,4 +27,5 @@ Preserve unrelated and partially completed working-tree changes.
 - Package: `./gradlew build`. Server integration: `./gradlew runGameTestServer --console=plain`. `build` alone does not run the GameTests.
 - Keep full logs under ignored `build/`; return the result, failing test names, and relevant error excerpts. Avoid repeated successful builds and full log dumps.
 - Noah authorizes editing classes/resources and building while his dev client is running. Do not ask him to close it first; tell him to restart after changes are ready.
+- Before launching an isolated test client, set `soundCategory_master:0.0` and `soundCategory_music:0.0` in `run-test-client/options.txt`. Its audio uses Noah's real device even under Xvfb. Never change `run/options.txt` or stop Noah's own client.
 - Before a requested push, check the staged diff and whitespace; report the commit, branch, checks, and manual testing still needed. Do not stage unrelated work.

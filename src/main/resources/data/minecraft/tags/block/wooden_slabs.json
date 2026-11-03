@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "vinum:cork_oak_slab"
+    "vinum:cork_oak_slab",
+    "vinum:cinnamon_slab"
   ]
 }

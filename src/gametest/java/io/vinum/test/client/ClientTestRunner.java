@@ -68,6 +68,8 @@ public final class ClientTestRunner {
                 .executes(c -> run(StringArgumentType.getString(c, "scenario"))))));
     }
 
+    static void automatic(String name) { run(name); }
+
     private static int run(String name) {
         if (active != null || !queued.isEmpty()) { message("A test or restoration is already running; use status or cancel."); return 0; }
         suiteResults.clear();

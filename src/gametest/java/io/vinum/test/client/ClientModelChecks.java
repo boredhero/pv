@@ -16,7 +16,7 @@ public final class ClientModelChecks {
     @SubscribeEvent
     public static void baked(ModelEvent.BakingCompleted event) {
         if (!Boolean.getBoolean("vinum.clientTests")) return;
-        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis", "bar", "barstool", "shot_glass", "wine_glass_empty", "margarita_glass", "spiced_apple_margarita"}) {
+        for (String name : new String[] {"coa", "airlock", "carboy", "grape_trellis", "bar", "barstool", "shot_glass", "wine_glass_empty", "margarita_glass", "spiced_apple_margarita", "cinnamon_log", "cinnamon_wood", "stripped_cinnamon_log", "stripped_cinnamon_wood", "cinnamon_leaves", "cinnamon_sapling", "cinnamon_planks", "cinnamon_stairs", "cinnamon_slab", "cinnamon_fence", "cinnamon_fence_gate", "cinnamon_door", "cinnamon_trapdoor", "cinnamon_button", "cinnamon_pressure_plate"}) {
             var id = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath("vinum", name));
             var model = event.getModels().get(id);
             if (model == null || model == event.getModelManager().getMissingModel())

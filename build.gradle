@@ -44,6 +44,9 @@ neoForge {
             systemProperty 'neoforge.enableGameTest', 'true'
             systemProperty 'neoforge.enabledGameTestNamespaces', 'vinum_tests'
             systemProperty 'vinum.clientTests', 'true'
+            if (providers.gradleProperty('vinumClientScenario').isPresent()) {
+                systemProperty 'vinum.clientScenario', providers.gradleProperty('vinumClientScenario').get()
+            }
         }
         server {
             server()
