@@ -44,5 +44,29 @@ public final class ClientModelChecks {
             LogUtils.getLogger().info("Vinum client model check: {} has {} rendered quads", name, quads);
         }
         BarRenderChecks.run();
+        wineBottles(event);
+    }
+
+    private static void wineBottles(ModelEvent.BakingCompleted event) {
+        var bottle=(io.vinum.item.FluidContainerItem)io.vinum.item.ModItems.WINE_BOTTLE_EMPTY.get();
+        var base=event.getModels().get(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath("vinum","wine_bottle_empty")));
+        if(base==null || base==event.getModelManager().getMissingModel())throw new AssertionError("Missing canonical wine bottle model");
+        var variants=io.vinum.beverage.WineCatalog.varieties();
+        var colors=new java.util.HashSet<Integer>();
+        for(var variety:variants) {
+            var fluid=io.vinum.beverage.WineCatalog.sample(variety,750);
+            var stack=bottle.filled(fluid);
+            var model=base.getOverrides().resolve(base,stack,null,null,0);
+            if(model==null || model==base || model==event.getModelManager().getMissingModel())
+                throw new AssertionError("Filled wine did not select layered inventory model: "+variety.ingredient());
+            var quads=model.getQuads(null,null,RandomSource.create(0),net.neoforged.neoforge.client.model.data.ModelData.EMPTY,null);
+            if(quads.stream().noneMatch(q->q.getTintIndex()==255))throw new AssertionError("Wine model has no liquid tint layer");
+            if(quads.stream().noneMatch(q->q.getTintIndex()<0))throw new AssertionError("Wine label must preserve original artwork colors");
+            int color=io.vinum.beverage.WineCatalog.color(fluid);
+            if(color!=variety.color())throw new AssertionError("Bottle appearance overrides varietal wine color");
+            colors.add(color);
+        }
+        if(colors.size()<2)throw new AssertionError("Wine varieties lost their distinct colors");
+        LogUtils.getLogger().info("Vinum wine inventory checks passed: {} varieties select layered models and preserve batch colors",variants.size());
     }
 }

@@ -923,3 +923,16 @@ not the rolled appearance of the spice.
 - Placed shot glasses are shorter; the margarita has a broad shallow bowl, salt
   granules, ice, spice and red/green apple wedges. Inventory glass/cocktail sprites
   remain unchanged.
+
+
+### Creative wine bottles
+
+The Vinum Creative tab and Creative search include a full, corked 750 mB bottle
+of every registered grape variety, at the configured mature-wine age and that
+variety's alcohol content. The empty reusable wine bottle remains available.
+Red and white wines retain their own liquid colors beneath the shared green glass
+and centered label. These are ordinary batch-bearing bottles: place them on the
+bar or shelf, pour servings, or move them into Survival without a special creative
+item type.
+
+Creative also includes a full 125 mB wine glass for each of the six varieties. Right-click an empty position on the bar to place a glass; its wine variety and maturation are preserved.

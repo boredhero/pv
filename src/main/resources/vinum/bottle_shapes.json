@@ -37,12 +37,37 @@
     "modelValue": 2,
     "texture": "vinum:item/wine_bottle_empty",
     "liquidBounds": [
-      5,
-      6,
-      11,
-      15
+      25,
+      9,
+      39,
+      59
     ],
-    "preserveOpaquePixels": true
+    "liquidNeutralOnly": true,
+    "liquidNeutralTolerance": 18,
+    "liquidNeutralMaximum": 230,
+    "labelArtworkBounds": [
+      25,
+      30,
+      39,
+      47
+    ],
+    "emptyModel": true,
+    "emptyGlassTint": true,
+    "closureBounds": [
+      28,
+      0,
+      36,
+      5
+    ],
+    "items": [
+      "wine_bottle_empty",
+      "wine_bottle_chardonnay",
+      "wine_bottle_sauvignon_blanc",
+      "wine_bottle_cabernet_sauvignon",
+      "wine_bottle_merlot",
+      "wine_bottle_pinot_noir",
+      "wine_bottle_zinfandel"
+    ]
   },
   "rum": {
     "modelValue": 3,

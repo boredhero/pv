@@ -153,5 +153,51 @@
       }
     ],
     "flavor": "tooltip.vinum.rum_flavor.white"
+  },
+  {
+    "fluids": [
+      "vinum:wine"
+    ],
+    "items": [
+      "vinum:wine_bottle_empty",
+      "vinum:wine_bottle_chardonnay",
+      "vinum:wine_bottle_sauvignon_blanc",
+      "vinum:wine_bottle_cabernet_sauvignon",
+      "vinum:wine_bottle_merlot",
+      "vinum:wine_bottle_pinot_noir",
+      "vinum:wine_bottle_zinfandel"
+    ],
+    "bottleType": "vinum:wine",
+    "bottle3DType": "vinum:wine",
+    "liquidColorSource": "batch",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "47672D",
+      "transparency": 0.78
+    },
+    "label": {
+      "artwork": "vinum:textures/item/wine_bottle_empty.png",
+      "primaryColor": "FFFFFF",
+      "secondaryColor": "E9D7A1",
+      "panel": {
+        "width": 0.9,
+        "bottom": 0.135,
+        "top": 0.285,
+        "uv": [
+          0.40625,
+          0.484375,
+          0.609375,
+          0.734375
+        ]
+      }
+    },
+    "closure": {
+      "type": "cork",
+      "texture": "minecraft:textures/block/oak_log_top.png",
+      "color": "BA905B",
+      "bottom": 0.532,
+      "top": 0.568,
+      "radius": 0.023
+    }
   }
 ]

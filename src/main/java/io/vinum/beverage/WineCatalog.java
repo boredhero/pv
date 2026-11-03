@@ -86,7 +86,8 @@ public final class WineCatalog {
     public static int color(FluidStack fluid) {
         if (fluid.isEmpty()) return 0xFFFFFFFF;
         var appearance=BeverageAppearance.find(fluid);
-        if(appearance.isPresent())return appearance.get().liquidColor();
+        if(appearance.isPresent() && appearance.get().liquidColorSource()==BeverageAppearance.LiquidColorSource.FIXED)
+            return appearance.get().liquidColor();
         var ingredients = BatchProfile.of(normalize(fluid)).ingredientProportions();
         boolean wine = isWine(fluid);
         boolean must = BatchProfile.of(fluid).solidsGramsPerLitre() > 0;

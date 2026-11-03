@@ -36,6 +36,7 @@ public final class BeverageAppearance {
   }
   public record Label(ResourceLocation artwork, int primaryColor, int secondaryColor, LabelPanel panel) {}
   public enum ClosureType { CORK, CAP, NONE }
+  public enum LiquidColorSource { FIXED, BATCH }
   public record Closure(ClosureType type, ResourceLocation texture, int color, double bottom, double top, double radius) {
     public Closure {
       if(!Double.isFinite(bottom)||!Double.isFinite(top)||!Double.isFinite(radius)||bottom<0||top<=bottom||radius<=0)
@@ -45,7 +46,7 @@ public final class BeverageAppearance {
   }
   public record Style(
       BottleType bottleType, Bottle3DType bottle3DType, GlassMaterial glassMaterial,
-      Label label, Closure closure, int liquidColor, String name, String flavor) {
+      Label label, Closure closure, int liquidColor, LiquidColorSource liquidColorSource, String name, String flavor) {
     /** Compatibility for callers of the original packaged appearance API. */
     public String bottleBaseType() { return bottleType.id().getPath(); }
     public int bottleLabelPrimaryColor() { return label.primaryColor(); }
@@ -63,7 +64,7 @@ public final class BeverageAppearance {
         new GlassMaterial(WHITE, wine ? 0xFF5D8750 : 0xFF7FAAB5, wine ? .75f : .84f),
         new Label(WHITE, 0xFFE2D5B4, 0xFF705C36, new LabelPanel(.5f,.16f,.28f,0,0,1,1)),
         new Closure(wine ? ClosureType.CORK : ClosureType.CAP, WHITE, 0xFFAE8753),
-        0xFFFFFFFF, "", "");
+        0xFFFFFFFF, wine ? LiquidColorSource.BATCH : LiquidColorSource.FIXED, "", "");
   }
 
   private record Stage(String agingStage, double minimumAgeDays, Style style) {}
@@ -73,6 +74,7 @@ public final class BeverageAppearance {
   private static final Map<String, Integer> SHAPES = new LinkedHashMap<>();
   private static final Map<String, Definition> DEFINITIONS = new LinkedHashMap<>();
   private static final Map<ResourceLocation, Style> EMPTY_VESSELS = new LinkedHashMap<>();
+  private static final Set<ResourceLocation> LAYERED_ITEMS = new HashSet<>();
 
   static {
     read("bottle_shapes.json")
@@ -85,6 +87,9 @@ public final class BeverageAppearance {
                 throw new IllegalArgumentException(
                     "Bottle model values must be unique nonnegative integers");
               SHAPES.put(e.getKey(), value);
+              var definition=e.getValue().getAsJsonObject();
+              if(definition.has("items")) for(var item:definition.getAsJsonArray("items"))
+                LAYERED_ITEMS.add(ResourceLocation.fromNamespaceAndPath("vinum",item.getAsString()));
             });
     for (var entry : read("beverage_appearances.json").getAsJsonArray()) {
       var json = entry.getAsJsonObject();
@@ -163,7 +168,9 @@ public final class BeverageAppearance {
             closure.has("bottom")?closure.get("bottom").getAsDouble():fallback.closure().bottom(),
             closure.has("top")?closure.get("top").getAsDouble():fallback.closure().top(),
             closure.has("radius")?closure.get("radius").getAsDouble():fallback.closure().radius()),
-        color(data, "liquidColor", fallback.liquidColor()), string(data, "name", fallback.name()),
+        color(data, "liquidColor", fallback.liquidColor()),
+        LiquidColorSource.valueOf(string(data,"liquidColorSource",fallback.liquidColorSource().name()).toUpperCase(Locale.ROOT)),
+        string(data, "name", fallback.name()),
         string(data, "flavor", fallback.flavor()));
   }
 
@@ -192,6 +199,7 @@ public final class BeverageAppearance {
   }
 
   public static int model(FluidStack fluid) { return model(fluid, ItemStack.EMPTY); }
+  public static boolean hasLayeredModel(ItemStack stack) { return LAYERED_ITEMS.contains(BuiltInRegistries.ITEM.getKey(stack.getItem())); }
 
   public static int model(FluidStack fluid, ItemStack vessel) {
     return SHAPES.get(resolve(fluid, vessel).bottleType().id().getPath());
@@ -208,6 +216,7 @@ public final class BeverageAppearance {
         switch (channel) {
           case 1 -> style.label().primaryColor();
           case 2 -> style.label().secondaryColor();
+          case 3 -> style.glassMaterial().tint();
           default -> WineCatalog.color(fluid);
         };
     return 0xFF000000

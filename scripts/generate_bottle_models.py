@@ -29,9 +29,11 @@ for name,shape in sorted(shapes.items(),key=lambda p:p[1]['modelValue']):
      role=1;shade=round(max(r,g,b)/150*255)
     elif inside(x,y,shape.get('labelSecondaryBounds')) and a:
      role=2;shade=round(max(r,g,b)/153*255)
-    elif inside(x,y,bounds) and (not shape.get('liquidNeutralOnly') or (a and max(r,g,b)-min(r,g,b)<shape.get('liquidNeutralTolerance',12) and min(r,g,b)>=shape.get('liquidNeutralMinimum',0))):
+    elif inside(x,y,bounds) and not inside(x,y,shape.get('labelArtworkBounds')) and (not shape.get('liquidNeutralOnly') or (a and max(r,g,b)-min(r,g,b)<shape.get('liquidNeutralTolerance',12) and min(r,g,b)>=shape.get('liquidNeutralMinimum',0) and max(r,g,b)<=shape.get('liquidNeutralMaximum',255))):
      if shape.get('preserveOpaquePixels') and a:pass
      elif y>=surface:role=0
+     elif shape.get('emptyGlassTint'):
+      role=3;shade=round(max(r,g,b)/160*255)
      else:continue
     if role is not None:elements.append(pixel(x,y,im.width,'#white',(role<<8)|max(1,min(255,shade))))
     elif a:elements.append(pixel(x,y,im.width,'#frame'))

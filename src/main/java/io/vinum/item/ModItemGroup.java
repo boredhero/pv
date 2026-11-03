@@ -54,6 +54,17 @@ public final class ModItemGroup {
                                     addRumExamples(output, container);
                                     return;
                                   }
+                                  if (item.get() == ModItems.WINE_BOTTLE_EMPTY.get()
+                                      || item.get() == ModItems.WINE_GLASS_EMPTY.get()) {
+                                    output.accept(item.get());
+                                    var bottle = (FluidContainerItem) item.get();
+                                    for (var variety : io.vinum.beverage.WineCatalog.varieties()) {
+                                      var wine = io.vinum.beverage.WineCatalog.sample(variety, bottle.capacity());
+                                      output.accept(bottle.filled(io.vinum.barrel.BarrelFluidData.withAge(wine,
+                                          io.vinum.config.BarrelConfig.daysToTicks(io.vinum.config.BarrelConfig.wineMatureDays()))));
+                                    }
+                                    return;
+                                  }
                                   if (item.get() instanceof GrapeSeedItem) {
                                     io.vinum.beverage.WineCatalog.varieties()
                                         .forEach(
