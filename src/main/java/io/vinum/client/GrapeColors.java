@@ -20,9 +20,12 @@ public final class GrapeColors {
         (state, level, pos, tint) -> {
           if (tint < 10) {
             return switch (tint) {
-              // The leaf artwork is already green; modest neutral tints keep its veins visible.
-              case 1 -> 0xFFDDE8D6;
-              case 2 -> 0xFFF1FFE5;
+              // Mature wine-grape blades are green, with modest canopy variation and
+              // a paler reverse. The artwork supplies color; these are neutral shade tints.
+              case 0 -> 0xFFE6F0E3;
+              case 1 -> 0xFFC9DBC9;
+              case 2 -> 0xFFDDEBD5;
+              case 5 -> 0xFFFFFFFF;
               case 3 -> 0xFF9CAC58;
               case 4 -> 0xFFE1D5A1;
               default -> 0xFFFFFFFF;

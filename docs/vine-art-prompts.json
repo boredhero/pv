@@ -9,7 +9,18 @@
       ],
       "reference": "User vineyard photograph /home/noah/Desktop/images.jpg",
       "prompt": "Use case: stylized-concept. Asset type: Minecraft vineyard foliage cutout sprite, to be downsampled to 128x128 pixels. Reference image shows the author's desired lush grape canopy; create ONLY ONE detailed grape leaf sprite, not the vineyard scene. One broad realistic five-lobed grape leaf, gently serrated edges and deep lobes, rich fresh medium green with warm lime-green raised branching veins, subtle fine surface mottling, darker green gentle lower shading, artistically hand-painted crisp pixel-art-friendly detail. Leaf tip points straight up, short petiole centered points straight down. Orthographic face-on, flat readable botanical silhouette, fills 90 percent of square with tiny transparent margin. Beautiful Minecraft higher-resolution resource-pack aesthetic, controlled detail readable small, no photographic blur, no strong cast shadow, no text, no grapes, no extra leaves, no border. Truly transparent background outside the leaf; preserve crisp alpha. Do not depict tiles or checkerboard.",
-      "revision": "User reviewed128x128 in-game and requested lower resolution; final leaf downsampled to32x32. Berry texture unchanged."
+      "revision": "User reviewed128x128 in-game and requested lower resolution; final leaf downsampled to32x32. Berry texture unchanged.",
+      "colorCorrection": {
+        "date": "2026-11-03",
+        "tool": "built-in image_gen",
+        "prompt": "Precise color-only edit of existing32px grapeleaf. Mature Vitis vinifera muted medium-deep green blade #3E6F35, sage veins #789262, deep green shadow #264C2B. Preserve silhouette, veins, petiole, layout and32px grid; no neon lime or turquoise. Transparent background.",
+        "processing": "Nearest-neighbor resize to32px. Extend edge RGB only behind transparent boundary and restore original alpha verbatim (zero changed alpha pixels). Original texture resolution, UVs and leaf geometry unchanged. Backfaces receive white tint; frontfaces receive subtle neutral shading, producing a paler reverse without additional polygons.",
+        "sources": [
+          "https://plants.ces.ncsu.edu/plants/vitis-vinifera/",
+          "https://extension.oregonstate.edu/crop-production/wine-grapes/grape-variety-identification",
+          "https://www.nparks.gov.sg/florafaunaweb/flora/5/8/5822"
+        ]
+      }
     },
     {
       "path": "src/main/resources/assets/vinum/textures/block/vine/grape_berry.png",

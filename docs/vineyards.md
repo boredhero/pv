@@ -63,3 +63,20 @@ at Minecraft scale, with space between rows for harvesting.
 
 Growth and repeat fruiting use Minecraft's random-tick and bone-meal mechanics;
 they do not simulate seasons or real-world years of establishment.
+
+## Leaf color correction
+
+Healthy mature foliage now uses a muted green blade and softer sage veins instead
+of the previous strongly yellow-lime palette. The 32×32 alpha silhouette and UV
+layout are unchanged. Three modest upper-face tints vary the canopy; the reverse
+uses the unshaded palette and is slightly paler, with no added polygons or textures.
+This is an artistic palette choice, not a claim that every cultivar shares one
+measured RGB color.
+
+[NC State Extension](https://plants.ces.ncsu.edu/plants/vitis-vinifera/) describes
+green, toothed, lobed leaves and potentially slightly fuzzy undersides.
+[Singapore NParks](https://www.nparks.gov.sg/florafaunaweb/flora/5/8/5822) describes
+paler undersides. The treatment is deliberately subtle because
+[Oregon State Extension](https://extension.oregonstate.edu/crop-production/wine-grapes/grape-variety-identification)
+notes that heavily downy backs common in some American grapes are not typical
+of European wine grapes. Fruit, stems, and flower palettes are unchanged.

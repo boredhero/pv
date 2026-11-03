@@ -120,7 +120,8 @@ def leaf(x, y, z, size, variant, axis='z', angle=0):
     # UV rotation supplies the full circle of leaf directions; native rotation tilts the plane.
     turn = (90, 180, 270, 0, 180, 90, 270, 180)[variant % 8]
     face = {'texture': '#leaf', 'uv': [0, 0, 16, 16], 'tintindex': variant % 3, 'rotation': turn}
-    back = dict(face, uv=[16, 0, 0, 16], rotation=(360-turn) % 360)
+    # The reverse is slightly paler than the mature upper blade, without extra geometry.
+    back = dict(face, uv=[16, 0, 0, 16], rotation=(360-turn) % 360, tintindex=5)
     result = {'from': [x-size/2, y-size/2, z],
               'to': [x+size/2, y+size/2, z+.025],
               'faces': {'north': face, 'south': back}, 'shade': False}

@@ -106,7 +106,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -305,7 +305,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -466,7 +466,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -665,7 +665,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 0
         }
       },
@@ -940,7 +940,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -1139,7 +1139,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -1414,7 +1414,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -1689,7 +1689,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -1888,7 +1888,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -2125,7 +2125,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -2286,7 +2286,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -2561,7 +2561,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 0
         }
       },
@@ -2912,7 +2912,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -3187,7 +3187,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -3576,7 +3576,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -4003,7 +4003,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -4354,7 +4354,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -4705,7 +4705,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -5056,7 +5056,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -5331,7 +5331,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 0
         }
       },
@@ -5682,7 +5682,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -5919,7 +5919,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -6194,7 +6194,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -6621,7 +6621,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -6972,7 +6972,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 270
         }
       },
@@ -7399,7 +7399,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -7864,7 +7864,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 90
         }
       },
@@ -8215,7 +8215,7 @@
             0,
             16
           ],
-          "tintindex": 0,
+          "tintindex": 5,
           "rotation": 0
         }
       },
@@ -8756,7 +8756,7 @@
             0,
             16
           ],
-          "tintindex": 1,
+          "tintindex": 5,
           "rotation": 180
         }
       },
@@ -9183,7 +9183,7 @@
             0,
             16
           ],
-          "tintindex": 2,
+          "tintindex": 5,
           "rotation": 270
         }
       },
