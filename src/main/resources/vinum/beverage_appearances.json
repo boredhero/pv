@@ -1,23 +1,77 @@
 [
   {
-    "fluids": ["vinum:tequila"],
-    "bottleBaseType": "tequila",
+    "fluids": [
+      "vinum:tequila"
+    ],
     "liquidColor": "F9F9F9",
-    "bottleLabelPrimaryColor": "969696",
-    "bottleLabelSecondaryColor": "999999",
     "name": "beverage.vinum.tequila.blanco",
     "stages": [
-      {"agingStage": "tooltip.vinum.maturation.reposado", "name": "beverage.vinum.tequila.reposado", "liquidColor": "D8C34B", "bottleLabelPrimaryColor": "D8B658", "bottleLabelSecondaryColor": "B88D43"},
-      {"agingStage": "tooltip.vinum.maturation.anejo", "name": "beverage.vinum.tequila.anejo", "liquidColor": "BD8438", "bottleLabelPrimaryColor": "9A542C", "bottleLabelSecondaryColor": "D2B075"},
-      {"agingStage": "tooltip.vinum.maturation.extra_anejo", "name": "beverage.vinum.tequila.extra_anejo", "liquidColor": "8F4E24", "bottleLabelPrimaryColor": "342A24", "bottleLabelSecondaryColor": "D9B45D"}
-    ]
+      {
+        "agingStage": "tooltip.vinum.maturation.reposado",
+        "name": "beverage.vinum.tequila.reposado",
+        "liquidColor": "D8C34B",
+        "label": {
+          "primaryColor": "D8B658",
+          "secondaryColor": "B88D43"
+        }
+      },
+      {
+        "agingStage": "tooltip.vinum.maturation.anejo",
+        "name": "beverage.vinum.tequila.anejo",
+        "liquidColor": "BD8438",
+        "label": {
+          "primaryColor": "9A542C",
+          "secondaryColor": "D2B075"
+        }
+      },
+      {
+        "agingStage": "tooltip.vinum.maturation.extra_anejo",
+        "name": "beverage.vinum.tequila.extra_anejo",
+        "liquidColor": "8F4E24",
+        "label": {
+          "primaryColor": "342A24",
+          "secondaryColor": "D9B45D"
+        }
+      }
+    ],
+    "bottleType": "vinum:tequila",
+    "bottle3DType": "vinum:tequila",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "7FAAB5",
+      "transparency": 0.84
+    },
+    "closure": {
+      "type": "cap",
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "color": "999999"
+    },
+    "label": {
+      "primaryColor": "969696",
+      "secondaryColor": "999999"
+    }
   },
   {
-    "fluids": ["vinum:golden_tequila"],
-    "bottleBaseType": "tequila",
+    "fluids": [
+      "vinum:golden_tequila"
+    ],
     "liquidColor": "D8C34B",
-    "bottleLabelPrimaryColor": "D8B658",
-    "bottleLabelSecondaryColor": "999999",
-    "name": "beverage.vinum.tequila.joven"
+    "name": "beverage.vinum.tequila.joven",
+    "bottleType": "vinum:tequila",
+    "bottle3DType": "vinum:tequila",
+    "glassMaterial": {
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "tint": "7FAAB5",
+      "transparency": 0.84
+    },
+    "closure": {
+      "type": "cap",
+      "texture": "minecraft:textures/block/white_concrete.png",
+      "color": "999999"
+    },
+    "label": {
+      "primaryColor": "D8B658",
+      "secondaryColor": "999999"
+    }
   }
 ]

@@ -29,11 +29,10 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
         for(int slot=0;slot<BarBlockEntity.SLOTS;slot++) {
             var stack=bar.bottle(slot);
             if(!(stack.getItem() instanceof FluidContainerItem container))continue;
-            var fluid=container.contents(stack);var style=BeverageAppearance.find(fluid);
-            boolean wine=stack.is(ModItems.WINE_BOTTLE_EMPTY.get()) || net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath().startsWith("wine_bottle_");
-            var shape=wine?DisplayBottleShape.WINE:style.map(s->s.bottleBaseType().equals("tequila")?DisplayBottleShape.TEQUILA:DisplayBottleShape.SPIRIT).orElse(DisplayBottleShape.SPIRIT);
-            int primary=style.map(BeverageAppearance.Style::bottleLabelPrimaryColor).orElse(0xFFE2D5B4);
-            int secondary=style.map(BeverageAppearance.Style::bottleLabelSecondaryColor).orElse(0xFF705C36);
+            var fluid=container.contents(stack);var style=BeverageAppearance.resolve(fluid, stack);
+            var shape=style.bottle3DType().geometry();
+            int primary=style.label().primaryColor();
+            int secondary=style.label().secondaryColor();
             poses.pushPose();poses.translate(BarBlock.CENTERS[slot],1.008,.53);
             var opaque=buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
             if(!fluid.isEmpty()) {
@@ -44,29 +43,32 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
                     wall(opaque,poses.last(),shape,low+.008,high+.008,shape.radius(low)*.86,shape.radius(high)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay,false);
                 }
                 cap(opaque,poses.last(),shape,surface+.008,shape.radius(surface)*.86,0xFF000000|WineCatalog.color(fluid),light,overlay);
+                var label=buffers.getBuffer(RenderType.entityCutoutNoCull(style.label().artwork()));
                 // Labels face the customer, leaving the sides and back clear to see liquid height.
-                wall(opaque,poses.last(),shape,.14,.285,shape.radius(.14)+.001,shape.radius(.285)+.001,primary,light,overlay,true);
-                wall(opaque,poses.last(),shape,.14,.157,shape.radius(.14)+.002,shape.radius(.157)+.002,secondary,light,overlay,true);
-                wall(opaque,poses.last(),shape,.268,.285,shape.radius(.268)+.002,shape.radius(.285)+.002,secondary,light,overlay,true);
-                wall(opaque,poses.last(),shape,.195,.225,shape.radius(.195)+.002,shape.radius(.225)+.002,secondary,light,overlay,true);
+                wall(label,poses.last(),shape,.14,.285,shape.radius(.14)+.001,shape.radius(.285)+.001,primary,light,overlay,true);
+                wall(label,poses.last(),shape,.14,.157,shape.radius(.14)+.002,shape.radius(.157)+.002,secondary,light,overlay,true);
+                wall(label,poses.last(),shape,.268,.285,shape.radius(.268)+.002,shape.radius(.285)+.002,secondary,light,overlay,true);
+                wall(label,poses.last(),shape,.195,.225,shape.radius(.195)+.002,shape.radius(.225)+.002,secondary,light,overlay,true);
             }
             // Thin opaque heel/lip highlights keep the glass silhouette legible when empty.
-            int edge=wine?0xFF75916B:0xFFB9D2D4;
+            int edge=0xFF000000 | style.glassMaterial().tint();
             wall(opaque,poses.last(),shape,0,.012,shape.radius(0),shape.radius(.012),edge,light,overlay,false);
             wall(opaque,poses.last(),shape,.526,.54,.029,.029,edge,light,overlay,false);
-            if(!fluid.isEmpty() && (!wine || BottleCorks.hasCork(stack))) {
-                int closure=wine?0xFFAE8753:secondary;
-                wall(opaque,poses.last(),shape,.535,.563,.028,.028,closure,light,overlay,false);
-                cap(opaque,poses.last(),shape,.563,.028,closure,light,overlay);
+            if(!fluid.isEmpty() && style.closure().type()!=BeverageAppearance.ClosureType.NONE
+                && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack))) {
+                int closure=style.closure().color();
+                var closureMesh=buffers.getBuffer(RenderType.entityCutoutNoCull(style.closure().texture()));
+                wall(closureMesh,poses.last(),shape,.535,.563,.028,.028,closure,light,overlay,false);
+                cap(closureMesh,poses.last(),shape,.563,.028,closure,light,overlay);
             }
-            var glass=buffers.getBuffer(RenderType.entityTranslucent(MATERIAL));
-            int glassColor=wine?0x405D8750:0x287FAAB5;
+            var glass=buffers.getBuffer(RenderType.entityTranslucent(style.glassMaterial().texture()));
+            int glassColor=style.glassMaterial().color();
             for(int i=0;i<shape.sections();i++)wall(glass,poses.last(),shape,shape.height(i),shape.height(i+1),shape.radius(shape.height(i)),shape.radius(shape.height(i+1)),glassColor,light,overlay,false);
             poses.popPose();
         }
         poses.popPose();
     }
-    private static void wall(VertexConsumer out,PoseStack.Pose pose,DisplayBottleShape shape,double low,double high,double r0,double r1,int color,int light,int overlay,boolean label) {
+    private static void wall(VertexConsumer out,PoseStack.Pose pose,BottleGeometry shape,double low,double high,double r0,double r1,int color,int light,int overlay,boolean label) {
         int sides=shape.sides();double offset=sides==4?Math.PI/4:0;
         for(int i=0;i<sides;i++) {
             double a=offset+2*Math.PI*i/sides,b=offset+2*Math.PI*(i+1)/sides,mid=(a+b)/2;
@@ -75,7 +77,7 @@ public final class BarRenderer implements BlockEntityRenderer<BarBlockEntity> {
             quad(out,pose,new double[][]{{Math.cos(a)*r0,low,Math.sin(a)*r0},{Math.cos(a)*r1,high,Math.sin(a)*r1},{Math.cos(b)*r1,high,Math.sin(b)*r1},{Math.cos(b)*r0,low,Math.sin(b)*r0}},color,(float)(Math.cos(mid)/len),(float)(slope/len),(float)(Math.sin(mid)/len),light,overlay);
         }
     }
-    private static void cap(VertexConsumer out,PoseStack.Pose pose,DisplayBottleShape shape,double y,double radius,int color,int light,int overlay) {
+    private static void cap(VertexConsumer out,PoseStack.Pose pose,BottleGeometry shape,double y,double radius,int color,int light,int overlay) {
         double offset=shape.sides()==4?Math.PI/4:0;
         for(int i=0;i<shape.sides();i++) {
             double a=offset+2*Math.PI*i/shape.sides(),b=offset+2*Math.PI*(i+1)/shape.sides();

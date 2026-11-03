@@ -59,6 +59,34 @@
         "vinum:fill": 0.75001
       },
       "model": "vinum:container/bottles/tequila_4"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 1e-05
+      },
+      "model": "vinum:container/bottles/wine_1"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.25001
+      },
+      "model": "vinum:container/bottles/wine_2"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.50001
+      },
+      "model": "vinum:container/bottles/wine_3"
+    },
+    {
+      "predicate": {
+        "vinum:bottle_shape": 2,
+        "vinum:fill": 0.75001
+      },
+      "model": "vinum:container/bottles/wine_4"
     }
   ]
 }

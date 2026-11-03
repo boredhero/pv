@@ -24,34 +24,41 @@ public final class WineShelfRenderer implements BlockEntityRenderer<WineShelfBlo
     poses.translate(-.5,-.5,-.5);
     for(int slot=0;slot<WineShelfBlockEntity.SLOTS;slot++) {
       var stack=shelf.bottle(slot); if(!(stack.getItem() instanceof FluidContainerItem container))continue;
-      var fluid=container.contents(stack); var style=BeverageAppearance.find(fluid);
-      boolean wineBottle=stack.is(ModItems.WINE_BOTTLE_EMPTY.get());
-      boolean tequila=style.map(s->s.bottleBaseType().equals("tequila")).orElse(false);
-      int glass=wineBottle?0xFF314D28:0xFFABC3BC;
-      int body=fluid.isEmpty()?glass:mix(glass,WineCatalog.color(fluid),wineBottle?.7:.85);
-      int primary=style.map(BeverageAppearance.Style::bottleLabelPrimaryColor).orElse(0xFFE2D5B4);
-      int secondary=style.map(BeverageAppearance.Style::bottleLabelSecondaryColor).orElse(0xFF705C36);
+      var fluid=container.contents(stack); var style=BeverageAppearance.resolve(fluid, stack);
+      var shape=style.bottle3DType().geometry();
       double x=WineShelfBlock.CENTERS[slot][0],y=WineShelfBlock.CENTERS[slot][1];
-      // Bottles lie neck-out; nine separate solid meshes occupy the rack's three-by-three openings.
-      int sides=wineBottle?8:4;
-      double radius=tequila?.125:.12;
-      double heel=tequila?.098:radius;
-      tube(poses,buffers,x,y,.34,.88,radius,heel,body,sides,light,overlay);
-      tube(poses,buffers,x,y,.23,.34,.045,radius,glass,sides,light,overlay);
-      tube(poses,buffers,x,y,.10,.23,.042,.045,glass,8,light,overlay);
-      tube(poses,buffers,x,y,.065,.115,.044,.044,0xFFB18A55,8,light,overlay);
-      if(!fluid.isEmpty()) {
-        double taper=tequila?1:0;
-        tube(poses,buffers,x,y,.47,.66,radius+.001-.006*taper,radius+.001-.016*taper,primary,sides,light,overlay);
-        tube(poses,buffers,x,y,.475,.49,radius+.002-.005*taper,radius+.002-.006*taper,secondary,sides,light,overlay);
-        tube(poses,buffers,x,y,.64,.655,radius+.002-.014*taper,radius+.002-.015*taper,secondary,sides,light,overlay);
+      // Reuse the exact catalog profile, rotated neck-out and scaled to fit the rack.
+      double radialScale=1.4, lengthScale=1.4;
+      for(int i=0;i<shape.sections();i++) {
+        double low=shape.height(i), high=shape.height(i+1);
+        if(!fluid.isEmpty())
+          tube(poses,buffers,x,y,.88-high*lengthScale,.88-low*lengthScale,
+              shape.radius(high)*radialScale*.86,shape.radius(low)*radialScale*.86,
+              WineCatalog.color(fluid),shape.sides(),light,overlay,MATERIAL,false);
+        tube(poses,buffers,x,y,.88-high*lengthScale,.88-low*lengthScale,
+            shape.radius(high)*radialScale,shape.radius(low)*radialScale,
+            style.glassMaterial().color(),shape.sides(),light,overlay,
+            style.glassMaterial().texture(),true);
       }
+      if(style.closure().type()!=BeverageAppearance.ClosureType.NONE
+          && !fluid.isEmpty() && (style.closure().type()!=BeverageAppearance.ClosureType.CORK || BottleCorks.hasCork(stack)))
+        tube(poses,buffers,x,y,.09,.13,.04,.04,style.closure().color(),shape.sides(),light,overlay,style.closure().texture(),false);
+      if(!fluid.isEmpty()) {
+        tube(poses,buffers,x,y,.47,.66,shape.radius(.29)*radialScale+.001,shape.radius(.16)*radialScale+.001,
+            style.label().primaryColor(),shape.sides(),light,overlay,style.label().artwork(),false);
+        for(double near:new double[]{.475,.64}) {
+          double far=near+.015;
+          tube(poses,buffers,x,y,near,far,shape.radius((.88-near)/lengthScale)*radialScale+.002,
+              shape.radius((.88-far)/lengthScale)*radialScale+.002,style.label().secondaryColor(),
+              shape.sides(),light,overlay,style.label().artwork(),false);
+        }
+      }
+
     }
     poses.popPose();
   }
-  private static int mix(int a,int b,double ratio){int result=0xFF000000;for(int shift:new int[]{16,8,0})result|=(int)(((a>>shift)&255)*(1-ratio)+((b>>shift)&255)*ratio)<<shift;return result;}
-  private static void tube(PoseStack poses,MultiBufferSource buffers,double x,double y,double near,double far,double r1,double r2,int color,int sides,int light,int overlay) {
-    VertexConsumer out=buffers.getBuffer(RenderType.entityCutoutNoCull(MATERIAL));
+  private static void tube(PoseStack poses,MultiBufferSource buffers,double x,double y,double near,double far,double r1,double r2,int color,int sides,int light,int overlay,ResourceLocation texture,boolean translucent) {
+    VertexConsumer out=buffers.getBuffer(translucent?RenderType.entityTranslucent(texture):RenderType.entityCutoutNoCull(texture));
     double offset=sides==4?Math.PI/4:Math.PI/8;
     for(int i=0;i<sides;i++) {
       double a=offset+i*Math.PI*2/sides,b=offset+(i+1)*Math.PI*2/sides;

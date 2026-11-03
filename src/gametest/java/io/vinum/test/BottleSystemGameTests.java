@@ -18,6 +18,32 @@ import net.neoforged.neoforge.gametest.*;
 @PrefixGameTestTemplate(false)
 public final class BottleSystemGameTests {
   @GameTest(template = "empty")
+  public static void typedAppearanceResolvesGeometryMaterialsAndInheritedStages(GameTestHelper h) {
+    var bottle = new ItemStack(ModItems.FIFTH_BOTTLE_EMPTY.get());
+    var fluid = ModItems.spirit(ModFluids.TEQUILA.source().get(), 317);
+    var original = fluid.copy();
+    var base = BeverageAppearance.resolve(fluid, bottle);
+    var aged = BeverageAppearance.resolve(BarrelFluidData.withAge(fluid,
+        BarrelConfig.daysToTicks(BarrelConfig.tequilaAnejoDays())), bottle);
+    h.assertTrue(base.bottle3DType().geometry().sides() == 4, "Tequila uses square geometry");
+    h.assertTrue(base.bottleType().equals(aged.bottleType())
+        && base.bottle3DType().equals(aged.bottle3DType())
+        && base.glassMaterial().equals(aged.glassMaterial())
+        && base.closure().equals(aged.closure()), "Age variants inherit all unmodified appearance fields");
+    h.assertTrue(!base.label().equals(aged.label()), "Age selects a distinct label palette");
+    h.assertTrue(base.closure().type() == BeverageAppearance.ClosureType.CAP
+        && base.glassMaterial().color() >>> 24 < 255, "Closure and glass opacity come from typed data");
+    var emptyWine = BeverageAppearance.resolve(net.neoforged.neoforge.fluids.FluidStack.EMPTY,
+        new ItemStack(ModItems.WINE_BOTTLE_EMPTY.get()));
+    h.assertTrue(emptyWine.closure().type() == BeverageAppearance.ClosureType.CORK
+        && !emptyWine.bottle3DType().equals(base.bottle3DType()), "Empty vessel retains its family defaults");
+    h.assertTrue(net.neoforged.neoforge.fluids.FluidStack.isSameFluidSameComponents(fluid, original)
+        && fluid.getAmount() == 317 && bottle.getComponents().equals(new ItemStack(bottle.getItem()).getComponents()),
+        "Resolving appearance never changes quantity or components");
+    h.succeed();
+  }
+
+  @GameTest(template = "empty")
   public static void reusableShotTransfersExactVolumeAndKeepsAgeAndAlcohol(GameTestHelper h) {
     var player = h.makeMockPlayer(GameType.SURVIVAL);
     var bottle = (FluidContainerItem) ModItems.FIFTH_BOTTLE_EMPTY.get();

@@ -3,6 +3,7 @@ package io.vinum.test;
 import io.vinum.bar.*;
 import io.vinum.barrel.*;
 import io.vinum.beverage.WineCatalog;
+import io.vinum.beverage.BottleGeometry;
 import io.vinum.item.*;
 import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponents;
@@ -73,12 +74,12 @@ public final class BarGameTests {
     }
     @GameTest(template="barrel_space")
     public static void bottleLiquidHeightTracksVolumeThroughShoulders(GameTestHelper h) {
-        for(var shape:DisplayBottleShape.values()) {
+        for(var shape:BottleGeometry.values()) {
             double previous=-1;
             for(double fraction:new double[]{0,.001,.1,.25,.5,.75,.999,1}) {
                 double height=shape.fillHeight(fraction);
-                h.assertTrue(height>=previous&&height<=DisplayBottleShape.LIQUID_TOP,"Continuous bounded fill height");
-                h.assertTrue(Math.abs(shape.volumeBelow(height)/shape.volumeBelow(DisplayBottleShape.LIQUID_TOP)-fraction)<1e-8,"Liquid mesh represents actual volume even across tapered shoulders");previous=height;
+                h.assertTrue(height>=previous&&height<=BottleGeometry.LIQUID_TOP,"Continuous bounded fill height");
+                h.assertTrue(Math.abs(shape.volumeBelow(height)/shape.volumeBelow(BottleGeometry.LIQUID_TOP)-fraction)<1e-8,"Liquid mesh represents actual volume even across tapered shoulders");previous=height;
             }
         }
         h.succeed();

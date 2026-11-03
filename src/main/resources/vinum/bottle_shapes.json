@@ -2,15 +2,46 @@
   "default": {
     "modelValue": 0,
     "texture": "vinum:item/fifth_bottle_empty",
-    "liquidBounds": [6, 6, 10, 15],
+    "liquidBounds": [
+      6,
+      6,
+      10,
+      15
+    ],
     "preserveOpaquePixels": true
   },
   "tequila": {
     "modelValue": 1,
     "texture": "vinum:item/fifth_silver_tequila",
-    "liquidBounds": [5, 6, 11, 15],
+    "liquidBounds": [
+      5,
+      6,
+      11,
+      15
+    ],
     "liquidNeutralOnly": true,
-    "labelPrimaryBounds": [6, 8, 10, 11],
-    "labelSecondaryBounds": [6, 1, 10, 3]
+    "labelPrimaryBounds": [
+      6,
+      8,
+      10,
+      11
+    ],
+    "labelSecondaryBounds": [
+      6,
+      1,
+      10,
+      3
+    ]
+  },
+  "wine": {
+    "modelValue": 2,
+    "texture": "vinum:item/wine_bottle_empty",
+    "liquidBounds": [
+      5,
+      6,
+      11,
+      15
+    ],
+    "preserveOpaquePixels": true
   }
 }

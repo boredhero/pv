@@ -679,3 +679,51 @@ Manual check: place counters in all four directions; insert five mixed bottles,
 including empty, partially filled, and full spirits. Check upright models, labels,
 liquid levels and glass against both bright and dark surroundings. Retrieve each
 position, reload the world, and break a populated counter to check the drops.
+
+### Bottle appearance definitions
+
+`vinum/beverage_appearances.json` maps fluid IDs to immutable `BeverageAppearance.Style`
+objects. `BeverageAppearance.resolve(contents, vessel)` is the presentation boundary;
+bar and shelf renderers do not select designs by drink name. Inventory model predicates
+and tint handlers consume the same appearance fields. Resolution is read-only and does
+not alter chemistry, volume, aging, or item components.
+
+```json
+{
+  "fluids": ["vinum:tequila"],
+  "bottleType": "vinum:tequila",
+  "bottle3DType": "vinum:tequila",
+  "glassMaterial": {
+    "texture": "minecraft:textures/block/white_concrete.png",
+    "tint": "7FAAB5",
+    "transparency": 0.84
+  },
+  "label": {
+    "artwork": "minecraft:textures/block/white_concrete.png",
+    "primaryColor": "969696",
+    "secondaryColor": "999999"
+  },
+  "closure": {
+    "type": "cap",
+    "texture": "minecraft:textures/block/white_concrete.png",
+    "color": "999999"
+  }
+}
+```
+
+`bottleType` references the inventory profiles in `bottle_shapes.json` (compiled by
+`scripts/generate_bottle_models.py`). `bottle3DType` references `bottle_3d_types.json`:
+polygon sides and ordered `[height, radius]` sections in block units. Geometry is
+independent of the bar/shelf and integrates tapered volume for upright fill heights.
+Material/artwork paths are texture resources including `textures/` and `.png`;
+colors are six-digit RGB, and transparency runs from 0 (opaque) to 1 (invisible).
+The current label artwork is a tintable neutral texture; inventory artwork stays
+in the inventory profile. Closure categories are `cork`, `cap`, and `none`.
+
+Age stages inherit omitted fields, including individual material and label fields.
+Unknown fluid designs receive safe bottle defaults; empty wine vessels retain wine
+geometry and cork semantics. Legacy `bottleBaseType` and flat palette keys remain
+read-compatible. Design identities use typed resource IDs, not enum ordinals.
+A future per-item design component should override the resolved defaults at this
+boundary; no UUID storage, player designer, or custom-design network protocol is
+implemented yet. Packaged profiles currently load at startup.
